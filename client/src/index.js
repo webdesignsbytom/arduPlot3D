@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 // Context
 import UserContextProvider from './context/UserContext';
 import ToggleContextProvider from './context/ToggleContext';
+import DesignContextProvider from './context/DesignContext';
 // Styles
 import './styles/index.css';
 import './styles/backgrounds.css';
@@ -12,11 +13,13 @@ import './styles/components.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter>
-      <UserContextProvider>
-        <ToggleContextProvider>
+  <BrowserRouter>
+    <UserContextProvider>
+      <ToggleContextProvider>
+        <DesignContextProvider>
           <App />
-        </ToggleContextProvider>
-      </UserContextProvider>
-    </BrowserRouter>
+        </DesignContextProvider>
+      </ToggleContextProvider>
+    </UserContextProvider>
+  </BrowserRouter>
 );

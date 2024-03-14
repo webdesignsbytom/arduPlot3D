@@ -11,19 +11,21 @@ function DesignDataBar({
   const handleChange = () => {};
 
   return (
-    <div className='bg-white border-l-2 border-solid border-black p-2'>
+    <section className='bg-white border-l-2 border-solid border-black p-2'>
+      {/* Header data */}
       <article>
-        <h2 className='text-xl text-center'>Polygon Data</h2>
+        <h2 className='text-xl text-center'>Simulation Data</h2>
         <p className='mt-2'>
-          Create 3 or more plot point <br />
-          on the canvas to create <br />
-          your 2D shape
+          See a list of your movements and timing controls for a simulation.
+          Edit and modify the positions to refine your simulation.
         </p>
       </article>
+
+      {/* List of plot points */}
       <section className='mt-6'>
         <div>
           <div className='text-center'>
-            <h4>Plot Points</h4>
+            <h4>Simulation Timeline</h4>
           </div>
           <form className='grid w-fit'>
             {dataCollection?.map((item, index) => {
@@ -55,7 +57,7 @@ function DesignDataBar({
           </form>
         </div>
       </section>
-    </div>
+    </section>
   );
 }
 
