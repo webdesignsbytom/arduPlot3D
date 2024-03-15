@@ -13,36 +13,36 @@ function DesignFunctionsBar({ createNewSimulationFile }) {
 
       {/* Tools */}
       <section>
-        <div>
+        <div className="py-2">
           <ul>
-            <li onClick={createNewSimulationFile}>New Simulation</li>
-            <li>Save</li>
-            <li>Save As</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95' onClick={createNewSimulationFile}>New Simulation</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Save</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Save As</li>
           </ul>
         </div>
 
         {/* Divider */}
         <div className='w-full h-[1px] bg-slate-400'></div>
 
-        <div>
+        <div className="py-2">
           <ul>
-            <li>Tap Screen</li>
-            <li>Move To</li>
-            <li>Drag</li>
-            <li>Timeout</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Tap Screen</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Move To</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Drag</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Timeout</li>
           </ul>
         </div>
 
         {/* Divider */}
         <div className='w-full h-[1px] bg-slate-400'></div>
 
-        <div>
+        <div className="py-2">
           <ul>
-            <li>Device Select</li>
-            <li>Dimensions</li>
-            <li>Custom</li>
-            <li>Offset</li>
-            <li>Layout</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Device Select</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Dimensions</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Custom</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Offset</li>
+            <li className='cursor-pointer hover:text-gray-600 active:scale-95'>Layout</li>
           </ul>
         </div>
       </section>

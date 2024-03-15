@@ -25,23 +25,26 @@ function DesignTopToolBar({
 
   return (
     <div className='grid grid-flow-col justify-between'>
-      <article>
-        <h1 className='text-xl font-semibold'>{selectedDevice.title}</h1>
-      </article>
-      <div className='flex gap-4'>
+
+      {/* Device selected title */}
+      <div className='bg-white'>
+        <h4 className='text-xl font-semibold'>{selectedDevice.title}</h4>
+      </div>
+
+      <div className='flex gap-2'>
 
         {/* Landscape/portrait */}
         {isLandscapeMode ? (
           <button
             onClick={setSimulationPortrait}
-            className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-xl'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
             Portrait
           </button>
         ) : (
           <button
             onClick={setSimulationLandScape}
-            className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-xl'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
             Landscape
           </button>
@@ -51,14 +54,14 @@ function DesignTopToolBar({
         {simulationIsRunning ? (
           <button
             onClick={stopSimulation}
-            className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-xl'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
             Stop
           </button>
         ) : (
           <button
             onClick={runSimulation}
-            className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-xl'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
             Run
           </button>
@@ -68,14 +71,14 @@ function DesignTopToolBar({
         {rulersVisible ? (
           <button
             onClick={hideCanvasRulers}
-            className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-xl'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
             Hide Rulers
           </button>
         ) : (
           <button
             onClick={displayCanvasRulers}
-            className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-xl'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
             Rulers
           </button>
@@ -85,14 +88,14 @@ function DesignTopToolBar({
         {isCreatingNewLoop ? (
           <button
             onClick={saveNewSimulationLoop}
-            className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-xl'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
             Save Loop
           </button>
         ) : (
           <button
             onClick={createNewSimulationLoop}
-            className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-xl'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
             Create Loop
           </button>
@@ -100,13 +103,13 @@ function DesignTopToolBar({
 
         <button
           onClick={drawConnectingLines}
-          className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-xl'
+          className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
         >
           Draw
         </button>
         <button
           onClick={clearDataPoints}
-          className='px-4 py-2 outline-black outline outline-2 active:scale-95 no__highlights bg-red-400 hover:bg-red-100 rounded-xl'
+          className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-red-400 hover:bg-red-100 rounded-md'
         >
           Reset
         </button>

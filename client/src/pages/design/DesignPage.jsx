@@ -172,7 +172,7 @@ function DesignPage() {
         </section>
 
         {/* canvas */}
-        <section className='grid grid-rows-reg gap-4 p-4 overflow-hidden'>
+        <section className='grid grid-rows-reg gap-2 p-2 overflow-hidden'>
           {/* Top tool bar menu */}
           <DesignTopToolBar
             drawConnectingLines={drawConnectingLines}

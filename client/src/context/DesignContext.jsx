@@ -17,6 +17,9 @@ const DesignContextProvider = ({ children }) => {
     availableDevicesForSimulations[0]
   );
 
+  // Display
+  const [displaySimOrLoop, setDisplaySimOrLoop] = useState(false);
+
   return (
     <DesignContext.Provider
       value={{
@@ -30,6 +33,8 @@ const DesignContextProvider = ({ children }) => {
         setIsLandscapeMode,
         selectedDevice,
         setSelectedDevice,
+        displaySimOrLoop,
+        setDisplaySimOrLoop,
       }}
     >
       {children}
