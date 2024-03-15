@@ -2,39 +2,62 @@ import bcrypt from 'bcrypt';
 import dbClient from '../src/utils/dbClient.js';
 
 async function seed() {
+  const password = await bcrypt.hash('123', 8);
 
   const testUser = await dbClient.user.create({
     data: {
-      username: 'barbie',
-      score: 115
+      email: `xtombrock1989@gmail.com`,
+      password,
     },
   });
 
-  const testUser2 = await dbClient.user.create({
+  const devUser = await dbClient.user.create({
     data: {
-      username: 'oppenhiemer',
-      score: 110
+      email: 'dev@dev.com',
+      password,
+      role: 'DEVELOPER',
     },
   });
 
-  const testUser3 = await dbClient.user.create({
+  // EVENTS
+  const eventOne = await dbClient.event.create({
     data: {
-      username: 'github',
-      score: 100
+      type: 'ERROR',
+      topic: 'Test event',
+      code: 500,
+      content: '500 test content',
     },
   });
-
-  const testUser4 = await dbClient.user.create({
+  const eventTwo = await dbClient.event.create({
     data: {
-      username: 'tyler',
-      score: 77
+      type: 'USER',
+      topic: 'Test event',
+      code: 200,
+      content: '200 test content',
     },
   });
-
-  const testUser5 = await dbClient.user.create({
+  const eventThree = await dbClient.event.create({
     data: {
-      username: 'jeff',
-      score: 55
+      type: 'ADMIN',
+      topic: 'Test event',
+      code: 201,
+      content: '201 test content',
+    },
+  });
+  const eventFour = await dbClient.event.create({
+    data: {
+      type: 'VISITOR',
+      topic: 'Test event',
+      code: 201,
+      content: '201 test content',
+    },
+  });
+  const eventFive = await dbClient.event.create({
+    data: {
+      type: 'DEVELOPER',
+      topic: 'Test event',
+      code: 201,
+      content: '201 test content',
     },
   });
 }

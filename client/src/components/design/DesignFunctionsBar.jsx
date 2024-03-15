@@ -1,6 +1,6 @@
 import React from 'react';
 
-function DesignFunctionsBar() {
+function DesignFunctionsBar({ createNewSimulationFile }) {
   return (
     <section className='bg-white border-r-2 border-solid border-black p-2'>
       {/* Header data */}
@@ -15,7 +15,7 @@ function DesignFunctionsBar() {
       <section>
         <div>
           <ul>
-            <li>New Simulation</li>
+            <li onClick={createNewSimulationFile}>New Simulation</li>
             <li>Save</li>
             <li>Save As</li>
           </ul>

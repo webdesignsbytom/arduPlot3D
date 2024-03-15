@@ -14,19 +14,22 @@ function DesignTopToolBar({
   setSimulationLandScape,
   setSimulationPortrait,
 }) {
+  // Context
   const {
     isCreatingNewLoop,
     rulersVisible,
     simulationIsRunning,
     isLandscapeMode,
+    selectedDevice,
   } = useContext(DesignContext);
 
   return (
     <div className='grid grid-flow-col justify-between'>
       <article>
-        <h1 className='text-xl font-semibold'>Samsung S20</h1>
+        <h1 className='text-xl font-semibold'>{selectedDevice.title}</h1>
       </article>
       <div className='flex gap-4'>
+
         {/* Landscape/portrait */}
         {isLandscapeMode ? (
           <button

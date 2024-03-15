@@ -118,6 +118,48 @@ function DesignPage() {
     setIsLandscapeMode(false);
   };
 
+  // Create new simulation
+  const createNewSimulationFile = () => {
+    console.log('NEW SIMULATION FILE');
+  };
+  // Save simulation
+  const saveCurrentSimulationFile = () => {
+    console.log('SAVE SIMULATION FILE');
+  };
+  // Create new simulation
+  const saveAsCurrentSimulationFile = () => {
+    console.log('SAVE AS SIMULATION FILE');
+  };
+
+  // Download simulation for sd card
+  const downloadAsTextFile = () => {
+    const plotterCommands = translateToPlotterLanguage();
+    const blob = new Blob([plotterCommands], { type: 'text/plain' });
+    const href = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = 'drawingCommands.txt'; // Name of the file to download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
+  };
+
+  // Assuming lineRef.current contains an array of objects with x and y coordinates
+  // Example: [{xpos: 10, ypos: 20}, {xpos: 30, ypos: 40}]
+  // Function to translate drawing commands to ASCII/Plotter language
+  const translateToPlotterLanguage = () => {
+    let commands = '';
+    lineRef.current.forEach((point, index) => {
+      if (index === 0) {
+        commands += `MOVE ${point.xpos} ${point.ypos};\n`; // Move to start without drawing
+      } else {
+        commands += `DRAW ${point.xpos} ${point.ypos};\n`; // Draw line to next point
+      }
+    });
+    return commands;
+  };
+
   return (
     <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
       <Navbar />
@@ -160,7 +202,7 @@ function DesignPage() {
         </section>
 
         {/* data bar */}
-        <section className='grid overflow-y-scroll max-w-[300px]'>
+        <section className='grid overflow-hidden h-full max-w-[300px]'>
           <DesignDataBar
             dataCollection={dataCollection}
             setDataCollection={setDataCollection}
