@@ -13,6 +13,8 @@ function DesignTopToolBar({
   stopSimulation,
   setSimulationLandScape,
   setSimulationPortrait,
+  timeoutLength,
+  timeoutUnitSelected,
 }) {
   // Context
   const {
@@ -25,13 +27,18 @@ function DesignTopToolBar({
 
   return (
     <div className='grid grid-flow-col justify-between'>
-
       {/* Device selected title */}
       <div className='bg-white'>
         <h4 className='text-xl font-semibold'>{selectedDevice.title}</h4>
       </div>
 
       <div className='flex gap-2'>
+        {/* Timeout */}
+        <button
+          className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+        >
+          <div>T/O: {timeoutLength} {timeoutUnitSelected.symbol}</div>
+        </button>
 
         {/* Landscape/portrait */}
         {isLandscapeMode ? (

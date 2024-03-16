@@ -9,6 +9,8 @@ import DesignTopToolBar from '../../components/design/DesignTopToolBar';
 import { ToggleContext } from '../../context/ToggleContext';
 import { DesignContext } from '../../context/DesignContext';
 import ConsentAlert from '../../components/utils/ConsentAlert';
+import { timeoutUnitTypesAvailable } from '../../utils/design/DesignUtils';
+import TimeoutSettingsContainer from '../../components/design/TimeoutSettingsContainer';
 
 function DesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -33,6 +35,13 @@ function DesignPage() {
   const [loopDataPoints, setLoopDataPoints] = useState([]);
   const [simulationDataPoints, setSimulationDataPoints] = useState([]);
 
+  // Timeout
+  const [timeoutModalOpen, setTimeoutModalOpen] = useState(false);
+  const [timeoutLength, setTimeoutLength] = useState(5000);
+  const [timeoutUnitSelected, setTimeoutUnitSelected] = useState(
+    timeoutUnitTypesAvailable[0]
+  );
+
   // Popup modals
   const [consentMessageVisible, setConsentMessageVisible] = useState('');
   const [consentMessage, setConsentMessage] = useState('');
@@ -51,6 +60,8 @@ function DesignPage() {
     );
     marketNumRef.current = 1;
     setDataCollection([]);
+    setSimulationDataPoints([]);
+    setLoopDataPoints([]);
   };
 
   const drawConnectingLines = () => {
@@ -126,17 +137,17 @@ function DesignPage() {
   // Create new simulation
   const createNewSimulationFile = () => {
     console.log('NEW SIMULATION FILE');
-    setConsentMessage("Any old data will be lost.")
-    setConsentMessageVisible(true)
+    setConsentMessage('Any old data will be lost.');
+    setConsentMessageVisible(true);
   };
   const confirmNewSimulation = () => {
-    setConsentMessage("")
-    setConsentMessageVisible(false)
-    clearDataPoints()
+    setConsentMessage('');
+    setConsentMessageVisible(false);
+    clearDataPoints();
   };
   const cancelNewSimulation = () => {
-    setConsentMessage("")
-    setConsentMessageVisible(false)
+    setConsentMessage('');
+    setConsentMessageVisible(false);
   };
 
   // Save simulation
@@ -146,6 +157,12 @@ function DesignPage() {
   // Create new simulation
   const saveAsCurrentSimulationFile = () => {
     console.log('SAVE AS SIMULATION FILE');
+  };
+
+  // Open timeout settings modal
+  const openTimeoutSettingsModal = () => {
+    console.log('SAVE AS SIMULATION FILE');
+    setTimeoutModalOpen(true);
   };
 
   // Download simulation for sd card
@@ -189,6 +206,7 @@ function DesignPage() {
             createNewSimulationFile={createNewSimulationFile}
             saveCurrentSimulationFile={saveCurrentSimulationFile}
             saveAsCurrentSimulationFile={saveAsCurrentSimulationFile}
+            openTimeoutSettingsModal={openTimeoutSettingsModal}
           />
         </section>
 
@@ -206,6 +224,8 @@ function DesignPage() {
             stopSimulation={stopSimulation}
             setSimulationLandScape={setSimulationLandScape}
             setSimulationPortrait={setSimulationLandScape}
+            timeoutLength={timeoutLength}
+            timeoutUnitSelected={timeoutUnitSelected}
           />
 
           {/* CANVAS */}
@@ -235,11 +255,17 @@ function DesignPage() {
         </section>
       </main>
 
-
       {/* Popup modals */}
       {consentMessageVisible && (
-        <ConsentAlert consentMessage={consentMessage}  cancalFunction={cancelNewSimulation} confirmFunction={confirmNewSimulation} />
+        <ConsentAlert
+          consentMessage={consentMessage}
+          cancalFunction={cancelNewSimulation}
+          confirmFunction={confirmNewSimulation}
+        />
       )}
+
+      {/* Timeout */}
+      {timeoutModalOpen && <TimeoutSettingsContainer />}
     </div>
   );
 }

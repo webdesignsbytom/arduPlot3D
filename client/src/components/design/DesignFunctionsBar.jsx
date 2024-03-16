@@ -4,6 +4,7 @@ function DesignFunctionsBar({
   createNewSimulationFile,
   saveCurrentSimulationFile,
   saveAsCurrentSimulationFile,
+  openTimeoutSettingsModal,
 }) {
   return (
     <section className='bg-white border-r-2 border-solid border-black p-2'>
@@ -54,8 +55,11 @@ function DesignFunctionsBar({
             <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
               Drag
             </li>
-            <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
-              Timeout
+            <li
+              onClick={openTimeoutSettingsModal}
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+            >
+              Timeout Settings
             </li>
           </ul>
         </div>
