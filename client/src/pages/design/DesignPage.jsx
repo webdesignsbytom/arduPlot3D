@@ -11,6 +11,9 @@ import { DesignContext } from '../../context/DesignContext';
 import ConsentAlert from '../../components/utils/ConsentAlert';
 import { timeoutUnitTypesAvailable } from '../../utils/design/DesignUtils';
 import TimeoutSettingsContainer from '../../components/design/TimeoutSettingsContainer';
+import TapSettingsModal from '../../components/design/TapSettingsModal';
+import MovementSettingsModal from '../../components/design/MovementSettingsModal';
+import DragSettingsModal from '../../components/design/DragSettingsModal';
 
 function DesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -42,9 +45,24 @@ function DesignPage() {
     timeoutUnitTypesAvailable[0]
   );
 
+  // Tap settings
+  const [numberOfFingerTapping, setNumberOfFingerTapping] = useState(1);
+  const [speedOfFingerMoving, setSpeedOfFingerMoving] = useState(10);
+  const [tapSettingsModalOpen, setTapSettingsModalOpen] = useState(false);
+
+  // Drag settings
+  const [dragSettingsModalOpen, setDragSettingsModalOpen] = useState(false);
+  const [speedOfDraggingArmMoving, setSpeedOfDraggingArmMoving] = useState(10);
+
+  // Movement settings
+  const [movementSettingsModalOpen, setMovementSettingsModalOpen] =
+    useState(false);
+  const [speedOfArmMoving, setSpeedOfArmMoving] = useState(10);
+
   // Popup modals
   const [consentMessageVisible, setConsentMessageVisible] = useState('');
   const [consentMessage, setConsentMessage] = useState('');
+  const [consentFunction, setConsentFunction] = useState('');
 
   useEffect(() => {
     setActiveNav('/design');
@@ -62,6 +80,36 @@ function DesignPage() {
     setDataCollection([]);
     setSimulationDataPoints([]);
     setLoopDataPoints([]);
+  };
+
+  const clearAllDataPoints = () => {
+    setConsentMessage(
+      'Are you sure you want to clear ALL data points from memory?'
+    );
+    setConsentMessageVisible(true);
+    setConsentFunction('clearAllDataPoints');
+  };
+
+  const runConsentFunction = () => {
+    console.log('AAAA');
+    switch (consentFunction) {
+      case 'clearAllDataPoints':
+        // Add your code here that should run when consentFunction is 'clearAllDataPoints'
+        clearDataPoints();
+        console.log('Clearing all data points');
+        break;
+      // You can add more cases here for different values of consentFunction
+      default:
+        // This code runs if none of the cases match the consentFunction value
+        console.log('No matching action found');
+    }
+
+    setConsentMessageVisible('');
+    setConsentMessage('');
+  };
+
+  const resetSimulationToStartingPoint = () => {
+    console.log('RESET SIM TO STARTING');
   };
 
   const drawConnectingLines = () => {
@@ -116,11 +164,11 @@ function DesignPage() {
     setRulersVisible(false);
   };
 
-  // Display rulers on canvas
+  //
   const runSimulation = () => {
     setSimulationIsRunning(true);
   };
-  // Hide rulers on canvas
+  //
   const stopSimulation = () => {
     setSimulationIsRunning(false);
   };
@@ -164,6 +212,40 @@ function DesignPage() {
     console.log('SAVE AS SIMULATION FILE');
     setTimeoutModalOpen(true);
   };
+  const closeTimeoutSettingsModal = () => {
+    console.log('SAVE AS SIMULATION FILE');
+    setTimeoutModalOpen(false);
+  };
+
+  // Open drag settings modal
+  const openDragSettingsModal = () => {
+    console.log('OPEN TAP SETTINGS MODAL');
+    setDragSettingsModalOpen(true);
+  };
+  const closeDragSettingsModal = () => {
+    console.log('CLOSE TAP SETTINGS MODAL');
+    setDragSettingsModalOpen(false);
+  };
+
+  // Open movement settings modal
+  const openMovementSettingsModal = () => {
+    console.log('OPEN TAP SETTINGS MODAL');
+    setMovementSettingsModalOpen(true);
+  };
+  const closeMovementSettingsModal = () => {
+    console.log('CLOSE TAP SETTINGS MODAL');
+    setMovementSettingsModalOpen(false);
+  };
+
+  // Open tap settings modal
+  const openTapSettingsModal = () => {
+    console.log('OPEN TAP SETTINGS MODAL');
+    setTapSettingsModalOpen(true);
+  };
+  const closeTapSettingsModal = () => {
+    console.log('CLOSE TAP SETTINGS MODAL');
+    setTapSettingsModalOpen(false);
+  };
 
   // Download simulation for sd card
   const downloadAsTextFile = () => {
@@ -203,10 +285,16 @@ function DesignPage() {
         {/* Functions bar */}
         <section className='grid max-w-[200px]'>
           <DesignFunctionsBar
+            runSimulation={runSimulation}
+            stopSimulation={stopSimulation}
+            resetSimulationToStartingPoint={resetSimulationToStartingPoint}
             createNewSimulationFile={createNewSimulationFile}
             saveCurrentSimulationFile={saveCurrentSimulationFile}
             saveAsCurrentSimulationFile={saveAsCurrentSimulationFile}
             openTimeoutSettingsModal={openTimeoutSettingsModal}
+            openTapSettingsModal={openTapSettingsModal}
+            openMovementSettingsModal={openMovementSettingsModal}
+            openDragSettingsModal={openDragSettingsModal}
           />
         </section>
 
@@ -215,17 +303,16 @@ function DesignPage() {
           {/* Top tool bar menu */}
           <DesignTopToolBar
             drawConnectingLines={drawConnectingLines}
-            clearDataPoints={clearDataPoints}
+            clearAllDataPoints={clearAllDataPoints}
             createNewSimulationLoop={createNewSimulationLoop}
             saveNewSimulationLoop={saveNewSimulationLoop}
             hideCanvasRulers={hideCanvasRulers}
             displayCanvasRulers={displayCanvasRulers}
-            runSimulation={runSimulation}
-            stopSimulation={stopSimulation}
             setSimulationLandScape={setSimulationLandScape}
-            setSimulationPortrait={setSimulationLandScape}
+            setSimulationPortrait={setSimulationPortrait}
             timeoutLength={timeoutLength}
             timeoutUnitSelected={timeoutUnitSelected}
+            numberOfFingerTapping={numberOfFingerTapping}
           />
 
           {/* CANVAS */}
@@ -260,12 +347,49 @@ function DesignPage() {
         <ConsentAlert
           consentMessage={consentMessage}
           cancalFunction={cancelNewSimulation}
-          confirmFunction={confirmNewSimulation}
+          confirmFunction={runConsentFunction}
         />
       )}
 
       {/* Timeout */}
-      {timeoutModalOpen && <TimeoutSettingsContainer />}
+      {timeoutModalOpen && (
+        <TimeoutSettingsContainer
+          timeoutLength={timeoutLength}
+          setTimeoutLength={setTimeoutLength}
+          timeoutUnitSelected={timeoutUnitSelected}
+          setTimeoutUnitSelected={setTimeoutUnitSelected}
+          closeTimeoutSettingsModal={closeTimeoutSettingsModal}
+        />
+      )}
+
+      {/* Drag */}
+      {dragSettingsModalOpen && (
+        <DragSettingsModal
+          speedOfDraggingArmMoving={speedOfDraggingArmMoving}
+          setSpeedOfDraggingArmMoving={setSpeedOfDraggingArmMoving}
+          closeDragSettingsModal={closeDragSettingsModal}
+        />
+      )}
+
+      {/* Movement */}
+      {movementSettingsModalOpen && (
+        <MovementSettingsModal
+          speedOfArmMoving={speedOfArmMoving}
+          setSpeedOfArmMoving={setSpeedOfArmMoving}
+          closeMovementSettingsModal={closeMovementSettingsModal}
+        />
+      )}
+
+      {/* Tap settings */}
+      {tapSettingsModalOpen && (
+        <TapSettingsModal
+          numberOfFingerTapping={numberOfFingerTapping}
+          setNumberOfFingerTapping={setNumberOfFingerTapping}
+          speedOfFingerMoving={speedOfFingerMoving}
+          setSpeedOfFingerMoving={setSpeedOfFingerMoving}
+          closeTapSettingsModal={closeTapSettingsModal}
+        />
+      )}
     </div>
   );
 }

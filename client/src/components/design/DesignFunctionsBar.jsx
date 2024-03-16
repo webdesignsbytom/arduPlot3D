@@ -1,10 +1,16 @@
 import React from 'react';
 
 function DesignFunctionsBar({
+  runSimulation,
+  stopSimulation,
+  resetSimulationToStartingPoint,
   createNewSimulationFile,
   saveCurrentSimulationFile,
   saveAsCurrentSimulationFile,
   openTimeoutSettingsModal,
+  openTapSettingsModal,
+  openMovementSettingsModal,
+  openDragSettingsModal,
 }) {
   return (
     <section className='bg-white border-r-2 border-solid border-black p-2'>
@@ -18,6 +24,32 @@ function DesignFunctionsBar({
 
       {/* Tools */}
       <section>
+        <div className='py-2'>
+          <ul>
+            <li
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+              onClick={runSimulation}
+            >
+              Run Simulation
+            </li>
+            <li
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+              onClick={stopSimulation}
+            >
+              Stop Simulation
+            </li>
+            <li
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+              onClick={resetSimulationToStartingPoint}
+            >
+              Reset Simulation
+            </li>
+          </ul>
+        </div>
+
+        {/* Divider */}
+        <div className='w-full h-[1px] bg-slate-400'></div>
+
         <div className='py-2'>
           <ul>
             <li
@@ -46,14 +78,23 @@ function DesignFunctionsBar({
 
         <div className='py-2'>
           <ul>
-            <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
-              Tap Screen
+            <li
+              onClick={openTapSettingsModal}
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+            >
+              Tap Settings
             </li>
-            <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
-              Move To
+            <li
+              onClick={openMovementSettingsModal}
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+            >
+              Move Settings
             </li>
-            <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
-              Drag
+            <li
+              onClick={openDragSettingsModal}
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+            >
+              Drag Settings
             </li>
             <li
               onClick={openTimeoutSettingsModal}

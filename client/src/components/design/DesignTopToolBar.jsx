@@ -1,20 +1,30 @@
 import React, { useContext } from 'react';
 // Context
 import { DesignContext } from '../../context/DesignContext';
+// Icons
+import { FaRulerCombined } from 'react-icons/fa';
+import { MdHideSource } from 'react-icons/md';
+import { IoPhonePortrait } from 'react-icons/io5';
+import { IoPhoneLandscape } from 'react-icons/io5';
+import { ImLoop } from 'react-icons/im';
+import { FaRegSave } from 'react-icons/fa';
+import { TbHandFinger } from 'react-icons/tb';
+import { TbHandTwoFingers } from 'react-icons/tb';
+import { TbHandThreeFingers } from 'react-icons/tb';
 
 function DesignTopToolBar({
   drawConnectingLines,
-  clearDataPoints,
+  clearAllDataPoints,
   createNewSimulationLoop,
   saveNewSimulationLoop,
   hideCanvasRulers,
   displayCanvasRulers,
-  runSimulation,
   stopSimulation,
   setSimulationLandScape,
   setSimulationPortrait,
   timeoutLength,
   timeoutUnitSelected,
+  numberOfFingerTapping,
 }) {
   // Context
   const {
@@ -34,43 +44,44 @@ function DesignTopToolBar({
 
       <div className='flex gap-2'>
         {/* Timeout */}
+        <div className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'>
+          <div>
+            T/O: {timeoutLength} {timeoutUnitSelected.symbol}
+          </div>
+        </div>
+
         <button
+          onClick={setSimulationPortrait}
+          title='Orientatate Portrait'
           className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
         >
-          <div>T/O: {timeoutLength} {timeoutUnitSelected.symbol}</div>
+          {
+            numberOfFingerTapping === 1 ? (
+              <TbHandFinger />
+            ) : numberOfFingerTapping === 2 ? (
+              <TbHandTwoFingers />
+            ) : numberOfFingerTapping === 3 ? (
+              <TbHandThreeFingers />
+            ) : null // Default case if needed
+          }
         </button>
 
         {/* Landscape/portrait */}
         {isLandscapeMode ? (
           <button
             onClick={setSimulationPortrait}
+            title='Orientatate Portrait'
             className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
-            Portrait
+            <IoPhonePortrait />
           </button>
         ) : (
           <button
             onClick={setSimulationLandScape}
+            title='Orientatate Landscape'
             className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
-            Landscape
-          </button>
-        )}
-
-        {/* Run simulation */}
-        {simulationIsRunning ? (
-          <button
-            onClick={stopSimulation}
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            Stop
-          </button>
-        ) : (
-          <button
-            onClick={runSimulation}
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            Run
+            <IoPhoneLandscape />
           </button>
         )}
 
@@ -78,16 +89,18 @@ function DesignTopToolBar({
         {rulersVisible ? (
           <button
             onClick={hideCanvasRulers}
+            title='Hide Rulers'
             className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
-            Hide Rulers
+            <MdHideSource />
           </button>
         ) : (
           <button
             onClick={displayCanvasRulers}
+            title='Display Rulers'
             className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
-            Rulers
+            <FaRulerCombined />
           </button>
         )}
 
@@ -95,30 +108,26 @@ function DesignTopToolBar({
         {isCreatingNewLoop ? (
           <button
             onClick={saveNewSimulationLoop}
+            title='Save New Loop'
             className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
-            Save Loop
+            <FaRegSave />
           </button>
         ) : (
           <button
             onClick={createNewSimulationLoop}
+            title='Create New Loop'
             className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
           >
-            Create Loop
+            <ImLoop />
           </button>
         )}
 
         <button
-          onClick={drawConnectingLines}
-          className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-        >
-          Draw
-        </button>
-        <button
-          onClick={clearDataPoints}
+          onClick={clearAllDataPoints}
           className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-red-400 hover:bg-red-100 rounded-md'
         >
-          Reset
+          Clear all
         </button>
       </div>
     </div>
