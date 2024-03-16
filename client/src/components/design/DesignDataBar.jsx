@@ -4,15 +4,15 @@ import { DesignContext } from '../../context/DesignContext';
 // Components
 import SimulationDataPoints from './SimulationDataPoints';
 import LoopDataPoints from './LoopDataPoints';
+import DataPlotsContainer from './DataPlotsContainer';
 
 function DesignDataBar({
-  clearDataPoints,
+  clearDataPoint,
   lineRef,
-  dataCollection,
+  loopDataPoints,
+  simulationDataPoints,
   setDataCollection,
 }) {
-  console.log('PPPP dataCollection', dataCollection);
-
   const { displaySimOrLoop, setDisplaySimOrLoop } = useContext(DesignContext);
 
   const handleChange = () => {};
@@ -22,7 +22,7 @@ function DesignDataBar({
   };
 
   return (
-    <section className='bg-white grid grid-rows-reg border-l-2 border-solid border-black p-1 overflow-hidden'>
+    <section className='bg-white h-full grid grid-rows-reg border-l-2 border-solid border-black p-1 overflow-hidden'>
       {/* Header data */}
       <article className='grid h-fit'>
         <h2 className='text-xl text-center'>Simulation Data</h2>
@@ -46,7 +46,9 @@ function DesignDataBar({
             <div className='grid w-full'>
               <button
                 onClick={toggleSimLoops}
-                className={`${displaySimOrLoop ? "bg-yellow-400" : "bg-slate-300"} px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
+                className={`${
+                  displaySimOrLoop ? 'bg-yellow-400' : 'bg-slate-300'
+                } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
               >
                 Simualtion
               </button>
@@ -54,7 +56,9 @@ function DesignDataBar({
             <div className='grid w-full'>
               <button
                 onClick={toggleSimLoops}
-                className={`${displaySimOrLoop ? "bg-slate-300" : "bg-yellow-400"} px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
+                className={`${
+                  displaySimOrLoop ? 'bg-slate-300' : 'bg-yellow-400'
+                } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
               >
                 Loops
               </button>
@@ -62,18 +66,18 @@ function DesignDataBar({
           </section>
 
           {/* List */}
-          <form className='grid w-full overflow-hidden items-start'>
+          <form className='grid w-full overflow-hidden h-full items-start'>
             {displaySimOrLoop ? (
-              <LoopDataPoints
-                dataCollection={dataCollection}
+              <DataPlotsContainer // LOOP
+                dataPointsCollections={loopDataPoints}
                 handleChange={handleChange}
-                clearDataPoints={clearDataPoints}
+                clearDataPoint={clearDataPoint}
               />
             ) : (
-              <SimulationDataPoints
-                dataCollection={dataCollection}
+              <DataPlotsContainer // SIMULATION
+                dataPointsCollections={simulationDataPoints}
                 handleChange={handleChange}
-                clearDataPoints={clearDataPoints}
+                clearDataPoint={clearDataPoint}
               />
             )}
           </form>

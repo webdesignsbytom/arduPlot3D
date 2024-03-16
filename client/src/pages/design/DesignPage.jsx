@@ -8,6 +8,7 @@ import DesignTopToolBar from '../../components/design/DesignTopToolBar';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
 import { DesignContext } from '../../context/DesignContext';
+import ConsentAlert from '../../components/utils/ConsentAlert';
 
 function DesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -29,14 +30,18 @@ function DesignPage() {
   const emptyRef = useRef([]);
 
   const [dataCollection, setDataCollection] = useState([]);
+  const [loopDataPoints, setLoopDataPoints] = useState([]);
+  const [simulationDataPoints, setSimulationDataPoints] = useState([]);
+
+  // Popup modals
+  const [consentMessageVisible, setConsentMessageVisible] = useState('');
+  const [consentMessage, setConsentMessage] = useState('');
 
   useEffect(() => {
     setActiveNav('/design');
   }, []);
 
-  const clearDataPoints = (event) => {
-    event.preventDefault();
-    console.log('CLEAR', event.target.id);
+  const clearDataPoints = () => {
     lineRef.current = emptyRef.current;
     contextRef.current.clearRect(
       0,
@@ -121,7 +126,19 @@ function DesignPage() {
   // Create new simulation
   const createNewSimulationFile = () => {
     console.log('NEW SIMULATION FILE');
+    setConsentMessage("Any old data will be lost.")
+    setConsentMessageVisible(true)
   };
+  const confirmNewSimulation = () => {
+    setConsentMessage("")
+    setConsentMessageVisible(false)
+    clearDataPoints()
+  };
+  const cancelNewSimulation = () => {
+    setConsentMessage("")
+    setConsentMessageVisible(false)
+  };
+
   // Save simulation
   const saveCurrentSimulationFile = () => {
     console.log('SAVE SIMULATION FILE');
@@ -168,7 +185,11 @@ function DesignPage() {
       <main className='grid h-full grid-cols-a1a overflow-hidden'>
         {/* Functions bar */}
         <section className='grid max-w-[200px]'>
-          <DesignFunctionsBar />
+          <DesignFunctionsBar
+            createNewSimulationFile={createNewSimulationFile}
+            saveCurrentSimulationFile={saveCurrentSimulationFile}
+            saveAsCurrentSimulationFile={saveAsCurrentSimulationFile}
+          />
         </section>
 
         {/* canvas */}
@@ -195,6 +216,7 @@ function DesignPage() {
               marketNumRef={marketNumRef}
               lineRef={lineRef}
               setDataCollection={setDataCollection}
+              setSimulationDataPoints={setSimulationDataPoints}
               dataCollection={dataCollection}
               drawConnectingLines={drawConnectingLines}
             />
@@ -204,13 +226,20 @@ function DesignPage() {
         {/* data bar */}
         <section className='grid overflow-hidden h-full max-w-[300px]'>
           <DesignDataBar
-            dataCollection={dataCollection}
+            loopDataPoints={loopDataPoints}
+            simulationDataPoints={simulationDataPoints}
             setDataCollection={setDataCollection}
             lineRef={lineRef}
             clearDataPoints={clearDataPoints}
           />
         </section>
       </main>
+
+
+      {/* Popup modals */}
+      {consentMessageVisible && (
+        <ConsentAlert consentMessage={consentMessage}  cancalFunction={cancelNewSimulation} confirmFunction={confirmNewSimulation} />
+      )}
     </div>
   );
 }

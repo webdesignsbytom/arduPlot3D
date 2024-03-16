@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 // Icons
 import { IoCloseCircleSharp } from 'react-icons/io5';
 
 function LoopDataPoints({ dataCollection, handleChange, clearDataPoints }) {
   return (
-    <div className='grid overflow-y-scroll gap-1 items-start p-1'>
+    <div className='grid overflow-y-scroll h-full gap-1 p-1'>
       {dataCollection?.map((item, index) => {
         return (
           <div key={index} className='grid grid-cols-a1a h-[30px] w-full gap-2'>
@@ -43,4 +43,4 @@ function LoopDataPoints({ dataCollection, handleChange, clearDataPoints }) {
   );
 }
 
-export default LoopDataPoints
+export default LoopDataPoints;

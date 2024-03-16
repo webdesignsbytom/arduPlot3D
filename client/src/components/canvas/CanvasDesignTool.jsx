@@ -7,6 +7,7 @@ function CanvasDesignTool({
   lineRef,
   dataCollection,
   setDataCollection,
+  setSimulationDataPoints
 }) {
   useEffect(() => {
     // returns <context>
@@ -63,6 +64,7 @@ function CanvasDesignTool({
     };
     tempStore.push(newObj);
     setDataCollection([...dataCollection, newObj]);
+    setSimulationDataPoints([...dataCollection, newObj]);
 
     lineRef.current = tempStore;
   };

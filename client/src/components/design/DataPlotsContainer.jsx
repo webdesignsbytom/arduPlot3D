@@ -2,11 +2,15 @@ import React from 'react';
 // Icons
 import { IoCloseCircleSharp } from 'react-icons/io5';
 
-function SimulationDataPoints({ dataCollection, handleChange, clearDataPoints }) {
+function DataPlotsContainer({
+  dataPointsCollections,
+  handleChange,
+  clearDataPoint,
+}) {
+    
   return (
     <div className='grid overflow-y-scroll h-full gap-1 p-1'>
-
-      {dataCollection?.map((item, index) => {
+      {dataPointsCollections?.map((dataPoint, index) => {
         return (
           <div key={index} className='grid grid-cols-a1a h-[30px] w-full gap-2'>
             <div className='grid items-center justify-center w-[30px] bg-slate-300 h-full outline outline-2 outline-black px-2'>
@@ -23,7 +27,7 @@ function SimulationDataPoints({ dataCollection, handleChange, clearDataPoints })
                 type='text'
                 name='pointOne'
                 id='pointOne'
-                value={`x: ${item.xpos}, y: ${item.ypos}`}
+                value={`x: ${dataPoint.xpos}, y: ${dataPoint.ypos}`}
                 onChange={handleChange}
               />
             </div>
@@ -31,7 +35,7 @@ function SimulationDataPoints({ dataCollection, handleChange, clearDataPoints })
             <div className='grid'>
               <button
                 id='pointOne'
-                onClick={clearDataPoints}
+                onClick={clearDataPoint}
                 className='active:scale-95 no__highlights hover:bg-yellow-100 rounded-xl'
               >
                 <IoCloseCircleSharp />
@@ -44,4 +48,4 @@ function SimulationDataPoints({ dataCollection, handleChange, clearDataPoints })
   );
 }
 
-export default SimulationDataPoints;
+export default DataPlotsContainer;
