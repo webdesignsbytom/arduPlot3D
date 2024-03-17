@@ -9,7 +9,8 @@ function LoopsMenuContainer({
   handleChange,
   clearDataPoint,
 }) {
-  const { simulationData, setSimulationData } = useContext(DesignContext);
+  const { simulationData, setSimulationData, simulationLoopData } =
+    useContext(DesignContext);
 
   const [displayDataPoints, setDisplayDataPoints] = useState(false);
   const [displayDataPointsIndex, setDisplayDataPointsIndex] = useState(0);
@@ -49,11 +50,29 @@ function LoopsMenuContainer({
 
     console.log('dataPoint', dataPoint);
   };
-
+  
   const createNewLoop = (event) => {
     event.preventDefault(); // This will prevent the default action
-    console.log('S');
+  
+    // Determine the new loop's index based on the current array length
+    const newLoopIndex = simulationData.simulationLoops.length;
+  
+    // Construct the new loop name by adding 1 to the new loop's index
+    const newLoopName = `Loop ${newLoopIndex + 1}`;
+  
+    // Assuming simulationLoopData is structured correctly but needs a name update
+    let newLoop = {
+      ...simulationLoopData,
+      loopTitle: newLoopName, // Update the loop title with the new name
+    };
+  
+    // Use the spread operator to copy existing loops and add the new loop
+    setSimulationData({
+      ...simulationData,
+      simulationLoops: [...simulationData.simulationLoops, newLoop],
+    });
   };
+  
 
   return (
     <div className='overflow-y-scroll gap-1 p-1'>
