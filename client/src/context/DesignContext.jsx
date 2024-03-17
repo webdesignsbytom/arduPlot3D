@@ -16,6 +16,11 @@ const DesignContextProvider = ({ children }) => {
         mainSimulationLoopDataPoints: [23, 44, 76],
         loopTimeToComplete: 1230,
       },
+      {
+        loopTitle: 'Loop 2',
+        mainSimulationLoopDataPoints: [23, 44, 76],
+        loopTimeToComplete: 1230,
+      },
     ],
     simulationTimeToComplete: 0,
   });

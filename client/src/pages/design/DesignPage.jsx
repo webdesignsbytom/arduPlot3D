@@ -77,6 +77,9 @@ function DesignPage() {
     useState(false);
   const [speedOfArmMoving, setSpeedOfArmMoving] = useState(initxyMovementSpeed);
 
+  // Mouse Position
+  const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] = useState(false);
+
   // Popup modals
   const [consentMessageVisible, setConsentMessageVisible] = useState('');
   const [consentMessage, setConsentMessage] = useState('');
@@ -191,14 +194,20 @@ function DesignPage() {
     setSimulationIsRunning(false);
   };
 
-  // Display rulers on canvas
+  // Display Landscape
   const setSimulationLandScape = () => {
     setIsLandscapeMode(true);
   };
-  // Hide rulers on canvas
+  // Display portrait
   const setSimulationPortrait = () => {
     setIsLandscapeMode(false);
   };
+
+  // Display position on canvas
+  const toggleMousePositionDisplay = () => {
+    setpositionOfMouseAndCanvasVisible(!positionOfMouseAndCanvasVisible);
+  };
+
 
   // Select tap tool
   const selectTapTool = () => {
@@ -390,6 +399,8 @@ function DesignPage() {
             speedOfArmMoving={speedOfArmMoving}
             speedOfDraggingArmMoving={speedOfDraggingArmMoving}
             speedOfFingerMoving={speedOfFingerMoving}
+            toggleMousePositionDisplay={toggleMousePositionDisplay}
+            positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
           />
 
           {/* CANVAS */}
@@ -402,7 +413,7 @@ function DesignPage() {
               setDataCollection={setDataCollection}
               setSimulationDataPoints={setSimulationDataPoints}
               dataCollection={dataCollection}
-              drawConnectingLines={drawConnectingLines}
+              positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
             />
           </div>
         </section>

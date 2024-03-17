@@ -14,6 +14,8 @@ import { TbHandThreeFingers } from 'react-icons/tb';
 import { RiDragDropLine } from 'react-icons/ri';
 import { IoTimeOutline } from 'react-icons/io5';
 import { IoMdMove } from 'react-icons/io';
+import { HiCursorArrowRipple } from "react-icons/hi2";
+import { GiArrowCursor } from "react-icons/gi";
 
 function DesignTopToolBar({
   drawConnectingLines,
@@ -37,6 +39,8 @@ function DesignTopToolBar({
   speedOfArmMoving,
   speedOfDraggingArmMoving,
   speedOfFingerMoving,
+  toggleMousePositionDisplay,
+  positionOfMouseAndCanvasVisible
 }) {
   // Context
   const {
@@ -179,6 +183,25 @@ function DesignTopToolBar({
 
         {/* Divider */}
         <div className='bg-yellow-400 h-full w-[2px] outline outline-black outline-1 rounded-3xl'></div>
+
+        {/* Mouse position */}
+        {positionOfMouseAndCanvasVisible ? (
+          <button
+            onClick={toggleMousePositionDisplay}
+            title='Hide mouse position'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+          >
+            <GiArrowCursor />
+          </button>
+        ) : (
+          <button
+            onClick={toggleMousePositionDisplay}
+            title='Display mouse position'
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+          >
+            <HiCursorArrowRipple />
+          </button>
+        )}
 
         {/* Landscape/portrait */}
         {isLandscapeMode ? (

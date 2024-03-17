@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 function CanvasDesignTool({
   canvasRef,
@@ -7,8 +7,12 @@ function CanvasDesignTool({
   lineRef,
   dataCollection,
   setDataCollection,
-  setSimulationDataPoints
+  setSimulationDataPoints,
+  positionOfMouseAndCanvasVisible,
 }) {
+  // State to manage tooltip visibility and position
+  const [tooltip, setTooltip] = useState({ x: 0, y: 0 });
+
   useEffect(() => {
     // returns <context>
     const canvas = canvasRef.current;
@@ -30,6 +34,15 @@ function CanvasDesignTool({
     context.lineWidth = 5;
     contextRef.current = context;
   }, []);
+
+  const updatePositionMarker = ({ nativeEvent }) => {
+    if (positionOfMouseAndCanvasVisible) {
+      const { offsetX, offsetY } = nativeEvent;
+      console.log('offsetX', offsetX);
+      console.log('offsetY', offsetY);
+      setTooltip({ x: offsetX, y: offsetY });
+    }
+  };
 
   const createMarker = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
@@ -69,7 +82,22 @@ function CanvasDesignTool({
     lineRef.current = tempStore;
   };
 
-  return <canvas ref={canvasRef} onMouseUp={createMarker} />;
+  return (
+    <div className='relative'>
+      <canvas
+        ref={canvasRef}
+        onMouseMove={updatePositionMarker}
+        onMouseUp={createMarker}
+      />
+        {positionOfMouseAndCanvasVisible && (
+          <div
+            className={`grid absolute left-0 top-0 bg-white z-50`}
+          >
+            {`X: ${tooltip.x}, Y: ${tooltip.y}`}
+          </div>
+        )}
+    </div>
+  );
 }
 
 export default CanvasDesignTool;

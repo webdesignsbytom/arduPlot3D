@@ -7,6 +7,10 @@ function DataPlotsContainer({
   handleChange,
   clearDataPoint,
 }) {
+  const addLoopToSimulation = (event) => {
+    event.preventDefault();
+  }
+
   return (
     <div className='overflow-y-scroll gap-1 p-1'>
       {dataPointsCollections?.map((dataPoint, index) => {
@@ -43,6 +47,11 @@ function DataPlotsContainer({
           </div>
         );
       })}
+      <div className='mt-2'>
+        <button onClick={(event) => addLoopToSimulation(event)} className='bg-yellow-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'>
+          Add Loop +
+        </button>
+      </div>
     </div>
   );
 }
