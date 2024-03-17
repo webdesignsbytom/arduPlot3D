@@ -8,31 +8,17 @@ import {
   initzMovementSpeed,
 } from '../utils/design/SpeedUtils';
 import { timeoutUnitTypesAvailable } from '../utils/design/DesignUtils';
+// Temp data
+import { tempDesignData } from '../utils/design/TempData';
 
 export const DesignContext = React.createContext();
 
 const DesignContextProvider = ({ children }) => {
   // Simulation data and list of loops for simulation
-  const [simulationData, setSimulationData] = useState({
-    simulationTitle: '',
-    mainSimulationDataPoints: [],
-    simulationLoops: [
-      {
-        loopTitle: 'Loop 1',
-        mainSimulationLoopDataPoints: [23, 44, 76],
-        loopTimeToComplete: 1230,
-      },
-      {
-        loopTitle: 'Loop 2',
-        mainSimulationLoopDataPoints: [23, 44, 76],
-        loopTimeToComplete: 1230,
-      },
-    ],
-    simulationTimeToComplete: 0,
-  });
+  const [simulationData, setSimulationData] = useState(tempDesignData);
 
   console.log('simulationData', simulationData);
-  
+
   // Simulation loops data
   const [simulationLoopData, setSimulationLoopData] = useState({
     loopTitle: '',
@@ -46,6 +32,7 @@ const DesignContextProvider = ({ children }) => {
     yPos: 0,
     zSpeed: initzMovementSpeed,
     numFingers: 1,
+    timeLength: 0,
   });
 
   const [movementDataPoint, setMovementDataPoint] = useState({
@@ -53,6 +40,7 @@ const DesignContextProvider = ({ children }) => {
     xPos: 0,
     yPos: 0,
     xySpeed: initxyMovementSpeed,
+    timeLength: 0,
   });
 
   const [moveAndTapDataPoint, setMoveAndTapDataPoint] = useState({
@@ -62,6 +50,7 @@ const DesignContextProvider = ({ children }) => {
     xySpeed: initxyMovementSpeed,
     zSpeed: initzMovementSpeed,
     numFingers: 1,
+    timeLength: 0,
   });
 
   const [dragDataPoint, setDragDataPoint] = useState({
@@ -73,6 +62,7 @@ const DesignContextProvider = ({ children }) => {
     xySpeed: initxyMovementSpeed,
     zSpeed: initzMovementSpeed,
     numFingers: 1,
+    timeLength: 0,
   });
 
   const [timeoutDataPoint, setTimeoutDataPoint] = useState({
@@ -95,7 +85,7 @@ const DesignContextProvider = ({ children }) => {
   );
 
   // Display
-  const [displaySimOrLoop, setDisplaySimOrLoop] = useState(false);
+  const [displaySimOrLoop, setDisplaySimOrLoop] = useState('simulation'); // simulation || loop
 
   // Tap settings
   const [numberOfFingerTapping, setNumberOfFingerTapping] = useState(1);

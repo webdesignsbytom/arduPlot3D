@@ -37,6 +37,7 @@ function CanvasDesignTool({
     setDragSettingsModalOpen,
     speedOfDraggingArmMoving,
     setSpeedOfDraggingArmMoving,
+    selectedDevice
   } = useContext(DesignContext);
 
   // State to manage tooltip visibility and position
@@ -63,6 +64,42 @@ function CanvasDesignTool({
     context.lineWidth = 5;
     contextRef.current = context;
   }, []);
+
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   var rect = canvas.parentNode.getBoundingClientRect();
+  
+  //   // Determine the desired padding (e.g., 20 pixels on top and bottom)
+  //   const verticalPadding = 40; // Total for top and bottom
+  
+  //   // Adjust rect dimensions to account for padding
+  //   const adjustedRectHeight = rect.height - verticalPadding;
+  
+  //   // Calculate the maximum scale ratio to fit the device in the adjusted screen space
+  //   const scaleX = rect.width / selectedDevice.xDimension;
+  //   const scaleY = adjustedRectHeight / selectedDevice.yDimension;
+  //   const scaleRatio = Math.min(scaleX, scaleY);
+  
+  //   // Adjust canvas dimensions based on the selectedDevice size and scale ratio
+  //   canvas.width = selectedDevice.xDimension * scaleRatio;
+  //   canvas.height = selectedDevice.yDimension * scaleRatio;
+  
+  //   // Center the canvas vertically within the parent div
+  //   const marginTop = (rect.height - canvas.height) / 2;
+  //   canvas.style.marginTop = `${marginTop}px`;
+  
+  //   canvas.style.width = `${canvas.width}px`;
+  //   canvas.style.height = `${canvas.height}px`;
+  
+  //   canvas.style.backgroundColor = '#bee0ec';
+  
+  //   const context = canvas.getContext('2d');
+  //   context.scale(scaleRatio, scaleRatio); // Scale the context to fit the canvas
+  //   context.lineCap = 'round';
+  //   context.strokeStyle = 'black';
+  //   context.lineWidth = 5 / scaleRatio; // Adjust line width based on the scale
+  //   contextRef.current = context;
+  // }, [selectedDevice]);
 
   const updatePositionMarker = ({ nativeEvent }) => {
     if (positionOfMouseAndCanvasVisible) {

@@ -18,8 +18,12 @@ function DesignDataBar({
 
   const handleChange = () => {};
 
-  const toggleSimLoops = () => {
-    setDisplaySimOrLoop(!displaySimOrLoop);
+  const selectLoopsList = () => {
+    setDisplaySimOrLoop('loop');
+  };
+
+  const selectSimulationList = () => {
+    setDisplaySimOrLoop('simulation');
   };
 
   return (
@@ -33,7 +37,6 @@ function DesignDataBar({
 
         <div className='p-1'>
           <p className='leading-4 text-xs'>
-            See a list of your movements and timing controls for a simulation.
             Edit and modify the positions to refine your simulation.
           </p>
         </div>
@@ -46,19 +49,25 @@ function DesignDataBar({
           <section className='grid grid-cols-2 gap-2 h-fit w-full p-2'>
             <div className='grid w-full'>
               <button
-                onClick={toggleSimLoops}
+                title='Main simulation data points'
+                onClick={selectSimulationList}
                 className={`${
-                  displaySimOrLoop ? 'bg-yellow-400' : 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
+                  displaySimOrLoop === 'simulation'
+                    ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
+                    : 'bg-yellow-400'
                 } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
               >
-                Simualtion
+                Simulation
               </button>
             </div>
             <div className='grid w-full'>
               <button
-                onClick={toggleSimLoops}
+                title='Loops and loop data points'
+                onClick={selectLoopsList}
                 className={`${
-                  displaySimOrLoop ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]' : 'bg-yellow-400'
+                  displaySimOrLoop === 'loop'
+                    ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
+                    : 'bg-yellow-400'
                 } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
               >
                 Loops
@@ -68,19 +77,21 @@ function DesignDataBar({
 
           {/* List */}
           <form className='grid w-full overflow-hidden h-full'>
-            {displaySimOrLoop ? (
-              <LoopsMenuContainer // LOOP
-                dataPointsCollections={loopDataPoints}
-                handleChange={handleChange}
-                clearDataPoint={clearDataPoint}
-              />
-            ) : (
-              <DataPlotsContainer // SIMULATION
-                dataPointsCollections={simulationDataPoints}
-                handleChange={handleChange}
-                clearDataPoint={clearDataPoint}
-              />
-            )}
+            {
+              displaySimOrLoop === 'loop' ? (
+                <LoopsMenuContainer
+                  dataPointsCollections={loopDataPoints}
+                  handleChange={handleChange}
+                  clearDataPoint={clearDataPoint}
+                />
+              ) : displaySimOrLoop === 'simulation' ? (
+                <DataPlotsContainer
+                  dataPointsCollections={simulationDataPoints}
+                  handleChange={handleChange}
+                  clearDataPoint={clearDataPoint}
+                />
+              ) : null // or any other default case you might want to handle
+            }
           </form>
         </div>
       </section>

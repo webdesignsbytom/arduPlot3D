@@ -3,7 +3,8 @@ import {
   getAllDesigns,
   deleteDesign,
   getDesignById,
-  createNewDesign,
+  createNewSimulation,
+  saveSimulation,
 } from '../controllers/designs.js';
 import {
   validateAuthentication,
@@ -14,7 +15,8 @@ const router = Router();
 
 router.get('/all-designs', getAllDesigns);
 router.get('/design/:designId', getDesignById);
-router.post('/create-new-design', createNewDesign);
+router.post('/create-new-simulation', createNewSimulation); // Save as function front end
+router.post('/save-simulation', saveSimulation); // Save as function front end
 router.delete('/delete-design-by-id/:designId', deleteDesign);
 
 export default router;

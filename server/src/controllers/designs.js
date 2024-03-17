@@ -76,7 +76,9 @@ export const getDesignById = async (req, res) => {
   }
 };
 
-export const createNewDesign = async (req, res) => {
+export const saveSimulation = async (req, res) => {};
+
+export const createNewSimulation = async (req, res) => {
   console.log('creating new design');
   const { designString, userId } = req.body;
   console.log('designString, userId', designString, userId);
@@ -107,7 +109,6 @@ export const createNewDesign = async (req, res) => {
 
     console.log('createdDesign', createdDesign);
     return sendDataResponse(res, 201, { createdDesign: createdDesign });
-
   } catch (err) {
     // Error
     const serverError = new ServerErrorEvent(req.user, `Create new design`);

@@ -18,6 +18,7 @@ import { DesignContext } from '../../context/DesignContext';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 import AddLoopContainer from '../../components/design/AddLoopContainer';
+import client from '../../api/client';
 
 function DesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -241,7 +242,15 @@ function DesignPage() {
 
   // Save simulation
   const saveCurrentSimulationFile = () => {
-    // TODO: add save
+      client
+        .post('/simulations/save-simulation')
+        .then((res) => {
+          console.log('RES', res.data.data.newSimulation);
+        })
+  
+        .catch((err) => {
+          console.error('Unable to create simulation', err);
+        });
   };
   // Open save as
   const openSaveAsModal = () => {
