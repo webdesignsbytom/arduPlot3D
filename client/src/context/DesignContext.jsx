@@ -114,6 +114,23 @@ const DesignContextProvider = ({ children }) => {
   // Add/Create loop modal
   const [addCreateLoopModalOpen, setAddCreateLoopModalOpen] = useState(false);
 
+  // Data points for loop
+  const [displayDataPoints, setDisplayDataPoints] = useState(false);
+  const [displayDataPointsIndex, setDisplayDataPointsIndex] = useState(0);
+  const [arrayOfLoopData, setArrayOfLoopData] = useState([]);
+
+  const openAndEditLoop = (loop, index) => {
+    if (displayDataPoints && index === displayDataPointsIndex) {
+      setDisplayDataPoints(false);
+      return;
+    }
+
+    console.log('loop', loop);
+    setDisplayDataPoints(true);
+    setDisplayDataPointsIndex(index);
+    setArrayOfLoopData(simulationData.simulationLoops[index]);
+  };
+
   return (
     <DesignContext.Provider
       value={{
@@ -169,6 +186,13 @@ const DesignContextProvider = ({ children }) => {
         setDragSettingsModalOpen,
         speedOfDraggingArmMoving,
         setSpeedOfDraggingArmMoving,
+        displayDataPoints,
+        setDisplayDataPoints,
+        displayDataPointsIndex,
+        setDisplayDataPointsIndex,
+        arrayOfLoopData,
+        setArrayOfLoopData,
+        openAndEditLoop
       }}
     >
       {children}

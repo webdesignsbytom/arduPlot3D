@@ -43,6 +43,10 @@ function AddLoopContainer() {
 
   const addLoopToSimulation = () => {
     console.log('loopToAdd', loopToAdd);
+    setSimulationData({
+      ...simulationData,
+      mainSimulationDataPoints: [...simulationData.mainSimulationDataPoints, loopToAdd],
+    });
   };
 
   const handleLoopChange = (event) => {
