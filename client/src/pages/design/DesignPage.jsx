@@ -14,6 +14,7 @@ import TimeoutSettingsContainer from '../../components/design/TimeoutSettingsCon
 import TapSettingsModal from '../../components/design/TapSettingsModal';
 import MovementSettingsModal from '../../components/design/MovementSettingsModal';
 import DragSettingsModal from '../../components/design/DragSettingsModal';
+import DeviceSelectContainer from '../../components/design/DeviceSelectContainer';
 
 function DesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -37,6 +38,9 @@ function DesignPage() {
   const [dataCollection, setDataCollection] = useState([]);
   const [loopDataPoints, setLoopDataPoints] = useState([]);
   const [simulationDataPoints, setSimulationDataPoints] = useState([]);
+
+  // Tools
+  const [simulationToolSelected, setSimulationToolSelected] = useState('tap');
 
   // Timeout
   const [timeoutModalOpen, setTimeoutModalOpen] = useState(false);
@@ -63,6 +67,10 @@ function DesignPage() {
   const [consentMessageVisible, setConsentMessageVisible] = useState('');
   const [consentMessage, setConsentMessage] = useState('');
   const [consentFunction, setConsentFunction] = useState('');
+
+  // Device selection
+  const [deviceSelectionModalOpen, setDeviceSelectionModalOpen] =
+    useState(false);
 
   useEffect(() => {
     setActiveNav('/design');
@@ -182,9 +190,35 @@ function DesignPage() {
     setIsLandscapeMode(false);
   };
 
+  // Select tap tool
+  const selectTapTool = () => {
+    setSimulationToolSelected('tap');
+  };
+
+  // Select tap and move tool
+  const selectTapAndMoveTool = () => {
+    setSimulationToolSelected('tap_move');
+  };
+
+  // Select drag tool
+  const selectDragTool = () => {
+    setSimulationToolSelected('drag');
+  };
+
+  // Select timeout tool
+  const selectTimeoutTool = () => {
+    setSimulationToolSelected('timeout');
+  };
+
+  // Select timeout tool
+  const selectMoveTool = () => {
+    setSimulationToolSelected('move');
+  };
+
   // Create new simulation
   const createNewSimulationFile = () => {
     console.log('NEW SIMULATION FILE');
+    closeAllModalsMaster();
     setConsentMessage('Any old data will be lost.');
     setConsentMessageVisible(true);
   };
@@ -209,6 +243,7 @@ function DesignPage() {
 
   // Open timeout settings modal
   const openTimeoutSettingsModal = () => {
+    closeAllModalsMaster();
     console.log('SAVE AS SIMULATION FILE');
     setTimeoutModalOpen(true);
   };
@@ -219,6 +254,7 @@ function DesignPage() {
 
   // Open drag settings modal
   const openDragSettingsModal = () => {
+    closeAllModalsMaster();
     console.log('OPEN TAP SETTINGS MODAL');
     setDragSettingsModalOpen(true);
   };
@@ -229,6 +265,7 @@ function DesignPage() {
 
   // Open movement settings modal
   const openMovementSettingsModal = () => {
+    closeAllModalsMaster();
     console.log('OPEN TAP SETTINGS MODAL');
     setMovementSettingsModalOpen(true);
   };
@@ -239,6 +276,7 @@ function DesignPage() {
 
   // Open tap settings modal
   const openTapSettingsModal = () => {
+    closeAllModalsMaster();
     console.log('OPEN TAP SETTINGS MODAL');
     setTapSettingsModalOpen(true);
   };
@@ -246,6 +284,26 @@ function DesignPage() {
     console.log('CLOSE TAP SETTINGS MODAL');
     setTapSettingsModalOpen(false);
   };
+
+  // Open tap settings modal
+  const openDeviceSelectModal = () => {
+    console.log('OPEN DEVICESELECTS MODAL');
+    closeAllModalsMaster();
+    setDeviceSelectionModalOpen(true);
+  };
+  const closeDeviceSelectModal = () => {
+    console.log('CLOSE TAP SETTINGS MODAL');
+    setDeviceSelectionModalOpen(false);
+  };
+
+  // Close all modals master
+  const closeAllModalsMaster = () => {
+    setDeviceSelectionModalOpen(false);
+    setTapSettingsModalOpen(false);
+    setMovementSettingsModalOpen(false);
+    setDragSettingsModalOpen(false);
+    setTimeoutModalOpen(false);
+  }
 
   // Download simulation for sd card
   const downloadAsTextFile = () => {
@@ -295,6 +353,7 @@ function DesignPage() {
             openTapSettingsModal={openTapSettingsModal}
             openMovementSettingsModal={openMovementSettingsModal}
             openDragSettingsModal={openDragSettingsModal}
+            openDeviceSelectModal={openDeviceSelectModal}
           />
         </section>
 
@@ -313,6 +372,15 @@ function DesignPage() {
             timeoutLength={timeoutLength}
             timeoutUnitSelected={timeoutUnitSelected}
             numberOfFingerTapping={numberOfFingerTapping}
+            selectTapTool={selectTapTool}
+            selectTapAndMoveTool={selectTapAndMoveTool}
+            selectDragTool={selectDragTool}
+            selectTimeoutTool={selectTimeoutTool}
+            selectMoveTool={selectMoveTool}
+            simulationToolSelected={simulationToolSelected}
+            speedOfArmMoving={speedOfArmMoving}
+            speedOfDraggingArmMoving={speedOfDraggingArmMoving}
+            speedOfFingerMoving={speedOfFingerMoving}
           />
 
           {/* CANVAS */}
@@ -388,6 +456,13 @@ function DesignPage() {
           speedOfFingerMoving={speedOfFingerMoving}
           setSpeedOfFingerMoving={setSpeedOfFingerMoving}
           closeTapSettingsModal={closeTapSettingsModal}
+        />
+      )}
+
+      {/* Device selection */}
+      {deviceSelectionModalOpen && (
+        <DeviceSelectContainer
+          closeDeviceSelectModal={closeDeviceSelectModal}
         />
       )}
     </div>

@@ -5,5 +5,12 @@ export const availableDevicesForSimulations = [
         xDimension: 117, // 117mm
         yDimension: 52, // 117mm
         insentDimensions: 2, // 2mm
+    },
+    {
+        id: 1,
+        title: 'iPhone 15',
+        xDimension: 117, // 117mm
+        yDimension: 52, // 117mm
+        insentDimensions: 2, // 2mm
     }
 ]

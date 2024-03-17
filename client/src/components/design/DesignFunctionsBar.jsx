@@ -11,6 +11,7 @@ function DesignFunctionsBar({
   openTapSettingsModal,
   openMovementSettingsModal,
   openDragSettingsModal,
+  openDeviceSelectModal,
 }) {
   return (
     <section className='bg-white border-r-2 border-solid border-black p-2'>
@@ -110,7 +111,10 @@ function DesignFunctionsBar({
 
         <div className='py-2'>
           <ul>
-            <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
+            <li
+              onClick={openDeviceSelectModal}
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+            >
               Device Select
             </li>
             <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>

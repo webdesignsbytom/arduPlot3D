@@ -66,7 +66,7 @@ function DesignDataBar({
           </section>
 
           {/* List */}
-          <form className='grid w-full overflow-hidden h-full items-start'>
+          <form className='grid w-full overflow-hidden h-full'>
             {displaySimOrLoop ? (
               <DataPlotsContainer // LOOP
                 dataPointsCollections={loopDataPoints}

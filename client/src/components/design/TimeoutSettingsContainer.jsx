@@ -1,4 +1,5 @@
 import React from 'react';
+import { timeoutUnitTypesAvailable } from '../../utils/design/DesignUtils';
 
 function TimeoutSettingsContainer({
   timeoutLength,
@@ -11,6 +12,11 @@ function TimeoutSettingsContainer({
   const setTimeUnits = (event) => {
     const { id } = event.target;
     console.log('id xxx', id);
+    if (id === 'seconds') {
+      setTimeoutUnitSelected(timeoutUnitTypesAvailable[1]);
+    } else if (id === 'milliseconds') {
+      setTimeoutUnitSelected(timeoutUnitTypesAvailable[0]);
+    }
   };
 
   const handleTimeoutChange = (event) => {
@@ -74,9 +80,15 @@ function TimeoutSettingsContainer({
               onChange={handleTimeoutChange} // Handle the change event
             />
             <div>
-              <span className='text-sm' title='Millimeters per second'>
-                mm/s
-              </span>
+              {timeoutUnitSelected.name === 'milliseconds' ? (
+                <span className='text-sm' title='Millimeters per second'>
+                  ms
+                </span>
+              ) : timeoutUnitSelected.name === 'seconds' ? (
+                <span className='text-sm' title='Seconds per second'>
+                  s
+                </span>
+              ) : null}
             </div>
           </div>
         </section>

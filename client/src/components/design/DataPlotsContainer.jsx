@@ -7,9 +7,8 @@ function DataPlotsContainer({
   handleChange,
   clearDataPoint,
 }) {
-    
   return (
-    <div className='grid overflow-y-scroll h-full gap-1 p-1'>
+    <div className='overflow-y-scroll gap-1 p-1'>
       {dataPointsCollections?.map((dataPoint, index) => {
         return (
           <div key={index} className='grid grid-cols-a1a h-[30px] w-full gap-2'>
