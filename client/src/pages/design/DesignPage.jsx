@@ -15,14 +15,6 @@ import SaveAsContainer from '../../components/design/SaveAsContainer';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
 import { DesignContext } from '../../context/DesignContext';
-// Speed starting constants
-import {
-  initDragMovementSpeed,
-  initxyMovementSpeed,
-  initzMovementSpeed,
-} from '../../utils/design/SpeedUtils';
-// Timeout data
-import { timeoutUnitTypesAvailable } from '../../utils/design/DesignUtils';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 import AddLoopContainer from '../../components/design/AddLoopContainer';

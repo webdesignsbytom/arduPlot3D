@@ -13,9 +13,12 @@ function CanvasDesignTool({
   positionOfMouseAndCanvasVisible,
 }) {
   const {
+    setSimulationData,
     simulationToolSelected,
     tapDataPoint,
     setTapDataPoint,
+    numberOfFingerTapping,
+    speedOfFingerMoving,
     movementDataPoint,
     setMovementDataPoint,
     moveAndTapDataPoint,
@@ -77,6 +80,7 @@ function CanvasDesignTool({
 
     switch (simulationToolSelected) {
       case 'tap':
+        createTapDataPoint(offsetX, offsetY);
         break;
       default:
         console.log('No matching action found');
@@ -116,7 +120,26 @@ function CanvasDesignTool({
   };
 
   // Tap
-  const createTapDataPoint = () => {};
+  const createTapDataPoint = (offsetX, offsetY) => {
+    let newDataPoint = {
+      ...tapDataPoint,
+      xPos: offsetX,
+      yPos: offsetY,
+      numFingers: numberOfFingerTapping,
+      zSpeed: speedOfFingerMoving,
+    };
+
+    // Update the simulationData state with the new data point
+    setSimulationData((currentSimulationData) => {
+      return {
+        ...currentSimulationData,
+        mainSimulationDataPoints: [
+          ...currentSimulationData.mainSimulationDataPoints,
+          newDataPoint,
+        ],
+      };
+    });
+  };
   // Move
   const createMoveDataPoint = () => {};
   // Move And Tap
@@ -124,7 +147,19 @@ function CanvasDesignTool({
   // Drag
   const createDragDataPoint = () => {};
   // Timeout
-  const createTimeoutDataPoint = () => {};
+  const createTimeoutDataPoint = () => {
+    let newDataPoint = {
+      ...timeoutDataPoint,
+    };
+  
+    setSimulationData((currentSimulationData) => ({
+      ...currentSimulationData,
+      mainSimulationDataPoints: [
+        ...currentSimulationData.mainSimulationDataPoints,
+        newDataPoint,
+      ],
+    }));
+  };
 
   return (
     <div className='relative'>

@@ -30,6 +30,9 @@ const DesignContextProvider = ({ children }) => {
     ],
     simulationTimeToComplete: 0,
   });
+
+  console.log('simulationData', simulationData);
+  
   // Simulation loops data
   const [simulationLoopData, setSimulationLoopData] = useState({
     loopTitle: '',
