@@ -25,6 +25,7 @@ import {
 import { timeoutUnitTypesAvailable } from '../../utils/design/DesignUtils';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
+import AddLoopContainer from '../../components/design/AddLoopContainer';
 
 function DesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -37,7 +38,31 @@ function DesignPage() {
     setSimulationIsRunning,
     isLandscapeMode,
     setIsLandscapeMode,
-    setDisplaySimOrLoop
+    setDisplaySimOrLoop,
+    simulationToolSelected,
+    setSimulationToolSelected,
+    numberOfFingerTapping,
+    setNumberOfFingerTapping,
+    speedOfFingerMoving,
+    setSpeedOfFingerMoving,
+    tapSettingsModalOpen,
+    setTapSettingsModalOpen,
+    movementSettingsModalOpen,
+    setMovementSettingsModalOpen,
+    speedOfArmMoving,
+    setSpeedOfArmMoving,
+    addCreateLoopModalOpen,
+    setAddCreateLoopModalOpen,
+    timeoutModalOpen,
+    setTimeoutModalOpen,
+    timeoutLength,
+    setTimeoutLength,
+    timeoutUnitSelected,
+    setTimeoutUnitSelected,
+    dragSettingsModalOpen,
+    setDragSettingsModalOpen,
+    speedOfDraggingArmMoving,
+    setSpeedOfDraggingArmMoving,
   } = useContext(DesignContext);
 
   const canvasRef = useRef(null);
@@ -50,35 +75,9 @@ function DesignPage() {
   const [loopDataPoints, setLoopDataPoints] = useState([]);
   const [simulationDataPoints, setSimulationDataPoints] = useState([]);
 
-  // Tools
-  const [simulationToolSelected, setSimulationToolSelected] = useState('tap');
-
-  // Timeout
-  const [timeoutModalOpen, setTimeoutModalOpen] = useState(false);
-  const [timeoutLength, setTimeoutLength] = useState(5000);
-  const [timeoutUnitSelected, setTimeoutUnitSelected] = useState(
-    timeoutUnitTypesAvailable[0]
-  );
-
-  // Tap settings
-  const [numberOfFingerTapping, setNumberOfFingerTapping] = useState(1);
-  const [speedOfFingerMoving, setSpeedOfFingerMoving] =
-    useState(initzMovementSpeed);
-  const [tapSettingsModalOpen, setTapSettingsModalOpen] = useState(false);
-
-  // Drag settings
-  const [dragSettingsModalOpen, setDragSettingsModalOpen] = useState(false);
-  const [speedOfDraggingArmMoving, setSpeedOfDraggingArmMoving] = useState(
-    initDragMovementSpeed
-  );
-
-  // Movement settings
-  const [movementSettingsModalOpen, setMovementSettingsModalOpen] =
-    useState(false);
-  const [speedOfArmMoving, setSpeedOfArmMoving] = useState(initxyMovementSpeed);
-
   // Mouse Position
-  const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] = useState(false);
+  const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
+    useState(false);
 
   // Popup modals
   const [consentMessageVisible, setConsentMessageVisible] = useState('');
@@ -129,8 +128,7 @@ function DesignPage() {
     setConsentMessage('');
   };
 
-  const resetSimulationToStartingPoint = () => {
-  };
+  const resetSimulationToStartingPoint = () => {};
 
   const drawConnectingLines = () => {
     console.log('draw');
@@ -169,7 +167,7 @@ function DesignPage() {
   // Create new simulation loop of commands
   const createNewSimulationLoop = () => {
     setIsCreatingNewLoop(true);
-    setDisplaySimOrLoop(true)
+    setDisplaySimOrLoop(true);
   };
   // Save new simulation loop of commands
   const saveNewSimulationLoop = () => {
@@ -208,7 +206,6 @@ function DesignPage() {
     setpositionOfMouseAndCanvasVisible(!positionOfMouseAndCanvasVisible);
   };
 
-
   // Select tap tool
   const selectTapTool = () => {
     setSimulationToolSelected('tap');
@@ -216,7 +213,7 @@ function DesignPage() {
 
   // Select tap and move tool
   const selectTapAndMoveTool = () => {
-    setSimulationToolSelected('tap_move');
+    setSimulationToolSelected('move_tap');
   };
 
   // Select drag tool
@@ -493,6 +490,9 @@ function DesignPage() {
           closeSaveAsModal={closeSaveAsModal}
         />
       )}
+      {/* Loop selection */}
+
+      {addCreateLoopModalOpen && <AddLoopContainer />}
     </div>
   );
 }

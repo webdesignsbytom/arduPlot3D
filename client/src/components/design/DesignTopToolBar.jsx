@@ -70,7 +70,7 @@ function DesignTopToolBar({
                   <label htmlFor='tap_speed'>Tap speed</label>
                   <div>{speedOfFingerMoving} mm/s</div>
                 </div>
-              ) : simulationToolSelected === 'tap_move' ? (
+              ) : simulationToolSelected === 'move_tap' ? (
                 <div className='grid grid-cols-2'>
                   <div>
                     <label htmlFor='tap_speed'>Tap speed</label>
@@ -126,19 +126,19 @@ function DesignTopToolBar({
           }
         </button>
 
-        {/* Tap and Move tool */}
+        {/* Move and tap tool */}
         <button
           onClick={selectTapAndMoveTool}
-          title='Tap and Move'
+          title='Move and Tap'
           className={`px-2 ${
-            simulationToolSelected === 'tap_move'
+            simulationToolSelected === 'move_tap'
               ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
               : 'bg-yellow-400'
           } py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights hover:bg-yellow-100 rounded-md`}
         >
           <div className='grid'>
-            <TbHandFinger className='' />
             <IoMdMove className='' />
+            <TbHandFinger className='' />
           </div>
         </button>
 

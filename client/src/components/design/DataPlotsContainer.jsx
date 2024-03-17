@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // Icons
 import { IoCloseCircleSharp } from 'react-icons/io5';
+// Context
+import { DesignContext } from '../../context/DesignContext';
 
 function DataPlotsContainer({
   dataPointsCollections,
   handleChange,
   clearDataPoint,
 }) {
+  const { setAddCreateLoopModalOpen } =
+  useContext(DesignContext);
+
   const addLoopToSimulation = (event) => {
     event.preventDefault();
+    setAddCreateLoopModalOpen(true)
   }
 
   return (

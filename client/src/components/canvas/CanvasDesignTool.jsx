@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+// Context
+import { DesignContext } from '../../context/DesignContext';
 
 function CanvasDesignTool({
   canvasRef,
@@ -10,6 +12,30 @@ function CanvasDesignTool({
   setSimulationDataPoints,
   positionOfMouseAndCanvasVisible,
 }) {
+  const {
+    simulationToolSelected,
+    tapDataPoint,
+    setTapDataPoint,
+    movementDataPoint,
+    setMovementDataPoint,
+    moveAndTapDataPoint,
+    setMoveAndTapDataPoint,
+    dragDataPoint,
+    setDragDataPoint,
+    timeoutDataPoint,
+    setTimeoutDataPoint,
+    timeoutModalOpen,
+    setTimeoutModalOpen,
+    timeoutLength,
+    setTimeoutLength,
+    timeoutUnitSelected,
+    setTimeoutUnitSelected,
+    dragSettingsModalOpen,
+    setDragSettingsModalOpen,
+    speedOfDraggingArmMoving,
+    setSpeedOfDraggingArmMoving,
+  } = useContext(DesignContext);
+
   // State to manage tooltip visibility and position
   const [tooltip, setTooltip] = useState({ x: 0, y: 0 });
 
@@ -49,6 +75,13 @@ function CanvasDesignTool({
     console.log('offsetX', offsetX);
     console.log('offsetY', offsetY);
 
+    switch (simulationToolSelected) {
+      case 'tap':
+        break;
+      default:
+        console.log('No matching action found');
+    }
+
     contextRef.current.beginPath();
     contextRef.current.arc(
       nativeEvent.offsetX,
@@ -82,6 +115,17 @@ function CanvasDesignTool({
     lineRef.current = tempStore;
   };
 
+  // Tap
+  const createTapDataPoint = () => {};
+  // Move
+  const createMoveDataPoint = () => {};
+  // Move And Tap
+  const createMoveAndTapDataPoint = () => {};
+  // Drag
+  const createDragDataPoint = () => {};
+  // Timeout
+  const createTimeoutDataPoint = () => {};
+
   return (
     <div className='relative'>
       <canvas
@@ -89,13 +133,11 @@ function CanvasDesignTool({
         onMouseMove={updatePositionMarker}
         onMouseUp={createMarker}
       />
-        {positionOfMouseAndCanvasVisible && (
-          <div
-            className={`grid absolute left-0 top-0 bg-white z-50`}
-          >
-            {`X: ${tooltip.x}, Y: ${tooltip.y}`}
-          </div>
-        )}
+      {positionOfMouseAndCanvasVisible && (
+        <div className={`grid absolute left-0 top-0 bg-white z-50`}>
+          {`X: ${tooltip.x}, Y: ${tooltip.y}`}
+        </div>
+      )}
     </div>
   );
 }
