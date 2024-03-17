@@ -17,58 +17,13 @@ const DesignContextProvider = ({ children }) => {
   // Simulation data and list of loops for simulation
   const [simulationData, setSimulationData] = useState(tempDesignData);
 
-  console.log('simulationData', simulationData);
-
   // Simulation loops data
   const [simulationLoopData, setSimulationLoopData] = useState({
     loopTitle: '',
     mainSimulationLoopDataPoints: [],
     loopTimeToComplete: 0,
   });
-
-  const [tapDataPoint, setTapDataPoint] = useState({
-    dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
-    xPos: 0,
-    yPos: 0,
-    zSpeed: initzMovementSpeed,
-    numFingers: 1,
-    timeLength: 0,
-  });
-
-  const [movementDataPoint, setMovementDataPoint] = useState({
-    dataType: 'move', // Tap, Move, MoveTap, Drag, Timeout
-    xPos: 0,
-    yPos: 0,
-    xySpeed: initxyMovementSpeed,
-    timeLength: 0,
-  });
-
-  const [moveAndTapDataPoint, setMoveAndTapDataPoint] = useState({
-    dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
-    xPos: 0,
-    yPos: 0,
-    xySpeed: initxyMovementSpeed,
-    zSpeed: initzMovementSpeed,
-    numFingers: 1,
-    timeLength: 0,
-  });
-
-  const [dragDataPoint, setDragDataPoint] = useState({
-    dataType: 'drag', // Tap, Move, MoveTap, Drag, Timeout
-    startxPos: 0,
-    startyPos: 0,
-    finishxPos: 0,
-    finishyPos: 0,
-    xySpeed: initxyMovementSpeed,
-    zSpeed: initzMovementSpeed,
-    numFingers: 1,
-    timeLength: 0,
-  });
-
-  const [timeoutDataPoint, setTimeoutDataPoint] = useState({
-    dataType: 'timeout', // Tap, Move, MoveTap, Drag, Timeout
-    timeoutLength: 0, // milliseconds only
-  });
+  console.log('simulationData', simulationData);
 
   // Design
   const [isCreatingNewLoop, setIsCreatingNewLoop] = useState(false);
@@ -118,6 +73,50 @@ const DesignContextProvider = ({ children }) => {
   const [displayDataPoints, setDisplayDataPoints] = useState(false);
   const [displayDataPointsIndex, setDisplayDataPointsIndex] = useState(0);
   const [arrayOfLoopData, setArrayOfLoopData] = useState([]);
+
+  const [tapDataPoint, setTapDataPoint] = useState({
+    dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
+    xPos: 0,
+    yPos: 0,
+    zSpeed: speedOfFingerMoving,
+    numFingers: 1,
+    timeLength: 0,
+  });
+
+  const [movementDataPoint, setMovementDataPoint] = useState({
+    dataType: 'move', // Tap, Move, MoveTap, Drag, Timeout
+    xPos: 0,
+    yPos: 0,
+    xySpeed: speedOfArmMoving,
+    timeLength: 0,
+  });
+
+  const [moveAndTapDataPoint, setMoveAndTapDataPoint] = useState({
+    dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+    xPos: 0,
+    yPos: 0,
+    xySpeed: speedOfArmMoving,
+    zSpeed: speedOfFingerMoving,
+    numFingers: 1,
+    timeLength: 0,
+  });
+
+  const [dragDataPoint, setDragDataPoint] = useState({
+    dataType: 'drag', // Tap, Move, MoveTap, Drag, Timeout
+    startxPos: 0,
+    startyPos: 0,
+    finishxPos: 0,
+    finishyPos: 0,
+    xySpeed: speedOfArmMoving,
+    zSpeed: speedOfFingerMoving,
+    numFingers: 1,
+    timeLength: 0,
+  });
+
+  const [timeoutDataPoint, setTimeoutDataPoint] = useState({
+    dataType: 'timeout', // Tap, Move, MoveTap, Drag, Timeout
+    timeoutLength: 0, // milliseconds only
+  });
 
   const openAndEditLoop = (loop, index) => {
     if (displayDataPoints && index === displayDataPointsIndex) {
@@ -192,7 +191,7 @@ const DesignContextProvider = ({ children }) => {
         setDisplayDataPointsIndex,
         arrayOfLoopData,
         setArrayOfLoopData,
-        openAndEditLoop
+        openAndEditLoop,
       }}
     >
       {children}
