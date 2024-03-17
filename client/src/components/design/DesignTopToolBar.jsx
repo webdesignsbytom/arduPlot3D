@@ -45,6 +45,7 @@ function DesignTopToolBar({
     simulationIsRunning,
     isLandscapeMode,
     selectedDevice,
+    displaySimOrLoop,
   } = useContext(DesignContext);
 
   return (

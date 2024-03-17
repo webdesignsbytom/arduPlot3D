@@ -5,6 +5,7 @@ import { DesignContext } from '../../context/DesignContext';
 import SimulationDataPoints from './SimulationDataPoints';
 import LoopDataPoints from './LoopDataPoints';
 import DataPlotsContainer from './DataPlotsContainer';
+import LoopsMenuContainer from './LoopsMenuContainer';
 
 function DesignDataBar({
   clearDataPoint,
@@ -47,7 +48,7 @@ function DesignDataBar({
               <button
                 onClick={toggleSimLoops}
                 className={`${
-                  displaySimOrLoop ? 'bg-yellow-400' : 'bg-slate-300'
+                  displaySimOrLoop ? 'bg-yellow-400' : 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
                 } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
               >
                 Simualtion
@@ -57,7 +58,7 @@ function DesignDataBar({
               <button
                 onClick={toggleSimLoops}
                 className={`${
-                  displaySimOrLoop ? 'bg-slate-300' : 'bg-yellow-400'
+                  displaySimOrLoop ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]' : 'bg-yellow-400'
                 } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
               >
                 Loops
@@ -68,7 +69,7 @@ function DesignDataBar({
           {/* List */}
           <form className='grid w-full overflow-hidden h-full'>
             {displaySimOrLoop ? (
-              <DataPlotsContainer // LOOP
+              <LoopsMenuContainer // LOOP
                 dataPointsCollections={loopDataPoints}
                 handleChange={handleChange}
                 clearDataPoint={clearDataPoint}

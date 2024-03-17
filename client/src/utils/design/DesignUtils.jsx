@@ -8,3 +8,10 @@ export const timeoutUnitTypesAvailable = [
         symbol: 's'
     },
 ]
+
+export const saveFileTypes = [
+    {
+        title: 'Text file',
+        name: '.txt'
+    }
+]

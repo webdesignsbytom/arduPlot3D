@@ -14,8 +14,8 @@ function CanvasDesignTool({
     const canvas = canvasRef.current;
     var rect = canvas.parentNode.getBoundingClientRect();
 
-    canvas.width = rect.width * 2;
-    canvas.height = rect.height * 2;
+    canvas.width = rect.width;
+    canvas.height = rect.height;
     canvas.style.width = `${rect.width}px`;
     canvas.style.height = `${rect.height}px`;
 
@@ -24,7 +24,7 @@ function CanvasDesignTool({
 
     const context = canvas.getContext('2d');
 
-    context.scale(2, 2);
+    context.scale(1, 1);
     context.lineCap = 'round';
     context.strokeStyle = 'black';
     context.lineWidth = 5;

@@ -10,7 +10,13 @@ const DesignContextProvider = ({ children }) => {
   const [simulationData, setSimulationData] = useState({
     simulationTitle: '',
     mainSimulationDataPoints: [],
-    simulationLoops: [],
+    simulationLoops: [
+      {
+        loopTitle: 'Loop 1',
+        mainSimulationLoopDataPoints: [23, 44, 76],
+        loopTimeToComplete: 1230,
+      },
+    ],
     simulationTimeToComplete: 0,
   });
   // Simulation loops data

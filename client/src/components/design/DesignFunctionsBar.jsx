@@ -6,7 +6,7 @@ function DesignFunctionsBar({
   resetSimulationToStartingPoint,
   createNewSimulationFile,
   saveCurrentSimulationFile,
-  saveAsCurrentSimulationFile,
+  openSaveAsModal,
   openTimeoutSettingsModal,
   openTapSettingsModal,
   openMovementSettingsModal,
@@ -67,7 +67,7 @@ function DesignFunctionsBar({
             </li>
             <li
               className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-              onClick={saveAsCurrentSimulationFile}
+              onClick={openSaveAsModal}
             >
               Save As
             </li>

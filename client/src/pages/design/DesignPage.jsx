@@ -5,16 +5,26 @@ import DesignDataBar from '../../components/design/DesignDataBar';
 import CanvasDesignTool from '../../components/canvas/CanvasDesignTool';
 import DesignFunctionsBar from '../../components/design/DesignFunctionsBar';
 import DesignTopToolBar from '../../components/design/DesignTopToolBar';
-// Context
-import { ToggleContext } from '../../context/ToggleContext';
-import { DesignContext } from '../../context/DesignContext';
-import ConsentAlert from '../../components/utils/ConsentAlert';
-import { timeoutUnitTypesAvailable } from '../../utils/design/DesignUtils';
 import TimeoutSettingsContainer from '../../components/design/TimeoutSettingsContainer';
+import ConsentAlert from '../../components/utils/ConsentAlert';
 import TapSettingsModal from '../../components/design/TapSettingsModal';
 import MovementSettingsModal from '../../components/design/MovementSettingsModal';
 import DragSettingsModal from '../../components/design/DragSettingsModal';
 import DeviceSelectContainer from '../../components/design/DeviceSelectContainer';
+import SaveAsContainer from '../../components/design/SaveAsContainer';
+// Context
+import { ToggleContext } from '../../context/ToggleContext';
+import { DesignContext } from '../../context/DesignContext';
+// Speed starting constants
+import {
+  initDragMovementSpeed,
+  initxyMovementSpeed,
+  initzMovementSpeed,
+} from '../../utils/design/SpeedUtils';
+// Timeout data
+import { timeoutUnitTypesAvailable } from '../../utils/design/DesignUtils';
+// Configuration modal
+import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 
 function DesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -27,6 +37,7 @@ function DesignPage() {
     setSimulationIsRunning,
     isLandscapeMode,
     setIsLandscapeMode,
+    setDisplaySimOrLoop
   } = useContext(DesignContext);
 
   const canvasRef = useRef(null);
@@ -51,17 +62,20 @@ function DesignPage() {
 
   // Tap settings
   const [numberOfFingerTapping, setNumberOfFingerTapping] = useState(1);
-  const [speedOfFingerMoving, setSpeedOfFingerMoving] = useState(10);
+  const [speedOfFingerMoving, setSpeedOfFingerMoving] =
+    useState(initzMovementSpeed);
   const [tapSettingsModalOpen, setTapSettingsModalOpen] = useState(false);
 
   // Drag settings
   const [dragSettingsModalOpen, setDragSettingsModalOpen] = useState(false);
-  const [speedOfDraggingArmMoving, setSpeedOfDraggingArmMoving] = useState(10);
+  const [speedOfDraggingArmMoving, setSpeedOfDraggingArmMoving] = useState(
+    initDragMovementSpeed
+  );
 
   // Movement settings
   const [movementSettingsModalOpen, setMovementSettingsModalOpen] =
     useState(false);
-  const [speedOfArmMoving, setSpeedOfArmMoving] = useState(10);
+  const [speedOfArmMoving, setSpeedOfArmMoving] = useState(initxyMovementSpeed);
 
   // Popup modals
   const [consentMessageVisible, setConsentMessageVisible] = useState('');
@@ -71,6 +85,9 @@ function DesignPage() {
   // Device selection
   const [deviceSelectionModalOpen, setDeviceSelectionModalOpen] =
     useState(false);
+
+  // Save
+  const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
 
   useEffect(() => {
     setActiveNav('/design');
@@ -91,24 +108,17 @@ function DesignPage() {
   };
 
   const clearAllDataPoints = () => {
-    setConsentMessage(
-      'Are you sure you want to clear ALL data points from memory?'
-    );
+    setConsentMessage(confirmationModalMessages[0]);
     setConsentMessageVisible(true);
     setConsentFunction('clearAllDataPoints');
   };
 
   const runConsentFunction = () => {
-    console.log('AAAA');
     switch (consentFunction) {
       case 'clearAllDataPoints':
-        // Add your code here that should run when consentFunction is 'clearAllDataPoints'
         clearDataPoints();
-        console.log('Clearing all data points');
         break;
-      // You can add more cases here for different values of consentFunction
       default:
-        // This code runs if none of the cases match the consentFunction value
         console.log('No matching action found');
     }
 
@@ -117,7 +127,6 @@ function DesignPage() {
   };
 
   const resetSimulationToStartingPoint = () => {
-    console.log('RESET SIM TO STARTING');
   };
 
   const drawConnectingLines = () => {
@@ -157,6 +166,7 @@ function DesignPage() {
   // Create new simulation loop of commands
   const createNewSimulationLoop = () => {
     setIsCreatingNewLoop(true);
+    setDisplaySimOrLoop(true)
   };
   // Save new simulation loop of commands
   const saveNewSimulationLoop = () => {
@@ -217,9 +227,8 @@ function DesignPage() {
 
   // Create new simulation
   const createNewSimulationFile = () => {
-    console.log('NEW SIMULATION FILE');
     closeAllModalsMaster();
-    setConsentMessage('Any old data will be lost.');
+    setConsentMessage(confirmationModalMessages[1]);
     setConsentMessageVisible(true);
   };
   const confirmNewSimulation = () => {
@@ -234,65 +243,64 @@ function DesignPage() {
 
   // Save simulation
   const saveCurrentSimulationFile = () => {
-    console.log('SAVE SIMULATION FILE');
+    // TODO: add save
   };
-  // Create new simulation
-  const saveAsCurrentSimulationFile = () => {
-    console.log('SAVE AS SIMULATION FILE');
+  // Open save as
+  const openSaveAsModal = () => {
+    closeAllModalsMaster();
+    setSaveAsModalOpen(true); //
+  };
+  // Close save as
+  const closeSaveAsModal = () => {
+    setSaveAsModalOpen(false); //
+  };
+  // Save as
+  const saveAsNewFile = () => {
+    setSaveAsModalOpen(false); //
   };
 
   // Open timeout settings modal
   const openTimeoutSettingsModal = () => {
     closeAllModalsMaster();
-    console.log('SAVE AS SIMULATION FILE');
     setTimeoutModalOpen(true);
   };
   const closeTimeoutSettingsModal = () => {
-    console.log('SAVE AS SIMULATION FILE');
     setTimeoutModalOpen(false);
   };
 
   // Open drag settings modal
   const openDragSettingsModal = () => {
     closeAllModalsMaster();
-    console.log('OPEN TAP SETTINGS MODAL');
     setDragSettingsModalOpen(true);
   };
   const closeDragSettingsModal = () => {
-    console.log('CLOSE TAP SETTINGS MODAL');
     setDragSettingsModalOpen(false);
   };
 
   // Open movement settings modal
   const openMovementSettingsModal = () => {
     closeAllModalsMaster();
-    console.log('OPEN TAP SETTINGS MODAL');
     setMovementSettingsModalOpen(true);
   };
   const closeMovementSettingsModal = () => {
-    console.log('CLOSE TAP SETTINGS MODAL');
     setMovementSettingsModalOpen(false);
   };
 
   // Open tap settings modal
   const openTapSettingsModal = () => {
     closeAllModalsMaster();
-    console.log('OPEN TAP SETTINGS MODAL');
     setTapSettingsModalOpen(true);
   };
   const closeTapSettingsModal = () => {
-    console.log('CLOSE TAP SETTINGS MODAL');
     setTapSettingsModalOpen(false);
   };
 
   // Open tap settings modal
   const openDeviceSelectModal = () => {
-    console.log('OPEN DEVICESELECTS MODAL');
     closeAllModalsMaster();
     setDeviceSelectionModalOpen(true);
   };
   const closeDeviceSelectModal = () => {
-    console.log('CLOSE TAP SETTINGS MODAL');
     setDeviceSelectionModalOpen(false);
   };
 
@@ -303,7 +311,8 @@ function DesignPage() {
     setMovementSettingsModalOpen(false);
     setDragSettingsModalOpen(false);
     setTimeoutModalOpen(false);
-  }
+    setSaveAsModalOpen(false); //
+  };
 
   // Download simulation for sd card
   const downloadAsTextFile = () => {
@@ -348,7 +357,7 @@ function DesignPage() {
             resetSimulationToStartingPoint={resetSimulationToStartingPoint}
             createNewSimulationFile={createNewSimulationFile}
             saveCurrentSimulationFile={saveCurrentSimulationFile}
-            saveAsCurrentSimulationFile={saveAsCurrentSimulationFile}
+            openSaveAsModal={openSaveAsModal}
             openTimeoutSettingsModal={openTimeoutSettingsModal}
             openTapSettingsModal={openTapSettingsModal}
             openMovementSettingsModal={openMovementSettingsModal}
@@ -463,6 +472,14 @@ function DesignPage() {
       {deviceSelectionModalOpen && (
         <DeviceSelectContainer
           closeDeviceSelectModal={closeDeviceSelectModal}
+        />
+      )}
+
+      {/* Device selection */}
+      {saveAsModalOpen && (
+        <SaveAsContainer
+          saveAsNewFile={saveAsNewFile}
+          closeSaveAsModal={closeSaveAsModal}
         />
       )}
     </div>
