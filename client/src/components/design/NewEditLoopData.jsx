@@ -48,7 +48,7 @@ function NewEditLoopData() {
         <div className='grid w-full'>
           <input
             type='text'
-            placeholder='undefined...'
+            value={loopDataBeingEdited.loopTitle}
             onChange={handleChangeLoopTitleName}
             className='outline outline-yellow-400 outline-1 rounded-xl px-1 py-1 bg-white w-full'
           />

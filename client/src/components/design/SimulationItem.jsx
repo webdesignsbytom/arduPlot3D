@@ -15,11 +15,8 @@ import { HiCursorArrowRipple } from 'react-icons/hi2';
 import { GiArrowCursor } from 'react-icons/gi';
 import { DesignContext } from '../../context/DesignContext';
 
-function SimulationItem({
-  dataIndex,
-  dataPoint,
-}) {
-  const { handleDataPointChange, clearDataPoints } = useContext(DesignContext)
+function SimulationItem({ dataIndex, dataPoint }) {
+  const { handleDataPointChange, clearDataPoints } = useContext(DesignContext);
 
   return (
     <div key={dataIndex} className='grid grid-cols-a1a h-[30px] w-full gap-2'>
@@ -67,7 +64,17 @@ function SimulationItem({
           type='text'
           name='data_point'
           id='data_point'
-          value={`x: ${dataPoint.xPos}, y: ${dataPoint.yPos}`}
+          value={
+            dataPoint.dataType === 'tap' ||
+            dataPoint.dataType === 'move' ||
+            dataPoint.dataType === 'move_tap'
+              ? `x: ${dataPoint.xPos}, y: ${dataPoint.yPos}`
+              : dataPoint.dataType === 'timeout'
+              ? `t: ${dataPoint.timeoutLength}`
+              : dataPoint.dataType === 'drag'
+              ? `x1: ${dataPoint.startxPos}, y1: ${dataPoint.startyPos} x2: ${dataPoint.finishxPos}, y2: ${dataPoint.finishyPos}`
+              : null
+          }
           onChange={handleDataPointChange}
         />
       </div>
