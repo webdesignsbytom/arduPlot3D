@@ -96,6 +96,10 @@ const DesignContextProvider = ({ children }) => {
   // Video files
   const [selectedVideo, setSelectedVideo] = useState(null);
 
+  // Mouse Position
+  const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
+    useState(true);
+
   const [tapDataPoint, setTapDataPoint] = useState({
     dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
     xPos: 0,
@@ -255,6 +259,8 @@ const DesignContextProvider = ({ children }) => {
         setSimulationDataPoints,
         isPxOrMmDimensions,
         setIsPxOrMmDimensions,
+        positionOfMouseAndCanvasVisible,
+        setpositionOfMouseAndCanvasVisible,
       }}
     >
       {children}

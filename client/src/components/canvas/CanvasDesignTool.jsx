@@ -114,21 +114,23 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       ];
     }
 
-    // Assume each 'unit' on the ruler represents 100 pixels
-    // Adjust this scale as needed for your application
-    const unitSize = 100; // Size of each unit on the ruler in pixels
-    const rulerUnitsX = Math.ceil(deviceWidthPixels / unitSize);
-    const rulerUnitsY = Math.ceil(deviceHeightPixels / unitSize);
-
     // Generate ruler markings for X and Y
-    rulerX.innerHTML = generateRulerMarks(rulerUnitsX, 'horizontal');
-    rulerY.innerHTML = generateRulerMarks(rulerUnitsY, 'vertical');
+    rulerX.innerHTML = generateRulerMarks(deviceWidthPixels, 'horizontal');
+    rulerY.innerHTML = generateRulerMarks(deviceHeightPixels, 'vertical');
   };
 
-  const generateRulerMarks = (units, orientation) => {
+  const generateRulerMarks = (pixels, orientation) => {
     let marks = '';
+    const unitSize = 100; // Size of each unit on the ruler in pixels
+    const divisionSize = 10
+    const units = Math.floor(pixels / unitSize); // Use floor to not exceed device dimensions
+
     for (let i = 0; i <= units; i++) {
       marks += `<div style="flex: none; padding: 2px;">${i * 100}</div>`;
+    }
+    // To handle the last segment if it doesn't reach another full 100 pixels
+    if (pixels % unitSize > 0) {
+      marks += `<div style="flex: none; padding: 2px;">${pixels}</div>`;
     }
     return marks;
   };
@@ -330,12 +332,12 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         {rulersVisible && (
           <>
             <div
-              className='flex absolute left-0 bottom-[100%] bg-green-500'
+              className='flex absolute left-0 bottom-[100.5%] bg-yellow-400 rounded outline outline-[1px] outline-black'
               ref={rulerRefX}
               style={{ justifyContent: 'space-between', width: '100%' }}
             ></div>
             <div
-              className='flex flex-col absolute right-[100%] top-0 bg-[#F1998650]'
+              className='flex flex-col absolute right-[100.5%] top-0 bg-yellow-400 rounded outline outline-[1px] outline-black'
               ref={rulerRefY}
               style={{ justifyContent: 'space-between', height: '100%' }}
             ></div>
@@ -352,6 +354,9 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
           <div>{`X: ${tooltip.x}, Y: ${tooltip.y}`}</div>
         </div>
       )}
+
+      <div className='grid absolute bottom-2 left-2 text-xl font-bold uppercase'>Base</div>
+      <div className='grid absolute bottom-2 right-2 text-xl font-bold uppercase'>Top</div>
     </div>
   );
 }

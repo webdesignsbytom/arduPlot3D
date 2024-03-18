@@ -57,12 +57,13 @@ function DesignPage() {
     dragSettingsModalOpen,
     setDragSettingsModalOpen,
     speedOfDraggingArmMoving,
-    setSpeedOfDraggingArmMoving,clearDataPoints, lineRef, contextRef
+    setSpeedOfDraggingArmMoving,
+    clearDataPoints,
+    lineRef,
+    contextRef,
+    positionOfMouseAndCanvasVisible,
+    setpositionOfMouseAndCanvasVisible,
   } = useContext(DesignContext);
-
-  // Mouse Position
-  const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
-    useState(false);
 
   // Video modal
   const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
@@ -82,7 +83,6 @@ function DesignPage() {
   useEffect(() => {
     setActiveNav('/design');
   }, []);
-
 
   const clearAllDataPoints = () => {
     setConsentMessage(confirmationModalMessages[0]);
@@ -403,8 +403,7 @@ function DesignPage() {
 
         {/* data bar */}
         <section className='grid overflow-hidden h-full max-w-[300px]'>
-          <DesignDataBar
-          />
+          <DesignDataBar />
         </section>
       </main>
 
