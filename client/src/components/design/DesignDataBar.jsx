@@ -6,6 +6,7 @@ import SimulationDataPoints from './SimulationDataPoints';
 import LoopDataPoints from './LoopDataPoints';
 import DataPlotsContainer from './DataPlotsContainer';
 import LoopsMenuContainer from './LoopsMenuContainer';
+import NewEditLoopData from './NewEditLoopData';
 
 function DesignDataBar({
   clearDataPoint,
@@ -14,7 +15,8 @@ function DesignDataBar({
   simulationDataPoints,
   setDataCollection,
 }) {
-  const { displaySimOrLoop, setDisplaySimOrLoop } = useContext(DesignContext);
+  const { displaySimOrLoop, setDisplaySimOrLoop, isCreatingEditingLoop } =
+    useContext(DesignContext);
 
   const handleChange = () => {};
 
@@ -75,24 +77,30 @@ function DesignDataBar({
             </div>
           </section>
 
-          {/* List */}
-          <form className='grid w-full overflow-hidden h-full'>
-            {
-              displaySimOrLoop === 'loop' ? (
-                <LoopsMenuContainer
-                  dataPointsCollections={loopDataPoints}
-                  handleChange={handleChange}
-                  clearDataPoint={clearDataPoint}
-                />
-              ) : displaySimOrLoop === 'simulation' ? (
-                <DataPlotsContainer
-                  dataPointsCollections={simulationDataPoints}
-                  handleChange={handleChange}
-                  clearDataPoint={clearDataPoint}
-                />
-              ) : null // or any other default case you might want to handle
-            }
-          </form>
+          {isCreatingEditingLoop ? (
+            <div className='h-full text-center mt-1'>
+              <span>Loop Create/edit</span>
+              <NewEditLoopData />
+            </div>
+          ) : (
+            <form className='grid w-full overflow-hidden h-full'>
+              {
+                displaySimOrLoop === 'loop' ? (
+                  <LoopsMenuContainer
+                    dataPointsCollections={loopDataPoints}
+                    handleChange={handleChange}
+                    clearDataPoint={clearDataPoint}
+                  />
+                ) : displaySimOrLoop === 'simulation' ? (
+                  <DataPlotsContainer
+                    dataPointsCollections={simulationDataPoints}
+                    handleChange={handleChange}
+                    clearDataPoint={clearDataPoint}
+                  />
+                ) : null // or any other default case you might want to handle
+              }
+            </form>
+          )}
         </div>
       </section>
     </section>

@@ -16,7 +16,7 @@ function LoopsMenuContainer({
     simulationLoopData,
     displayDataPoints,
     displayDataPointsIndex,
-    arrayOfLoopData,
+    arrayOfLoopData, isCreatingEditingLoop, setIsCreatingEditingLoop,
   } = useContext(DesignContext);
 
   console.log('arrayOfLoopData', arrayOfLoopData);
@@ -58,6 +58,8 @@ function LoopsMenuContainer({
       ...simulationLoopData,
       loopTitle: newLoopName, // Update the loop title with the new name
     };
+
+    setIsCreatingEditingLoop(true)
 
     // Use the spread operator to copy existing loops and add the new loop
     setSimulationData({

@@ -1,11 +1,16 @@
 import React, { useContext } from 'react';
 // Icons
 import { IoCloseCircleSharp } from 'react-icons/io5';
+import { FaEdit } from 'react-icons/fa';
 // Context
 import { DesignContext } from '../../context/DesignContext';
 
 function LoopItem({ loop, index, deleteLoop }) {
   const { openAndEditLoop } = useContext(DesignContext);
+
+  const editLoop = (event, loop) => {
+    event.preventDefault();
+  };
 
   return (
     <div key={index} className='grid grid-cols-a1a h-[30px] w-full gap-2'>
@@ -20,15 +25,24 @@ function LoopItem({ loop, index, deleteLoop }) {
       <div
         title='Click to edit'
         onClick={() => openAndEditLoop(loop, index)}
-        className='grid bg-slate-200 grid-flow-col items-center px-1 gap-2 w-full h-full outline-black outline outline-2 cursor-pointer active:scale-95 hover:bg-yellow-200'
+        className='grid bg-white grid-flow-col items-center px-1 gap-2 w-full h-full outline-black outline outline-2 cursor-pointer active:scale-95 hover:bg-yellow-200'
       >
         <div>{loop.loopTitle}</div>
         <div>T: {loop.loopTimeToComplete}</div>
       </div>
 
       {/* Delete button */}
-      <div className='grid'>
+      <div className='grid grid-cols-2 gap-1'>
         <button
+          title='Edit loop'
+          id='edit_loop'
+          onClick={(event) => editLoop(event, loop)}
+          className='active:scale-95 no__highlights rounded-xl'
+        >
+          <FaEdit />
+        </button>
+        <button
+          title='Delete loop'
           id='delete_loop'
           onClick={(event) => deleteLoop(event, loop)}
           className='active:scale-95 no__highlights rounded-xl'

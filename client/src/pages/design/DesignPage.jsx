@@ -164,7 +164,7 @@ function DesignPage() {
   // Create new simulation loop of commands
   const createNewSimulationLoop = () => {
     setIsCreatingNewLoop(true);
-    setDisplaySimOrLoop(true);
+    setDisplaySimOrLoop('loop');
   };
   // Save new simulation loop of commands
   const saveNewSimulationLoop = () => {

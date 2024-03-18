@@ -31,6 +31,9 @@ const DesignContextProvider = ({ children }) => {
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [isLandscapeMode, setIsLandscapeMode] = useState(false);
 
+  // Loops
+  const [isCreatingEditingLoop, setIsCreatingEditingLoop] = useState(false);
+
   // Tools
   const [simulationToolSelected, setSimulationToolSelected] = useState('tap');
 
@@ -200,6 +203,8 @@ const DesignContextProvider = ({ children }) => {
         openAndEditLoop,
         selectedVideo,
         setSelectedVideo,
+        isCreatingEditingLoop,
+        setIsCreatingEditingLoop,
       }}
     >
       {children}
