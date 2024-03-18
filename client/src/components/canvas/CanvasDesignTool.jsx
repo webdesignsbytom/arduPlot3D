@@ -1,9 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 // Context
 import { DesignContext } from '../../context/DesignContext';
+// Icons
+import { IoReloadCircle } from 'react-icons/io5';
+import { FaMousePointer } from 'react-icons/fa';
 
 function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const {
+    simulationData,
     setSimulationData,
     simulationToolSelected,
     tapDataPoint,
@@ -40,6 +44,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     setSimulationDataPoints,
     isLandscapeMode,
     rulersVisible,
+    isPxOrMmDimensions,
+    setIsPxOrMmDimensions,
   } = useContext(DesignContext);
 
   // State to manage tooltip visibility and position
@@ -286,8 +292,34 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     }));
   };
 
+  const toggleDeviceDimensions = () => {
+    setIsPxOrMmDimensions(!isPxOrMmDimensions);
+  };
+
   return (
     <div className={`relative grid justify-center items-center `}>
+      {rulersVisible && (
+        <div className='absolute grid grid-cols-rev top-1 right-1 z-10 outline outline-yellow-400 outline-1 rounded-xl px-6 py-1'>
+          {isPxOrMmDimensions ? (
+            <div>Dimensions: mm </div>
+          ) : (
+            <div>Dimensions: px </div>
+          )}
+          <div className='grid items-center pl-2 justify-center'>
+            <IoReloadCircle
+              className='active:scale-95 active:animate-spin duration-300 cursor-pointer'
+              onClick={toggleDeviceDimensions}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className='grid absolute top-1 left-1/2 transform -translate-x-1/2'>
+        <div className='outline outline-yellow-400 outline-1 rounded-xl px-4 py-1 grid justify-center items-center'>
+          {simulationData.simulationTimeToComplete} seconds
+        </div>
+      </div>
+
       <div className='relative'>
         <canvas
           ref={canvasRef}
@@ -311,8 +343,13 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         )}
       </div>
       {positionOfMouseAndCanvasVisible && (
-        <div className={`grid absolute left-0 top-0 bg-white z-50`}>
-          {`X: ${tooltip.x}, Y: ${tooltip.y}`}
+        <div
+          className={`grid grid-cols-reg gap-2 absolute left-1 top-1 bg-white z-50 outline outline-yellow-400 outline-1 rounded-xl px-4 py-1`}
+        >
+          <div className='grid items-center justify-center pr-1'>
+            <FaMousePointer />
+          </div>
+          <div>{`X: ${tooltip.x}, Y: ${tooltip.y}`}</div>
         </div>
       )}
     </div>

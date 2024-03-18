@@ -37,7 +37,8 @@ const DesignContextProvider = ({ children }) => {
 
   // Design
   const [isCreatingNewLoop, setIsCreatingNewLoop] = useState(false);
-  const [rulersVisible, setRulersVisible] = useState(false);
+  const [rulersVisible, setRulersVisible] = useState(true);
+  const [isPxOrMmDimensions, setIsPxOrMmDimensions] = useState(true); // True = px
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [isLandscapeMode, setIsLandscapeMode] = useState(true); // Starts landscape mode
 
@@ -252,6 +253,8 @@ const DesignContextProvider = ({ children }) => {
         setLoopDataPoints,
         simulationDataPoints,
         setSimulationDataPoints,
+        isPxOrMmDimensions,
+        setIsPxOrMmDimensions,
       }}
     >
       {children}

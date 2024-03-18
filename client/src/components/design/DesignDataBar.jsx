@@ -8,10 +8,7 @@ import DataPlotsContainer from './DataPlotsContainer';
 import LoopsMenuContainer from './LoopsMenuContainer';
 import NewEditLoopData from './NewEditLoopData';
 
-function DesignDataBar({
-  loopDataPoints,
-  simulationDataPoints,
-}) {
+function DesignDataBar({ loopDataPoints, simulationDataPoints }) {
   const { displaySimOrLoop, setDisplaySimOrLoop, isCreatingEditingLoop } =
     useContext(DesignContext);
 
@@ -43,34 +40,36 @@ function DesignDataBar({
       <section className='grid h-full w-full overflow-hidden'>
         <div className='grid grid-rows-reg h-full w-full overflow-hidden'>
           {/* Buttons */}
-          <section className='grid grid-cols-2 gap-2 h-fit w-full p-2'>
-            <div className='grid w-full'>
-              <button
-                title='Main simulation data points'
-                onClick={selectSimulationList}
-                className={`${
-                  displaySimOrLoop === 'simulation'
-                    ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-                    : 'bg-yellow-400'
-                } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
-              >
-                Simulation
-              </button>
-            </div>
-            <div className='grid w-full'>
-              <button
-                title='Loops and loop data points'
-                onClick={selectLoopsList}
-                className={`${
-                  displaySimOrLoop === 'loop'
-                    ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-                    : 'bg-yellow-400'
-                } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
-              >
-                Loops
-              </button>
-            </div>
-          </section>
+          {!isCreatingEditingLoop && (
+            <section className='grid grid-cols-2 gap-2 h-fit w-full p-2'>
+              <div className='grid w-full'>
+                <button
+                  title='Main simulation data points'
+                  onClick={selectSimulationList}
+                  className={`${
+                    displaySimOrLoop === 'simulation'
+                      ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
+                      : 'bg-yellow-400'
+                  } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
+                >
+                  Simulation
+                </button>
+              </div>
+              <div className='grid w-full'>
+                <button
+                  title='Loops and loop data points'
+                  onClick={selectLoopsList}
+                  className={`${
+                    displaySimOrLoop === 'loop'
+                      ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
+                      : 'bg-yellow-400'
+                  } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
+                >
+                  Loops
+                </button>
+              </div>
+            </section>
+          )}
 
           {isCreatingEditingLoop ? (
             <div className='h-full text-center mt-1'>
@@ -81,9 +80,7 @@ function DesignDataBar({
             <form className='grid w-full overflow-hidden h-full'>
               {
                 displaySimOrLoop === 'loop' ? (
-                  <LoopsMenuContainer
-                    dataPointsCollections={loopDataPoints}
-                  />
+                  <LoopsMenuContainer dataPointsCollections={loopDataPoints} />
                 ) : displaySimOrLoop === 'simulation' ? (
                   <DataPlotsContainer
                     dataPointsCollections={simulationDataPoints}
