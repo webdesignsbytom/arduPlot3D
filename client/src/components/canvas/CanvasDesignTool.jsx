@@ -136,37 +136,37 @@ function CanvasDesignTool({
         console.log('No matching action found');
     }
 
-    // contextRef.current.beginPath();
-    // contextRef.current.arc(
-    //   nativeEvent.offsetX,
-    //   nativeEvent.offsetY,
-    //   1,
-    //   0,
-    //   2 * Math.PI,
-    //   true
-    // );
-    // contextRef.current.stroke();
-    // contextRef.current.fillText(
-    //   marketNumRef.current,
-    //   nativeEvent.offsetX + 5,
-    //   nativeEvent.offsetY + 5
-    // );
-    // marketNumRef.current++;
-    // console.log('9B. contextRef.current', contextRef.current);
-    // console.log('10. lineRef', lineRef);
+    contextRef.current.beginPath();
+    contextRef.current.arc(
+      nativeEvent.offsetX,
+      nativeEvent.offsetY,
+      1,
+      0,
+      2 * Math.PI,
+      true
+    );
+    contextRef.current.stroke();
+    contextRef.current.fillText(
+      marketNumRef.current,
+      nativeEvent.offsetX + 5,
+      nativeEvent.offsetY + 5
+    );
+    marketNumRef.current++;
+    console.log('9B. contextRef.current', contextRef.current);
+    console.log('10. lineRef', lineRef);
 
-    // // add to array of points
-    // const tempStore = lineRef.current;
-    // console.log('12. TempStore', tempStore);
-    // const newObj = {
-    //   xpos: offsetX,
-    //   ypos: offsetY,
-    // };
-    // tempStore.push(newObj);
-    // setDataCollection([...dataCollection, newObj]);
-    // setSimulationDataPoints([...dataCollection, newObj]);
+    // add to array of points
+    const tempStore = lineRef.current;
+    console.log('12. TempStore', tempStore);
+    const newObj = {
+      xpos: offsetX,
+      ypos: offsetY,
+    };
+    tempStore.push(newObj);
+    setDataCollection([...dataCollection, newObj]);
+    setSimulationDataPoints([...dataCollection, newObj]);
 
-    // lineRef.current = tempStore;
+    lineRef.current = tempStore;
   };
 
   // Tap

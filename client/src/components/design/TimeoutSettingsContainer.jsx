@@ -34,7 +34,7 @@ function TimeoutSettingsContainer({
         <section className='mt-4'>
           <div>
             <label htmlFor='numberFingers' className='text-sm'>
-              Set number of fingers tapping
+              Set wait period before next movement
             </label>
           </div>
           <div className='grid grid-cols-2 gap-0 mt-1'>
