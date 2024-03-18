@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+// Api
+import client from '../../api/client';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import DesignDataBar from '../../components/design/DesignDataBar';
@@ -12,14 +14,13 @@ import MovementSettingsModal from '../../components/design/MovementSettingsModal
 import DragSettingsModal from '../../components/design/DragSettingsModal';
 import DeviceSelectContainer from '../../components/design/DeviceSelectContainer';
 import SaveAsContainer from '../../components/design/SaveAsContainer';
+import UploadVideoModal from '../../components/design/UploadVideoModal';
+import AddLoopContainer from '../../components/design/AddLoopContainer';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
 import { DesignContext } from '../../context/DesignContext';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
-import AddLoopContainer from '../../components/design/AddLoopContainer';
-import client from '../../api/client';
-import UploadVideoModal from '../../components/design/UploadVideoModal';
 
 function DesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -56,18 +57,8 @@ function DesignPage() {
     dragSettingsModalOpen,
     setDragSettingsModalOpen,
     speedOfDraggingArmMoving,
-    setSpeedOfDraggingArmMoving,
+    setSpeedOfDraggingArmMoving,clearDataPoints, lineRef, contextRef
   } = useContext(DesignContext);
-
-  const canvasRef = useRef(null);
-  const contextRef = useRef(null);
-  const marketNumRef = useRef(1);
-  const lineRef = useRef([]);
-  const emptyRef = useRef([]);
-
-  const [dataCollection, setDataCollection] = useState([]);
-  const [loopDataPoints, setLoopDataPoints] = useState([]);
-  const [simulationDataPoints, setSimulationDataPoints] = useState([]);
 
   // Mouse Position
   const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
@@ -92,19 +83,6 @@ function DesignPage() {
     setActiveNav('/design');
   }, []);
 
-  const clearDataPoints = () => {
-    lineRef.current = emptyRef.current;
-    contextRef.current.clearRect(
-      0,
-      0,
-      canvasRef.current.width,
-      canvasRef.current.height
-    );
-    marketNumRef.current = 1;
-    setDataCollection([]);
-    setSimulationDataPoints([]);
-    setLoopDataPoints([]);
-  };
 
   const clearAllDataPoints = () => {
     setConsentMessage(confirmationModalMessages[0]);
@@ -418,13 +396,6 @@ function DesignPage() {
           {/* CANVAS */}
           <div className='bg-white h-full grid outline-black outline outline-2 overflow-hidden'>
             <CanvasDesignTool
-              canvasRef={canvasRef}
-              contextRef={contextRef}
-              marketNumRef={marketNumRef}
-              lineRef={lineRef}
-              setDataCollection={setDataCollection}
-              setSimulationDataPoints={setSimulationDataPoints}
-              dataCollection={dataCollection}
               positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
             />
           </div>
@@ -433,11 +404,6 @@ function DesignPage() {
         {/* data bar */}
         <section className='grid overflow-hidden h-full max-w-[300px]'>
           <DesignDataBar
-            loopDataPoints={loopDataPoints}
-            simulationDataPoints={simulationDataPoints}
-            setDataCollection={setDataCollection}
-            lineRef={lineRef}
-            clearDataPoints={clearDataPoints}
           />
         </section>
       </main>

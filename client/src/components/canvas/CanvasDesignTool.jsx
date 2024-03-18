@@ -2,16 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 // Context
 import { DesignContext } from '../../context/DesignContext';
 
-function CanvasDesignTool({
-  canvasRef,
-  contextRef,
-  marketNumRef,
-  lineRef,
-  dataCollection,
-  setDataCollection,
-  setSimulationDataPoints,
-  positionOfMouseAndCanvasVisible,
-}) {
+function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const {
     setSimulationData,
     simulationToolSelected,
@@ -39,20 +30,43 @@ function CanvasDesignTool({
     setSpeedOfDraggingArmMoving,
     selectedDevice,
     speedOfArmMoving,
+    isCreatingEditingLoop,
+    canvasRef,
+    contextRef,
+    marketNumRef,
+    lineRef,
+    setDataCollection,
+    dataCollection,
+    setSimulationDataPoints,
+    isLandscapeMode,
+    rulersVisible,
   } = useContext(DesignContext);
 
   // State to manage tooltip visibility and position
   const [tooltip, setTooltip] = useState({ x: 0, y: 0 });
+
+  const rulerRefX = useRef(null); // Ref for the X-axis ruler
+  const rulerRefY = useRef(null); // Ref for the Y-axis ruler
 
   useEffect(() => {
     // returns <context>
     const canvas = canvasRef.current;
     var rect = canvas.parentNode.getBoundingClientRect();
 
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    canvas.style.width = `${rect.width}px`;
-    canvas.style.height = `${rect.height}px`;
+    let deviceWidthPixels = selectedDevice.xPixels; // Default to Samsung S20 Ultra's width in pixels
+    let deviceHeightPixels = selectedDevice.yPixels; // Default to Samsung S20 Ultra's height in pixels
+
+    if (isLandscapeMode) {
+      // If in portrait mode, swap the width and height
+      [deviceWidthPixels, deviceHeightPixels] = [
+        deviceHeightPixels,
+        deviceWidthPixels,
+      ];
+    }
+
+    // Set canvas dimensions to match the device's dimensions in the current orientation
+    canvas.width = deviceWidthPixels;
+    canvas.height = deviceHeightPixels;
 
     // set canvas to visible colour
     canvas.style.backgroundColor = '#bee0ec';
@@ -64,43 +78,12 @@ function CanvasDesignTool({
     context.strokeStyle = 'black';
     context.lineWidth = 5;
     contextRef.current = context;
-  }, []);
 
-  // useEffect(() => {
-  //   const canvas = canvasRef.current;
-  //   var rect = canvas.parentNode.getBoundingClientRect();
-
-  //   // Determine the desired padding (e.g., 20 pixels on top and bottom)
-  //   const verticalPadding = 40; // Total for top and bottom
-
-  //   // Adjust rect dimensions to account for padding
-  //   const adjustedRectHeight = rect.height - verticalPadding;
-
-  //   // Calculate the maximum scale ratio to fit the device in the adjusted screen space
-  //   const scaleX = rect.width / selectedDevice.xDimension;
-  //   const scaleY = adjustedRectHeight / selectedDevice.yDimension;
-  //   const scaleRatio = Math.min(scaleX, scaleY);
-
-  //   // Adjust canvas dimensions based on the selectedDevice size and scale ratio
-  //   canvas.width = selectedDevice.xDimension * scaleRatio;
-  //   canvas.height = selectedDevice.yDimension * scaleRatio;
-
-  //   // Center the canvas vertically within the parent div
-  //   const marginTop = (rect.height - canvas.height) / 2;
-  //   canvas.style.marginTop = `${marginTop}px`;
-
-  //   canvas.style.width = `${canvas.width}px`;
-  //   canvas.style.height = `${canvas.height}px`;
-
-  //   canvas.style.backgroundColor = '#bee0ec';
-
-  //   const context = canvas.getContext('2d');
-  //   context.scale(scaleRatio, scaleRatio); // Scale the context to fit the canvas
-  //   context.lineCap = 'round';
-  //   context.strokeStyle = 'black';
-  //   context.lineWidth = 5 / scaleRatio; // Adjust line width based on the scale
-  //   contextRef.current = context;
-  // }, [selectedDevice]);
+    if (rulersVisible) {
+      // Setup rulers if visible
+      setupRulers();
+    }
+  }, [isLandscapeMode, rulersVisible, selectedDevice]);
 
   const updatePositionMarker = ({ nativeEvent }) => {
     if (positionOfMouseAndCanvasVisible) {
@@ -108,6 +91,40 @@ function CanvasDesignTool({
 
       setTooltip({ x: offsetX, y: offsetY });
     }
+  };
+
+  const setupRulers = () => {
+    const canvas = canvasRef.current;
+    const rulerX = rulerRefX.current;
+    const rulerY = rulerRefY.current;
+
+    let deviceWidthPixels = selectedDevice.xPixels; // Width in pixels
+    let deviceHeightPixels = selectedDevice.yPixels; // Height in pixels
+
+    if (isLandscapeMode) {
+      [deviceWidthPixels, deviceHeightPixels] = [
+        deviceHeightPixels,
+        deviceWidthPixels,
+      ];
+    }
+
+    // Assume each 'unit' on the ruler represents 100 pixels
+    // Adjust this scale as needed for your application
+    const unitSize = 100; // Size of each unit on the ruler in pixels
+    const rulerUnitsX = Math.ceil(deviceWidthPixels / unitSize);
+    const rulerUnitsY = Math.ceil(deviceHeightPixels / unitSize);
+
+    // Generate ruler markings for X and Y
+    rulerX.innerHTML = generateRulerMarks(rulerUnitsX, 'horizontal');
+    rulerY.innerHTML = generateRulerMarks(rulerUnitsY, 'vertical');
+  };
+
+  const generateRulerMarks = (units, orientation) => {
+    let marks = '';
+    for (let i = 0; i <= units; i++) {
+      marks += `<div style="flex: none; padding: 2px;">${i * 100}</div>`;
+    }
+    return marks;
   };
 
   const createMarker = ({ nativeEvent }) => {
@@ -176,16 +193,18 @@ function CanvasDesignTool({
       zSpeed: speedOfFingerMoving,
     };
 
-    // Update the simulationData state with the new data point
-    setSimulationData((currentSimulationData) => {
-      return {
-        ...currentSimulationData,
-        mainSimulationDataPoints: [
-          ...currentSimulationData.mainSimulationDataPoints,
-          newDataPoint,
-        ],
-      };
-    });
+    if (isCreatingEditingLoop) {
+      // Update the simulationData state with the new data point
+      setSimulationData((currentSimulationData) => {
+        return {
+          ...currentSimulationData,
+          mainSimulationDataPoints: [
+            ...currentSimulationData.mainSimulationDataPoints,
+            newDataPoint,
+          ],
+        };
+      });
+    }
   };
   // Move
   const createMoveDataPoint = (offsetX, offsetY) => {
@@ -218,7 +237,7 @@ function CanvasDesignTool({
       zSpeed: speedOfFingerMoving,
       numFingers: 1,
       timeLength: 0,
-    }
+    };
 
     setSimulationData((currentSimulationData) => ({
       ...currentSimulationData,
@@ -241,7 +260,7 @@ function CanvasDesignTool({
       zSpeed: speedOfFingerMoving,
       numFingers: 1,
       timeLength: 0,
-    }
+    };
 
     setSimulationData((currentSimulationData) => ({
       ...currentSimulationData,
@@ -251,7 +270,7 @@ function CanvasDesignTool({
       ],
     }));
   };
-  
+
   // Timeout
   const createTimeoutDataPoint = () => {
     let newDataPoint = {
@@ -268,12 +287,29 @@ function CanvasDesignTool({
   };
 
   return (
-    <div className='relative'>
-      <canvas
-        ref={canvasRef}
-        onMouseMove={updatePositionMarker}
-        onMouseUp={createMarker}
-      />
+    <div className={`relative grid justify-center items-center `}>
+      <div className='relative'>
+        <canvas
+          ref={canvasRef}
+          onMouseMove={updatePositionMarker}
+          onMouseUp={createMarker}
+          className={`border-solid border-black border-2 rounded-xl`}
+        />
+        {rulersVisible && (
+          <>
+            <div
+              className='flex absolute left-0 bottom-[100%] bg-green-500'
+              ref={rulerRefX}
+              style={{ justifyContent: 'space-between', width: '100%' }}
+            ></div>
+            <div
+              className='flex flex-col absolute right-[100%] top-0 bg-[#F1998650]'
+              ref={rulerRefY}
+              style={{ justifyContent: 'space-between', height: '100%' }}
+            ></div>
+          </>
+        )}
+      </div>
       {positionOfMouseAndCanvasVisible && (
         <div className={`grid absolute left-0 top-0 bg-white z-50`}>
           {`X: ${tooltip.x}, Y: ${tooltip.y}`}

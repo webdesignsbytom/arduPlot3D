@@ -1,10 +1,14 @@
 import React, { useContext, useState } from 'react';
 // Context
 import { DesignContext } from '../../context/DesignContext';
+import SimulationItem from './SimulationItem';
 
 function NewEditLoopData() {
-  const { isCreatingEditingLoop, setIsCreatingEditingLoop } =
-    useContext(DesignContext);
+  const {
+    isCreatingEditingLoop,
+    setIsCreatingEditingLoop,
+    loopDataBeingEdited,clearDataPoints
+  } = useContext(DesignContext);
 
   const [newLoopData, setNewLoopData] = useState({
     loopTitle: '',
@@ -21,6 +25,17 @@ function NewEditLoopData() {
 
   return (
     <div className='grid'>
+      {loopDataBeingEdited.mainSimulationLoopDataPoints.map(
+        (dataPoint, index) => {
+          return (
+            <SimulationItem
+              key={index}
+              dataIndex={index}
+              dataPoint={dataPoint}
+            />
+          );
+        }
+      )}
       <div className='mt-2'>
         <button
           onClick={saveLoopPerminently}

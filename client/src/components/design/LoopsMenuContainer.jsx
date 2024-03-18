@@ -6,9 +6,7 @@ import { DesignContext } from '../../context/DesignContext';
 import LoopItem from './LoopItem';
 
 function LoopsMenuContainer({
-  dataPointsCollections,
   handleChange,
-  clearDataPoint,
 }) {
   const {
     simulationData,
@@ -16,7 +14,7 @@ function LoopsMenuContainer({
     simulationLoopData,
     displayDataPoints,
     displayDataPointsIndex,
-    arrayOfLoopData, isCreatingEditingLoop, setIsCreatingEditingLoop,
+    arrayOfLoopData, isCreatingEditingLoop, setIsCreatingEditingLoop, clearDataPoints
   } = useContext(DesignContext);
 
   console.log('arrayOfLoopData', arrayOfLoopData);
@@ -120,7 +118,7 @@ function LoopsMenuContainer({
                       <div className='grid'>
                         <button
                           id='pointOne'
-                          onClick={clearDataPoint}
+                          onClick={clearDataPoints}
                           className='active:scale-95 no__highlights rounded-xl'
                         >
                           <IoCloseCircleSharp />

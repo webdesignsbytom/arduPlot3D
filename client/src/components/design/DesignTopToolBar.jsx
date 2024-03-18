@@ -241,25 +241,6 @@ function DesignTopToolBar({
           </button>
         )}
 
-        {/* Create loop of commands */}
-        {isCreatingNewLoop ? (
-          <button
-            onClick={saveNewSimulationLoop}
-            title='Save New Loop'
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            <FaRegSave />
-          </button>
-        ) : (
-          <button
-            onClick={createNewSimulationLoop}
-            title='Create New Loop'
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            <ImLoop />
-          </button>
-        )}
-
         <button
           onClick={clearAllDataPoints}
           className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-red-400 hover:bg-red-100 rounded-md'

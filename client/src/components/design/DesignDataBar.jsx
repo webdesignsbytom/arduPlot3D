@@ -9,16 +9,11 @@ import LoopsMenuContainer from './LoopsMenuContainer';
 import NewEditLoopData from './NewEditLoopData';
 
 function DesignDataBar({
-  clearDataPoint,
-  lineRef,
   loopDataPoints,
   simulationDataPoints,
-  setDataCollection,
 }) {
   const { displaySimOrLoop, setDisplaySimOrLoop, isCreatingEditingLoop } =
     useContext(DesignContext);
-
-  const handleChange = () => {};
 
   const selectLoopsList = () => {
     setDisplaySimOrLoop('loop');
@@ -88,14 +83,10 @@ function DesignDataBar({
                 displaySimOrLoop === 'loop' ? (
                   <LoopsMenuContainer
                     dataPointsCollections={loopDataPoints}
-                    handleChange={handleChange}
-                    clearDataPoint={clearDataPoint}
                   />
                 ) : displaySimOrLoop === 'simulation' ? (
                   <DataPlotsContainer
                     dataPointsCollections={simulationDataPoints}
-                    handleChange={handleChange}
-                    clearDataPoint={clearDataPoint}
                   />
                 ) : null // or any other default case you might want to handle
               }

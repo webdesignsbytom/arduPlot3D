@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState } from 'react';
 // Device data
 import { availableDevicesForSimulations } from '../utils/design/AvailableDevices';
@@ -14,6 +14,16 @@ import { tempDesignData } from '../utils/design/TempData';
 export const DesignContext = React.createContext();
 
 const DesignContextProvider = ({ children }) => {
+  const canvasRef = useRef(null);
+  const contextRef = useRef(null);
+  const marketNumRef = useRef(1);
+  const lineRef = useRef([]);
+  const emptyRef = useRef([]);
+
+  const [dataCollection, setDataCollection] = useState([]);
+  const [loopDataPoints, setLoopDataPoints] = useState([]);
+  const [simulationDataPoints, setSimulationDataPoints] = useState([]);
+
   // Simulation data and list of loops for simulation
   const [simulationData, setSimulationData] = useState(tempDesignData);
 
@@ -29,10 +39,15 @@ const DesignContextProvider = ({ children }) => {
   const [isCreatingNewLoop, setIsCreatingNewLoop] = useState(false);
   const [rulersVisible, setRulersVisible] = useState(false);
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
-  const [isLandscapeMode, setIsLandscapeMode] = useState(false);
+  const [isLandscapeMode, setIsLandscapeMode] = useState(true); // Starts landscape mode
 
   // Loops
   const [isCreatingEditingLoop, setIsCreatingEditingLoop] = useState(false);
+  const [loopDataBeingEdited, setLoopDataBeingEdited] = useState({
+    loopTitle: '',
+    mainSimulationLoopDataPoints: [],
+    loopTimeToComplete: 0,
+  });
 
   // Tools
   const [simulationToolSelected, setSimulationToolSelected] = useState('tap');
@@ -137,11 +152,33 @@ const DesignContextProvider = ({ children }) => {
     setArrayOfLoopData(simulationData.simulationLoops[index]);
   };
 
+  const handleDataPointChange = () => {};
+
   console.log('simulationData.simulationLoops', simulationData.simulationLoops);
+
+  const clearDataPoints = () => {
+    lineRef.current = emptyRef.current;
+    contextRef.current.clearRect(
+      0,
+      0,
+      canvasRef.current.width,
+      canvasRef.current.height
+    );
+    marketNumRef.current = 1;
+    setDataCollection([]);
+    setSimulationDataPoints([]);
+    setLoopDataPoints([]);
+  };
 
   return (
     <DesignContext.Provider
       value={{
+        // Ref
+        canvasRef,
+        contextRef,
+        marketNumRef,
+        lineRef,
+        emptyRef,
         // Main simulation
         simulationData,
         setSimulationData,
@@ -205,6 +242,16 @@ const DesignContextProvider = ({ children }) => {
         setSelectedVideo,
         isCreatingEditingLoop,
         setIsCreatingEditingLoop,
+        loopDataBeingEdited,
+        setLoopDataBeingEdited,
+        handleDataPointChange,
+        clearDataPoints,
+        dataCollection,
+        setDataCollection,
+        loopDataPoints,
+        setLoopDataPoints,
+        simulationDataPoints,
+        setSimulationDataPoints,
       }}
     >
       {children}
