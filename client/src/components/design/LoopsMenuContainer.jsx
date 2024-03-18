@@ -19,6 +19,8 @@ function LoopsMenuContainer({
     arrayOfLoopData,
   } = useContext(DesignContext);
 
+  console.log('arrayOfLoopData', arrayOfLoopData);
+
   const deleteLoop = (event, loop) => {
     event.preventDefault(); // This will prevent the default action
     console.log('loop', loop);
@@ -71,7 +73,7 @@ function LoopsMenuContainer({
           <>
             <LoopItem loop={loop} key={index} index={index} />
 
-            {/*  */}
+            {/* Loop items */}
             {displayDataPoints &&
               index === displayDataPointsIndex &&
               arrayOfLoopData.mainSimulationLoopDataPoints.map(

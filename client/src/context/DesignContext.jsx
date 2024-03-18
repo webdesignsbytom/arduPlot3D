@@ -127,11 +127,14 @@ const DesignContextProvider = ({ children }) => {
       return;
     }
 
-    console.log('loop', loop);
+    console.log('LOOOP', loop);
     setDisplayDataPoints(true);
     setDisplayDataPointsIndex(index);
+
     setArrayOfLoopData(simulationData.simulationLoops[index]);
   };
+
+  console.log('simulationData.simulationLoops', simulationData.simulationLoops);
 
   return (
     <DesignContext.Provider

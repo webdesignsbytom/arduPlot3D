@@ -105,16 +105,13 @@ function CanvasDesignTool({
   const updatePositionMarker = ({ nativeEvent }) => {
     if (positionOfMouseAndCanvasVisible) {
       const { offsetX, offsetY } = nativeEvent;
-      console.log('offsetX', offsetX);
-      console.log('offsetY', offsetY);
+
       setTooltip({ x: offsetX, y: offsetY });
     }
   };
 
   const createMarker = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
-    console.log('offsetX', offsetX);
-    console.log('offsetY', offsetY);
 
     switch (simulationToolSelected) {
       case 'tap':
@@ -152,12 +149,12 @@ function CanvasDesignTool({
       nativeEvent.offsetY + 5
     );
     marketNumRef.current++;
-    console.log('9B. contextRef.current', contextRef.current);
-    console.log('10. lineRef', lineRef);
+    // console.log('9B. contextRef.current', contextRef.current);
+    // console.log('10. lineRef', lineRef);
 
     // add to array of points
     const tempStore = lineRef.current;
-    console.log('12. TempStore', tempStore);
+    // console.log('12. TempStore', tempStore);
     const newObj = {
       xpos: offsetX,
       ypos: offsetY,
