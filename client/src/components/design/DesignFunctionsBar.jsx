@@ -12,6 +12,7 @@ function DesignFunctionsBar({
   openMovementSettingsModal,
   openDragSettingsModal,
   openDeviceSelectModal,
+  openUploadVideoModal
 }) {
   return (
     <section className='bg-white border-r-2 border-solid border-black p-2'>
@@ -128,6 +129,21 @@ function DesignFunctionsBar({
             </li>
             <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
               Layout
+            </li>
+          </ul>
+        </div>
+
+        {/* Divider */}
+        <div className='w-full h-[1px] bg-slate-400'></div>
+
+        <div className='py-2'>
+          <ul>
+            <li
+              title='Upload video'
+              onClick={openUploadVideoModal}
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+            >
+              Upload Video
             </li>
           </ul>
         </div>

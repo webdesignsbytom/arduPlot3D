@@ -74,6 +74,9 @@ const DesignContextProvider = ({ children }) => {
   const [displayDataPointsIndex, setDisplayDataPointsIndex] = useState(0);
   const [arrayOfLoopData, setArrayOfLoopData] = useState([]);
 
+  // Video files
+  const [selectedVideo, setSelectedVideo] = useState(null);
+
   const [tapDataPoint, setTapDataPoint] = useState({
     dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
     xPos: 0,
@@ -192,6 +195,8 @@ const DesignContextProvider = ({ children }) => {
         arrayOfLoopData,
         setArrayOfLoopData,
         openAndEditLoop,
+        selectedVideo,
+        setSelectedVideo,
       }}
     >
       {children}

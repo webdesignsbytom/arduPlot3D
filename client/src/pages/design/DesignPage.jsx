@@ -19,6 +19,7 @@ import { DesignContext } from '../../context/DesignContext';
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 import AddLoopContainer from '../../components/design/AddLoopContainer';
 import client from '../../api/client';
+import UploadVideoModal from '../../components/design/UploadVideoModal';
 
 function DesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -71,6 +72,9 @@ function DesignPage() {
   // Mouse Position
   const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
     useState(false);
+
+  // Video modal
+  const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
 
   // Popup modals
   const [consentMessageVisible, setConsentMessageVisible] = useState('');
@@ -242,15 +246,15 @@ function DesignPage() {
 
   // Save simulation
   const saveCurrentSimulationFile = () => {
-      client
-        .post('/simulations/save-simulation')
-        .then((res) => {
-          console.log('RES', res.data.data.newSimulation);
-        })
-  
-        .catch((err) => {
-          console.error('Unable to create simulation', err);
-        });
+    client
+      .post('/simulations/save-simulation')
+      .then((res) => {
+        console.log('RES', res.data.data.newSimulation);
+      })
+
+      .catch((err) => {
+        console.error('Unable to create simulation', err);
+      });
   };
   // Open save as
   const openSaveAsModal = () => {
@@ -318,7 +322,16 @@ function DesignPage() {
     setMovementSettingsModalOpen(false);
     setDragSettingsModalOpen(false);
     setTimeoutModalOpen(false);
+    closeUploadVideoModal(false);
     setSaveAsModalOpen(false); //
+  };
+
+  const openUploadVideoModal = () => {
+    closeAllModalsMaster();
+    setuploadVideoModalOpen(true);
+  };
+  const closeUploadVideoModal = () => {
+    setuploadVideoModalOpen(false);
   };
 
   // Download simulation for sd card
@@ -370,6 +383,7 @@ function DesignPage() {
             openMovementSettingsModal={openMovementSettingsModal}
             openDragSettingsModal={openDragSettingsModal}
             openDeviceSelectModal={openDeviceSelectModal}
+            openUploadVideoModal={openUploadVideoModal}
           />
         </section>
 
@@ -491,8 +505,13 @@ function DesignPage() {
           closeSaveAsModal={closeSaveAsModal}
         />
       )}
-      {/* Loop selection */}
 
+      {/* Upload video */}
+      {uploadVideoModalOpen && (
+        <UploadVideoModal closeUploadVideoModal={closeUploadVideoModal} />
+      )}
+
+      {/* Loop selection */}
       {addCreateLoopModalOpen && <AddLoopContainer />}
     </div>
   );
