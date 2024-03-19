@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 // Context
 import { DesignContext } from '../../context/DesignContext';
 
-function AddLoopContainer() {
+function AddLoopToSimulationModal() {
   const { setAddCreateLoopModalOpen, simulationData, setDisplaySimOrLoop, simulationLoopData, setSimulationData } =
     useContext(DesignContext);
 
@@ -124,4 +124,4 @@ function AddLoopContainer() {
   );
 }
 
-export default AddLoopContainer;
+export default AddLoopToSimulationModal;

@@ -151,10 +151,10 @@ const DesignContextProvider = ({ children }) => {
       return;
     }
 
+    setArrayOfLoopData(simulationData.simulationLoops[index]);
+
     setDisplayDataPoints(true);
     setDisplayDataPointsIndex(index);
-
-    setArrayOfLoopData(simulationData.simulationLoops[index]);
   };
 
   const handleDataPointChange = () => {};

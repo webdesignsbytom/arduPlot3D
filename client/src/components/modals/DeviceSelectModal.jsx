@@ -4,7 +4,7 @@ import { availableDevicesForSimulations } from '../../utils/design/AvailableDevi
 // Context
 import { DesignContext } from '../../context/DesignContext';
 
-function DeviceSelectContainer({ closeDeviceSelectModal }) {
+function DeviceSelectModal({ closeDeviceSelectModal }) {
   const { selectedDevice, setSelectedDevice } = useContext(DesignContext);
 
   const [availableDevices, setAvailableDevices] = useState(
@@ -63,4 +63,4 @@ function DeviceSelectContainer({ closeDeviceSelectModal }) {
   );
 }
 
-export default DeviceSelectContainer;
+export default DeviceSelectModal;

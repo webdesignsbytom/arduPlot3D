@@ -4,7 +4,7 @@ import client from '../../api/client';
 // File data
 import { saveFileTypes } from '../../utils/design/DesignUtils';
 
-function SaveAsContainer({ saveAsNewFile, closeSaveAsModal }) {
+function SaveAsModal({ saveAsNewFile, closeSaveAsModal }) {
   const [availableFileTypes] = useState(saveFileTypes);
 
   useEffect(() => {
@@ -77,4 +77,4 @@ function SaveAsContainer({ saveAsNewFile, closeSaveAsModal }) {
   );
 }
 
-export default SaveAsContainer;
+export default SaveAsModal;

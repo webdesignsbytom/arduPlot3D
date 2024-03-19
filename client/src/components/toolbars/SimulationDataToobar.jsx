@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 // Context
 import { DesignContext } from '../../context/DesignContext';
 // Components
-import DataPlotsContainer from './DataPlotsContainer';
-import LoopsMenuContainer from './LoopsMenuContainer';
-import NewEditLoopData from './NewEditLoopData';
-import SimLoopButtons from './SimLoopButtons';
+import DataPlotsContainer from '../design/DataPlotsContainer';
+import LoopsMenuContainer from '../design/LoopsMenuContainer';
+import NewEditLoopData from '../design/NewEditLoopData';
+import SimLoopButtons from '../design/SimLoopButtons';
 
-function DesignDataBar() {
+function SimulationDataToobar() {
   const {
     displaySimOrLoop,
     isCreatingEditingLoop,
@@ -63,4 +63,4 @@ function DesignDataBar() {
   );
 }
 
-export default DesignDataBar;
+export default SimulationDataToobar;

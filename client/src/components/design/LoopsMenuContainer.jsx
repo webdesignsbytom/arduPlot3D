@@ -18,7 +18,13 @@ function LoopsMenuContainer({ handleChange }) {
     clearDataPoints,
   } = useContext(DesignContext);
 
-  console.log('arrayOfLoopData', arrayOfLoopData);
+  const [foundArray, setFoundArray] = useState([]);
+
+  console.log('foundArray', foundArray);
+
+  useEffect(() => {
+    setFoundArray(arrayOfLoopData);
+  }, [arrayOfLoopData]);
 
   const deleteLoop = (event, loop) => {
     event.preventDefault(); // This will prevent the default action
@@ -77,7 +83,7 @@ function LoopsMenuContainer({ handleChange }) {
             {/* Loop items */}
             {displayDataPoints &&
               index === displayDataPointsIndex &&
-              arrayOfLoopData.mainSimulationLoopDataPoints.map(
+              foundArray.map(
                 (dataPoint, dataIndex) => {
                   return (
                     <div

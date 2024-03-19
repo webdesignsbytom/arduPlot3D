@@ -16,7 +16,7 @@ import { HiCursorArrowRipple } from "react-icons/hi2";
 import { GiArrowCursor } from "react-icons/gi";
 import { FaArrowsTurnToDots } from "react-icons/fa6";
 
-function DesignTopToolBar({
+function SimulationPageTopToolBar({
   drawConnectingLines,
   clearAllDataPoints,
   createNewSimulationLoop,
@@ -250,4 +250,4 @@ function DesignTopToolBar({
   );
 }
 
-export default DesignTopToolBar;
+export default SimulationPageTopToolBar;

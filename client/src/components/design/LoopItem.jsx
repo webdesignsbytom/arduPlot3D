@@ -15,7 +15,7 @@ function LoopItem({ loop, index, deleteLoop }) {
 
   const editLoop = (event, loop) => {
     event.preventDefault();
-
+    console.log('PPPPPPPPPPPPPPPPPPPPPPPPPppp');
     setLoopDataBeingEdited(loop);
     setIsCreatingEditingLoop(true);
   };

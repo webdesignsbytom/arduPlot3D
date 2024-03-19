@@ -1,7 +1,7 @@
 import React from 'react';
 import { timeoutUnitTypesAvailable } from '../../utils/design/DesignUtils';
 
-function TimeoutSettingsContainer({
+function TimeoutSettingsModal({
   timeoutLength,
   setTimeoutLength,
   timeoutUnitSelected,
@@ -108,4 +108,4 @@ function TimeoutSettingsContainer({
   );
 }
 
-export default TimeoutSettingsContainer;
+export default TimeoutSettingsModal;
