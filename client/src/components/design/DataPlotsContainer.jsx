@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 // Icons
 import { IoCloseCircleSharp } from 'react-icons/io5';
 // Context
@@ -27,6 +27,7 @@ function DataPlotsContainer({
 
   return (
     <div className='overflow-y-scroll gap-1 p-1'>
+      {/* Simulation datapoints */}
       {simulationData?.mainSimulationDataPoints.map((dataPoint, index) =>
         dataPoint.loopTitle ? (
           <>
