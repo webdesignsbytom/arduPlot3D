@@ -6,13 +6,18 @@ import { FaEdit } from 'react-icons/fa';
 import { DesignContext } from '../../context/DesignContext';
 
 function LoopItem({ loop, index, deleteLoop }) {
-  const { openAndEditLoop, isCreatingEditingLoop, setIsCreatingEditingLoop, setLoopDataBeingEdited } = useContext(DesignContext);
+  const {
+    openAndEditLoop,
+    isCreatingEditingLoop,
+    setIsCreatingEditingLoop,
+    setLoopDataBeingEdited,
+  } = useContext(DesignContext);
 
   const editLoop = (event, loop) => {
     event.preventDefault();
 
-    setLoopDataBeingEdited(loop)
-    setIsCreatingEditingLoop(true)
+    setLoopDataBeingEdited(loop);
+    setIsCreatingEditingLoop(true);
   };
 
   return (

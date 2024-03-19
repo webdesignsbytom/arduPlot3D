@@ -355,8 +355,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         </div>
       )}
 
-      <div className='grid absolute bottom-2 left-2 text-xl font-bold uppercase'>Base</div>
-      <div className='grid absolute bottom-2 right-2 text-xl font-bold uppercase'>Top</div>
+      <div className='grid absolute bottom-2 left-2 text-2xl font-bold uppercase'>Base</div>
+      <div className='grid absolute bottom-2 right-2 text-2xl font-bold uppercase'>Top</div>
     </div>
   );
 }

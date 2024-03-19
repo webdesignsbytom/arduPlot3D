@@ -1,20 +1,21 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 // Icons
 import { IoCloseCircleSharp } from 'react-icons/io5';
 // Context
 import { DesignContext } from '../../context/DesignContext';
 import LoopItem from './LoopItem';
 
-function LoopsMenuContainer({
-  handleChange,
-}) {
+function LoopsMenuContainer({ handleChange }) {
   const {
     simulationData,
     setSimulationData,
     simulationLoopData,
     displayDataPoints,
     displayDataPointsIndex,
-    arrayOfLoopData, isCreatingEditingLoop, setIsCreatingEditingLoop, clearDataPoints
+    arrayOfLoopData,
+    isCreatingEditingLoop,
+    setIsCreatingEditingLoop,
+    clearDataPoints,
   } = useContext(DesignContext);
 
   console.log('arrayOfLoopData', arrayOfLoopData);
@@ -57,7 +58,7 @@ function LoopsMenuContainer({
       loopTitle: newLoopName, // Update the loop title with the new name
     };
 
-    setIsCreatingEditingLoop(true)
+    setIsCreatingEditingLoop(true);
 
     // Use the spread operator to copy existing loops and add the new loop
     setSimulationData({

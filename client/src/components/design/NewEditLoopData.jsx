@@ -5,20 +5,31 @@ import SimulationItem from './SimulationItem';
 
 function NewEditLoopData() {
   const {
-    isCreatingEditingLoop,
     setIsCreatingEditingLoop,
     loopDataBeingEdited,
-    clearDataPoints,
     setLoopDataBeingEdited,
+    displayDataPointsIndex,simulationData,setSimulationData
   } = useContext(DesignContext);
 
-  const [newLoopData, setNewLoopData] = useState({
-    loopTitle: '',
-    mainSimulationLoopDataPoints: [],
-    loopTimeToComplete: 0,
-  });
-
   const saveLoopPerminently = () => {
+    const updatedLoop = loopDataBeingEdited;
+    const indexToReplace = displayDataPointsIndex
+    console.log('updated loop', updatedLoop);
+
+    const newSimulationLoops = simulationData.simulationLoops.map((loop, index) => {
+      if (index === indexToReplace) {
+        return updatedLoop; // Replace the loop at this index with the updated loop
+      } else {
+        return loop; // Otherwise, keep the loop as is
+      }
+    });
+  
+    // Then, we set the updated simulation data with the new array of simulation loops
+    setSimulationData({
+      ...simulationData, // Spread the existing properties of simulationData
+      simulationLoops: newSimulationLoops // Replace simulationLoops with the new array
+    });
+
     setIsCreatingEditingLoop(false);
   };
 

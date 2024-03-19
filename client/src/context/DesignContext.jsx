@@ -145,6 +145,7 @@ const DesignContextProvider = ({ children }) => {
   });
 
   const openAndEditLoop = (loop, index) => {
+    console.log('INDEX', index);
     if (displayDataPoints && index === displayDataPointsIndex) {
       setDisplayDataPoints(false);
       return;

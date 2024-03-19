@@ -1,18 +1,14 @@
 import React, { useContext } from 'react';
 // Icons
 import { IoCloseCircleSharp } from 'react-icons/io5';
-import { FaRulerCombined } from 'react-icons/fa';
-import { MdHideSource } from 'react-icons/md';
-import { ImLoop } from 'react-icons/im';
-import { FaRegSave } from 'react-icons/fa';
 import { TbHandFinger } from 'react-icons/tb';
 import { TbHandTwoFingers } from 'react-icons/tb';
 import { TbHandThreeFingers } from 'react-icons/tb';
 import { RiDragDropLine } from 'react-icons/ri';
 import { IoTimeOutline } from 'react-icons/io5';
 import { IoMdMove } from 'react-icons/io';
-import { HiCursorArrowRipple } from 'react-icons/hi2';
-import { GiArrowCursor } from 'react-icons/gi';
+import { FaArrowsTurnToDots } from "react-icons/fa6";
+// Context
 import { DesignContext } from '../../context/DesignContext';
 
 function SimulationItem({ dataIndex, dataPoint }) {
@@ -37,7 +33,7 @@ function SimulationItem({ dataIndex, dataPoint }) {
           ) : dataPoint.dataType === 'tap' && dataPoint.numFingers === 3 ? (
             <TbHandThreeFingers />
           ) : dataPoint.dataType === 'move_tap' ? (
-            <IoMdMove />
+            <FaArrowsTurnToDots />
           ) : dataPoint.dataType === 'move' ? (
             <IoMdMove />
           ) : dataPoint.dataType === 'drag' ? (

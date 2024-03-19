@@ -2,15 +2,18 @@ import React, { useContext, useEffect, useState } from 'react';
 // Context
 import { DesignContext } from '../../context/DesignContext';
 // Components
-import SimulationDataPoints from './SimulationDataPoints';
-import LoopDataPoints from './LoopDataPoints';
 import DataPlotsContainer from './DataPlotsContainer';
 import LoopsMenuContainer from './LoopsMenuContainer';
 import NewEditLoopData from './NewEditLoopData';
 
-function DesignDataBar({ loopDataPoints, simulationDataPoints }) {
-  const { displaySimOrLoop, setDisplaySimOrLoop, isCreatingEditingLoop } =
-    useContext(DesignContext);
+function DesignDataBar() {
+  const {
+    displaySimOrLoop,
+    setDisplaySimOrLoop,
+    isCreatingEditingLoop,
+    loopDataPoints,
+    simulationDataPoints,
+  } = useContext(DesignContext);
 
   const selectLoopsList = () => {
     setDisplaySimOrLoop('loop');

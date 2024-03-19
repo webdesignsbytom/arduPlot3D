@@ -6,8 +6,6 @@ import { FaRulerCombined } from 'react-icons/fa';
 import { MdHideSource } from 'react-icons/md';
 import { IoPhonePortrait } from 'react-icons/io5';
 import { IoPhoneLandscape } from 'react-icons/io5';
-import { ImLoop } from 'react-icons/im';
-import { FaRegSave } from 'react-icons/fa';
 import { TbHandFinger } from 'react-icons/tb';
 import { TbHandTwoFingers } from 'react-icons/tb';
 import { TbHandThreeFingers } from 'react-icons/tb';
@@ -16,6 +14,7 @@ import { IoTimeOutline } from 'react-icons/io5';
 import { IoMdMove } from 'react-icons/io';
 import { HiCursorArrowRipple } from "react-icons/hi2";
 import { GiArrowCursor } from "react-icons/gi";
+import { FaArrowsTurnToDots } from "react-icons/fa6";
 
 function DesignTopToolBar({
   drawConnectingLines,
@@ -137,8 +136,7 @@ function DesignTopToolBar({
           } py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights hover:bg-yellow-100 rounded-md`}
         >
           <div className='grid'>
-            <IoMdMove className='' />
-            <TbHandFinger className='' />
+            <FaArrowsTurnToDots className='' />
           </div>
         </button>
 
