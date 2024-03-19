@@ -46,6 +46,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     rulersVisible,
     isPxOrMmDimensions,
     setIsPxOrMmDimensions,
+    loopDataBeingEdited,
+    setLoopDataBeingEdited,
   } = useContext(DesignContext);
 
   // State to manage tooltip visibility and position
@@ -122,7 +124,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const generateRulerMarks = (pixels, orientation) => {
     let marks = '';
     const unitSize = 100; // Size of each unit on the ruler in pixels
-    const divisionSize = 10
+    const divisionSize = 10;
     const units = Math.floor(pixels / unitSize); // Use floor to not exceed device dimensions
 
     for (let i = 0; i <= units; i++) {
@@ -201,19 +203,9 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       zSpeed: speedOfFingerMoving,
     };
 
-    if (isCreatingEditingLoop) {
-      // Update the simulationData state with the new data point
-      setSimulationData((currentSimulationData) => {
-        return {
-          ...currentSimulationData,
-          mainSimulationDataPoints: [
-            ...currentSimulationData.mainSimulationDataPoints,
-            newDataPoint,
-          ],
-        };
-      });
-    }
+    updateLoopState(newDataPoint);
   };
+
   // Move
   const createMoveDataPoint = (offsetX, offsetY) => {
     let newDataPoint = {
@@ -224,17 +216,9 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
-    // Update the simulationData state with the new data point
-    setSimulationData((currentSimulationData) => {
-      return {
-        ...currentSimulationData,
-        mainSimulationDataPoints: [
-          ...currentSimulationData.mainSimulationDataPoints,
-          newDataPoint,
-        ],
-      };
-    });
+    updateLoopState(newDataPoint);
   };
+
   // Move And Tap
   const createMoveAndTapDataPoint = (offsetX, offsetY) => {
     let newDataPoint = {
@@ -247,13 +231,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
-    setSimulationData((currentSimulationData) => ({
-      ...currentSimulationData,
-      mainSimulationDataPoints: [
-        ...currentSimulationData.mainSimulationDataPoints,
-        newDataPoint,
-      ],
-    }));
+    updateLoopState(newDataPoint);
   };
 
   // Drag
@@ -270,13 +248,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
-    setSimulationData((currentSimulationData) => ({
-      ...currentSimulationData,
-      mainSimulationDataPoints: [
-        ...currentSimulationData.mainSimulationDataPoints,
-        newDataPoint,
-      ],
-    }));
+    updateLoopState(newDataPoint);
   };
 
   // Timeout
@@ -285,14 +257,32 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       ...timeoutDataPoint,
     };
 
-    setSimulationData((currentSimulationData) => ({
-      ...currentSimulationData,
-      mainSimulationDataPoints: [
-        ...currentSimulationData.mainSimulationDataPoints,
-        newDataPoint,
-      ],
-    }));
+    updateLoopState(newDataPoint);
   };
+
+  function updateLoopState(newDataPoint) {
+    if (isCreatingEditingLoop) {
+      console.log('AAAAAAAAAAAAAA');
+      setLoopDataBeingEdited((currentLoopData) => ({
+        ...currentLoopData,
+        mainSimulationLoopDataPoints: [
+          ...currentLoopData.mainSimulationLoopDataPoints,
+          newDataPoint, // Add the new data point to the existing array
+        ],
+      }));
+    } else {
+      // Update the simulationData state with the new data point
+      setSimulationData((currentSimulationData) => {
+        return {
+          ...currentSimulationData,
+          mainSimulationDataPoints: [
+            ...currentSimulationData.mainSimulationDataPoints,
+            newDataPoint,
+          ],
+        };
+      });
+    }
+  }
 
   const toggleDeviceDimensions = () => {
     setIsPxOrMmDimensions(!isPxOrMmDimensions);
@@ -337,7 +327,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
               style={{ justifyContent: 'space-between', width: '100%' }}
             ></div>
             <div
-              className='flex flex-col absolute right-[100.5%] top-0 bg-yellow-400 rounded outline outline-[1px] outline-black'
+              className='flex flex-col absolute right-[100.5%] text-right top-0 bg-yellow-400 rounded outline outline-[1px] outline-black'
               ref={rulerRefY}
               style={{ justifyContent: 'space-between', height: '100%' }}
             ></div>
@@ -355,8 +345,12 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         </div>
       )}
 
-      <div className='grid absolute bottom-2 left-2 text-2xl font-bold uppercase'>Base</div>
-      <div className='grid absolute bottom-2 right-2 text-2xl font-bold uppercase'>Top</div>
+      <div className='grid absolute bottom-2 left-2 text-2xl font-bold uppercase'>
+        Base
+      </div>
+      <div className='grid absolute bottom-2 right-2 text-2xl font-bold uppercase'>
+        Top
+      </div>
     </div>
   );
 }

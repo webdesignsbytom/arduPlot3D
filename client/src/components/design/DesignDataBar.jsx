@@ -75,7 +75,7 @@ function DesignDataBar() {
           )}
 
           {isCreatingEditingLoop ? (
-            <div className='h-full text-center mt-1'>
+            <div className='h-full grid overflow-hidden grid-rows-reg text-center'>
               <span>Loop Create/edit</span>
               <NewEditLoopData />
             </div>
