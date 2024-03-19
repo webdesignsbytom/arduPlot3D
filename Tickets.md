@@ -4,3 +4,4 @@
 2. When you create a new loop the menu container should glow to show its active
 3. Update use of classes for move/tap types 
 4. colour swatches for data types
+5. When loop is selected only show their points on the canvas

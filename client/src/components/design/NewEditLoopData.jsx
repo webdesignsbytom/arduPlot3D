@@ -39,6 +39,11 @@ function NewEditLoopData() {
 
   const deleteAllLoopData = () => {
     setIsCreatingEditingLoop(false);
+    setLoopDataBeingEdited({
+      loopTitle: '',
+      mainSimulationLoopDataPoints: [],
+      loopTimeToComplete: 0,
+    });
   };
 
   const handleChangeLoopTitleName = (event) => {
