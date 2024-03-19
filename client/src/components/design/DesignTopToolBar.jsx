@@ -153,10 +153,10 @@ function DesignTopToolBar({
           <RiDragDropLine />
         </button>
 
-        {/* Drag tool */}
+        {/* Timeout tool */}
         <button
           onClick={selectTimeoutTool}
-          title='Drag tool'
+          title='Timeout'
           className={`px-2 ${
             simulationToolSelected === 'timeout'
               ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
@@ -169,7 +169,7 @@ function DesignTopToolBar({
         {/* Move tool */}
         <button
           onClick={selectMoveTool}
-          title='Drag tool'
+          title='Move tool'
           className={`px-2 ${
             simulationToolSelected === 'move'
               ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
