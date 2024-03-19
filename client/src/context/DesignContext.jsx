@@ -33,7 +33,6 @@ const DesignContextProvider = ({ children }) => {
     mainSimulationLoopDataPoints: [],
     loopTimeToComplete: 0,
   });
-  console.log('simulationData', simulationData);
 
   // Design
   const [isCreatingNewLoop, setIsCreatingNewLoop] = useState(false);
@@ -145,13 +144,13 @@ const DesignContextProvider = ({ children }) => {
   });
 
   const openAndEditLoop = (loop, index) => {
-    console.log('INDEX', index);
+    console.log('INDEX openAndEditLoop()', index);
+    console.log('LOOP openAndEditLoop()', loop);
     if (displayDataPoints && index === displayDataPointsIndex) {
       setDisplayDataPoints(false);
       return;
     }
 
-    console.log('LOOOP', loop);
     setDisplayDataPoints(true);
     setDisplayDataPointsIndex(index);
 
@@ -160,7 +159,7 @@ const DesignContextProvider = ({ children }) => {
 
   const handleDataPointChange = () => {};
 
-  console.log('simulationData.simulationLoops', simulationData.simulationLoops);
+  console.log('XXX simulationData.simulationLoops', simulationData.simulationLoops);
 
   const clearDataPoints = () => {
     lineRef.current = emptyRef.current;

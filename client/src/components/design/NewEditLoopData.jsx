@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 // Context
 import { DesignContext } from '../../context/DesignContext';
+// Components
 import SimulationItem from './SimulationItem';
 
 function NewEditLoopData() {
@@ -16,7 +17,6 @@ function NewEditLoopData() {
   const saveLoopPerminently = () => {
     const updatedLoop = loopDataBeingEdited;
     const indexToReplace = displayDataPointsIndex;
-    console.log('updated loop', updatedLoop);
 
     const newSimulationLoops = simulationData.simulationLoops.map(
       (loop, index) => {
@@ -55,7 +55,7 @@ function NewEditLoopData() {
     });
   };
 
-  console.log('loopDataBeingEdited', loopDataBeingEdited);
+  console.log('XXX loopDataBeingEdited', loopDataBeingEdited);
 
   return (
     <div className='grid overflow-y-scroll h-full w-full px-1'>
