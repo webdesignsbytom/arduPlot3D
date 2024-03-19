@@ -3,9 +3,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { DesignContext } from '../../context/DesignContext';
 // Components
 import DataPlotsContainer from '../design/DataPlotsContainer';
-import LoopsMenuContainer from '../design/LoopsMenuContainer';
-import NewEditLoopData from '../design/NewEditLoopData';
-import SimLoopButtons from '../design/SimLoopButtons';
+import NewEditLoopData from '../simulation/NewEditLoopData';
+import SimLoopButtons from '../simulation/SimLoopButtons';
+import LoopsMenuDisplay from '../design/LoopsMenuDisplay';
 
 function SimulationDataToobar() {
   const {
@@ -48,7 +48,7 @@ function SimulationDataToobar() {
             <form className='grid w-full overflow-hidden h-full'>
               {
                 displaySimOrLoop === 'loop' ? (
-                  <LoopsMenuContainer dataPointsCollections={loopDataPoints} />
+                  <LoopsMenuDisplay dataPointsCollections={loopDataPoints} />
                 ) : displaySimOrLoop === 'simulation' ? (
                   <DataPlotsContainer
                     dataPointsCollections={simulationDataPoints}

@@ -5,7 +5,7 @@ import { IoCloseCircleSharp } from 'react-icons/io5';
 import { DesignContext } from '../../context/DesignContext';
 import LoopItem from './LoopItem';
 
-function LoopsMenuContainer({ handleChange }) {
+function LoopsMenuDisplay({ handleChange }) {
   const {
     simulationData,
     setSimulationData,
@@ -150,4 +150,4 @@ function LoopsMenuContainer({ handleChange }) {
   );
 }
 
-export default LoopsMenuContainer;
+export default LoopsMenuDisplay;
