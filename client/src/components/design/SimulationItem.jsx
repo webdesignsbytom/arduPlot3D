@@ -9,10 +9,10 @@ import { IoTimeOutline } from 'react-icons/io5';
 import { IoMdMove } from 'react-icons/io';
 import { FaArrowsTurnToDots } from "react-icons/fa6";
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
 function SimulationItem({ dataIndex, dataPoint }) {
-  const { handleDataPointChange, clearDataPoints } = useContext(DesignContext);
+  const { handleDataPointChange, clearDataPoints } = useContext(SimulationContext);
 
   return (
     <div key={dataIndex} className='grid grid-cols-a1a h-[30px] w-full gap-2'>

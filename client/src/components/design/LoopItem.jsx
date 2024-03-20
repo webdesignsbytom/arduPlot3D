@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { IoCloseCircleSharp } from 'react-icons/io5';
 import { FaEdit } from 'react-icons/fa';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
 function LoopItem({ loop, index, deleteLoop }) {
   const {
@@ -11,7 +11,7 @@ function LoopItem({ loop, index, deleteLoop }) {
     isCreatingEditingLoop,
     setIsCreatingEditingLoop,
     setLoopDataBeingEdited,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   const editLoop = (event, loop) => {
     event.preventDefault();

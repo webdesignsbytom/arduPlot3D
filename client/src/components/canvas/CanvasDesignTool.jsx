@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { IoReloadCircle } from 'react-icons/io5';
 import { FaMousePointer } from 'react-icons/fa';
@@ -48,7 +48,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     setIsPxOrMmDimensions,
     loopDataBeingEdited,
     setLoopDataBeingEdited,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   // State to manage tooltip visibility and position
   const [tooltip, setTooltip] = useState({ x: 0, y: 0 });

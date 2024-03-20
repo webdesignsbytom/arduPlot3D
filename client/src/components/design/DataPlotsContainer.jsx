@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 // Icons
 import { IoCloseCircleSharp } from 'react-icons/io5';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 import LoopItem from './LoopItem';
 import SimulationItem from './SimulationItem';
 
@@ -18,7 +18,7 @@ function DataPlotsContainer({
     displayDataPoints,
     displayDataPointsIndex,
     arrayOfLoopData,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   const addLoopToSimulation = (event) => {
     event.preventDefault();

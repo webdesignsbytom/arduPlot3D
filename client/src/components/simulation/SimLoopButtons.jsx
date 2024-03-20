@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
 function SimLoopButtons() {
-  const { displaySimOrLoop, setDisplaySimOrLoop } = useContext(DesignContext);
+  const { displaySimOrLoop, setDisplaySimOrLoop } = useContext(SimulationContext);
 
   const selectLoopsList = () => {
     setDisplaySimOrLoop('loop');

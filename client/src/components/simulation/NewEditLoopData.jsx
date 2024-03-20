@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 // Components
 import SimulationItem from '../design/SimulationItem';
 
@@ -12,7 +12,7 @@ function NewEditLoopData() {
     displayDataPointsIndex,
     simulationData,
     setSimulationData,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   const saveLoopPerminently = () => {
     const updatedLoop = loopDataBeingEdited;

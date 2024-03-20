@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { FaRulerCombined } from 'react-icons/fa';
 import { MdHideSource } from 'react-icons/md';
@@ -49,7 +49,7 @@ function SimulationPageTopToolBar({
     isLandscapeMode,
     selectedDevice,
     displaySimOrLoop,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   return (
     <div className='grid grid-flow-col justify-between'>

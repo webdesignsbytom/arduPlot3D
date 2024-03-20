@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 // Components
 import DataPlotsContainer from '../design/DataPlotsContainer';
 import NewEditLoopData from '../simulation/NewEditLoopData';
@@ -13,7 +13,7 @@ function SimulationDataToobar() {
     isCreatingEditingLoop,
     loopDataPoints,
     simulationDataPoints,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   return (
     <section className='bg-white h-full grid grid-rows-reg border-l-2 border-solid border-black p-1 overflow-hidden'>

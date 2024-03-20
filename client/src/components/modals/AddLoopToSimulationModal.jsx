@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
 function AddLoopToSimulationModal() {
   const { setAddCreateLoopModalOpen, simulationData, setDisplaySimOrLoop, simulationLoopData, setSimulationData } =
-    useContext(DesignContext);
+    useContext(SimulationContext);
 
   const [availableLoops, setAvailableLoops] = useState(
     simulationData.simulationLoops

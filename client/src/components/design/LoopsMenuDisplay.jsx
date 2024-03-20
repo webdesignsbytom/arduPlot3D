@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 // Icons
 import { IoCloseCircleSharp } from 'react-icons/io5';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 import LoopItem from './LoopItem';
 
 function LoopsMenuDisplay({ handleChange }) {
@@ -16,7 +16,7 @@ function LoopsMenuDisplay({ handleChange }) {
     isCreatingEditingLoop,
     setIsCreatingEditingLoop,
     clearDataPoints,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   const [foundArray, setFoundArray] = useState([]);
 

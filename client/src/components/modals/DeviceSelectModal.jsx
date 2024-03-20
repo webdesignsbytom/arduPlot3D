@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 // Device data
 import { availableDevicesForSimulations } from '../../utils/design/AvailableDevices';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
 function DeviceSelectModal({ closeDeviceSelectModal }) {
-  const { selectedDevice, setSelectedDevice } = useContext(DesignContext);
+  const { selectedDevice, setSelectedDevice } = useContext(SimulationContext);
 
   const [availableDevices, setAvailableDevices] = useState(
     availableDevicesForSimulations

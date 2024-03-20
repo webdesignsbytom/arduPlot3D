@@ -11,9 +11,9 @@ import { timeoutUnitTypesAvailable } from '../utils/design/DesignUtils';
 // Temp data
 import { tempDesignData } from '../utils/design/TempData';
 
-export const DesignContext = React.createContext();
+export const SimulationContext = React.createContext();
 
-const DesignContextProvider = ({ children }) => {
+const SimulationContextProvider = ({ children }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const marketNumRef = useRef(1);
@@ -37,7 +37,7 @@ const DesignContextProvider = ({ children }) => {
   // Design
   const [isCreatingNewLoop, setIsCreatingNewLoop] = useState(false);
   const [rulersVisible, setRulersVisible] = useState(true);
-  const [isPxOrMmDimensions, setIsPxOrMmDimensions] = useState(true); // True = px
+  const [isPxOrMmDimensions, setIsPxOrMmDimensions] = useState(false); // False = px
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [isLandscapeMode, setIsLandscapeMode] = useState(true); // Starts landscape mode
 
@@ -176,7 +176,7 @@ const DesignContextProvider = ({ children }) => {
   };
 
   return (
-    <DesignContext.Provider
+    <SimulationContext.Provider
       value={{
         // Ref
         canvasRef,
@@ -264,8 +264,8 @@ const DesignContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </DesignContext.Provider>
+    </SimulationContext.Provider>
   );
 };
 
-export default DesignContextProvider;
+export default SimulationContextProvider;

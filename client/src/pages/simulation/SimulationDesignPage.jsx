@@ -18,11 +18,11 @@ import SimulationPageTopToolBar from '../../components/toolbars/SimulationPageTo
 import SaveAsModal from '../../components/design/SaveAsModal';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 
-function DesignPage() {
+function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
   const {
     isCreatingNewLoop,
@@ -63,7 +63,7 @@ function DesignPage() {
     contextRef,
     positionOfMouseAndCanvasVisible,
     setpositionOfMouseAndCanvasVisible,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   // Video modal
   const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
@@ -480,4 +480,4 @@ function DesignPage() {
   );
 }
 
-export default DesignPage;
+export default SimulationDesignPage;
