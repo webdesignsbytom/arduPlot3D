@@ -1,5 +1,11 @@
 import { initxyMovementSpeed, initzMovementSpeed } from './SpeedUtils';
 
+export const blankLoopObject = {
+  loopTitle: '',
+  mainSimulationLoopDataPoints: [],
+  loopTimeToComplete: 0,
+};
+
 export const tempDesignData = {
   simulationTitle: 'Temp Sim 1',
   mainSimulationDataPoints: [

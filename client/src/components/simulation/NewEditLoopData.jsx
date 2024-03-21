@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { SimulationContext } from '../../context/SimulationContext';
 // Components
 import SimulationItem from './SimulationItem';
+import { blankLoopObject } from '../../utils/design/TempData';
 
 function NewEditLoopData() {
   const {
@@ -35,6 +36,7 @@ function NewEditLoopData() {
     });
 
     setIsCreatingEditingLoop(false);
+    setLoopDataBeingEdited(blankLoopObject)
   };
 
   const deleteAllLoopData = () => {

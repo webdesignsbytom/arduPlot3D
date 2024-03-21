@@ -9,7 +9,7 @@ import {
 } from '../utils/design/SpeedUtils';
 import { timeoutUnitTypesAvailable } from '../utils/design/DesignUtils';
 // Temp data
-import { tempDesignData } from '../utils/design/TempData';
+import { blankLoopObject, tempDesignData } from '../utils/design/TempData';
 
 export const SimulationContext = React.createContext();
 
@@ -43,11 +43,7 @@ const SimulationContextProvider = ({ children }) => {
 
   // Loops
   const [isCreatingEditingLoop, setIsCreatingEditingLoop] = useState(false);
-  const [loopDataBeingEdited, setLoopDataBeingEdited] = useState({
-    loopTitle: '',
-    mainSimulationLoopDataPoints: [],
-    loopTimeToComplete: 0,
-  });
+  const [loopDataBeingEdited, setLoopDataBeingEdited] = useState(blankLoopObject);
 
   // Tools
   const [simulationToolSelected, setSimulationToolSelected] = useState('tap');
