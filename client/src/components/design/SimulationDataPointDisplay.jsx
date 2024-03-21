@@ -4,9 +4,13 @@ import { SimulationContext } from '../../context/SimulationContext';
 // Components
 import SimulationItem from './SimulationItem';
 import LoopItem from './LoopItem';
+// Icons
+import { IoCloseCircleSharp } from 'react-icons/io5';
+import LoopItemContainer from './LoopItemContainer';
 
 function SimulationDataPointDisplay() {
-  const { simulationData, setAddCreateLoopModalOpen } = useContext(SimulationContext)
+  const { simulationData, setAddCreateLoopModalOpen, displayLoopDataPoints,
+    displayLoopDataPointsIndex } = useContext(SimulationContext)
 
   const [simulationDataObject, setSimulationDataObject] = useState(simulationData)
 
@@ -28,7 +32,9 @@ function SimulationDataPointDisplay() {
         if (dataPoint.dataGroup === 'simulation') {
           return <SimulationItem key={index} dataIndex={index} dataPoint={dataPoint} />
         } else if (dataPoint.dataGroup === 'loop') {
-          return <LoopItem key={index} index={index} loopData={dataPoint} />
+          return (
+            <LoopItemContainer key={index} index={index} loopData={dataPoint} />
+          )
         } else {
           // Optionally handle any unexpected cases, or return null to render nothing
           return null;

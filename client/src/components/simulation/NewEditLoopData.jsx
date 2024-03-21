@@ -9,14 +9,14 @@ function NewEditLoopData() {
     setIsCreatingEditingLoop,
     loopDataBeingEdited,
     setLoopDataBeingEdited,
-    displayDataPointsIndex,
+    displayLoopDataPointsIndex,
     simulationData,
     setSimulationData,
   } = useContext(SimulationContext);
 
   const saveLoopPerminently = () => {
     const updatedLoop = loopDataBeingEdited;
-    const indexToReplace = displayDataPointsIndex;
+    const indexToReplace = displayLoopDataPointsIndex;
 
     const newSimulationLoops = simulationData.simulationLoops.map(
       (loop, index) => {

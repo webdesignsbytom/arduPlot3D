@@ -10,8 +10,8 @@ function LoopsMenuDisplay({ handleChange }) {
     simulationData,
     setSimulationData,
     simulationLoopData,
-    displayDataPoints,
-    displayDataPointsIndex,
+    displayLoopDataPoints,
+    displayLoopDataPointsIndex,
     arrayOfLoopData,
     isCreatingEditingLoop,
     setIsCreatingEditingLoop,
@@ -80,9 +80,9 @@ function LoopsMenuDisplay({ handleChange }) {
           <>
             <LoopItem loop={loop} key={index} index={index} />
 
-            {/* Loop items */}
-            {displayDataPoints &&
-              index === displayDataPointsIndex &&
+            {/* Loop data point items */}
+            {displayLoopDataPoints &&
+              index === displayLoopDataPointsIndex &&
               foundArray.map(
                 (dataPoint, dataIndex) => {
                   return (

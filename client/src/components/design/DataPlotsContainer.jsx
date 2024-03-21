@@ -15,8 +15,8 @@ function DataPlotsContainer({
     simulationData,
     setSimulationData,
     simulationLoopData,
-    displayDataPoints,
-    displayDataPointsIndex,
+    displayLoopDataPoints,
+    displayLoopDataPointsIndex,
     arrayOfLoopData,
   } = useContext(SimulationContext);
 
@@ -33,8 +33,8 @@ function DataPlotsContainer({
           <>
             <LoopItem loop={dataPoint} key={index} index={index} />
 
-            {displayDataPoints &&
-              index === displayDataPointsIndex &&
+            {displayLoopDataPoints &&
+              index === displayLoopDataPointsIndex &&
               arrayOfLoopData.mainSimulationLoopDataPoints.map(
                 (dataPoint, dataIndex) => {
                   return (
