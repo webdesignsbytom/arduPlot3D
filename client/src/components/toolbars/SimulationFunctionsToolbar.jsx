@@ -1,6 +1,6 @@
 import React from 'react';
 
-function DesignFunctionsBar({
+function SimulationFunctionsToolbar({
   runSimulation,
   stopSimulation,
   resetSimulationToStartingPoint,
@@ -152,4 +152,4 @@ function DesignFunctionsBar({
   );
 }
 
-export default DesignFunctionsBar;
+export default SimulationFunctionsToolbar;

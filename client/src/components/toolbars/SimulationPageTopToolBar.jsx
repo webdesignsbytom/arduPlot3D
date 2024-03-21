@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { FaRulerCombined } from 'react-icons/fa';
 import { MdHideSource } from 'react-icons/md';
@@ -16,7 +16,7 @@ import { HiCursorArrowRipple } from "react-icons/hi2";
 import { GiArrowCursor } from "react-icons/gi";
 import { FaArrowsTurnToDots } from "react-icons/fa6";
 
-function DesignTopToolBar({
+function SimulationPageTopToolBar({
   drawConnectingLines,
   clearAllDataPoints,
   createNewSimulationLoop,
@@ -49,7 +49,7 @@ function DesignTopToolBar({
     isLandscapeMode,
     selectedDevice,
     displaySimOrLoop,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   return (
     <div className='grid grid-flow-col justify-between'>
@@ -250,4 +250,4 @@ function DesignTopToolBar({
   );
 }
 
-export default DesignTopToolBar;
+export default SimulationPageTopToolBar;

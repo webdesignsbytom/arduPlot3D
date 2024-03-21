@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
 function UploadVideoModal({ closeUploadVideoModal }) {
-  const { selectedVideo, setSelectedVideo } = useContext(DesignContext);
+  const { selectedVideo, setSelectedVideo } = useContext(SimulationContext);
 
   // Function to handle file selection
   const handleFileChange = (event) => {

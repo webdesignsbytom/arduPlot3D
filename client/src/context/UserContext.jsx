@@ -15,8 +15,6 @@ const UserContextProvider = ({ children }) => {
 
   const [toggleCookiePolicy, setToggleCookiePolicy] = useState(false);
 
-  console.log('usercontext', user);
-
   useEffect(() => {
     const decodedUserData = LoggedInUser();
 

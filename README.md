@@ -47,50 +47,11 @@ Backend: Express, Prisma, JavaScript
 API tests run through Insomnia testing suit.
 Check server dir for test files.
 
-http://localhost:4000/users/all-users
-http://localhost:4000/users/post-score
-{
-	"username": "newmae",
-	"score": 121
-}
 
-
-{displayDataPoints && index === displayDataPointsIndex && (
-              <div>
-                {simulationData.simulationLoops[
-                  index
-                ].mainSimulationLoopDataPoints.map((dataPoint, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className='grid grid-cols-a1a h-[30px] w-full gap-2'
-                    >
-                      <div className='grid items-center justify-center w-[30px] bg-slate-300 h-full outline outline-2 outline-black px-2'>
-                        <label
-                          htmlFor='loop'
-                          className='h-full grid items-center justify-center'
-                        >
-                          {index + 1}
-                        </label>
-                      </div>
-
-                      <div className='grid bg-white grid-flow-col items-center px-1 gap-2 w-full h-full outline-black outline outline-2 cursor-pointer hover:bg-yellow-200'>
-                        {dataPoint.type}
-                      </div>
-                      {/* Delete button */}
-                      <div className='grid'>
-                        <button
-                          id='delete_loop'
-                          onClick={(event) =>
-                            deleteLoopDataPoint(event, dataPoint)
-                          }
-                          className='active:scale-95 no__highlights rounded-xl'
-                        >
-                          <IoCloseCircleSharp />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+Design Page
+  - Sim Data container
+    - Simulation data points
+      sim container
+    - loop or sim
+    - loop container
+      - sim container

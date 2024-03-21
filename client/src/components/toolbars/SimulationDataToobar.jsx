@@ -1,19 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 // Components
-import DataPlotsContainer from './DataPlotsContainer';
-import LoopsMenuContainer from './LoopsMenuContainer';
-import NewEditLoopData from './NewEditLoopData';
-import SimLoopButtons from './SimLoopButtons';
+import NewEditLoopData from '../simulation/NewEditLoopData';
+import SimLoopButtons from '../simulation/SimLoopButtons';
+import LoopsMenuDisplay from '../simulation/LoopsMenuDisplay';
+import SimulationDataPointDisplay from '../simulation/SimulationDataPointDisplay';
 
-function DesignDataBar() {
+function SimulationDataToobar() {
   const {
     displaySimOrLoop,
     isCreatingEditingLoop,
-    loopDataPoints,
-    simulationDataPoints,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   return (
     <section className='bg-white h-full grid grid-rows-reg border-l-2 border-solid border-black p-1 overflow-hidden'>
@@ -48,11 +46,9 @@ function DesignDataBar() {
             <form className='grid w-full overflow-hidden h-full'>
               {
                 displaySimOrLoop === 'loop' ? (
-                  <LoopsMenuContainer dataPointsCollections={loopDataPoints} />
+                  <LoopsMenuDisplay />
                 ) : displaySimOrLoop === 'simulation' ? (
-                  <DataPlotsContainer
-                    dataPointsCollections={simulationDataPoints}
-                  />
+                  <SimulationDataPointDisplay />
                 ) : null // or any other default case you might want to handle
               }
             </form>
@@ -63,4 +59,4 @@ function DesignDataBar() {
   );
 }
 
-export default DesignDataBar;
+export default SimulationDataToobar;

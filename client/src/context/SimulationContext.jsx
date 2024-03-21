@@ -11,9 +11,9 @@ import { timeoutUnitTypesAvailable } from '../utils/design/DesignUtils';
 // Temp data
 import { tempDesignData } from '../utils/design/TempData';
 
-export const DesignContext = React.createContext();
+export const SimulationContext = React.createContext();
 
-const DesignContextProvider = ({ children }) => {
+const SimulationContextProvider = ({ children }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const marketNumRef = useRef(1);
@@ -37,7 +37,7 @@ const DesignContextProvider = ({ children }) => {
   // Design
   const [isCreatingNewLoop, setIsCreatingNewLoop] = useState(false);
   const [rulersVisible, setRulersVisible] = useState(true);
-  const [isPxOrMmDimensions, setIsPxOrMmDimensions] = useState(true); // True = px
+  const [isPxOrMmDimensions, setIsPxOrMmDimensions] = useState(false); // False = px
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [isLandscapeMode, setIsLandscapeMode] = useState(true); // Starts landscape mode
 
@@ -88,8 +88,9 @@ const DesignContextProvider = ({ children }) => {
   const [addCreateLoopModalOpen, setAddCreateLoopModalOpen] = useState(false);
 
   // Data points for loop
-  const [displayDataPoints, setDisplayDataPoints] = useState(false);
-  const [displayDataPointsIndex, setDisplayDataPointsIndex] = useState(0);
+  const [displayLoopDataPoints, setdisplayLoopDataPoints] = useState(false);
+  const [displayLoopDataPointsIndex, setdisplayLoopDataPointsIndex] =
+    useState(0);
   const [arrayOfLoopData, setArrayOfLoopData] = useState([]);
 
   // Video files
@@ -99,67 +100,26 @@ const DesignContextProvider = ({ children }) => {
   const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
     useState(true);
 
-  const [tapDataPoint, setTapDataPoint] = useState({
-    dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
-    xPos: 0,
-    yPos: 0,
-    zSpeed: speedOfFingerMoving,
-    numFingers: 1,
-    timeLength: 0,
-  });
-
-  const [movementDataPoint, setMovementDataPoint] = useState({
-    dataType: 'move', // Tap, Move, MoveTap, Drag, Timeout
-    xPos: 0,
-    yPos: 0,
-    xySpeed: speedOfArmMoving,
-    timeLength: 0,
-  });
-
-  const [moveAndTapDataPoint, setMoveAndTapDataPoint] = useState({
-    dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
-    xPos: 0,
-    yPos: 0,
-    xySpeed: speedOfArmMoving,
-    zSpeed: speedOfFingerMoving,
-    numFingers: 1,
-    timeLength: 0,
-  });
-
-  const [dragDataPoint, setDragDataPoint] = useState({
-    dataType: 'drag', // Tap, Move, MoveTap, Drag, Timeout
-    startxPos: 0,
-    startyPos: 0,
-    finishxPos: 0,
-    finishyPos: 0,
-    xySpeed: speedOfArmMoving,
-    zSpeed: speedOfFingerMoving,
-    numFingers: 1,
-    timeLength: 0,
-  });
-
-  const [timeoutDataPoint, setTimeoutDataPoint] = useState({
-    dataType: 'timeout', // Tap, Move, MoveTap, Drag, Timeout
-    timeoutLength: 0, // milliseconds only
-  });
-
-  const openAndEditLoop = (loop, index) => {
-    console.log('INDEX openAndEditLoop()', index);
-    console.log('LOOP openAndEditLoop()', loop);
-    if (displayDataPoints && index === displayDataPointsIndex) {
-      setDisplayDataPoints(false);
+  const openAndDisplayLoop = (loopData, index) => {
+    console.log('INDEX openAndDisplayLoop()', index);
+    console.log('LOOP openAndDisplayLoop()', loopData);
+    if (displayLoopDataPoints && index === displayLoopDataPointsIndex) {
+      setdisplayLoopDataPoints(false);
       return;
     }
 
-    setDisplayDataPoints(true);
-    setDisplayDataPointsIndex(index);
+    // setArrayOfLoopData(simulationData.simulationLoops[index]);
 
-    setArrayOfLoopData(simulationData.simulationLoops[index]);
+    setdisplayLoopDataPoints(true);
+    setdisplayLoopDataPointsIndex(index);
   };
 
   const handleDataPointChange = () => {};
 
-  console.log('XXX simulationData.simulationLoops', simulationData.simulationLoops);
+  console.log(
+    'XXX simulationData.simulationLoops',
+    simulationData.simulationLoops
+  );
 
   const clearDataPoints = () => {
     lineRef.current = emptyRef.current;
@@ -175,8 +135,33 @@ const DesignContextProvider = ({ children }) => {
     setLoopDataPoints([]);
   };
 
+  const createNewLoop = (event) => {
+    event.preventDefault(); // This will prevent the default action
+
+    // Determine the new loop's index based on the current array length
+    const newLoopIndex = simulationData.simulationLoops.length;
+
+    // Construct the new loop name by adding 1 to the new loop's index
+    const newLoopName = `Loop ${newLoopIndex + 1}`;
+
+    // Assuming simulationLoopData is structured correctly but needs a name update
+    let newLoop = {
+      ...simulationLoopData,
+      loopTitle: newLoopName, // Update the loop title with the new name
+    };
+
+    setAddCreateLoopModalOpen(false)
+    setIsCreatingEditingLoop(true);
+
+    // Use the spread operator to copy existing loops and add the new loop
+    setSimulationData({
+      ...simulationData,
+      simulationLoops: [...simulationData.simulationLoops, newLoop],
+    });
+  };
+
   return (
-    <DesignContext.Provider
+    <SimulationContext.Provider
       value={{
         // Ref
         canvasRef,
@@ -216,16 +201,6 @@ const DesignContextProvider = ({ children }) => {
         setSpeedOfArmMoving,
         addCreateLoopModalOpen,
         setAddCreateLoopModalOpen,
-        tapDataPoint,
-        setTapDataPoint,
-        movementDataPoint,
-        setMovementDataPoint,
-        moveAndTapDataPoint,
-        setMoveAndTapDataPoint,
-        dragDataPoint,
-        setDragDataPoint,
-        timeoutDataPoint,
-        setTimeoutDataPoint,
         timeoutModalOpen,
         setTimeoutModalOpen,
         timeoutLength,
@@ -236,13 +211,13 @@ const DesignContextProvider = ({ children }) => {
         setDragSettingsModalOpen,
         speedOfDraggingArmMoving,
         setSpeedOfDraggingArmMoving,
-        displayDataPoints,
-        setDisplayDataPoints,
-        displayDataPointsIndex,
-        setDisplayDataPointsIndex,
+        displayLoopDataPoints,
+        setdisplayLoopDataPoints,
+        displayLoopDataPointsIndex,
+        setdisplayLoopDataPointsIndex,
         arrayOfLoopData,
         setArrayOfLoopData,
-        openAndEditLoop,
+        openAndDisplayLoop,
         selectedVideo,
         setSelectedVideo,
         isCreatingEditingLoop,
@@ -261,11 +236,12 @@ const DesignContextProvider = ({ children }) => {
         setIsPxOrMmDimensions,
         positionOfMouseAndCanvasVisible,
         setpositionOfMouseAndCanvasVisible,
+        createNewLoop,
       }}
     >
       {children}
-    </DesignContext.Provider>
+    </SimulationContext.Provider>
   );
 };
 
-export default DesignContextProvider;
+export default SimulationContextProvider;

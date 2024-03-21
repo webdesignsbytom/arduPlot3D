@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 // Device data
 import { availableDevicesForSimulations } from '../../utils/design/AvailableDevices';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
-function DeviceSelectContainer({ closeDeviceSelectModal }) {
-  const { selectedDevice, setSelectedDevice } = useContext(DesignContext);
+function DeviceSelectModal({ closeDeviceSelectModal }) {
+  const { selectedDevice, setSelectedDevice } = useContext(SimulationContext);
 
   const [availableDevices, setAvailableDevices] = useState(
     availableDevicesForSimulations
@@ -63,4 +63,4 @@ function DeviceSelectContainer({ closeDeviceSelectModal }) {
   );
 }
 
-export default DeviceSelectContainer;
+export default DeviceSelectModal;

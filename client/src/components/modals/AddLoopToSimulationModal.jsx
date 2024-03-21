@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 // Context
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
-function AddLoopContainer() {
-  const { setAddCreateLoopModalOpen, simulationData, setDisplaySimOrLoop, simulationLoopData, setSimulationData } =
-    useContext(DesignContext);
+function AddLoopToSimulationModal() {
+  const { setAddCreateLoopModalOpen, simulationData, setDisplaySimOrLoop, simulationLoopData, setSimulationData, createNewLoop } =
+    useContext(SimulationContext);
 
   const [availableLoops, setAvailableLoops] = useState(
     simulationData.simulationLoops
@@ -18,28 +18,6 @@ function AddLoopContainer() {
     setAddCreateLoopModalOpen(false);
   };
 
-  const createNewLoop = () => {
-    setAddCreateLoopModalOpen(false);
-    setDisplaySimOrLoop('loop')
-
-    // Determine the new loop's index based on the current array length
-    const newLoopIndex = simulationData.simulationLoops.length;
-  
-    // Construct the new loop name by adding 1 to the new loop's index
-    const newLoopName = `Loop ${newLoopIndex + 1}`;
-  
-    // Assuming simulationLoopData is structured correctly but needs a name update
-    let newLoop = {
-      ...simulationLoopData,
-      loopTitle: newLoopName, // Update the loop title with the new name
-    };
-  
-    // Use the spread operator to copy existing loops and add the new loop
-    setSimulationData({
-      ...simulationData,
-      simulationLoops: [...simulationData.simulationLoops, newLoop],
-    });
-  };
 
   const addLoopToSimulation = () => {
     console.log('addLoopToSimulation() - loopToAdd', loopToAdd);
@@ -124,4 +102,4 @@ function AddLoopContainer() {
   );
 }
 
-export default AddLoopContainer;
+export default AddLoopToSimulationModal;

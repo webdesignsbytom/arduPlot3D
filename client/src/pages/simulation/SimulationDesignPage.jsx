@@ -3,26 +3,26 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import client from '../../api/client';
 // Components
 import Navbar from '../../components/nav/Navbar';
-import DesignDataBar from '../../components/design/DesignDataBar';
 import CanvasDesignTool from '../../components/canvas/CanvasDesignTool';
-import DesignFunctionsBar from '../../components/design/DesignFunctionsBar';
-import DesignTopToolBar from '../../components/design/DesignTopToolBar';
-import TimeoutSettingsContainer from '../../components/design/TimeoutSettingsContainer';
 import ConsentAlert from '../../components/utils/ConsentAlert';
-import TapSettingsModal from '../../components/design/TapSettingsModal';
-import MovementSettingsModal from '../../components/design/MovementSettingsModal';
-import DragSettingsModal from '../../components/design/DragSettingsModal';
-import DeviceSelectContainer from '../../components/design/DeviceSelectContainer';
-import SaveAsContainer from '../../components/design/SaveAsContainer';
-import UploadVideoModal from '../../components/design/UploadVideoModal';
-import AddLoopContainer from '../../components/design/AddLoopContainer';
+import TapSettingsModal from '../../components/modals/TapSettingsModal';
+import MovementSettingsModal from '../../components/modals/MovementSettingsModal';
+import DragSettingsModal from '../../components/modals/DragSettingsModal';
+import UploadVideoModal from '../../components/modals/UploadVideoModal';
+import AddLoopToSimulationModal from '../../components/modals/AddLoopToSimulationModal';
+import DeviceSelectModal from '../../components/modals/DeviceSelectModal';
+import TimeoutSettingsModal from '../../components/modals/TimeoutSettingsModal';
+import SimulationDataToobar from '../../components/toolbars/SimulationDataToobar';
+import SimulationFunctionsToolbar from '../../components/toolbars/SimulationFunctionsToolbar';
+import SimulationPageTopToolBar from '../../components/toolbars/SimulationPageTopToolBar';
+import SaveAsModal from '../../components/modals/SaveAsModal';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
-import { DesignContext } from '../../context/DesignContext';
+import { SimulationContext } from '../../context/SimulationContext';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 
-function DesignPage() {
+function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
   const {
     isCreatingNewLoop,
@@ -63,7 +63,7 @@ function DesignPage() {
     contextRef,
     positionOfMouseAndCanvasVisible,
     setpositionOfMouseAndCanvasVisible,
-  } = useContext(DesignContext);
+  } = useContext(SimulationContext);
 
   // Video modal
   const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
@@ -106,8 +106,6 @@ function DesignPage() {
   const resetSimulationToStartingPoint = () => {};
 
   const drawConnectingLines = () => {
-    console.log('draw');
-
     // add to array of points
     const tempStore = lineRef.current;
     lineRef.current = tempStore;
@@ -349,7 +347,7 @@ function DesignPage() {
       <main className='grid h-full grid-cols-a1a overflow-hidden'>
         {/* Functions bar */}
         <section className='grid max-w-[200px]'>
-          <DesignFunctionsBar
+          <SimulationFunctionsToolbar
             runSimulation={runSimulation}
             stopSimulation={stopSimulation}
             resetSimulationToStartingPoint={resetSimulationToStartingPoint}
@@ -368,7 +366,7 @@ function DesignPage() {
         {/* canvas */}
         <section className='grid grid-rows-reg gap-2 p-2 overflow-hidden'>
           {/* Top tool bar menu */}
-          <DesignTopToolBar
+          <SimulationPageTopToolBar
             drawConnectingLines={drawConnectingLines}
             clearAllDataPoints={clearAllDataPoints}
             createNewSimulationLoop={createNewSimulationLoop}
@@ -403,7 +401,7 @@ function DesignPage() {
 
         {/* data bar */}
         <section className='grid overflow-hidden h-full max-w-[300px]'>
-          <DesignDataBar />
+          <SimulationDataToobar />
         </section>
       </main>
 
@@ -418,7 +416,7 @@ function DesignPage() {
 
       {/* Timeout */}
       {timeoutModalOpen && (
-        <TimeoutSettingsContainer
+        <TimeoutSettingsModal
           timeoutLength={timeoutLength}
           setTimeoutLength={setTimeoutLength}
           timeoutUnitSelected={timeoutUnitSelected}
@@ -458,14 +456,14 @@ function DesignPage() {
 
       {/* Device selection */}
       {deviceSelectionModalOpen && (
-        <DeviceSelectContainer
+        <DeviceSelectModal
           closeDeviceSelectModal={closeDeviceSelectModal}
         />
       )}
 
       {/* Device selection */}
       {saveAsModalOpen && (
-        <SaveAsContainer
+        <SaveAsModal
           saveAsNewFile={saveAsNewFile}
           closeSaveAsModal={closeSaveAsModal}
         />
@@ -477,9 +475,9 @@ function DesignPage() {
       )}
 
       {/* Loop selection */}
-      {addCreateLoopModalOpen && <AddLoopContainer />}
+      {addCreateLoopModalOpen && <AddLoopToSimulationModal />}
     </div>
   );
 }
 
-export default DesignPage;
+export default SimulationDesignPage;
