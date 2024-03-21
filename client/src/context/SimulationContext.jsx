@@ -99,49 +99,6 @@ const SimulationContextProvider = ({ children }) => {
   const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
     useState(true);
 
-  const [tapDataPoint, setTapDataPoint] = useState({
-    dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
-    xPos: 0,
-    yPos: 0,
-    zSpeed: speedOfFingerMoving,
-    numFingers: 1,
-    timeLength: 0,
-  });
-
-  const [movementDataPoint, setMovementDataPoint] = useState({
-    dataType: 'move', // Tap, Move, MoveTap, Drag, Timeout
-    xPos: 0,
-    yPos: 0,
-    xySpeed: speedOfArmMoving,
-    timeLength: 0,
-  });
-
-  const [moveAndTapDataPoint, setMoveAndTapDataPoint] = useState({
-    dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
-    xPos: 0,
-    yPos: 0,
-    xySpeed: speedOfArmMoving,
-    zSpeed: speedOfFingerMoving,
-    numFingers: 1,
-    timeLength: 0,
-  });
-
-  const [dragDataPoint, setDragDataPoint] = useState({
-    dataType: 'drag', // Tap, Move, MoveTap, Drag, Timeout
-    startxPos: 0,
-    startyPos: 0,
-    finishxPos: 0,
-    finishyPos: 0,
-    xySpeed: speedOfArmMoving,
-    zSpeed: speedOfFingerMoving,
-    numFingers: 1,
-    timeLength: 0,
-  });
-
-  const [timeoutDataPoint, setTimeoutDataPoint] = useState({
-    dataType: 'timeout', // Tap, Move, MoveTap, Drag, Timeout
-    timeoutLength: 0, // milliseconds only
-  });
 
   const openAndEditLoop = (loop, index) => {
     console.log('INDEX openAndEditLoop()', index);
@@ -216,16 +173,6 @@ const SimulationContextProvider = ({ children }) => {
         setSpeedOfArmMoving,
         addCreateLoopModalOpen,
         setAddCreateLoopModalOpen,
-        tapDataPoint,
-        setTapDataPoint,
-        movementDataPoint,
-        setMovementDataPoint,
-        moveAndTapDataPoint,
-        setMoveAndTapDataPoint,
-        dragDataPoint,
-        setDragDataPoint,
-        timeoutDataPoint,
-        setTimeoutDataPoint,
         timeoutModalOpen,
         setTimeoutModalOpen,
         timeoutLength,

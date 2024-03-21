@@ -5,17 +5,16 @@ import { FaEdit } from 'react-icons/fa';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
 
-function LoopItem({ loop, index, deleteLoop }) {
+function LoopItem({ index, loopData }) {
   const {
     openAndEditLoop,
-    isCreatingEditingLoop,
     setIsCreatingEditingLoop,
     setLoopDataBeingEdited,
   } = useContext(SimulationContext);
 
   const editLoop = (event, loop) => {
     event.preventDefault();
-    console.log('PPPPPPPPPPPPPPPPPPPPPPPPPppp');
+
     setLoopDataBeingEdited(loop);
     setIsCreatingEditingLoop(true);
   };
@@ -32,11 +31,10 @@ function LoopItem({ loop, index, deleteLoop }) {
       </div>
       <div
         title='Click to edit'
-        onClick={() => openAndEditLoop(loop, index)}
+        onClick={(loopData, index) => openAndEditLoop(loopData, index)}
         className='grid bg-white grid-flow-col items-center px-1 gap-2 w-full h-full outline-black outline outline-2 cursor-pointer active:scale-95 hover:bg-yellow-200'
       >
-        <div>{loop.loopTitle}</div>
-        <div>T: {loop.loopTimeToComplete}</div>
+        <div>{loopData.loopTitle}</div>
       </div>
 
       {/* Delete button */}
@@ -44,7 +42,7 @@ function LoopItem({ loop, index, deleteLoop }) {
         <button
           title='Edit loop'
           id='edit_loop'
-          onClick={(event) => editLoop(event, loop)}
+          onClick={(event, loopData) => editLoop(event, loopData)}
           className='active:scale-95 no__highlights rounded-xl'
         >
           <FaEdit />
@@ -52,7 +50,7 @@ function LoopItem({ loop, index, deleteLoop }) {
         <button
           title='Delete loop'
           id='delete_loop'
-          onClick={(event) => deleteLoop(event, loop)}
+          // onClick={(event) => deleteLoop(event, loop)}
           className='active:scale-95 no__highlights rounded-xl'
         >
           <IoCloseCircleSharp />

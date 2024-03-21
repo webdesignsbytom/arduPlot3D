@@ -61,6 +61,7 @@ export const tempDesignData = {
   simulationLoops: [
     {
       loopTitle: 'Loop 1',
+      dataGroup: 'loop',
       mainSimulationLoopDataPoints: [
         {
           dataGroup: 'loop',
@@ -121,6 +122,7 @@ export const tempDesignData = {
     },
     {
       loopTitle: 'Loop 2',
+      dataGroup: 'loop',
       mainSimulationLoopDataPoints: [
         {
           dataGroup: 'loop',
@@ -181,6 +183,7 @@ export const tempDesignData = {
     },
     {
       loopTitle: 'Loop 3',
+      dataGroup: 'loop',
       mainSimulationLoopDataPoints: [
         {
           dataGroup: 'loop',
