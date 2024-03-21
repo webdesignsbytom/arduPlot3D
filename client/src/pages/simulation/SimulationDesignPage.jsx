@@ -15,7 +15,7 @@ import TimeoutSettingsModal from '../../components/modals/TimeoutSettingsModal';
 import SimulationDataToobar from '../../components/toolbars/SimulationDataToobar';
 import SimulationFunctionsToolbar from '../../components/toolbars/SimulationFunctionsToolbar';
 import SimulationPageTopToolBar from '../../components/toolbars/SimulationPageTopToolBar';
-import SaveAsModal from '../../components/design/SaveAsModal';
+import SaveAsModal from '../../components/modals/SaveAsModal';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
 import { SimulationContext } from '../../context/SimulationContext';
