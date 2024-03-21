@@ -140,21 +140,27 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const createMarker = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
 
+    // Creating a loop or sim data point
+    let dataGroup = 'simulation';
+    if (isCreatingEditingLoop) {
+      dataGroup = 'loop';
+    }
+
     switch (simulationToolSelected) {
       case 'tap':
-        createTapDataPoint(offsetX, offsetY);
+        createTapDataPoint(offsetX, offsetY, dataGroup);
         break;
       case 'move':
-        createMoveDataPoint(offsetX, offsetY);
+        createMoveDataPoint(offsetX, offsetY, dataGroup);
         break;
       case 'move_tap':
-        createMoveAndTapDataPoint(offsetX, offsetY);
+        createMoveAndTapDataPoint(offsetX, offsetY, dataGroup);
         break;
       case 'drag':
-        createDragDataPoint(offsetX, offsetY);
+        createDragDataPoint(offsetX, offsetY, dataGroup);
         break;
       case 'timeout':
-        createTimeoutDataPoint(offsetX, offsetY);
+        createTimeoutDataPoint(dataGroup);
         break;
       default:
         console.log('No matching action found');
@@ -194,21 +200,24 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   };
 
   // Tap
-  const createTapDataPoint = (offsetX, offsetY) => {
+  const createTapDataPoint = (offsetX, offsetY, dataGroup) => {
     let newDataPoint = {
-      ...tapDataPoint,
-      xPos: offsetX,
-      yPos: offsetY,
-      numFingers: numberOfFingerTapping,
+      dataGroup: dataGroup,
+      dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 0,
+      yPos: 0,
       zSpeed: speedOfFingerMoving,
+      numFingers: 1,
+      timeLength: 0,
     };
 
     updateLoopState(newDataPoint);
   };
 
   // Move
-  const createMoveDataPoint = (offsetX, offsetY) => {
+  const createMoveDataPoint = (offsetX, offsetY, dataGroup) => {
     let newDataPoint = {
+      dataGroup: dataGroup,
       dataType: 'move', // Tap, Move, MoveTap, Drag, Timeout
       xPos: offsetX,
       yPos: offsetY,
@@ -220,8 +229,9 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   };
 
   // Move And Tap
-  const createMoveAndTapDataPoint = (offsetX, offsetY) => {
+  const createMoveAndTapDataPoint = (offsetX, offsetY, dataGroup) => {
     let newDataPoint = {
+      dataGroup: dataGroup,
       dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
       xPos: 0,
       yPos: 0,
@@ -235,8 +245,9 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   };
 
   // Drag
-  const createDragDataPoint = (offsetX, offsetY) => {
+  const createDragDataPoint = (offsetX, offsetY, dataGroup) => {
     let newDataPoint = {
+      dataGroup: dataGroup,
       dataType: 'drag', // Tap, Move, MoveTap, Drag, Timeout
       startxPos: 0,
       startyPos: 0,
@@ -252,9 +263,11 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   };
 
   // Timeout
-  const createTimeoutDataPoint = () => {
+  const createTimeoutDataPoint = (dataGroup) => {
     let newDataPoint = {
-      ...timeoutDataPoint,
+      dataGroup: dataGroup,
+      dataType: 'timeout', // Tap, Move, MoveTap, Drag, Timeout
+      timeoutLength: timeoutLength, // milliseconds only
     };
 
     updateLoopState(newDataPoint);
@@ -262,7 +275,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   function updateLoopState(newDataPoint) {
     if (isCreatingEditingLoop) {
-      console.log('AAAAAAAAAAAAAA');
       setLoopDataBeingEdited((currentLoopData) => ({
         ...currentLoopData,
         mainSimulationLoopDataPoints: [

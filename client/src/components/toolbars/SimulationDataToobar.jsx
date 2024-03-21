@@ -6,6 +6,7 @@ import DataPlotsContainer from '../design/DataPlotsContainer';
 import NewEditLoopData from '../simulation/NewEditLoopData';
 import SimLoopButtons from '../simulation/SimLoopButtons';
 import LoopsMenuDisplay from '../design/LoopsMenuDisplay';
+import SimulationDataPointDisplay from '../design/SimulationDataPointDisplay';
 
 function SimulationDataToobar() {
   const {
@@ -48,11 +49,9 @@ function SimulationDataToobar() {
             <form className='grid w-full overflow-hidden h-full'>
               {
                 displaySimOrLoop === 'loop' ? (
-                  <LoopsMenuDisplay dataPointsCollections={loopDataPoints} />
+                  <LoopsMenuDisplay />
                 ) : displaySimOrLoop === 'simulation' ? (
-                  <DataPlotsContainer
-                    dataPointsCollections={simulationDataPoints}
-                  />
+                  <SimulationDataPointDisplay />
                 ) : null // or any other default case you might want to handle
               }
             </form>
