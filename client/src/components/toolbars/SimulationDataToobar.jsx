@@ -1,19 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
 // Components
-import DataPlotsContainer from '../design/DataPlotsContainer';
 import NewEditLoopData from '../simulation/NewEditLoopData';
 import SimLoopButtons from '../simulation/SimLoopButtons';
-import LoopsMenuDisplay from '../design/LoopsMenuDisplay';
-import SimulationDataPointDisplay from '../design/SimulationDataPointDisplay';
+import LoopsMenuDisplay from '../simulation/LoopsMenuDisplay';
+import SimulationDataPointDisplay from '../simulation/SimulationDataPointDisplay';
 
 function SimulationDataToobar() {
   const {
     displaySimOrLoop,
     isCreatingEditingLoop,
-    loopDataPoints,
-    simulationDataPoints,
   } = useContext(SimulationContext);
 
   return (

@@ -19,9 +19,6 @@ function LoopItem({ index, loopData }) {
     setIsCreatingEditingLoop(true);
   };
 
-  console.log('2222 DADADADAD', loopData);
-
-
   return (
     <div key={index} className='grid grid-cols-a1a h-[30px] w-full gap-2'>
       <div className='grid items-center justify-center w-[30px] bg-slate-300 h-full outline outline-2 outline-black px-2'>

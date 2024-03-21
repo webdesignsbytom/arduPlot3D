@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
 // Components
-import SimulationItem from '../design/SimulationItem';
+import SimulationItem from './SimulationItem';
 
 function NewEditLoopData() {
   const {

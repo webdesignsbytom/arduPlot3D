@@ -89,7 +89,8 @@ const SimulationContextProvider = ({ children }) => {
 
   // Data points for loop
   const [displayLoopDataPoints, setdisplayLoopDataPoints] = useState(false);
-  const [displayLoopDataPointsIndex, setdisplayLoopDataPointsIndex] = useState(0);
+  const [displayLoopDataPointsIndex, setdisplayLoopDataPointsIndex] =
+    useState(0);
   const [arrayOfLoopData, setArrayOfLoopData] = useState([]);
 
   // Video files
@@ -98,7 +99,6 @@ const SimulationContextProvider = ({ children }) => {
   // Mouse Position
   const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
     useState(true);
-
 
   const openAndDisplayLoop = (loopData, index) => {
     console.log('INDEX openAndDisplayLoop()', index);
@@ -116,7 +116,10 @@ const SimulationContextProvider = ({ children }) => {
 
   const handleDataPointChange = () => {};
 
-  console.log('XXX simulationData.simulationLoops', simulationData.simulationLoops);
+  console.log(
+    'XXX simulationData.simulationLoops',
+    simulationData.simulationLoops
+  );
 
   const clearDataPoints = () => {
     lineRef.current = emptyRef.current;
@@ -130,6 +133,31 @@ const SimulationContextProvider = ({ children }) => {
     setDataCollection([]);
     setSimulationDataPoints([]);
     setLoopDataPoints([]);
+  };
+
+  const createNewLoop = (event) => {
+    event.preventDefault(); // This will prevent the default action
+
+    // Determine the new loop's index based on the current array length
+    const newLoopIndex = simulationData.simulationLoops.length;
+
+    // Construct the new loop name by adding 1 to the new loop's index
+    const newLoopName = `Loop ${newLoopIndex + 1}`;
+
+    // Assuming simulationLoopData is structured correctly but needs a name update
+    let newLoop = {
+      ...simulationLoopData,
+      loopTitle: newLoopName, // Update the loop title with the new name
+    };
+
+    setAddCreateLoopModalOpen(false)
+    setIsCreatingEditingLoop(true);
+
+    // Use the spread operator to copy existing loops and add the new loop
+    setSimulationData({
+      ...simulationData,
+      simulationLoops: [...simulationData.simulationLoops, newLoop],
+    });
   };
 
   return (
@@ -208,6 +236,7 @@ const SimulationContextProvider = ({ children }) => {
         setIsPxOrMmDimensions,
         positionOfMouseAndCanvasVisible,
         setpositionOfMouseAndCanvasVisible,
+        createNewLoop,
       }}
     >
       {children}
