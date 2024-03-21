@@ -1,7 +1,5 @@
 # Tickets
 
-1. When creating a loop the loop menu and icon need to be animated
-2. When you create a new loop the menu container should glow to show its active
-3. Update use of classes for move/tap types 
-4. colour swatches for data types
-5. When loop is selected only show their points on the canvas
+1. colour swatches for data types ? icon
+2. When loop is selected only show their points on the canvas
+3. Scroll to latest data point in list

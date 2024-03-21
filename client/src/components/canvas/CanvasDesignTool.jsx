@@ -7,38 +7,25 @@ import { FaMousePointer } from 'react-icons/fa';
 
 function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const {
-    simulationData,
-    setSimulationData,
-    simulationToolSelected,
-    tapDataPoint,
-    setTapDataPoint,
-    numberOfFingerTapping,
-    speedOfFingerMoving,
-    movementDataPoint,
-    setMovementDataPoint,
-    moveAndTapDataPoint,
-    setMoveAndTapDataPoint,
-    dragDataPoint,
-    setDragDataPoint,
-    timeoutDataPoint,
-    setTimeoutDataPoint,
-    timeoutModalOpen,
-    setTimeoutModalOpen,
-    timeoutLength,
-    setTimeoutLength,
-    timeoutUnitSelected,
-    setTimeoutUnitSelected,
-    dragSettingsModalOpen,
-    setDragSettingsModalOpen,
-    speedOfDraggingArmMoving,
-    setSpeedOfDraggingArmMoving,
-    selectedDevice,
-    speedOfArmMoving,
-    isCreatingEditingLoop,
+    // Canvas ref
     canvasRef,
     contextRef,
     marketNumRef,
     lineRef,
+    // Main sim data
+    simulationData,
+    setSimulationData,
+    // Tools and data
+    simulationToolSelected,
+    numberOfFingerTapping,
+    speedOfFingerMoving,
+    timeoutLength,
+    timeoutUnitSelected,
+    dragSettingsModalOpen,
+    speedOfDraggingArmMoving,
+    selectedDevice,
+    speedOfArmMoving,
+    isCreatingEditingLoop,
     setDataCollection,
     dataCollection,
     setSimulationDataPoints,
@@ -124,7 +111,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const generateRulerMarks = (pixels, orientation) => {
     let marks = '';
     const unitSize = 100; // Size of each unit on the ruler in pixels
-    const divisionSize = 10;
     const units = Math.floor(pixels / unitSize); // Use floor to not exceed device dimensions
 
     for (let i = 0; i <= units; i++) {
@@ -204,10 +190,10 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     let newDataPoint = {
       dataGroup: dataGroup,
       dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
-      xPos: 0,
-      yPos: 0,
+      xPos: offsetX,
+      yPos: offsetY,
       zSpeed: speedOfFingerMoving,
-      numFingers: 1,
+      numFingers: numberOfFingerTapping,
       timeLength: 0,
     };
 
@@ -233,11 +219,11 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     let newDataPoint = {
       dataGroup: dataGroup,
       dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
-      xPos: 0,
-      yPos: 0,
+      xPos: offsetX,
+      yPos: offsetY,
       xySpeed: speedOfArmMoving,
       zSpeed: speedOfFingerMoving,
-      numFingers: 1,
+      numFingers: numberOfFingerTapping,
       timeLength: 0,
     };
 
@@ -255,7 +241,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       finishyPos: 0,
       xySpeed: speedOfArmMoving,
       zSpeed: speedOfFingerMoving,
-      numFingers: 1,
+      numFingers: numberOfFingerTapping,
       timeLength: 0,
     };
 
