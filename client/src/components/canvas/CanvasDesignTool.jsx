@@ -119,7 +119,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       yPos,
       1,
       0,
-      5 * Math.PI,
+      9 * Math.PI,
       true
     );
     contextRef.current.stroke();
@@ -202,22 +202,22 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         console.log('No matching action found');
     }
 
-    contextRef.current.beginPath();
-    contextRef.current.arc(
-      nativeEvent.offsetX,
-      nativeEvent.offsetY,
-      1,
-      0,
-      2 * Math.PI,
-      true
-    );
-    contextRef.current.stroke();
-    contextRef.current.fillText(
-      marketNumRef.current,
-      nativeEvent.offsetX + 5,
-      nativeEvent.offsetY + 5
-    );
-    marketNumRef.current++;
+    // contextRef.current.beginPath();
+    // contextRef.current.arc(
+    //   nativeEvent.offsetX,
+    //   nativeEvent.offsetY,
+    //   1,
+    //   0,
+    //   2 * Math.PI,
+    //   true
+    // );
+    // contextRef.current.stroke();
+    // contextRef.current.fillText(
+    //   marketNumRef.current,
+    //   nativeEvent.offsetX + 5,
+    //   nativeEvent.offsetY + 5
+    // );
+    // marketNumRef.current++;
   };
 
   // Tap
@@ -233,6 +233,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     };
 
     updateLoopState(newDataPoint);
+    drawPlotPoint(newDataPoint.xPos, newDataPoint.yPos, TapFunctionColour)
   };
 
   // Move
@@ -247,6 +248,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     };
 
     updateLoopState(newDataPoint);
+    drawPlotPoint(newDataPoint.xPos, newDataPoint.yPos, MoveFunctionColour)
   };
 
   // Move And Tap
@@ -263,6 +265,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     };
 
     updateLoopState(newDataPoint);
+    drawPlotPoint(newDataPoint.xPos, newDataPoint.yPos, MoveTapFunctionColour)
   };
 
   // Drag
@@ -270,8 +273,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     let newDataPoint = {
       dataGroup: dataGroup,
       dataType: 'drag', // Tap, Move, MoveTap, Drag, Timeout
-      startxPos: 0,
-      startyPos: 0,
+      startxPos: offsetX,
+      startyPos: offsetY,
       finishxPos: 0,
       finishyPos: 0,
       xySpeed: speedOfArmMoving,
@@ -281,6 +284,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     };
 
     updateLoopState(newDataPoint);
+    drawPlotPoint(newDataPoint.startxPos, newDataPoint.startyPos, DragFunctionColour)
   };
 
   // Timeout
@@ -294,6 +298,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     };
 
     updateLoopState(newDataPoint);
+    drawPlotPoint(newDataPoint.xPos, newDataPoint.yPos, TimeoutFunctionColour)
   };
 
   function updateLoopState(newDataPoint) {

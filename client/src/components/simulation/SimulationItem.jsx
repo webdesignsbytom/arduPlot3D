@@ -10,6 +10,8 @@ import { IoMdMove } from 'react-icons/io';
 import { FaArrowsTurnToDots } from "react-icons/fa6";
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
+// Colours
+import { DragFunctionColour, MoveFunctionColour, MoveTapFunctionColour, TapFunctionColour, TimeoutFunctionColour } from '../../utils/design/Constants';
 
 function SimulationItem({ dataIndex, dataPoint }) {
   const { handleDataPointChange, clearDataPoints } = useContext(SimulationContext);
@@ -44,19 +46,15 @@ function SimulationItem({ dataIndex, dataPoint }) {
         </div>
         <input
           title={dataPoint.dataType}
-          className={`w-full h-full px-2 ${
-            dataPoint.dataType === 'tap'
-              ? 'bg-green-200'
-              : dataPoint.dataType === 'move_tap'
-              ? 'bg-yellow-200'
-              : dataPoint.dataType === 'move'
-              ? 'bg-purple-200'
-              : dataPoint.dataType === 'drag'
-              ? 'bg-pink-200'
-              : dataPoint.dataType === 'timeout'
-              ? 'bg-blue-200'
-              : null
-          }`}
+          className={`w-full h-full px-2`}
+          style={{
+            background: dataPoint.dataType === 'tap' ? `linear-gradient(${TapFunctionColour}, #98e5bc)`
+              : dataPoint.dataType === 'move_tap' ? `linear-gradient(${MoveTapFunctionColour}, #e5d860)`
+              : dataPoint.dataType === 'move' ? `linear-gradient(${MoveFunctionColour}, #c4b5fd)`
+              : dataPoint.dataType === 'drag' ? `linear-gradient(${DragFunctionColour}, #f9a8d4)`
+              : dataPoint.dataType === 'timeout' ? `linear-gradient(${TimeoutFunctionColour}, #93c5fd)`
+              : 'none'
+          }}
           type='text'
           name='data_point'
           id='data_point'
