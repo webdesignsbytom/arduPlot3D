@@ -10,6 +10,7 @@ import {
   MoveTapFunctionColour,
   TapFunctionColour,
   TimeoutFunctionColour,
+  availablePointsToDisplayData,
 } from '../../utils/design/Constants';
 
 function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
@@ -42,6 +43,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     loopDataBeingEdited,
     setLoopDataBeingEdited,
     displaySimOrLoop,
+    numberOfDataPointsToDisplay,
   } = useContext(SimulationContext);
 
   // State to manage tooltip visibility and position
@@ -89,27 +91,50 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   // Load current points on startup
   useEffect(() => {
-    let currentData = simulationData.mainSimulationDataPoints;
-    console.log('simulationData', simulationData);
-    console.log('Current data:', currentData);
-
-    currentData.forEach((element, index) => {
-      if (element.dataGroup === 'simulation') {
-        sortDataElements(element, index + 1); // Adjusted to use index+1 for correct numbering
-      } else if (element.dataGroup === 'loop') {
-        console.log('element is loop', element);
-        // For loop points, calculate decimal numbers
-        element.mainSimulationLoopDataPoints.forEach(
-          (loopElement, loopIndex) => {
-            // Calculate decimal index. Example: For index 6 and loopIndex 0, it becomes 6.1
-            let decimalIndex = parseFloat(`${index + 1}.${loopIndex + 1}`);
-            sortDataElements(loopElement, decimalIndex);
-          }
-        );
-        dataPointMarkerRef.current = index + 1; // Ensure main index aligns with loops
+    const context = contextRef.current;
+    // Clear the canvas first
+    context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+  
+    // Flatten simulationData to include loop points, treating each loop as one item for counting
+    let flattenedData = [];
+    simulationData.mainSimulationDataPoints.forEach((point) => {
+      if (point.dataGroup === 'simulation') {
+        flattenedData.push(point);
+      } else if (point.dataGroup === 'loop') {
+        // Consider loop as a single point or expand this logic as needed
+        flattenedData.push(...point.mainSimulationLoopDataPoints.map((loopPoint, index) => ({
+          ...loopPoint,
+          decimalIndex: parseFloat(`${flattenedData.length + 1}.${index + 1}`) // This is for unique identification if needed
+        })));
       }
     });
-  }, []);
+  
+    // Determine display count based on the selection
+    let displayCountMap = {
+      'infinite': flattenedData.length,
+      'one': 1,
+      'two': 2,
+      'three': 3,
+      'five': 5,
+      'ten': 10
+    };
+    let displayCount = displayCountMap[numberOfDataPointsToDisplay] || flattenedData.length;
+  
+    // Slice the last X points to display
+    const pointsToDisplay = flattenedData.slice(-displayCount);
+  
+    // Draw the points
+    pointsToDisplay.forEach((element, index) => {
+      let markerIndex = index + 1;
+      if (element.decimalIndex) {
+        markerIndex = element.decimalIndex; // Use decimal index for loop points if present
+      }
+      // Call sortDataElements or directly draw the point here
+      sortDataElements(element, markerIndex);
+    });
+  
+  }, [numberOfDataPointsToDisplay, simulationData.mainSimulationDataPoints]);
+  
 
   const sortDataElements = (element, markerIndex) => {
     // Use markerIndex for drawing the point

@@ -14,6 +14,7 @@ import {
   blankSimulationObject,
   tempDesignData,
 } from '../utils/design/TempData';
+import { availablePointsToDisplayData } from '../utils/design/Constants';
 
 export const SimulationContext = React.createContext();
 
@@ -59,6 +60,8 @@ const SimulationContextProvider = ({ children }) => {
 
   // Display
   const [displaySimOrLoop, setDisplaySimOrLoop] = useState('simulation'); // simulation || loop
+  const [numberOfDataPointsToDisplay, setNumberOfDataPointsToDisplay] =
+    useState(availablePointsToDisplayData[0]);
 
   // Tap settings
   const [numberOfFingerTapping, setNumberOfFingerTapping] = useState(1);
@@ -133,7 +136,7 @@ const SimulationContextProvider = ({ children }) => {
     setSimulationData({
       ...blankSimulationObject,
       simulationTitle: currentFileName,
-      simulationLoops: currentLoopData
+      simulationLoops: currentLoopData,
     });
   };
 
@@ -161,6 +164,18 @@ const SimulationContextProvider = ({ children }) => {
       ...simulationData,
       simulationLoops: [...simulationData.simulationLoops, newLoop],
     });
+  };
+
+  const setPointsToDisplaySettings = (event) => {
+    event.preventDefault();
+    console.log('111111111111111');
+
+    // Find the current index of numberOfDataPointsToDisplay
+    const currentIndex = availablePointsToDisplayData.indexOf(numberOfDataPointsToDisplay);
+    // Calculate the next index. If we're at the end of the array, loop back to 0
+    const nextIndex = (currentIndex + 1) % availablePointsToDisplayData.length;
+    // Update the state to the next item
+    setNumberOfDataPointsToDisplay(availablePointsToDisplayData[nextIndex]);
   };
 
   return (
@@ -239,6 +254,9 @@ const SimulationContextProvider = ({ children }) => {
         positionOfMouseAndCanvasVisible,
         setpositionOfMouseAndCanvasVisible,
         createNewLoop,
+        numberOfDataPointsToDisplay,
+        setNumberOfDataPointsToDisplay,
+        setPointsToDisplaySettings,
       }}
     >
       {children}
