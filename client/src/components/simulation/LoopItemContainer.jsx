@@ -35,7 +35,7 @@ function LoopItemContainer({
                   htmlFor='data_point'
                   className='h-full grid items-center justify-center'
                 >
-                  {dataIndex + 1}
+                  {index + 1}.{dataIndex + 1}
                 </label>
               </div>
               <div className='grid w-full h-full bg-white outline-black outline outline-2'>

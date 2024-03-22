@@ -1,12 +1,14 @@
 # Tickets
 
-1. colour swatches for data types ? icon
-2. When loop is selected only show their points on the canvas
-3. Scroll to latest data point in list
-4. Create all types of data point
-5. Display all the data in the lists
-6. Create new loop and add to main sim
-7. edit loop 
-8. delete item from sim
-9. delete item from loop 
-10. add loop to loops?
+1. When you add a loop to the sim display the data points
+2. Hide current data points button in top menu
+3. colour swatches for data types ? icon
+4. When loop is selected only show their points on the canvas
+5. Scroll to latest data point in list
+6. Create all types of data point
+7. Display all the data in the lists
+8. Create new loop and add to main sim
+9. edit loop 
+10. delete item from sim
+11. delete item from loop 
+12. add loop to loops?

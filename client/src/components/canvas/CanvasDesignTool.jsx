@@ -4,7 +4,13 @@ import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { IoReloadCircle } from 'react-icons/io5';
 import { FaMousePointer } from 'react-icons/fa';
-import { DragFunctionColour, MoveFunctionColour, MoveTapFunctionColour, TapFunctionColour, TimeoutFunctionColour } from '../../utils/design/Constants';
+import {
+  DragFunctionColour,
+  MoveFunctionColour,
+  MoveTapFunctionColour,
+  TapFunctionColour,
+  TimeoutFunctionColour,
+} from '../../utils/design/Constants';
 
 function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const {
@@ -80,58 +86,90 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       setupRulers();
     }
   }, [isLandscapeMode, rulersVisible, selectedDevice]);
-  // console.log('LINE REFFFF', lineRef.current);
 
+  // Load current points on startup
   useEffect(() => {
     let currentData = simulationData.mainSimulationDataPoints;
+    console.log('simulationData', simulationData);
     console.log('Current data:', currentData);
 
-    currentData.forEach((element) => {
-      switch (element.dataType) {
-        case 'tap':
-          drawPlotPoint(element.xPos, element.yPos, TapFunctionColour);
-          break;
-        case 'move':
-          drawPlotPoint(element.xPos, element.yPos, MoveFunctionColour);
-          break;
-        case 'move_tap':
-          drawPlotPoint(element.xPos, element.yPos, MoveTapFunctionColour);
-          break;
-        case 'drag':
-          drawPlotPoint(element.startxPos, element.startyPos, DragFunctionColour);
-          break;
-        case 'timeout':
-          drawPlotPoint(element.xPos, element.yPos, TimeoutFunctionColour);
-          break;
-        default:
-          console.log('No matching action found');
+    currentData.forEach((element, index) => {
+      if (element.dataGroup === 'simulation') {
+        sortDataElements(element, index + 1); // Adjusted to use index+1 for correct numbering
+      } else if (element.dataGroup === 'loop') {
+        console.log('element is loop', element);
+        // For loop points, calculate decimal numbers
+        element.mainSimulationLoopDataPoints.forEach(
+          (loopElement, loopIndex) => {
+            // Calculate decimal index. Example: For index 6 and loopIndex 0, it becomes 6.1
+            let decimalIndex = parseFloat(`${index + 1}.${loopIndex + 1}`);
+            sortDataElements(loopElement, decimalIndex);
+          }
+        );
+        marketNumRef.current = index + 1; // Ensure main index aligns with loops
       }
     });
   }, []);
 
-  const drawPlotPoint = (xPos, yPos, colour) => {
+  const sortDataElements = (element, markerIndex) => {
+    // Use markerIndex for drawing the point
+    switch (element.dataType) {
+      case 'tap':
+        drawPlotPoint(
+          element.xPos,
+          element.yPos,
+          TapFunctionColour,
+          markerIndex
+        );
+        break;
+      case 'move':
+        drawPlotPoint(
+          element.xPos,
+          element.yPos,
+          MoveFunctionColour,
+          markerIndex
+        );
+        break;
+      case 'move_tap':
+        drawPlotPoint(
+          element.xPos,
+          element.yPos,
+          MoveTapFunctionColour,
+          markerIndex
+        );
+        break;
+      case 'drag':
+        drawPlotPoint(
+          element.startxPos,
+          element.startyPos,
+          DragFunctionColour,
+          markerIndex
+        );
+        break;
+      case 'timeout':
+        drawPlotPoint(
+          element.xPos,
+          element.yPos,
+          TimeoutFunctionColour,
+          markerIndex
+        );
+        break;
+      default:
+        console.log('No matching action found');
+    }
+  };
 
-    contextRef.current.strokeStyle = colour; // Sets the color of the circle's outline
-    
-    contextRef.current.beginPath();
-    contextRef.current.arc(
-      xPos,
-      yPos,
-      1,
-      0,
-      9 * Math.PI,
-      true
-    );
-    contextRef.current.stroke();
+  const drawPlotPoint = (xPos, yPos, colour, markerIndex) => {
+    const context = contextRef.current;
+    context.strokeStyle = colour; // Sets the color of the circle's outline
 
-    contextRef.current.fillStyle = 'black'; // This will ensure the text is always black
+    context.beginPath();
+    context.arc(xPos, yPos, 1, 0, 2 * Math.PI, true);
+    context.stroke();
 
-    contextRef.current.fillText(
-      marketNumRef.current,
-      xPos + 5,
-      yPos + 5
-    );
-    marketNumRef.current++;
+    context.fillStyle = 'black'; // This will ensure the text is always black
+    // Use markerIndex for the label instead of incrementing marketNumRef
+    context.fillText(markerIndex, xPos + 5, yPos + 5);
   };
 
   const updatePositionMarker = ({ nativeEvent }) => {
@@ -201,23 +239,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       default:
         console.log('No matching action found');
     }
-
-    // contextRef.current.beginPath();
-    // contextRef.current.arc(
-    //   nativeEvent.offsetX,
-    //   nativeEvent.offsetY,
-    //   1,
-    //   0,
-    //   2 * Math.PI,
-    //   true
-    // );
-    // contextRef.current.stroke();
-    // contextRef.current.fillText(
-    //   marketNumRef.current,
-    //   nativeEvent.offsetX + 5,
-    //   nativeEvent.offsetY + 5
-    // );
-    // marketNumRef.current++;
   };
 
   // Tap
@@ -232,8 +253,15 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
+    // Directly increment and use marketNumRef for new data points
+    marketNumRef.current += 1;
     updateLoopState(newDataPoint);
-    drawPlotPoint(newDataPoint.xPos, newDataPoint.yPos, TapFunctionColour)
+    drawPlotPoint(
+      newDataPoint.xPos,
+      newDataPoint.yPos,
+      TapFunctionColour,
+      marketNumRef.current
+    );
   };
 
   // Move
@@ -247,8 +275,16 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
+    // Directly increment and use marketNumRef for new data points
+    marketNumRef.current += 1;
+
     updateLoopState(newDataPoint);
-    drawPlotPoint(newDataPoint.xPos, newDataPoint.yPos, MoveFunctionColour)
+    drawPlotPoint(
+      newDataPoint.xPos,
+      newDataPoint.yPos,
+      MoveFunctionColour,
+      marketNumRef.current
+    );
   };
 
   // Move And Tap
@@ -264,8 +300,16 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
+    // Directly increment and use marketNumRef for new data points
+    marketNumRef.current += 1;
+
     updateLoopState(newDataPoint);
-    drawPlotPoint(newDataPoint.xPos, newDataPoint.yPos, MoveTapFunctionColour)
+    drawPlotPoint(
+      newDataPoint.xPos,
+      newDataPoint.yPos,
+      MoveTapFunctionColour,
+      marketNumRef.current
+    );
   };
 
   // Drag
@@ -283,8 +327,16 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
+    // Directly increment and use marketNumRef for new data points
+    marketNumRef.current += 1;
+
     updateLoopState(newDataPoint);
-    drawPlotPoint(newDataPoint.startxPos, newDataPoint.startyPos, DragFunctionColour)
+    drawPlotPoint(
+      newDataPoint.startxPos,
+      newDataPoint.startyPos,
+      DragFunctionColour,
+      marketNumRef.current
+    );
   };
 
   // Timeout
@@ -297,8 +349,16 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeoutLength: timeoutLength, // milliseconds only
     };
 
+    // Directly increment and use marketNumRef for new data points
+
+    marketNumRef.current += 1;
     updateLoopState(newDataPoint);
-    drawPlotPoint(newDataPoint.xPos, newDataPoint.yPos, TimeoutFunctionColour)
+    drawPlotPoint(
+      newDataPoint.xPos,
+      newDataPoint.yPos,
+      TimeoutFunctionColour,
+      marketNumRef.current
+    );
   };
 
   function updateLoopState(newDataPoint) {

@@ -65,6 +65,69 @@ export const tempDesignData = {
       yPos: 77,
       timeoutLength: 0, // milliseconds only
     },
+    {
+      loopTitle: 'Loop 3',
+      dataGroup: 'loop',
+      mainSimulationLoopDataPoints: [
+        {
+          dataGroup: 'loop',
+          dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
+          xPos: 49,
+          yPos: 19,
+          zSpeed: initzMovementSpeed,
+          numFingers: 1,
+          timeLength: 0,
+        },
+        {
+          dataGroup: 'loop',
+          dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+          xPos: 64,
+          yPos: 62,
+          xySpeed: initxyMovementSpeed,
+          zSpeed: initzMovementSpeed,
+          numFingers: 1,
+          timeLength: 0,
+        },
+        {
+          dataGroup: 'loop',
+          dataType: 'move', // Tap, Move, MoveTap, Drag, Timeout
+          xPos: 46,
+          yPos: 53,
+          xySpeed: initxyMovementSpeed,
+          timeLength: 0,
+        },
+        {
+          dataGroup: 'loop',
+          dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+          xPos: 64,
+          yPos: 164,
+          xySpeed: initxyMovementSpeed,
+          zSpeed: initzMovementSpeed,
+          numFingers: 1,
+          timeLength: 0,
+        },
+        {
+          dataGroup: 'loop',
+          dataType: 'drag', // Tap, Move, MoveTap, Drag, Timeout
+          startxPos: 111,
+          startyPos: 116,
+          finishxPos: 0,
+          finishyPos: 0,
+          xySpeed: initxyMovementSpeed,
+          zSpeed: initzMovementSpeed,
+          numFingers: 1,
+          timeLength: 0,
+        },
+        {
+          dataGroup: 'loop',
+          dataType: 'timeout', // Tap, Move, MoveTap, Drag, Timeout
+          xPos: 88,
+          yPos: 77,
+          timeoutLength: 0, // milliseconds only
+        },
+      ],
+      loopTimeToComplete: 1230,
+    },
   ],
   simulationLoops: [
     {
