@@ -4,6 +4,7 @@ import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { IoReloadCircle } from 'react-icons/io5';
 import { FaMousePointer } from 'react-icons/fa';
+import { DragFunctionColour, MoveFunctionColour, MoveTapFunctionColour, TapFunctionColour, TimeoutFunctionColour } from '../../utils/design/Constants';
 
 function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const {
@@ -11,7 +12,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     canvasRef,
     contextRef,
     marketNumRef,
-    lineRef,
     // Main sim data
     simulationData,
     setSimulationData,
@@ -35,6 +35,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     setIsPxOrMmDimensions,
     loopDataBeingEdited,
     setLoopDataBeingEdited,
+    displaySimOrLoop,
   } = useContext(SimulationContext);
 
   // State to manage tooltip visibility and position
@@ -79,6 +80,59 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       setupRulers();
     }
   }, [isLandscapeMode, rulersVisible, selectedDevice]);
+  // console.log('LINE REFFFF', lineRef.current);
+
+  useEffect(() => {
+    let currentData = simulationData.mainSimulationDataPoints;
+    console.log('Current data:', currentData);
+
+    currentData.forEach((element) => {
+      switch (element.dataType) {
+        case 'tap':
+          drawPlotPoint(element.xPos, element.yPos, TapFunctionColour);
+          break;
+        case 'move':
+          drawPlotPoint(element.xPos, element.yPos, MoveFunctionColour);
+          break;
+        case 'move_tap':
+          drawPlotPoint(element.xPos, element.yPos, MoveTapFunctionColour);
+          break;
+        case 'drag':
+          drawPlotPoint(element.startxPos, element.startyPos, DragFunctionColour);
+          break;
+        case 'timeout':
+          drawPlotPoint(element.xPos, element.yPos, TimeoutFunctionColour);
+          break;
+        default:
+          console.log('No matching action found');
+      }
+    });
+  }, []);
+
+  const drawPlotPoint = (xPos, yPos, colour) => {
+
+    contextRef.current.strokeStyle = colour; // Sets the color of the circle's outline
+    
+    contextRef.current.beginPath();
+    contextRef.current.arc(
+      xPos,
+      yPos,
+      1,
+      0,
+      5 * Math.PI,
+      true
+    );
+    contextRef.current.stroke();
+
+    contextRef.current.fillStyle = 'black'; // This will ensure the text is always black
+
+    contextRef.current.fillText(
+      marketNumRef.current,
+      xPos + 5,
+      yPos + 5
+    );
+    marketNumRef.current++;
+  };
 
   const updatePositionMarker = ({ nativeEvent }) => {
     if (positionOfMouseAndCanvasVisible) {
@@ -89,7 +143,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   };
 
   const setupRulers = () => {
-    const canvas = canvasRef.current;
     const rulerX = rulerRefX.current;
     const rulerY = rulerRefY.current;
 
@@ -127,10 +180,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     const { offsetX, offsetY } = nativeEvent;
 
     // Creating a loop or sim data point
-    let dataGroup = 'simulation';
-    if (isCreatingEditingLoop) {
-      dataGroup = 'loop';
-    }
+    let dataGroup = displaySimOrLoop;
 
     switch (simulationToolSelected) {
       case 'tap':
@@ -146,7 +196,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         createDragDataPoint(offsetX, offsetY, dataGroup);
         break;
       case 'timeout':
-        createTimeoutDataPoint(dataGroup);
+        createTimeoutDataPoint(offsetX, offsetY, dataGroup);
         break;
       default:
         console.log('No matching action found');
@@ -168,21 +218,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       nativeEvent.offsetY + 5
     );
     marketNumRef.current++;
-    // console.log('9B. contextRef.current', contextRef.current);
-    // console.log('10. lineRef', lineRef);
-
-    // add to array of points
-    const tempStore = lineRef.current;
-    // console.log('12. TempStore', tempStore);
-    const newObj = {
-      xpos: offsetX,
-      ypos: offsetY,
-    };
-    tempStore.push(newObj);
-    setDataCollection([...dataCollection, newObj]);
-    setSimulationDataPoints([...dataCollection, newObj]);
-
-    lineRef.current = tempStore;
   };
 
   // Tap
@@ -249,10 +284,12 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   };
 
   // Timeout
-  const createTimeoutDataPoint = (dataGroup) => {
+  const createTimeoutDataPoint = (offsetX, offsetY, dataGroup) => {
     let newDataPoint = {
       dataGroup: dataGroup,
       dataType: 'timeout', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: offsetX,
+      yPos: offsetY,
       timeoutLength: timeoutLength, // milliseconds only
     };
 

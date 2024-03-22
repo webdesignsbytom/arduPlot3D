@@ -17,7 +17,7 @@ const SimulationContextProvider = ({ children }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const marketNumRef = useRef(1);
-  const lineRef = useRef([]);
+  // const lineRef = useRef([]);
   const emptyRef = useRef([]);
 
   const [dataCollection, setDataCollection] = useState([]);
@@ -118,7 +118,7 @@ const SimulationContextProvider = ({ children }) => {
   );
 
   const clearDataPoints = () => {
-    lineRef.current = emptyRef.current;
+    //lineRef.current = emptyRef.current;
     contextRef.current.clearRect(
       0,
       0,
@@ -163,7 +163,6 @@ const SimulationContextProvider = ({ children }) => {
         canvasRef,
         contextRef,
         marketNumRef,
-        lineRef,
         emptyRef,
         // Main simulation
         simulationData,
