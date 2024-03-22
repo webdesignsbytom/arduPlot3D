@@ -1,6 +1,6 @@
 # Tickets
 
-1. When you add a loop to the sim display the data points
+1. Clear all simulation items from main sim not loops - press clear all
 2. Hide current data points button in top menu
 3. colour swatches for data types ? icon
 4. When loop is selected only show their points on the canvas

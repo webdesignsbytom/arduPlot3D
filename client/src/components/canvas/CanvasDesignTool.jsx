@@ -17,7 +17,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     // Canvas ref
     canvasRef,
     contextRef,
-    marketNumRef,
+    dataPointMarkerRef,
     // Main sim data
     simulationData,
     setSimulationData,
@@ -106,7 +106,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
             sortDataElements(loopElement, decimalIndex);
           }
         );
-        marketNumRef.current = index + 1; // Ensure main index aligns with loops
+        dataPointMarkerRef.current = index + 1; // Ensure main index aligns with loops
       }
     });
   }, []);
@@ -168,7 +168,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     context.stroke();
 
     context.fillStyle = 'black'; // This will ensure the text is always black
-    // Use markerIndex for the label instead of incrementing marketNumRef
+    // Use markerIndex for the label instead of incrementing dataPointMarkerRef
     context.fillText(markerIndex, xPos + 5, yPos + 5);
   };
 
@@ -253,14 +253,14 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
-    // Directly increment and use marketNumRef for new data points
-    marketNumRef.current += 1;
+    // Directly increment and use dataPointMarkerRef for new data points
+    dataPointMarkerRef.current += 1;
     updateLoopState(newDataPoint);
     drawPlotPoint(
       newDataPoint.xPos,
       newDataPoint.yPos,
       TapFunctionColour,
-      marketNumRef.current
+      dataPointMarkerRef.current
     );
   };
 
@@ -275,15 +275,15 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
-    // Directly increment and use marketNumRef for new data points
-    marketNumRef.current += 1;
+    // Directly increment and use dataPointMarkerRef for new data points
+    dataPointMarkerRef.current += 1;
 
     updateLoopState(newDataPoint);
     drawPlotPoint(
       newDataPoint.xPos,
       newDataPoint.yPos,
       MoveFunctionColour,
-      marketNumRef.current
+      dataPointMarkerRef.current
     );
   };
 
@@ -300,15 +300,15 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
-    // Directly increment and use marketNumRef for new data points
-    marketNumRef.current += 1;
+    // Directly increment and use dataPointMarkerRef for new data points
+    dataPointMarkerRef.current += 1;
 
     updateLoopState(newDataPoint);
     drawPlotPoint(
       newDataPoint.xPos,
       newDataPoint.yPos,
       MoveTapFunctionColour,
-      marketNumRef.current
+      dataPointMarkerRef.current
     );
   };
 
@@ -327,15 +327,15 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeLength: 0,
     };
 
-    // Directly increment and use marketNumRef for new data points
-    marketNumRef.current += 1;
+    // Directly increment and use dataPointMarkerRef for new data points
+    dataPointMarkerRef.current += 1;
 
     updateLoopState(newDataPoint);
     drawPlotPoint(
       newDataPoint.startxPos,
       newDataPoint.startyPos,
       DragFunctionColour,
-      marketNumRef.current
+      dataPointMarkerRef.current
     );
   };
 
@@ -349,15 +349,15 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       timeoutLength: timeoutLength, // milliseconds only
     };
 
-    // Directly increment and use marketNumRef for new data points
+    // Directly increment and use dataPointMarkerRef for new data points
 
-    marketNumRef.current += 1;
+    dataPointMarkerRef.current += 1;
     updateLoopState(newDataPoint);
     drawPlotPoint(
       newDataPoint.xPos,
       newDataPoint.yPos,
       TimeoutFunctionColour,
-      marketNumRef.current
+      dataPointMarkerRef.current
     );
   };
 

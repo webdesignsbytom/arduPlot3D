@@ -58,7 +58,7 @@ function SimulationDesignPage() {
     setDragSettingsModalOpen,
     speedOfDraggingArmMoving,
     setSpeedOfDraggingArmMoving,
-    clearDataPoints,
+    clearAllDataPointsFromSimulation,
     contextRef,
     positionOfMouseAndCanvasVisible,
     setpositionOfMouseAndCanvasVisible,
@@ -92,7 +92,7 @@ function SimulationDesignPage() {
   const runConsentFunction = () => {
     switch (consentFunction) {
       case 'clearAllDataPoints':
-        clearDataPoints();
+        clearAllDataPointsFromSimulation();
         break;
       default:
         console.log('No matching action found');
@@ -212,7 +212,7 @@ function SimulationDesignPage() {
   const confirmNewSimulation = () => {
     setConsentMessage('');
     setConsentMessageVisible(false);
-    clearDataPoints();
+    //clearAllDataPointsFromSimulation();
   };
   const cancelNewSimulation = () => {
     setConsentMessage('');

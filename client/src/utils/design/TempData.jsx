@@ -6,6 +6,12 @@ export const blankLoopObject = {
   loopTimeToComplete: 0,
 };
 
+export const blankSimulationObject = {
+  simulationTitle: '',
+  mainSimulationDataPoints: [],
+  simulationLoops: [],
+};
+
 export const tempDesignData = {
   simulationTitle: 'Temp Sim 1',
   mainSimulationDataPoints: [

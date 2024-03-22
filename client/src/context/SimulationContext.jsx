@@ -9,15 +9,18 @@ import {
 } from '../utils/design/SpeedUtils';
 import { timeoutUnitTypesAvailable } from '../utils/design/DesignUtils';
 // Temp data
-import { blankLoopObject, tempDesignData } from '../utils/design/TempData';
+import {
+  blankLoopObject,
+  blankSimulationObject,
+  tempDesignData,
+} from '../utils/design/TempData';
 
 export const SimulationContext = React.createContext();
 
 const SimulationContextProvider = ({ children }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
-  const marketNumRef = useRef(1);
-  // const lineRef = useRef([]);
+  const dataPointMarkerRef = useRef(1);
   const emptyRef = useRef([]);
 
   const [dataCollection, setDataCollection] = useState([]);
@@ -43,7 +46,8 @@ const SimulationContextProvider = ({ children }) => {
 
   // Loops
   const [isCreatingEditingLoop, setIsCreatingEditingLoop] = useState(false);
-  const [loopDataBeingEdited, setLoopDataBeingEdited] = useState(blankLoopObject);
+  const [loopDataBeingEdited, setLoopDataBeingEdited] =
+    useState(blankLoopObject);
 
   // Tools
   const [simulationToolSelected, setSimulationToolSelected] = useState('tap');
@@ -97,14 +101,10 @@ const SimulationContextProvider = ({ children }) => {
     useState(true);
 
   const openAndDisplayLoop = (loopData, index) => {
-    console.log('INDEX openAndDisplayLoop()', index);
-    console.log('LOOP openAndDisplayLoop()', loopData);
     if (displayLoopDataPoints && index === displayLoopDataPointsIndex) {
       setdisplayLoopDataPoints(false);
       return;
     }
-
-    // setArrayOfLoopData(simulationData.simulationLoops[index]);
 
     setdisplayLoopDataPoints(true);
     setdisplayLoopDataPointsIndex(index);
@@ -117,20 +117,27 @@ const SimulationContextProvider = ({ children }) => {
     simulationData.simulationLoops
   );
 
-  const clearDataPoints = () => {
-    //lineRef.current = emptyRef.current;
+  const clearAllDataPointsFromSimulation = () => {
+    const currentFileName = simulationData.simulationTitle;
+    const currentLoopData = simulationData.simulationLoops;
+
     contextRef.current.clearRect(
       0,
       0,
       canvasRef.current.width,
       canvasRef.current.height
     );
-    marketNumRef.current = 1;
-    setDataCollection([]);
-    setSimulationDataPoints([]);
-    setLoopDataPoints([]);
+
+    dataPointMarkerRef.current = 1;
+
+    setSimulationData({
+      ...blankSimulationObject,
+      simulationTitle: currentFileName,
+      simulationLoops: currentLoopData
+    });
   };
 
+  console.log('simulationData', simulationData);
   const createNewLoop = (event) => {
     event.preventDefault(); // This will prevent the default action
 
@@ -146,7 +153,7 @@ const SimulationContextProvider = ({ children }) => {
       loopTitle: newLoopName, // Update the loop title with the new name
     };
 
-    setAddCreateLoopModalOpen(false)
+    setAddCreateLoopModalOpen(false);
     setIsCreatingEditingLoop(true);
 
     // Use the spread operator to copy existing loops and add the new loop
@@ -162,7 +169,7 @@ const SimulationContextProvider = ({ children }) => {
         // Ref
         canvasRef,
         contextRef,
-        marketNumRef,
+        dataPointMarkerRef,
         emptyRef,
         // Main simulation
         simulationData,
@@ -220,7 +227,7 @@ const SimulationContextProvider = ({ children }) => {
         loopDataBeingEdited,
         setLoopDataBeingEdited,
         handleDataPointChange,
-        clearDataPoints,
+        clearAllDataPointsFromSimulation,
         dataCollection,
         setDataCollection,
         loopDataPoints,
