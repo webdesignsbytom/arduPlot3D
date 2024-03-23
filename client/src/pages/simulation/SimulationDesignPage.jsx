@@ -21,6 +21,7 @@ import { ToggleContext } from '../../context/ToggleContext';
 import { SimulationContext } from '../../context/SimulationContext';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
+import CanvasSimulationTool from '../../components/canvas/CanvasSimulationTool';
 
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -144,7 +145,7 @@ function SimulationDesignPage() {
     setRulersVisible(false);
   };
 
-  //
+  // Run simulation
   const runSimulation = () => {
     setSimulationIsRunning(true);
   };
@@ -381,9 +382,13 @@ function SimulationDesignPage() {
 
           {/* CANVAS */}
           <div className='bg-white h-full grid outline-black outline outline-2 overflow-hidden'>
-            <CanvasDesignTool
+            {simulationIsRunning ? (
+              <CanvasSimulationTool />
+            ) : (
+              <CanvasDesignTool
               positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
-            />
+              />
+              )}
           </div>
         </section>
 
