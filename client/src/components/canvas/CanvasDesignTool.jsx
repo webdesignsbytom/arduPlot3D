@@ -108,11 +108,14 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     };
 
     if (!isCreatingEditingLoop) {
+      console.log('1111111111111111');
       // Handling for simulation data points
       simulationData.mainSimulationDataPoints.forEach((point) => {
+        // Create simulation data points
         if (point.dataGroup === 'simulation') {
           flattenedData.push(point);
         } else if (point.dataGroup === 'loop') {
+          // Create loop simulation points
           // Expand with loop points if needed
           flattenedData.push(
             ...point.mainSimulationLoopDataPoints.map((loopPoint, index) => ({
@@ -135,16 +138,24 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       displayCountMap[numberOfDataPointsToDisplay] || flattenedData.length;
     const pointsToDisplay = flattenedData.slice(-displayCount);
 
+    console.log('AAAAAAAAAAAAAAAAdisplayCount', displayCount);
     // Draw the points
     pointsToDisplay.forEach((element, index) => {
+      console.log('++++++++');
       let markerIndex = element.decimalIndex || index + 1; // Use decimalIndex if present, otherwise index + 1
       sortDataElements(element, markerIndex);
     });
+
+    let newIndex = simulationData.mainSimulationDataPoints.length;
+    console.log('dataPointMarkerRef.current', dataPointMarkerRef.current);
+    console.log('newIndex', newIndex);
+    dataPointMarkerRef.current = newIndex;
+    //dataPointMarkerRef.current += 1;
+    console.log('444dataPointMarkerRef.current', dataPointMarkerRef.current);
+
   }, [
     isCreatingEditingLoop,
     numberOfDataPointsToDisplay,
-    simulationData.mainSimulationDataPoints,
-    loopDataBeingEdited.mainSimulationLoopDataPoints,
   ]);
 
   const sortDataElements = (element, markerIndex) => {
@@ -173,6 +184,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const drawPlotPoint = (newDataPoint, colour, markerIndex) => {
     const context = contextRef.current;
     context.strokeStyle = colour; // Sets the color of the circle's outline
+    console.log('333dataPointMarkerRef.current', markerIndex);
 
     if (!isCreatingDragDataPoint) {
       context.beginPath();
@@ -243,8 +255,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         newDataPoint.finishxPos + 5
       );
     }
-
-    // Use markerIndex for the label instead of incrementing dataPointMarkerRef
   };
 
   const updatePositionMarker = ({ nativeEvent }) => {
@@ -326,6 +336,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   // Tap
   const createTapDataPoint = (offsetX, offsetY, dataGroup) => {
+    console.log('111dataPointMarkerRef.current', dataPointMarkerRef.current);
     let newDataPoint = {
       dataGroup: dataGroup,
       dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
@@ -338,6 +349,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
     // Directly increment and use dataPointMarkerRef for new data points
     dataPointMarkerRef.current += 1;
+    console.log('22dataPointMarkerRef.current', dataPointMarkerRef.current);
+
     updateLoopState(newDataPoint);
     drawPlotPoint(newDataPoint, TapFunctionColour, dataPointMarkerRef.current);
   };

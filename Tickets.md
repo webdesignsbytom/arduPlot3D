@@ -7,3 +7,9 @@
 5. colour swatches for data types ? icon
 
 Everything is working but when a loops is save it doesnt revert back to regualar data points
+
+if ctreating or editing loop set ref to length
+
+draw loop useEffect?
+
+must draw loop without updating numbers
