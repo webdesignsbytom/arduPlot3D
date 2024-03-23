@@ -93,6 +93,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   // Load current points on startup
   useEffect(() => {
+    console.log('SUEEFFECT');
     const context = contextRef.current;
     // Clear the canvas first
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -108,7 +109,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     };
 
     if (!isCreatingEditingLoop) {
-      console.log('1111111111111111');
       // Handling for simulation data points
       simulationData.mainSimulationDataPoints.forEach((point) => {
         // Create simulation data points
@@ -128,6 +128,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         }
       });
     } else {
+      console.log('1111111111111111');
+      dataPointMarkerRef.current = 0;
       // Handling for loop data being edited
       // Assume loopDataBeingEdited.mainSimulationLoopDataPoints is similar to 'simulation' group data
       flattenedData = [...loopDataBeingEdited.mainSimulationLoopDataPoints];
@@ -138,25 +140,41 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       displayCountMap[numberOfDataPointsToDisplay] || flattenedData.length;
     const pointsToDisplay = flattenedData.slice(-displayCount);
 
-    console.log('AAAAAAAAAAAAAAAAdisplayCount', displayCount);
-    // Draw the points
-    pointsToDisplay.forEach((element, index) => {
-      console.log('++++++++');
-      let markerIndex = element.decimalIndex || index + 1; // Use decimalIndex if present, otherwise index + 1
-      sortDataElements(element, markerIndex);
-    });
+    let mainIndexTally = 1;
+    let isDecimal = false;
 
-    let newIndex = simulationData.mainSimulationDataPoints.length;
-    console.log('dataPointMarkerRef.current', dataPointMarkerRef.current);
-    console.log('newIndex', newIndex);
-    dataPointMarkerRef.current = newIndex;
-    //dataPointMarkerRef.current += 1;
-    console.log('444dataPointMarkerRef.current', dataPointMarkerRef.current);
+    if (pointsToDisplay.length > 0) {
+      // Draw the points
+      pointsToDisplay.forEach((element, index) => {
+        console.log('111 mainIndexTally', mainIndexTally);
+        let markerIndex = element.decimalIndex || mainIndexTally; // Use decimalIndex if present, otherwise index + 1
+        console.log('222 MarkerIndex', markerIndex);
+        console.log('333 isDecimal', isDecimal);
 
-  }, [
-    isCreatingEditingLoop,
-    numberOfDataPointsToDisplay,
-  ]);
+        if (element.decimalIndex) {
+          console.log('BBBBBBB');
+          if (!isDecimal) {
+            mainIndexTally++;
+          }
+          isDecimal = true;
+        }
+
+        if (!element.decimalIndex) {
+          console.log('element.decimalIndex');
+          isDecimal = false;
+          mainIndexTally++;
+        }
+
+        console.log('MARKER INDEX', markerIndex);
+        sortDataElements(element, markerIndex);
+        console.log('------------------');
+      });
+
+      let newIndex = simulationData.mainSimulationDataPoints.length;
+      console.log('NEW INDEX: ', newIndex);
+      dataPointMarkerRef.current = newIndex;
+    }
+  }, [isCreatingEditingLoop, numberOfDataPointsToDisplay]);
 
   const sortDataElements = (element, markerIndex) => {
     // Use markerIndex for drawing the point
@@ -301,7 +319,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   const createMarker = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
-
+    console.log('SSSSSSSSSSSSSSSSSSS', dataPointMarkerRef.current);
     if (isCreatingDragDataPoint) {
       console.log('PPPPPPPPPPPPPPPPPP');
       setSecondDragPoint(offsetX, offsetY);
