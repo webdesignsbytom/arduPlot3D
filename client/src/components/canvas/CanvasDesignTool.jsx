@@ -94,7 +94,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     const context = contextRef.current;
     // Clear the canvas first
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-  
+
     let flattenedData = [];
     let displayCountMap = {
       infinite: Infinity, // Use Infinity for a mathematical approach
@@ -104,38 +104,52 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       five: 5,
       ten: 10,
     };
-  
+    console.log('AAAAAAAAA');
+
     if (!isCreatingEditingLoop) {
+      console.log('OOOOOOOOOOO');
       // Handling for simulation data points
       simulationData.mainSimulationDataPoints.forEach((point) => {
         if (point.dataGroup === 'simulation') {
+          console.log('1111111111');
           flattenedData.push(point);
         } else if (point.dataGroup === 'loop') {
+          console.log('22222222222');
           // Expand with loop points if needed
-          flattenedData.push(...point.mainSimulationLoopDataPoints.map((loopPoint, index) => ({
-            ...loopPoint,
-            decimalIndex: parseFloat(`${flattenedData.length + 1}.${index + 1}`)
-          })));
+          flattenedData.push(
+            ...point.mainSimulationLoopDataPoints.map((loopPoint, index) => ({
+              ...loopPoint,
+              decimalIndex: parseFloat(
+                `${flattenedData.length + 1}.${index + 1}`
+              ),
+            }))
+          );
         }
       });
     } else {
+      console.log('EEEEEEEEEEEEEEE');
       // Handling for loop data being edited
       // Assume loopDataBeingEdited.mainSimulationLoopDataPoints is similar to 'simulation' group data
       flattenedData = [...loopDataBeingEdited.mainSimulationLoopDataPoints];
     }
-  
+    console.log('BBBBBB');
+
     // Determine the number of points to display
-    let displayCount = displayCountMap[numberOfDataPointsToDisplay] || flattenedData.length;
+    let displayCount =
+      displayCountMap[numberOfDataPointsToDisplay] || flattenedData.length;
     const pointsToDisplay = flattenedData.slice(-displayCount);
-  
+
     // Draw the points
     pointsToDisplay.forEach((element, index) => {
       let markerIndex = element.decimalIndex || index + 1; // Use decimalIndex if present, otherwise index + 1
       sortDataElements(element, markerIndex);
     });
-  
-  }, [isCreatingEditingLoop, numberOfDataPointsToDisplay, simulationData.mainSimulationDataPoints, loopDataBeingEdited.mainSimulationLoopDataPoints]);
-  
+  }, [
+    isCreatingEditingLoop,
+    numberOfDataPointsToDisplay,
+    simulationData.mainSimulationDataPoints,
+    loopDataBeingEdited.mainSimulationLoopDataPoints,
+  ]);
 
   const sortDataElements = (element, markerIndex) => {
     // Use markerIndex for drawing the point
@@ -244,7 +258,10 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     const { offsetX, offsetY } = nativeEvent;
 
     // Creating a loop or sim data point
-    let dataGroup = displaySimOrLoop;
+    let dataGroup = 'simulation';
+    if (isCreatingEditingLoop) {
+      dataGroup = 'loop';
+    }
 
     switch (simulationToolSelected) {
       case 'tap':
