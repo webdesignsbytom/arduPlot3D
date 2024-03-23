@@ -48,6 +48,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   // State to manage tooltip visibility and position
   const [tooltip, setTooltip] = useState({ x: 0, y: 0 });
+  const [isCreatingDragDataPoint, setIsCreatingDragDataPoint] = useState(false);
+  const [tempDragObject, setTempDragObject] = useState({});
 
   const rulerRefX = useRef(null); // Ref for the X-axis ruler
   const rulerRefY = useRef(null); // Ref for the Y-axis ruler
@@ -104,17 +106,13 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       five: 5,
       ten: 10,
     };
-    console.log('AAAAAAAAA');
 
     if (!isCreatingEditingLoop) {
-      console.log('OOOOOOOOOOO');
       // Handling for simulation data points
       simulationData.mainSimulationDataPoints.forEach((point) => {
         if (point.dataGroup === 'simulation') {
-          console.log('1111111111');
           flattenedData.push(point);
         } else if (point.dataGroup === 'loop') {
-          console.log('22222222222');
           // Expand with loop points if needed
           flattenedData.push(
             ...point.mainSimulationLoopDataPoints.map((loopPoint, index) => ({
@@ -127,12 +125,10 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         }
       });
     } else {
-      console.log('EEEEEEEEEEEEEEE');
       // Handling for loop data being edited
       // Assume loopDataBeingEdited.mainSimulationLoopDataPoints is similar to 'simulation' group data
       flattenedData = [...loopDataBeingEdited.mainSimulationLoopDataPoints];
     }
-    console.log('BBBBBB');
 
     // Determine the number of points to display
     let displayCount =
@@ -155,61 +151,100 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     // Use markerIndex for drawing the point
     switch (element.dataType) {
       case 'tap':
-        drawPlotPoint(
-          element.xPos,
-          element.yPos,
-          TapFunctionColour,
-          markerIndex
-        );
+        drawPlotPoint(element, TapFunctionColour, markerIndex);
         break;
       case 'move':
-        drawPlotPoint(
-          element.xPos,
-          element.yPos,
-          MoveFunctionColour,
-          markerIndex
-        );
+        drawPlotPoint(element, MoveFunctionColour, markerIndex);
         break;
       case 'move_tap':
-        drawPlotPoint(
-          element.xPos,
-          element.yPos,
-          MoveTapFunctionColour,
-          markerIndex
-        );
+        drawPlotPoint(element, MoveTapFunctionColour, markerIndex);
         break;
       case 'drag':
-        drawPlotPoint(
-          element.startxPos,
-          element.startyPos,
-          DragFunctionColour,
-          markerIndex
-        );
+        drawPlotPoint(element, DragFunctionColour, markerIndex);
         break;
       case 'timeout':
-        drawPlotPoint(
-          element.xPos,
-          element.yPos,
-          TimeoutFunctionColour,
-          markerIndex
-        );
+        drawPlotPoint(element, TimeoutFunctionColour, markerIndex);
         break;
       default:
         console.log('No matching action found');
     }
   };
 
-  const drawPlotPoint = (xPos, yPos, colour, markerIndex) => {
+  const drawPlotPoint = (newDataPoint, colour, markerIndex) => {
     const context = contextRef.current;
     context.strokeStyle = colour; // Sets the color of the circle's outline
 
-    context.beginPath();
-    context.arc(xPos, yPos, 1, 0, 2 * Math.PI, true);
-    context.stroke();
+    if (!isCreatingDragDataPoint) {
+      context.beginPath();
+      if (newDataPoint.dataType !== 'drag') {
+        context.arc(
+          newDataPoint.xPos,
+          newDataPoint.yPos,
+          1,
+          0,
+          2 * Math.PI,
+          true
+        );
+        context.stroke();
+        context.fillStyle = 'black'; // This will ensure the text is always black
+        context.fillText(
+          markerIndex,
+          newDataPoint.xPos + 5,
+          newDataPoint.yPos + 5
+        );
+      } else {
+        context.arc(
+          newDataPoint.startxPos,
+          newDataPoint.startyPos,
+          1,
+          0,
+          2 * Math.PI,
+          true
+        );
+        context.stroke();
+        context.fillStyle = 'black'; // This will ensure the text is always black
+        context.fillText(
+          markerIndex,
+          newDataPoint.startxPos + 5,
+          newDataPoint.startyPos + 5
+        );
+        context.beginPath();
+        context.arc(
+          newDataPoint.finishxPos,
+          newDataPoint.finishxPos,
+          1,
+          0,
+          2 * Math.PI,
+          true
+        );
+        context.stroke();
+        context.fillStyle = 'black'; // This will ensure the text is always black
+        context.fillText(
+          markerIndex,
+          newDataPoint.finishxPos + 5,
+          newDataPoint.finishxPos + 5
+        );
+      }
+    } else {
+      context.beginPath();
+      context.arc(
+        newDataPoint.finishxPos,
+        newDataPoint.finishxPos,
+        1,
+        0,
+        2 * Math.PI,
+        true
+      );
+      context.stroke();
+      context.fillStyle = 'black'; // This will ensure the text is always black
+      context.fillText(
+        markerIndex,
+        newDataPoint.finishxPos + 5,
+        newDataPoint.finishxPos + 5
+      );
+    }
 
-    context.fillStyle = 'black'; // This will ensure the text is always black
     // Use markerIndex for the label instead of incrementing dataPointMarkerRef
-    context.fillText(markerIndex, xPos + 5, yPos + 5);
   };
 
   const updatePositionMarker = ({ nativeEvent }) => {
@@ -257,6 +292,11 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const createMarker = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
 
+    if (isCreatingDragDataPoint) {
+      console.log('PPPPPPPPPPPPPPPPPP');
+      setSecondDragPoint(offsetX, offsetY);
+      return;
+    }
     // Creating a loop or sim data point
     let dataGroup = 'simulation';
     if (isCreatingEditingLoop) {
@@ -299,12 +339,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     // Directly increment and use dataPointMarkerRef for new data points
     dataPointMarkerRef.current += 1;
     updateLoopState(newDataPoint);
-    drawPlotPoint(
-      newDataPoint.xPos,
-      newDataPoint.yPos,
-      TapFunctionColour,
-      dataPointMarkerRef.current
-    );
+    drawPlotPoint(newDataPoint, TapFunctionColour, dataPointMarkerRef.current);
   };
 
   // Move
@@ -322,12 +357,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     dataPointMarkerRef.current += 1;
 
     updateLoopState(newDataPoint);
-    drawPlotPoint(
-      newDataPoint.xPos,
-      newDataPoint.yPos,
-      MoveFunctionColour,
-      dataPointMarkerRef.current
-    );
+    drawPlotPoint(newDataPoint, MoveFunctionColour, dataPointMarkerRef.current);
   };
 
   // Move And Tap
@@ -348,8 +378,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
     updateLoopState(newDataPoint);
     drawPlotPoint(
-      newDataPoint.xPos,
-      newDataPoint.yPos,
+      newDataPoint,
       MoveTapFunctionColour,
       dataPointMarkerRef.current
     );
@@ -373,13 +402,33 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     // Directly increment and use dataPointMarkerRef for new data points
     dataPointMarkerRef.current += 1;
 
-    updateLoopState(newDataPoint);
+    drawPlotPoint(newDataPoint, DragFunctionColour, dataPointMarkerRef.current);
+
+    setIsCreatingDragDataPoint(true);
+    setTempDragObject(newDataPoint);
+  };
+
+  const setSecondDragPoint = (offsetX, offsetY) => {
+    let completedObject = {
+      ...tempDragObject,
+      finishxPos: offsetX,
+      finishyPos: offsetY,
+    };
+    // Update the tempDragObject with the new finish positions
+    setTempDragObject((currentDragObject) => ({
+      ...currentDragObject,
+      finishxPos: offsetX,
+      finishyPos: offsetY,
+    }));
+
     drawPlotPoint(
-      newDataPoint.startxPos,
-      newDataPoint.startyPos,
+      completedObject,
       DragFunctionColour,
       dataPointMarkerRef.current
     );
+
+    updateLoopState(completedObject);
+    setIsCreatingDragDataPoint(false);
   };
 
   // Timeout
@@ -397,8 +446,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     dataPointMarkerRef.current += 1;
     updateLoopState(newDataPoint);
     drawPlotPoint(
-      newDataPoint.xPos,
-      newDataPoint.yPos,
+      newDataPoint,
       TimeoutFunctionColour,
       dataPointMarkerRef.current
     );
