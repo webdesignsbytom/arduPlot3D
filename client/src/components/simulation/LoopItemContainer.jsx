@@ -21,8 +21,18 @@ function LoopItemContainer({ index, loopData }) {
     displaySimOrLoop,
     deleteDataPointFromSimulation,
     deleteDataPointFromLoop,
+    isCreatingEditingLoop,
   } = useContext(SimulationContext);
 
+  console.log('loop data points', loopData);
+  console.log('displaySimOrLoop', displaySimOrLoop);
+
+  const handleDataPointInputChange = (index, dataIndex, event) => {
+    const { value } = event.target;
+    console.log('Value', value);
+    console.log('Index', index);
+    console.log('DataIndex', dataIndex);
+  };
   return (
     <>
       <LoopItem key={index} index={index} loopData={loopData} />
@@ -67,27 +77,15 @@ function LoopItemContainer({ index, loopData }) {
                     name='data_point'
                     id='data_point'
                     value={`x: ${loopDataPoint.xPos}, y: ${loopDataPoint.yPos}`}
-                    //onChange={handleChange}
+                    onChange={(event) =>
+                      handleDataPointInputChange(index, dataIndex, event)
+                    }
+                    readOnly={isCreatingEditingLoop ? true : false}
                   />
                 </div>
                 {/* Delete button */}
                 <div className='grid min-w-[16px]'>
-                  {displaySimOrLoop === 'simulation' ? (
-                    <div></div>
-                  ) : (
-                    displaySimOrLoop ===
-                    'loop'(
-                      <button
-                        type='button'
-                        onClick={(event) =>
-                          deleteDataPointFromLoop(event, index)
-                        }
-                        className='active:scale-95 no__highlights rounded-xl'
-                      >
-                        <IoCloseCircleSharp />
-                      </button>
-                    )
-                  )}
+                  <div></div>
                 </div>
               </div>
             );

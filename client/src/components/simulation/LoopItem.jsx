@@ -14,6 +14,9 @@ function LoopItem({ index, loopData }) {
     deleteDataPointFromSimulation,
   } = useContext(SimulationContext);
 
+  console.log('LI INDEX', index);
+  console.log('LI DATA', loopData);
+
   const editLoop = (event, loop) => {
     event.preventDefault();
 
@@ -32,14 +35,14 @@ function LoopItem({ index, loopData }) {
         </label>
       </div>
       <div
-        title='Click to edit'
+        title='Click to view'
         onClick={() => openAndDisplayLoop(loopData, index)}
         className='grid bg-white grid-flow-col items-center px-1 gap-2 w-full h-full outline-black outline outline-2 cursor-pointer active:scale-95 hover:bg-yellow-200'
       >
         <div>{loopData.loopTitle}</div>
       </div>
 
-      {/* Delete button */}
+      {/* Edit button */}
       <div className='grid grid-cols-2 gap-1'>
         <button
           title='Edit loop'
@@ -49,6 +52,8 @@ function LoopItem({ index, loopData }) {
         >
           <FaEdit />
         </button>
+
+        {/* Delete button */}
         <button
           title='Delete loop'
           id='delete_loop'

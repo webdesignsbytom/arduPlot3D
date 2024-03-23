@@ -25,7 +25,6 @@ import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
   const {
-    isCreatingNewLoop,
     setIsCreatingNewLoop,
     rulersVisible,
     setRulersVisible,

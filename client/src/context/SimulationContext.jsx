@@ -39,7 +39,6 @@ const SimulationContextProvider = ({ children }) => {
   });
 
   // Design
-  const [isCreatingNewLoop, setIsCreatingNewLoop] = useState(false);
   const [rulersVisible, setRulersVisible] = useState(true);
   const [isPxOrMmDimensions, setIsPxOrMmDimensions] = useState(false); // False = px
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
@@ -104,6 +103,7 @@ const SimulationContextProvider = ({ children }) => {
     useState(true);
 
   const openAndDisplayLoop = (loopData, index) => {
+    console.log('PPPPPPPPPPPPPPPPPPPP');
     if (displayLoopDataPoints && index === displayLoopDataPointsIndex) {
       setdisplayLoopDataPoints(false);
       return;
@@ -157,6 +157,17 @@ const SimulationContextProvider = ({ children }) => {
 
   const deleteDataPointFromLoop = (event, dataIndex) => {
     event.preventDefault();
+
+    const updatedDataPoints = [
+      ...loopDataBeingEdited.mainSimulationLoopDataPoints.slice(0, dataIndex),
+      ...loopDataBeingEdited.mainSimulationLoopDataPoints.slice(dataIndex + 1),
+    ];
+    setLoopDataBeingEdited({
+      ...loopDataBeingEdited, 
+      mainSimulationLoopDataPoints: updatedDataPoints 
+    });
+    console.log('LLLL dataIndex', dataIndex);
+    console.log('LLLLLLLLL', loopDataBeingEdited);
   };
 
   console.log('simulationData', simulationData);
@@ -214,8 +225,6 @@ const SimulationContextProvider = ({ children }) => {
         simulationLoopData,
         setSimulationLoopData,
         // Settings
-        isCreatingNewLoop,
-        setIsCreatingNewLoop,
         rulersVisible,
         setRulersVisible,
         simulationIsRunning,

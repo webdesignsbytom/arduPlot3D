@@ -10,6 +10,14 @@ function LoopsMenuDisplay() {
 
   const endOfListRef = useRef(null); // Create a ref for the bottom of the list
 
+  const [loopDataArray, setLoopDataArray] = useState(
+    simulationData.simulationLoops
+  );
+  console.log('loopDataArray', loopDataArray);
+  useEffect(() => {
+    setLoopDataArray(simulationData.simulationLoops);
+  }, [simulationData.simulationLoops]);
+
   useEffect(() => {
     // Scroll to the end of the list whenever simulationData.simulationLoops changes
     endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -40,7 +48,7 @@ function LoopsMenuDisplay() {
 
   return (
     <div className='overflow-y-scroll gap-1 p-1'>
-      {simulationData.simulationLoops.map((loop, index) => (
+      {loopDataArray.map((loop, index) => (
         <LoopItemContainer key={index} index={index} loopData={loop} />
       ))}
       {/* Invisible div at the bottom of the list to attach the ref */}

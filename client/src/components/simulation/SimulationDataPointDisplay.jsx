@@ -18,6 +18,7 @@ function SimulationDataPointDisplay() {
 
   const [simulationDataObject, setSimulationDataObject] =
     useState(simulationData);
+    
   const endOfListRef = useRef(null); // Ref for the end of the list
 
   useEffect(() => {

@@ -45,7 +45,6 @@ function SimulationPageTopToolBar({
 }) {
   // Context
   const {
-    isCreatingNewLoop,
     rulersVisible,
     simulationIsRunning,
     isLandscapeMode,
