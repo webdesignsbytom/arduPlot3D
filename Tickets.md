@@ -1,7 +1,9 @@
 # Tickets
 
-1. When creating a loop the loop menu and icon need to be animated
-2. When you create a new loop the menu container should glow to show its active
-3. Update use of classes for move/tap types 
-4. colour swatches for data types
-5. When loop is selected only show their points on the canvas
+1. Delete bug
+2. Add loop creates number bug
+3. Create drag plot point
+4. Resize for smaller screens
+5. Colour swatches for data types ? icon
+
+When the delete button is clicked in edit loop mode, the index before gets deleted

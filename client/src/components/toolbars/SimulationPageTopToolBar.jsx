@@ -12,9 +12,11 @@ import { TbHandThreeFingers } from 'react-icons/tb';
 import { RiDragDropLine } from 'react-icons/ri';
 import { IoTimeOutline } from 'react-icons/io5';
 import { IoMdMove } from 'react-icons/io';
-import { HiCursorArrowRipple } from "react-icons/hi2";
-import { GiArrowCursor } from "react-icons/gi";
-import { FaArrowsTurnToDots } from "react-icons/fa6";
+import { HiCursorArrowRipple } from 'react-icons/hi2';
+import { GiArrowCursor } from 'react-icons/gi';
+import { FaArrowsTurnToDots } from 'react-icons/fa6';
+import { IoMdInfinite } from 'react-icons/io';
+import { availablePointsToDisplayData } from '../../utils/design/Constants';
 
 function SimulationPageTopToolBar({
   drawConnectingLines,
@@ -39,16 +41,17 @@ function SimulationPageTopToolBar({
   speedOfDraggingArmMoving,
   speedOfFingerMoving,
   toggleMousePositionDisplay,
-  positionOfMouseAndCanvasVisible
+  positionOfMouseAndCanvasVisible,
 }) {
   // Context
   const {
-    isCreatingNewLoop,
     rulersVisible,
     simulationIsRunning,
     isLandscapeMode,
     selectedDevice,
-    displaySimOrLoop,
+    displaySimOsrLoop,
+    numberOfDataPointsToDisplay,
+    setPointsToDisplaySettings,
   } = useContext(SimulationContext);
 
   return (
@@ -182,69 +185,128 @@ function SimulationPageTopToolBar({
         {/* Divider */}
         <div className='bg-yellow-400 h-full w-[2px] outline outline-black outline-1 rounded-3xl'></div>
 
-        {/* Mouse position */}
-        {positionOfMouseAndCanvasVisible ? (
-          <button
-            onClick={toggleMousePositionDisplay}
-            title='Hide mouse position'
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            <GiArrowCursor />
-          </button>
-        ) : (
-          <button
-            onClick={toggleMousePositionDisplay}
-            title='Display mouse position'
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            <HiCursorArrowRipple />
-          </button>
-        )}
+        <div className='grid grid-cols-4 w-fit gap-2'>
+          {/* Mouse position */}
+          {positionOfMouseAndCanvasVisible ? (
+            <button
+              onClick={toggleMousePositionDisplay}
+              title='Hide mouse position'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              <GiArrowCursor />
+            </button>
+          ) : (
+            <button
+              onClick={toggleMousePositionDisplay}
+              title='Display mouse position'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              <HiCursorArrowRipple />
+            </button>
+          )}
 
-        {/* Landscape/portrait */}
-        {isLandscapeMode ? (
-          <button
-            onClick={setSimulationPortrait}
-            title='Orientatate Portrait'
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            <IoPhonePortrait />
-          </button>
-        ) : (
-          <button
-            onClick={setSimulationLandScape}
-            title='Orientatate Landscape'
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            <IoPhoneLandscape />
-          </button>
-        )}
+          {/* Landscape/portrait */}
+          {isLandscapeMode ? (
+            <button
+              onClick={setSimulationPortrait}
+              title='Orientatate Portrait'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              <IoPhonePortrait />
+            </button>
+          ) : (
+            <button
+              onClick={setSimulationLandScape}
+              title='Orientatate Landscape'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              <IoPhoneLandscape />
+            </button>
+          )}
 
-        {/* Rules on canvas */}
-        {rulersVisible ? (
-          <button
-            onClick={hideCanvasRulers}
-            title='Hide Rulers'
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            <MdHideSource />
-          </button>
-        ) : (
-          <button
-            onClick={displayCanvasRulers}
-            title='Display Rulers'
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
-          >
-            <FaRulerCombined />
-          </button>
-        )}
+          {/* Display points x numbers */}
+          {numberOfDataPointsToDisplay === availablePointsToDisplayData[0] ? (
+            <button
+              onClick={setPointsToDisplaySettings}
+              title='Display latest data point only'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              <IoMdInfinite />
+            </button>
+          ) : numberOfDataPointsToDisplay ===
+            availablePointsToDisplayData[1] ? (
+            <button
+              onClick={setPointsToDisplaySettings}
+              title='Display latest data point only'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              1
+            </button>
+          ) : numberOfDataPointsToDisplay ===
+            availablePointsToDisplayData[2] ? (
+            <button
+              onClick={setPointsToDisplaySettings}
+              title='Display latest data point only'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              2
+            </button>
+          ) : numberOfDataPointsToDisplay ===
+            availablePointsToDisplayData[3] ? (
+            <button
+              onClick={setPointsToDisplaySettings}
+              title='Display latest data point only'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              3
+            </button>
+          ) : numberOfDataPointsToDisplay ===
+            availablePointsToDisplayData[4] ? (
+            <button
+              onClick={setPointsToDisplaySettings}
+              title='Display latest data point only'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              5
+            </button>
+          ) : numberOfDataPointsToDisplay ===
+            availablePointsToDisplayData[5] ? (
+            <button
+              onClick={setPointsToDisplaySettings}
+              title='Display latest data point only'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              10
+            </button>
+          ) : null}
 
-        <button
-          onClick={clearAllDataPoints}
-          className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-red-400 hover:bg-red-100 rounded-md'
-        >
-          Clear all
-        </button>
+          {/* Rules on canvas */}
+          {rulersVisible ? (
+            <button
+              onClick={hideCanvasRulers}
+              title='Hide Rulers'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              <MdHideSource />
+            </button>
+          ) : (
+            <button
+              onClick={displayCanvasRulers}
+              title='Display Rulers'
+              className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
+            >
+              <FaRulerCombined />
+            </button>
+          )}
+        </div>
+        <div>
+          <button
+            onClick={clearAllDataPoints}
+            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-red-400 hover:bg-red-100 rounded-md'
+          >
+            Clear all
+          </button>
+        </div>
       </div>
     </div>
   );

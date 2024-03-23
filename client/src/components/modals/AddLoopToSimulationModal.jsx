@@ -10,8 +10,6 @@ function AddLoopToSimulationModal() {
     simulationData.simulationLoops
   );
 
-  console.log('availableLoops', availableLoops);
-
   const [loopToAdd, setLoopToAdd] = useState(simulationData.simulationLoops[0]);
 
   const closeModal = () => {
@@ -20,7 +18,6 @@ function AddLoopToSimulationModal() {
 
 
   const addLoopToSimulation = () => {
-    console.log('addLoopToSimulation() - loopToAdd', loopToAdd);
     setSimulationData({
       ...simulationData,
       mainSimulationDataPoints: [...simulationData.mainSimulationDataPoints, loopToAdd],
@@ -31,7 +28,6 @@ function AddLoopToSimulationModal() {
     const selectedIndex = parseInt(event.target.value, 10); // Ensure the value is treated as an integer
     if (!isNaN(selectedIndex)) {
       const selectedLoop = availableLoops[selectedIndex];
-      console.log('Selected device: ', selectedLoop); // Diagnostic log
       setLoopToAdd(selectedLoop);
     } else {
       console.log('Invalid selection index:', event.target.value); // Diagnostic log for invalid selections

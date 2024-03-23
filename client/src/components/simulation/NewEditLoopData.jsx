@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
 // Components
@@ -12,30 +12,19 @@ function NewEditLoopData() {
     displayLoopDataPointsIndex,
     simulationData,
     setSimulationData,
+    saveLoopPerminently,
+    dataPointMarkerRef,
+    deleteSavedLoopFromSimulation,
   } = useContext(SimulationContext);
 
-  const saveLoopPerminently = () => {
-    const updatedLoop = loopDataBeingEdited;
-    const indexToReplace = displayLoopDataPointsIndex;
+  // Automatically scroll to the last item when the loop data points update
+  const endOfListRef = useRef(null); // Ref for the end of the list
 
-    const newSimulationLoops = simulationData.simulationLoops.map(
-      (loop, index) => {
-        if (index === indexToReplace) {
-          return updatedLoop; // Replace the loop at this index with the updated loop
-        } else {
-          return loop; // Otherwise, keep the loop as is
-        }
-      }
-    );
-
-    // Then, we set the updated simulation data with the new array of simulation loops
-    setSimulationData({
-      ...simulationData, // Spread the existing properties of simulationData
-      simulationLoops: newSimulationLoops, // Replace simulationLoops with the new array
-    });
-
-    setIsCreatingEditingLoop(false);
-  };
+  useEffect(() => {
+    endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
+    dataPointMarkerRef.current =
+      loopDataBeingEdited.mainSimulationLoopDataPoints.length;
+  }, [loopDataBeingEdited.mainSimulationLoopDataPoints]);
 
   const deleteAllLoopData = () => {
     setIsCreatingEditingLoop(false);
@@ -54,8 +43,6 @@ function NewEditLoopData() {
       loopTitle: value,
     });
   };
-
-  console.log('XXX loopDataBeingEdited', loopDataBeingEdited);
 
   return (
     <div className='grid overflow-y-scroll h-full w-full px-1'>
@@ -77,19 +64,21 @@ function NewEditLoopData() {
 
       {loopDataBeingEdited.mainSimulationLoopDataPoints.map(
         (dataPoint, index) => {
+          const isLastItem =
+            index ===
+            loopDataBeingEdited.mainSimulationLoopDataPoints.length - 1;
           return (
-            <SimulationItem
-              key={index}
-              dataIndex={index}
-              dataPoint={dataPoint}
-            />
+            <div ref={isLastItem ? endOfListRef : null} key={index}>
+              <SimulationItem dataIndex={index} dataPoint={dataPoint} />
+            </div>
           );
         }
       )}
+
       <div className='mt-2'>
         <button
           onClick={saveLoopPerminently}
-          className='bg-yellow-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
+          className='bg-green-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
         >
           Save
         </button>
@@ -97,7 +86,15 @@ function NewEditLoopData() {
       <div className='mt-2'>
         <button
           onClick={deleteAllLoopData}
-          className='bg-red-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
+          className='bg-yellow-600 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
+        >
+          Reset
+        </button>
+      </div>
+      <div className='mt-2'>
+        <button
+          onClick={(event) => deleteSavedLoopFromSimulation(event, displayLoopDataPointsIndex)}
+          className='bg-red-500 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
         >
           Delete
         </button>

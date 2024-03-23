@@ -7,12 +7,25 @@ import { TbHandThreeFingers } from 'react-icons/tb';
 import { RiDragDropLine } from 'react-icons/ri';
 import { IoTimeOutline } from 'react-icons/io5';
 import { IoMdMove } from 'react-icons/io';
-import { FaArrowsTurnToDots } from "react-icons/fa6";
+import { FaArrowsTurnToDots } from 'react-icons/fa6';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
+// Colours
+import {
+  DragFunctionColour,
+  MoveFunctionColour,
+  MoveTapFunctionColour,
+  TapFunctionColour,
+  TimeoutFunctionColour,
+} from '../../utils/design/Constants';
 
 function SimulationItem({ dataIndex, dataPoint }) {
-  const { handleDataPointChange, clearDataPoints } = useContext(SimulationContext);
+  const {
+    handleDataPointChange,
+    deleteDataPointFromSimulation,
+    deleteDataPointFromLoop,
+    isCreatingEditingLoop,
+  } = useContext(SimulationContext);
 
   return (
     <div key={dataIndex} className='grid grid-cols-a1a h-[30px] w-full gap-2'>
@@ -44,19 +57,21 @@ function SimulationItem({ dataIndex, dataPoint }) {
         </div>
         <input
           title={dataPoint.dataType}
-          className={`w-full h-full px-2 ${
-            dataPoint.dataType === 'tap'
-              ? 'bg-green-200'
-              : dataPoint.dataType === 'move_tap'
-              ? 'bg-yellow-200'
-              : dataPoint.dataType === 'move'
-              ? 'bg-purple-200'
-              : dataPoint.dataType === 'drag'
-              ? 'bg-pink-200'
-              : dataPoint.dataType === 'timeout'
-              ? 'bg-blue-200'
-              : null
-          }`}
+          className={`w-full h-full px-2`}
+          style={{
+            background:
+              dataPoint.dataType === 'tap'
+                ? `linear-gradient(${TapFunctionColour}, #98e5bc)`
+                : dataPoint.dataType === 'move_tap'
+                ? `linear-gradient(${MoveTapFunctionColour}, #e5d860)`
+                : dataPoint.dataType === 'move'
+                ? `linear-gradient(${MoveFunctionColour}, #c4b5fd)`
+                : dataPoint.dataType === 'drag'
+                ? `linear-gradient(${DragFunctionColour}, #f9a8d4)`
+                : dataPoint.dataType === 'timeout'
+                ? `linear-gradient(${TimeoutFunctionColour}, #93c5fd)`
+                : 'none',
+          }}
           type='text'
           name='data_point'
           id='data_point'
@@ -78,7 +93,11 @@ function SimulationItem({ dataIndex, dataPoint }) {
       <div className='grid'>
         <button
           id='pointOne'
-          onClick={clearDataPoints}
+          onClick={
+            isCreatingEditingLoop
+              ? (event) => deleteDataPointFromLoop(event, dataIndex)
+              : (event) => deleteDataPointFromSimulation(event, dataIndex)
+          }
           className='active:scale-95 no__highlights rounded-xl'
         >
           <IoCloseCircleSharp />

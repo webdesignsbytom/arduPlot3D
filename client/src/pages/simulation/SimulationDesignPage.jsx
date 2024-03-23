@@ -25,7 +25,6 @@ import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
   const {
-    isCreatingNewLoop,
     setIsCreatingNewLoop,
     rulersVisible,
     setRulersVisible,
@@ -58,20 +57,20 @@ function SimulationDesignPage() {
     setDragSettingsModalOpen,
     speedOfDraggingArmMoving,
     setSpeedOfDraggingArmMoving,
-    clearDataPoints,
-    lineRef,
+    clearAllDataPointsFromSimulation,
     contextRef,
     positionOfMouseAndCanvasVisible,
     setpositionOfMouseAndCanvasVisible,
+    consentMessageVisible,
+    setConsentMessageVisible,
+    consentMessage,
+    setConsentMessage,
+    consentFunction,
+    setConsentFunction,
   } = useContext(SimulationContext);
 
   // Video modal
   const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
-
-  // Popup modals
-  const [consentMessageVisible, setConsentMessageVisible] = useState('');
-  const [consentMessage, setConsentMessage] = useState('');
-  const [consentFunction, setConsentFunction] = useState('');
 
   // Device selection
   const [deviceSelectionModalOpen, setDeviceSelectionModalOpen] =
@@ -90,52 +89,41 @@ function SimulationDesignPage() {
     setConsentFunction('clearAllDataPoints');
   };
 
-  const runConsentFunction = () => {
-    switch (consentFunction) {
-      case 'clearAllDataPoints':
-        clearDataPoints();
-        break;
-      default:
-        console.log('No matching action found');
-    }
 
-    setConsentMessageVisible('');
-    setConsentMessage('');
-  };
 
   const resetSimulationToStartingPoint = () => {};
 
-  const drawConnectingLines = () => {
-    // add to array of points
-    const tempStore = lineRef.current;
-    lineRef.current = tempStore;
+  // const drawConnectingLines = () => {
+  //   // add to array of points
+  //   const tempStore = lineRef.current;
+  //   lineRef.current = tempStore;
 
-    if (tempStore.length > 2) {
-      // Draw line from start to finish
-      let start = tempStore[0];
-      let finish = tempStore[tempStore.length - 1];
-      console.log('start.', start);
-      console.log('finsi', finish);
+  //   if (tempStore.length > 2) {
+  //     // Draw line from start to finish
+  //     let start = tempStore[0];
+  //     let finish = tempStore[tempStore.length - 1];
+  //     console.log('start.', start);
+  //     console.log('finsi', finish);
 
-      contextRef.current.beginPath();
-      contextRef.current.moveTo(start.xpos, start.ypos);
-      contextRef.current.lineTo(finish.xpos, finish.ypos);
-      contextRef.current.stroke();
+  //     contextRef.current.beginPath();
+  //     contextRef.current.moveTo(start.xPos, start.yPos);
+  //     contextRef.current.lineTo(finish.xPos, finish.yPos);
+  //     contextRef.current.stroke();
 
-      let previousRef = start;
+  //     let previousRef = start;
 
-      for (let index = 1; index < tempStore.length; index++) {
-        const element = tempStore[index];
-        console.log('element', element);
+  //     for (let index = 1; index < tempStore.length; index++) {
+  //       const element = tempStore[index];
+  //       console.log('element', element);
 
-        contextRef.current.beginPath();
-        contextRef.current.moveTo(previousRef.xpos, previousRef.ypos);
-        contextRef.current.lineTo(element.xpos, element.ypos);
-        contextRef.current.stroke();
-        previousRef = element;
-      }
-    }
-  };
+  //       contextRef.current.beginPath();
+  //       contextRef.current.moveTo(previousRef.xPos, previousRef.yPos);
+  //       contextRef.current.lineTo(element.xPos, element.yPos);
+  //       contextRef.current.stroke();
+  //       previousRef = element;
+  //     }
+  //   }
+  // };
 
   // Create new simulation loop of commands
   const createNewSimulationLoop = () => {
@@ -213,7 +201,7 @@ function SimulationDesignPage() {
   const confirmNewSimulation = () => {
     setConsentMessage('');
     setConsentMessageVisible(false);
-    clearDataPoints();
+    //clearAllDataPointsFromSimulation();
   };
   const cancelNewSimulation = () => {
     setConsentMessage('');
@@ -312,32 +300,33 @@ function SimulationDesignPage() {
 
   // Download simulation for sd card
   const downloadAsTextFile = () => {
-    const plotterCommands = translateToPlotterLanguage();
-    const blob = new Blob([plotterCommands], { type: 'text/plain' });
-    const href = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = href;
-    link.download = 'drawingCommands.txt'; // Name of the file to download
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(href);
+    // const plotterCommands = translateToPlotterLanguage();
+    // const blob = new Blob([plotterCommands], { type: 'text/plain' });
+    // const href = URL.createObjectURL(blob);
+    // const link = document.createElement('a');
+    // link.href = href;
+    // link.download = 'drawingCommands.txt'; // Name of the file to download
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
+    // URL.revokeObjectURL(href);
   };
 
   // Assuming lineRef.current contains an array of objects with x and y coordinates
-  // Example: [{xpos: 10, ypos: 20}, {xpos: 30, ypos: 40}]
+  // Example: [{xPos: 10, yPos: 20}, {xPos: 30, yPos: 40}]
   // Function to translate drawing commands to ASCII/Plotter language
-  const translateToPlotterLanguage = () => {
-    let commands = '';
-    lineRef.current.forEach((point, index) => {
-      if (index === 0) {
-        commands += `MOVE ${point.xpos} ${point.ypos};\n`; // Move to start without drawing
-      } else {
-        commands += `DRAW ${point.xpos} ${point.ypos};\n`; // Draw line to next point
-      }
-    });
-    return commands;
-  };
+
+  // const translateToPlotterLanguage = () => {
+  //   let commands = '';
+  //   lineRef.current.forEach((point, index) => {
+  //     if (index === 0) {
+  //       commands += `MOVE ${point.xPos} ${point.yPos};\n`; // Move to start without drawing
+  //     } else {
+  //       commands += `DRAW ${point.xPos} ${point.yPos};\n`; // Draw line to next point
+  //     }
+  //   });
+  //   return commands;
+  // };
 
   return (
     <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
@@ -367,7 +356,6 @@ function SimulationDesignPage() {
         <section className='grid grid-rows-reg gap-2 p-2 overflow-hidden'>
           {/* Top tool bar menu */}
           <SimulationPageTopToolBar
-            drawConnectingLines={drawConnectingLines}
             clearAllDataPoints={clearAllDataPoints}
             createNewSimulationLoop={createNewSimulationLoop}
             saveNewSimulationLoop={saveNewSimulationLoop}
@@ -410,7 +398,6 @@ function SimulationDesignPage() {
         <ConsentAlert
           consentMessage={consentMessage}
           cancalFunction={cancelNewSimulation}
-          confirmFunction={runConsentFunction}
         />
       )}
 
@@ -456,9 +443,7 @@ function SimulationDesignPage() {
 
       {/* Device selection */}
       {deviceSelectionModalOpen && (
-        <DeviceSelectModal
-          closeDeviceSelectModal={closeDeviceSelectModal}
-        />
+        <DeviceSelectModal closeDeviceSelectModal={closeDeviceSelectModal} />
       )}
 
       {/* Device selection */}
