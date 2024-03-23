@@ -95,45 +95,46 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     // Clear the canvas first
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   
-    // Flatten simulationData to include loop points, treating each loop as one item for counting
     let flattenedData = [];
-    simulationData.mainSimulationDataPoints.forEach((point) => {
-      if (point.dataGroup === 'simulation') {
-        flattenedData.push(point);
-      } else if (point.dataGroup === 'loop') {
-        // Consider loop as a single point or expand this logic as needed
-        flattenedData.push(...point.mainSimulationLoopDataPoints.map((loopPoint, index) => ({
-          ...loopPoint,
-          decimalIndex: parseFloat(`${flattenedData.length + 1}.${index + 1}`) // This is for unique identification if needed
-        })));
-      }
-    });
-  
-    // Determine display count based on the selection
     let displayCountMap = {
-      'infinite': flattenedData.length,
-      'one': 1,
-      'two': 2,
-      'three': 3,
-      'five': 5,
-      'ten': 10
+      infinite: Infinity, // Use Infinity for a mathematical approach
+      one: 1,
+      two: 2,
+      three: 3,
+      five: 5,
+      ten: 10,
     };
-    let displayCount = displayCountMap[numberOfDataPointsToDisplay] || flattenedData.length;
   
-    // Slice the last X points to display
+    if (!isCreatingEditingLoop) {
+      // Handling for simulation data points
+      simulationData.mainSimulationDataPoints.forEach((point) => {
+        if (point.dataGroup === 'simulation') {
+          flattenedData.push(point);
+        } else if (point.dataGroup === 'loop') {
+          // Expand with loop points if needed
+          flattenedData.push(...point.mainSimulationLoopDataPoints.map((loopPoint, index) => ({
+            ...loopPoint,
+            decimalIndex: parseFloat(`${flattenedData.length + 1}.${index + 1}`)
+          })));
+        }
+      });
+    } else {
+      // Handling for loop data being edited
+      // Assume loopDataBeingEdited.mainSimulationLoopDataPoints is similar to 'simulation' group data
+      flattenedData = [...loopDataBeingEdited.mainSimulationLoopDataPoints];
+    }
+  
+    // Determine the number of points to display
+    let displayCount = displayCountMap[numberOfDataPointsToDisplay] || flattenedData.length;
     const pointsToDisplay = flattenedData.slice(-displayCount);
   
     // Draw the points
     pointsToDisplay.forEach((element, index) => {
-      let markerIndex = index + 1;
-      if (element.decimalIndex) {
-        markerIndex = element.decimalIndex; // Use decimal index for loop points if present
-      }
-      // Call sortDataElements or directly draw the point here
+      let markerIndex = element.decimalIndex || index + 1; // Use decimalIndex if present, otherwise index + 1
       sortDataElements(element, markerIndex);
     });
   
-  }, [numberOfDataPointsToDisplay, simulationData.mainSimulationDataPoints]);
+  }, [isCreatingEditingLoop, numberOfDataPointsToDisplay, simulationData.mainSimulationDataPoints, loopDataBeingEdited.mainSimulationLoopDataPoints]);
   
 
   const sortDataElements = (element, markerIndex) => {

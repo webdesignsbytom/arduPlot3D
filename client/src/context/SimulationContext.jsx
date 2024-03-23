@@ -140,7 +140,27 @@ const SimulationContextProvider = ({ children }) => {
     });
   };
 
+  const deleteDataPointFromSimulation = (event, dataIndex) => {
+    event.preventDefault();
+    console.log('AAAAAAAAAAAAAAAA');
+    // Assuming you meant to use mainSimulationDataPoints
+    const updatedDataPoints = [
+      ...simulationData.mainSimulationDataPoints.slice(0, dataIndex),
+      ...simulationData.mainSimulationDataPoints.slice(dataIndex + 1),
+    ];
+
+    setSimulationData({
+      ...simulationData,
+      mainSimulationDataPoints: updatedDataPoints,
+    });
+  };
+
+  const deleteDataPointFromLoop = (event, dataIndex) => {
+    event.preventDefault();
+  };
+
   console.log('simulationData', simulationData);
+
   const createNewLoop = (event) => {
     event.preventDefault(); // This will prevent the default action
 
@@ -171,7 +191,9 @@ const SimulationContextProvider = ({ children }) => {
     console.log('111111111111111');
 
     // Find the current index of numberOfDataPointsToDisplay
-    const currentIndex = availablePointsToDisplayData.indexOf(numberOfDataPointsToDisplay);
+    const currentIndex = availablePointsToDisplayData.indexOf(
+      numberOfDataPointsToDisplay
+    );
     // Calculate the next index. If we're at the end of the array, loop back to 0
     const nextIndex = (currentIndex + 1) % availablePointsToDisplayData.length;
     // Update the state to the next item
@@ -257,6 +279,8 @@ const SimulationContextProvider = ({ children }) => {
         numberOfDataPointsToDisplay,
         setNumberOfDataPointsToDisplay,
         setPointsToDisplaySettings,
+        deleteDataPointFromSimulation,
+        deleteDataPointFromLoop,
       }}
     >
       {children}

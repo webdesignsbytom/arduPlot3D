@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
 // Components
@@ -14,6 +14,13 @@ function NewEditLoopData() {
     simulationData,
     setSimulationData,
   } = useContext(SimulationContext);
+
+  const endOfListRef = useRef(null); // Ref for the end of the list
+
+  // Automatically scroll to the last item when the loop data points update
+  useEffect(() => {
+    endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [loopDataBeingEdited.mainSimulationLoopDataPoints]);
 
   const saveLoopPerminently = () => {
     const updatedLoop = loopDataBeingEdited;
@@ -36,7 +43,7 @@ function NewEditLoopData() {
     });
 
     setIsCreatingEditingLoop(false);
-    setLoopDataBeingEdited(blankLoopObject)
+    setLoopDataBeingEdited(blankLoopObject);
 
     // ?????
   };
@@ -79,17 +86,18 @@ function NewEditLoopData() {
         </div>
       </section>
 
-      {loopDataBeingEdited.mainSimulationLoopDataPoints.map(
-        (dataPoint, index) => {
-          return (
+      {loopDataBeingEdited.mainSimulationLoopDataPoints.map((dataPoint, index) => {
+        const isLastItem = index === loopDataBeingEdited.mainSimulationLoopDataPoints.length - 1;
+        return (
+          <div ref={isLastItem ? endOfListRef : null} key={index}>
             <SimulationItem
-              key={index}
               dataIndex={index}
               dataPoint={dataPoint}
             />
-          );
-        }
-      )}
+          </div>
+        );
+      })}
+      
       <div className='mt-2'>
         <button
           onClick={saveLoopPerminently}

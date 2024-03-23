@@ -14,7 +14,7 @@ import { SimulationContext } from '../../context/SimulationContext';
 import { DragFunctionColour, MoveFunctionColour, MoveTapFunctionColour, TapFunctionColour, TimeoutFunctionColour } from '../../utils/design/Constants';
 
 function SimulationItem({ dataIndex, dataPoint }) {
-  const { handleDataPointChange, clearDataPoints } = useContext(SimulationContext);
+  const { handleDataPointChange, deleteDataPointFromSimulation } = useContext(SimulationContext);
 
   return (
     <div key={dataIndex} className='grid grid-cols-a1a h-[30px] w-full gap-2'>
@@ -76,7 +76,7 @@ function SimulationItem({ dataIndex, dataPoint }) {
       <div className='grid'>
         <button
           id='pointOne'
-          onClick={clearDataPoints}
+          onClick={(event) => deleteDataPointFromSimulation(event, dataIndex)}
           className='active:scale-95 no__highlights rounded-xl'
         >
           <IoCloseCircleSharp />

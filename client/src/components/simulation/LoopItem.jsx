@@ -10,6 +10,8 @@ function LoopItem({ index, loopData }) {
     openAndDisplayLoop,
     setIsCreatingEditingLoop,
     setLoopDataBeingEdited,
+    displaySimOrLoop,
+    deleteDataPointFromSimulation,
   } = useContext(SimulationContext);
 
   const editLoop = (event, loop) => {
@@ -50,7 +52,11 @@ function LoopItem({ index, loopData }) {
         <button
           title='Delete loop'
           id='delete_loop'
-          // onClick={(event) => deleteLoop(event, loop)}
+          onClick={
+            displaySimOrLoop === 'simulation'
+              ? (event) => deleteDataPointFromSimulation(event, index)
+              : null
+          }
           className='active:scale-95 no__highlights rounded-xl'
         >
           <IoCloseCircleSharp />
