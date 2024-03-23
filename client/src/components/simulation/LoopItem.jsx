@@ -12,6 +12,7 @@ function LoopItem({ index, loopData }) {
     setLoopDataBeingEdited,
     displaySimOrLoop,
     deleteDataPointFromSimulation,
+    deleteSavedLoopFromSimulation,
   } = useContext(SimulationContext);
 
   console.log('LI INDEX', index);
@@ -60,6 +61,8 @@ function LoopItem({ index, loopData }) {
           onClick={
             displaySimOrLoop === 'simulation'
               ? (event) => deleteDataPointFromSimulation(event, index)
+              : displaySimOrLoop === 'loop'
+              ? (event) => deleteSavedLoopFromSimulation(event, index)
               : null
           }
           className='active:scale-95 no__highlights rounded-xl'

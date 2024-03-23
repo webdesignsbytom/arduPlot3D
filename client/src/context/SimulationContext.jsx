@@ -46,6 +46,7 @@ const SimulationContextProvider = ({ children }) => {
 
   // Loops
   const [isCreatingEditingLoop, setIsCreatingEditingLoop] = useState(false);
+  const [loopToDeleteIndex, setLoopToDeleteIndex] = useState(null);
   const [loopDataBeingEdited, setLoopDataBeingEdited] =
     useState(blankLoopObject);
 
@@ -101,6 +102,11 @@ const SimulationContextProvider = ({ children }) => {
   // Mouse Position
   const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
     useState(true);
+
+  // Popup modals
+  const [consentMessageVisible, setConsentMessageVisible] = useState('');
+  const [consentMessage, setConsentMessage] = useState('');
+  const [consentFunction, setConsentFunction] = useState('');
 
   const openAndDisplayLoop = (loopData, index) => {
     console.log('PPPPPPPPPPPPPPPPPPPP');
@@ -163,14 +169,12 @@ const SimulationContextProvider = ({ children }) => {
       ...loopDataBeingEdited.mainSimulationLoopDataPoints.slice(dataIndex + 1),
     ];
     setLoopDataBeingEdited({
-      ...loopDataBeingEdited, 
-      mainSimulationLoopDataPoints: updatedDataPoints 
+      ...loopDataBeingEdited,
+      mainSimulationLoopDataPoints: updatedDataPoints,
     });
     console.log('LLLL dataIndex', dataIndex);
     console.log('LLLLLLLLL', loopDataBeingEdited);
   };
-
-  console.log('simulationData', simulationData);
 
   const createNewLoop = (event) => {
     event.preventDefault(); // This will prevent the default action
@@ -199,7 +203,6 @@ const SimulationContextProvider = ({ children }) => {
 
   const setPointsToDisplaySettings = (event) => {
     event.preventDefault();
-    console.log('111111111111111');
 
     // Find the current index of numberOfDataPointsToDisplay
     const currentIndex = availablePointsToDisplayData.indexOf(
@@ -211,6 +214,43 @@ const SimulationContextProvider = ({ children }) => {
     setNumberOfDataPointsToDisplay(availablePointsToDisplayData[nextIndex]);
   };
 
+  const deleteSavedLoopFromSimulation = (event, index) => {
+    event.preventDefault();
+
+    setLoopToDeleteIndex(index)
+    setConsentMessageVisible(true);
+    setConsentMessage('Are you sure you want to permanently delete this loop?');
+    setConsentFunction('deleteSavedLoop');
+  };
+
+  const deleteSavedLoop = () => {
+    // Create a new array excluding the loop at the specified index
+    const updatedLoops = simulationData.simulationLoops.filter(
+      (_, loopIndex) => loopIndex !== loopToDeleteIndex
+    );
+
+    // Update the state with the new array
+    setSimulationData({
+      ...simulationData,
+      simulationLoops: updatedLoops,
+    });
+  };
+
+  const runConsentFunction = () => {
+    switch (consentFunction) {
+      case 'clearAllDataPoints':
+        clearAllDataPointsFromSimulation();
+        break;
+      case 'deleteSavedLoop':
+        deleteSavedLoop();
+        break;
+      default:
+        console.log('No matching action found');
+    }
+
+    setConsentMessageVisible('');
+    setConsentMessage('');
+  };
   return (
     <SimulationContext.Provider
       value={{
@@ -290,6 +330,14 @@ const SimulationContextProvider = ({ children }) => {
         setPointsToDisplaySettings,
         deleteDataPointFromSimulation,
         deleteDataPointFromLoop,
+        deleteSavedLoopFromSimulation,
+        consentMessageVisible,
+        setConsentMessageVisible,
+        consentMessage,
+        setConsentMessage,
+        consentFunction,
+        setConsentFunction,
+        runConsentFunction,
       }}
     >
       {children}

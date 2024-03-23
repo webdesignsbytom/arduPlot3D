@@ -61,15 +61,16 @@ function SimulationDesignPage() {
     contextRef,
     positionOfMouseAndCanvasVisible,
     setpositionOfMouseAndCanvasVisible,
+    consentMessageVisible,
+    setConsentMessageVisible,
+    consentMessage,
+    setConsentMessage,
+    consentFunction,
+    setConsentFunction,
   } = useContext(SimulationContext);
 
   // Video modal
   const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
-
-  // Popup modals
-  const [consentMessageVisible, setConsentMessageVisible] = useState('');
-  const [consentMessage, setConsentMessage] = useState('');
-  const [consentFunction, setConsentFunction] = useState('');
 
   // Device selection
   const [deviceSelectionModalOpen, setDeviceSelectionModalOpen] =
@@ -88,18 +89,7 @@ function SimulationDesignPage() {
     setConsentFunction('clearAllDataPoints');
   };
 
-  const runConsentFunction = () => {
-    switch (consentFunction) {
-      case 'clearAllDataPoints':
-        clearAllDataPointsFromSimulation();
-        break;
-      default:
-        console.log('No matching action found');
-    }
 
-    setConsentMessageVisible('');
-    setConsentMessage('');
-  };
 
   const resetSimulationToStartingPoint = () => {};
 
@@ -408,7 +398,6 @@ function SimulationDesignPage() {
         <ConsentAlert
           consentMessage={consentMessage}
           cancalFunction={cancelNewSimulation}
-          confirmFunction={runConsentFunction}
         />
       )}
 
@@ -454,9 +443,7 @@ function SimulationDesignPage() {
 
       {/* Device selection */}
       {deviceSelectionModalOpen && (
-        <DeviceSelectModal
-          closeDeviceSelectModal={closeDeviceSelectModal}
-        />
+        <DeviceSelectModal closeDeviceSelectModal={closeDeviceSelectModal} />
       )}
 
       {/* Device selection */}
