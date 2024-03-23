@@ -14,6 +14,7 @@ function NewEditLoopData() {
     setSimulationData,
     saveLoopPerminently,
     dataPointMarkerRef,
+    deleteSavedLoopFromSimulation,
   } = useContext(SimulationContext);
 
   // Automatically scroll to the last item when the loop data points update
@@ -77,7 +78,7 @@ function NewEditLoopData() {
       <div className='mt-2'>
         <button
           onClick={saveLoopPerminently}
-          className='bg-yellow-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
+          className='bg-green-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
         >
           Save
         </button>
@@ -85,7 +86,15 @@ function NewEditLoopData() {
       <div className='mt-2'>
         <button
           onClick={deleteAllLoopData}
-          className='bg-red-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
+          className='bg-yellow-600 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
+        >
+          Reset
+        </button>
+      </div>
+      <div className='mt-2'>
+        <button
+          onClick={(event) => deleteSavedLoopFromSimulation(event, displayLoopDataPointsIndex)}
+          className='bg-red-500 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
         >
           Delete
         </button>

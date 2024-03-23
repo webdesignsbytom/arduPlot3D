@@ -1,15 +1,9 @@
 # Tickets
 
-1. Fix the numbering system
-2. Create drag plot point
-3. Create new loop and add to main sim
-4. add loop to loops?
-5. colour swatches for data types ? icon
+1. Delete bug
+2. Add loop creates number bug
+3. Create drag plot point
+4. Resize for smaller screens
+5. Colour swatches for data types ? icon
 
-Everything is working but when a loops is save it doesnt revert back to regualar data points
-
-if ctreating or editing loop set ref to length
-
-draw loop useEffect?
-
-must draw loop without updating numbers
+When the delete button is clicked in edit loop mode, the index before gets deleted

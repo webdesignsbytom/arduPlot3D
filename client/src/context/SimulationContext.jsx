@@ -250,6 +250,8 @@ const SimulationContextProvider = ({ children }) => {
       ...simulationData,
       simulationLoops: updatedLoops,
     });
+
+    setIsCreatingEditingLoop(false); 
   };
 
   const runConsentFunction = () => {
