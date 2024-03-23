@@ -174,7 +174,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       console.log('NEW INDEX: ', newIndex);
       dataPointMarkerRef.current = newIndex;
     }
-  }, [isCreatingEditingLoop, numberOfDataPointsToDisplay]);
+  }, [isCreatingEditingLoop, numberOfDataPointsToDisplay, simulationData]);
 
   const sortDataElements = (element, markerIndex) => {
     // Use markerIndex for drawing the point

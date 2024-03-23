@@ -13,6 +13,7 @@ function NewEditLoopData() {
     simulationData,
     setSimulationData,
     saveLoopPerminently,
+    dataPointMarkerRef,
   } = useContext(SimulationContext);
 
   // Automatically scroll to the last item when the loop data points update
@@ -20,6 +21,8 @@ function NewEditLoopData() {
 
   useEffect(() => {
     endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
+    dataPointMarkerRef.current =
+      loopDataBeingEdited.mainSimulationLoopDataPoints.length;
   }, [loopDataBeingEdited.mainSimulationLoopDataPoints]);
 
   const deleteAllLoopData = () => {
