@@ -32,11 +32,7 @@ const SimulationContextProvider = ({ children }) => {
   const [simulationData, setSimulationData] = useState(tempDesignData);
 
   // Simulation loops data
-  const [simulationLoopData, setSimulationLoopData] = useState({
-    loopTitle: '',
-    mainSimulationLoopDataPoints: [],
-    loopTimeToComplete: 0,
-  });
+  const [simulationLoopData, setSimulationLoopData] = useState(blankLoopObject);
 
   // Design
   const [rulersVisible, setRulersVisible] = useState(true);
@@ -108,8 +104,7 @@ const SimulationContextProvider = ({ children }) => {
   const [consentMessage, setConsentMessage] = useState('');
   const [consentFunction, setConsentFunction] = useState('');
 
-  const openAndDisplayLoop = (loopData, index) => {
-    console.log('PPPPPPPPPPPPPPPPPPPP');
+  const openAndDisplayLoop = (index) => {
     if (displayLoopDataPoints && index === displayLoopDataPointsIndex) {
       setdisplayLoopDataPoints(false);
       return;
@@ -120,11 +115,6 @@ const SimulationContextProvider = ({ children }) => {
   };
 
   const handleDataPointChange = () => {};
-
-  console.log(
-    'XXX simulationData.simulationLoops',
-    simulationData.simulationLoops
-  );
 
   const clearAllDataPointsFromSimulation = () => {
     const currentFileName = simulationData.simulationTitle;

@@ -15,9 +15,6 @@ function LoopItem({ index, loopData }) {
     deleteSavedLoopFromSimulation,
   } = useContext(SimulationContext);
 
-  console.log('LI INDEX', index);
-  console.log('LI DATA', loopData);
-
   const editLoop = (event, loop) => {
     event.preventDefault();
 
@@ -37,7 +34,7 @@ function LoopItem({ index, loopData }) {
       </div>
       <div
         title='Click to view'
-        onClick={() => openAndDisplayLoop(loopData, index)}
+        onClick={() => openAndDisplayLoop(index)}
         className='grid bg-white grid-flow-col items-center px-1 gap-2 w-full h-full outline-black outline outline-2 cursor-pointer active:scale-95 hover:bg-yellow-200'
       >
         <div>{loopData.loopTitle}</div>
