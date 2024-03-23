@@ -8,7 +8,6 @@ function TapSettingsModal({
   closeTapSettingsModal,
 }) {
   const setNumberOfFingers = (event) => {
-    console.log('XXXX', event.target.id);
     const { id } = event.target;
 
     if (id === 'finger1') {

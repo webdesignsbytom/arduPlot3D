@@ -8,10 +8,10 @@ function TimeoutSettingsModal({
   setTimeoutUnitSelected,
   closeTimeoutSettingsModal,
 }) {
-  console.log('timeoutUnitSelected', timeoutUnitSelected);
+  
   const setTimeUnits = (event) => {
     const { id } = event.target;
-    console.log('id xxx', id);
+
     if (id === 'seconds') {
       setTimeoutUnitSelected(timeoutUnitTypesAvailable[1]);
     } else if (id === 'milliseconds') {

@@ -38,7 +38,6 @@ function RegisterForm() {
     client
       .post('/users/register', registerFormData, false)
       .then((res) => {
-        console.log('res', res.data);
         setRegistrationFormData({
           ...registrationFormData,
           active: false,

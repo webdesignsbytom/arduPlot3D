@@ -87,8 +87,8 @@ const SimulationContextProvider = ({ children }) => {
   const [addCreateLoopModalOpen, setAddCreateLoopModalOpen] = useState(false);
 
   // Data points for loop
-  const [displayLoopDataPoints, setdisplayLoopDataPoints] = useState(false);
-  const [displayLoopDataPointsIndex, setdisplayLoopDataPointsIndex] =
+  const [displayLoopDataPoints, setDisplayLoopDataPoints] = useState(false);
+  const [displayLoopDataPointsIndex, setDisplayLoopDataPointsIndex] =
     useState(0);
   const [arrayOfLoopData, setArrayOfLoopData] = useState([]);
 
@@ -132,12 +132,12 @@ const SimulationContextProvider = ({ children }) => {
   // Show loop items in list as dropdown
   const openAndDisplayLoop = (index) => {
     if (displayLoopDataPoints && index === displayLoopDataPointsIndex) {
-      setdisplayLoopDataPoints(false);
+      setDisplayLoopDataPoints(false);
       return;
     }
 
-    setdisplayLoopDataPoints(true);
-    setdisplayLoopDataPointsIndex(index);
+    setDisplayLoopDataPoints(true);
+    setDisplayLoopDataPointsIndex(index);
   };
 
   const handleDataPointChange = () => {};
@@ -164,7 +164,6 @@ const SimulationContextProvider = ({ children }) => {
 
   const deleteDataPointFromSimulation = (event, dataIndex) => {
     event.preventDefault();
-    console.log('AAAAAAAAAAAAAAAA');
     // Assuming you meant to use mainSimulationDataPoints
     const updatedDataPoints = [
       ...simulationData.mainSimulationDataPoints.slice(0, dataIndex),
@@ -188,10 +187,9 @@ const SimulationContextProvider = ({ children }) => {
       ...loopDataBeingEdited,
       mainSimulationLoopDataPoints: updatedDataPoints,
     });
-    console.log('LLLL dataIndex', dataIndex);
-    console.log('LLLLLLLLL', loopDataBeingEdited);
   };
 
+  // Create new loop
   const createNewLoop = (event) => {
     event.preventDefault(); // This will prevent the default action
 
@@ -207,9 +205,11 @@ const SimulationContextProvider = ({ children }) => {
       loopTitle: newLoopName, // Update the loop title with the new name
     };
 
+    setLoopDataBeingEdited(newLoop)
+    setDisplayLoopDataPointsIndex(newLoopIndex)
     setAddCreateLoopModalOpen(false);
     setIsCreatingEditingLoop(true);
-
+    
     // Use the spread operator to copy existing loops and add the new loop
     setSimulationData({
       ...simulationData,
@@ -316,9 +316,9 @@ const SimulationContextProvider = ({ children }) => {
         speedOfDraggingArmMoving,
         setSpeedOfDraggingArmMoving,
         displayLoopDataPoints,
-        setdisplayLoopDataPoints,
+        setDisplayLoopDataPoints,
         displayLoopDataPointsIndex,
-        setdisplayLoopDataPointsIndex,
+        setDisplayLoopDataPointsIndex,
         arrayOfLoopData,
         setArrayOfLoopData,
         openAndDisplayLoop,

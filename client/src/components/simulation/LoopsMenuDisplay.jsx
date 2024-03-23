@@ -13,7 +13,7 @@ function LoopsMenuDisplay() {
   const [loopDataArray, setLoopDataArray] = useState(
     simulationData.simulationLoops
   );
-  console.log('loopDataArray', loopDataArray);
+
   useEffect(() => {
     setLoopDataArray(simulationData.simulationLoops);
   }, [simulationData.simulationLoops]);
@@ -23,29 +23,7 @@ function LoopsMenuDisplay() {
     endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [simulationData.simulationLoops]);
 
-  const deleteLoop = (event, loop) => {
-    event.preventDefault(); // This will prevent the default action
-    console.log('loop', loop);
-
-    let arrayOfLoops = simulationData.simulationLoops;
-    var found = arrayOfLoops.filter(
-      (arrayLoop) => arrayLoop.loopTitle !== loop.loopTitle
-    );
-    console.log('found', found);
-    console.log('arrayOfLoops', arrayOfLoops);
-
-    setSimulationData({
-      ...simulationData,
-      simulationLoops: found,
-    });
-  };
-
-  const deleteLoopDataPoint = (event, dataPoint) => {
-    event.preventDefault(); // This will prevent the default action
-
-    console.log('dataPoint', dataPoint);
-  };
-
+ 
   return (
     <div className='overflow-y-scroll gap-1 p-1'>
       {loopDataArray.map((loop, index) => (

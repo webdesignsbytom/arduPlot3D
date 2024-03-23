@@ -24,15 +24,13 @@ function LoopItemContainer({ index, loopData }) {
     isCreatingEditingLoop,
   } = useContext(SimulationContext);
 
-  console.log('loop data points', loopData);
-  console.log('displaySimOrLoop', displaySimOrLoop);
-
   const handleDataPointInputChange = (index, dataIndex, event) => {
     const { value } = event.target;
     console.log('Value', value);
     console.log('Index', index);
     console.log('DataIndex', dataIndex);
   };
+  
   return (
     <>
       <LoopItem key={index} index={index} loopData={loopData} />

@@ -13,7 +13,6 @@ function DeviceSelectModal({ closeDeviceSelectModal }) {
 
   const handleDeviceChange = (event) => {
     const { value } = event.target;
-    console.log('se; device: ', value);
     setSelectedDevice(availableDevicesForSimulations[value]);
   };
 
