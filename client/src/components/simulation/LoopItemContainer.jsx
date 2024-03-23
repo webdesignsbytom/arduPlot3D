@@ -71,14 +71,23 @@ function LoopItemContainer({ index, loopData }) {
                   />
                 </div>
                 {/* Delete button */}
-                <div className='grid'>
-                  <button
-                    type='button'
-                    onClick={(event) => deleteDataPointFromLoop(event, index)}
-                    className='active:scale-95 no__highlights rounded-xl'
-                  >
-                    <IoCloseCircleSharp />
-                  </button>
+                <div className='grid min-w-[16px]'>
+                  {displaySimOrLoop === 'simulation' ? (
+                    <div></div>
+                  ) : (
+                    displaySimOrLoop ===
+                    'loop'(
+                      <button
+                        type='button'
+                        onClick={(event) =>
+                          deleteDataPointFromLoop(event, index)
+                        }
+                        className='active:scale-95 no__highlights rounded-xl'
+                      >
+                        <IoCloseCircleSharp />
+                      </button>
+                    )
+                  )}
                 </div>
               </div>
             );
