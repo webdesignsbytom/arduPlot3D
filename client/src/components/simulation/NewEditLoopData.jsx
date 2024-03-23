@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { SimulationContext } from '../../context/SimulationContext';
 // Components
 import SimulationItem from './SimulationItem';
-import { blankLoopObject } from '../../utils/design/TempData';
 
 function NewEditLoopData() {
   const {
@@ -13,38 +12,15 @@ function NewEditLoopData() {
     displayLoopDataPointsIndex,
     simulationData,
     setSimulationData,
+    saveLoopPerminently,
   } = useContext(SimulationContext);
 
+  // Automatically scroll to the last item when the loop data points update
   const endOfListRef = useRef(null); // Ref for the end of the list
 
-  // Automatically scroll to the last item when the loop data points update
   useEffect(() => {
     endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [loopDataBeingEdited.mainSimulationLoopDataPoints]);
-
-  const saveLoopPerminently = () => {
-    const updatedLoop = loopDataBeingEdited;
-    const indexToReplace = displayLoopDataPointsIndex;
-
-    const newSimulationLoops = simulationData.simulationLoops.map(
-      (loop, index) => {
-        if (index === indexToReplace) {
-          return updatedLoop; // Replace the loop at this index with the updated loop
-        } else {
-          return loop; // Otherwise, keep the loop as is
-        }
-      }
-    );
-
-    // Then, we set the updated simulation data with the new array of simulation loops
-    setSimulationData({
-      ...simulationData, // Spread the existing properties of simulationData
-      simulationLoops: newSimulationLoops, // Replace simulationLoops with the new array
-    });
-
-    setIsCreatingEditingLoop(false);
-    setLoopDataBeingEdited(blankLoopObject);
-  };
 
   const deleteAllLoopData = () => {
     setIsCreatingEditingLoop(false);
@@ -64,8 +40,6 @@ function NewEditLoopData() {
     });
   };
 
-  console.log('XXX loopDataBeingEdited', loopDataBeingEdited);
-
   return (
     <div className='grid overflow-y-scroll h-full w-full px-1'>
       <section className='grid w-full mb-2'>
@@ -84,18 +58,19 @@ function NewEditLoopData() {
         </div>
       </section>
 
-      {loopDataBeingEdited.mainSimulationLoopDataPoints.map((dataPoint, index) => {
-        const isLastItem = index === loopDataBeingEdited.mainSimulationLoopDataPoints.length - 1;
-        return (
-          <div ref={isLastItem ? endOfListRef : null} key={index}>
-            <SimulationItem
-              dataIndex={index}
-              dataPoint={dataPoint}
-            />
-          </div>
-        );
-      })}
-      
+      {loopDataBeingEdited.mainSimulationLoopDataPoints.map(
+        (dataPoint, index) => {
+          const isLastItem =
+            index ===
+            loopDataBeingEdited.mainSimulationLoopDataPoints.length - 1;
+          return (
+            <div ref={isLastItem ? endOfListRef : null} key={index}>
+              <SimulationItem dataIndex={index} dataPoint={dataPoint} />
+            </div>
+          );
+        }
+      )}
+
       <div className='mt-2'>
         <button
           onClick={saveLoopPerminently}

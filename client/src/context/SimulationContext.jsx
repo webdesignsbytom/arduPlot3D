@@ -104,6 +104,32 @@ const SimulationContextProvider = ({ children }) => {
   const [consentMessage, setConsentMessage] = useState('');
   const [consentFunction, setConsentFunction] = useState('');
 
+  // Save new or edited loop
+  const saveLoopPerminently = () => {
+    const updatedLoop = loopDataBeingEdited;
+    const indexToReplace = displayLoopDataPointsIndex;
+
+    const newSimulationLoops = simulationData.simulationLoops.map(
+      (loop, index) => {
+        if (index === indexToReplace) {
+          return updatedLoop; // Replace the loop at this index with the updated loop
+        } else {
+          return loop; // Otherwise, keep the loop as is
+        }
+      }
+    );
+
+    // Then, we set the updated simulation data with the new array of simulation loops
+    setSimulationData({
+      ...simulationData, // Spread the existing properties of simulationData
+      simulationLoops: newSimulationLoops, // Replace simulationLoops with the new array
+    });
+
+    setIsCreatingEditingLoop(false);
+    setLoopDataBeingEdited(blankLoopObject);
+  };
+
+  // Show loop items in list as dropdown
   const openAndDisplayLoop = (index) => {
     if (displayLoopDataPoints && index === displayLoopDataPointsIndex) {
       setdisplayLoopDataPoints(false);
@@ -207,7 +233,7 @@ const SimulationContextProvider = ({ children }) => {
   const deleteSavedLoopFromSimulation = (event, index) => {
     event.preventDefault();
 
-    setLoopToDeleteIndex(index)
+    setLoopToDeleteIndex(index);
     setConsentMessageVisible(true);
     setConsentMessage('Are you sure you want to permanently delete this loop?');
     setConsentFunction('deleteSavedLoop');
@@ -328,6 +354,7 @@ const SimulationContextProvider = ({ children }) => {
         consentFunction,
         setConsentFunction,
         runConsentFunction,
+        saveLoopPerminently,
       }}
     >
       {children}
