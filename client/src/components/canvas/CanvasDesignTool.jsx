@@ -91,6 +91,13 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     }
   }, [isLandscapeMode, rulersVisible, selectedDevice]);
 
+  useEffect(() => {
+    const storedSimulationData = localStorage.getItem('simulationData');
+    if (storedSimulationData) {
+      setSimulationData(JSON.parse(storedSimulationData));
+    }
+  }, []); // This effect runs only once on mount
+
   // Load current points on startup
   useEffect(() => {
     const context = contextRef.current;
@@ -164,6 +171,9 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       let newIndex = simulationData.mainSimulationDataPoints.length;
       dataPointMarkerRef.current = newIndex;
     }
+
+    // Save simulationData to localStorage
+    localStorage.setItem('simulationData', JSON.stringify(simulationData));
   }, [
     isCreatingEditingLoop,
     numberOfDataPointsToDisplay,
@@ -236,13 +246,15 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         );
 
         // Create drag point arrow
-        if (newDataPoint.finishxPos !== null && newDataPoint.finishyPos !== null) {
-        
+        if (
+          newDataPoint.finishxPos !== null &&
+          newDataPoint.finishyPos !== null
+        ) {
           // Calculate direction vector
           let dx = newDataPoint.finishxPos - newDataPoint.startxPos;
           let dy = newDataPoint.finishyPos - newDataPoint.startyPos;
           let distance = Math.sqrt(dx * dx + dy * dy);
-        
+
           // Dynamically adjust gap and arrow head size based on distance
           let gap, headlen;
           if (distance < 40) {
@@ -252,36 +264,50 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
             gap = 10; // Default gap size
             headlen = 10; // Default arrow head size
           }
-        
+
           // Adjust start and end points for gap
           let gapXStart = (gap / distance) * dx;
           let gapYStart = (gap / distance) * dy;
           let gapEnd = gap + headlen; // Adjust end gap to include arrow head
           let gapXEnd = (gapEnd / distance) * dx;
           let gapYEnd = (gapEnd / distance) * dy;
-        
+
           // Start the path for the line with adjusted start point
           context.beginPath();
-          context.moveTo(newDataPoint.startxPos + gapXStart, newDataPoint.startyPos + gapYStart);
-          context.lineTo(newDataPoint.finishxPos - gapXEnd, newDataPoint.finishyPos - gapYEnd);
+          context.moveTo(
+            newDataPoint.startxPos + gapXStart,
+            newDataPoint.startyPos + gapYStart
+          );
+          context.lineTo(
+            newDataPoint.finishxPos - gapXEnd,
+            newDataPoint.finishyPos - gapYEnd
+          );
           context.stroke(); // Apply the line to the canvas
-        
+
           // Drawing the arrow head with adjusted size
           let angle = Math.atan2(dy, dx);
           context.beginPath();
           let adjustedFinishX = newDataPoint.finishxPos - gapXEnd;
           let adjustedFinishY = newDataPoint.finishyPos - gapYEnd;
           context.moveTo(adjustedFinishX, adjustedFinishY);
-          context.lineTo(adjustedFinishX - headlen * Math.cos(angle - Math.PI / 6), adjustedFinishY - headlen * Math.sin(angle - Math.PI / 6));
-          context.lineTo(adjustedFinishX - headlen * Math.cos(angle + Math.PI / 6), adjustedFinishY - headlen * Math.sin(angle + Math.PI / 6));
+          context.lineTo(
+            adjustedFinishX - headlen * Math.cos(angle - Math.PI / 6),
+            adjustedFinishY - headlen * Math.sin(angle - Math.PI / 6)
+          );
+          context.lineTo(
+            adjustedFinishX - headlen * Math.cos(angle + Math.PI / 6),
+            adjustedFinishY - headlen * Math.sin(angle + Math.PI / 6)
+          );
           context.lineTo(adjustedFinishX, adjustedFinishY);
-          context.lineTo(adjustedFinishX - headlen * Math.cos(angle - Math.PI / 6), adjustedFinishY - headlen * Math.sin(angle - Math.PI / 6));
+          context.lineTo(
+            adjustedFinishX - headlen * Math.cos(angle - Math.PI / 6),
+            adjustedFinishY - headlen * Math.sin(angle - Math.PI / 6)
+          );
           context.stroke(); // Apply the arrow head to the canvas
           context.fillStyle = 'black';
           context.fill(); // Fill the arrow head with black color
         }
-        
-        
+
         // Draw second data point
         context.beginPath();
         context.arc(
