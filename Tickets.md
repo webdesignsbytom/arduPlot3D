@@ -1,8 +1,8 @@
 # Tickets
 
-1. Create drag plot point
-2. Create tapping animation
-3. Delete bug
+1. Create tapping animation
+2. Delete bug
+3. Update to local storage
 4. Reset animation
 5. Add loop creates number bug
 6. New simulation button broken

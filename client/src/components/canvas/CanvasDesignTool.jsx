@@ -164,7 +164,12 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       let newIndex = simulationData.mainSimulationDataPoints.length;
       dataPointMarkerRef.current = newIndex;
     }
-  }, [isCreatingEditingLoop, numberOfDataPointsToDisplay, simulationData, loopDataBeingEdited]);
+  }, [
+    isCreatingEditingLoop,
+    numberOfDataPointsToDisplay,
+    simulationData,
+    loopDataBeingEdited,
+  ]);
 
   const sortDataElements = (element, markerIndex) => {
     // Use markerIndex for drawing the point
@@ -212,6 +217,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
           newDataPoint.yPos + 5
         );
       } else {
+        // Is drag data point
+        console.log('11111111111111');
         context.arc(
           newDataPoint.startxPos,
           newDataPoint.startyPos,
@@ -227,10 +234,59 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
           newDataPoint.startxPos + 5,
           newDataPoint.startyPos + 5
         );
+
+        // Create drag point arrow
+        if (newDataPoint.finishxPos !== null && newDataPoint.finishyPos !== null) {
+        
+          // Calculate direction vector
+          let dx = newDataPoint.finishxPos - newDataPoint.startxPos;
+          let dy = newDataPoint.finishyPos - newDataPoint.startyPos;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+        
+          // Dynamically adjust gap and arrow head size based on distance
+          let gap, headlen;
+          if (distance < 40) {
+            gap = 1; // Smaller gap for short distances
+            headlen = 4; // Smaller arrow head for short distances
+          } else {
+            gap = 10; // Default gap size
+            headlen = 10; // Default arrow head size
+          }
+        
+          // Adjust start and end points for gap
+          let gapXStart = (gap / distance) * dx;
+          let gapYStart = (gap / distance) * dy;
+          let gapEnd = gap + headlen; // Adjust end gap to include arrow head
+          let gapXEnd = (gapEnd / distance) * dx;
+          let gapYEnd = (gapEnd / distance) * dy;
+        
+          // Start the path for the line with adjusted start point
+          context.beginPath();
+          context.moveTo(newDataPoint.startxPos + gapXStart, newDataPoint.startyPos + gapYStart);
+          context.lineTo(newDataPoint.finishxPos - gapXEnd, newDataPoint.finishyPos - gapYEnd);
+          context.stroke(); // Apply the line to the canvas
+        
+          // Drawing the arrow head with adjusted size
+          let angle = Math.atan2(dy, dx);
+          context.beginPath();
+          let adjustedFinishX = newDataPoint.finishxPos - gapXEnd;
+          let adjustedFinishY = newDataPoint.finishyPos - gapYEnd;
+          context.moveTo(adjustedFinishX, adjustedFinishY);
+          context.lineTo(adjustedFinishX - headlen * Math.cos(angle - Math.PI / 6), adjustedFinishY - headlen * Math.sin(angle - Math.PI / 6));
+          context.lineTo(adjustedFinishX - headlen * Math.cos(angle + Math.PI / 6), adjustedFinishY - headlen * Math.sin(angle + Math.PI / 6));
+          context.lineTo(adjustedFinishX, adjustedFinishY);
+          context.lineTo(adjustedFinishX - headlen * Math.cos(angle - Math.PI / 6), adjustedFinishY - headlen * Math.sin(angle - Math.PI / 6));
+          context.stroke(); // Apply the arrow head to the canvas
+          context.fillStyle = 'black';
+          context.fill(); // Fill the arrow head with black color
+        }
+        
+        
+        // Draw second data point
         context.beginPath();
         context.arc(
           newDataPoint.finishxPos,
-          newDataPoint.finishxPos,
+          newDataPoint.finishyPos,
           1,
           0,
           2 * Math.PI,
@@ -241,14 +297,14 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         context.fillText(
           markerIndex,
           newDataPoint.finishxPos + 5,
-          newDataPoint.finishxPos + 5
+          newDataPoint.finishyPos + 5
         );
       }
     } else {
       context.beginPath();
       context.arc(
         newDataPoint.finishxPos,
-        newDataPoint.finishxPos,
+        newDataPoint.finishyPos,
         1,
         0,
         2 * Math.PI,
@@ -259,7 +315,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       context.fillText(
         markerIndex,
         newDataPoint.finishxPos + 5,
-        newDataPoint.finishxPos + 5
+        newDataPoint.finishyPos + 5
       );
     }
   };
@@ -308,7 +364,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   const createMarker = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
-    
+
     if (isCreatingDragDataPoint) {
       setSecondDragPoint(offsetX, offsetY);
       return;
@@ -342,7 +398,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   // Tap
   const createTapDataPoint = (offsetX, offsetY, dataGroup) => {
-    console.log('111dataPointMarkerRef.current', dataPointMarkerRef.current);
     let newDataPoint = {
       dataGroup: dataGroup,
       dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
@@ -355,7 +410,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
     // Directly increment and use dataPointMarkerRef for new data points
     dataPointMarkerRef.current += 1;
-    console.log('22dataPointMarkerRef.current', dataPointMarkerRef.current);
 
     updateLoopState(newDataPoint);
     drawPlotPoint(newDataPoint, TapFunctionColour, dataPointMarkerRef.current);
@@ -410,8 +464,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       dataType: 'drag', // Tap, Move, MoveTap, Drag, Timeout
       startxPos: offsetX,
       startyPos: offsetY,
-      finishxPos: 0,
-      finishyPos: 0,
+      finishxPos: null,
+      finishyPos: null,
       xySpeed: speedOfArmMoving,
       zSpeed: speedOfFingerMoving,
       numFingers: numberOfFingerTapping,

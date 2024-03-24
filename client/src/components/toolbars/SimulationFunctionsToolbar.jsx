@@ -12,7 +12,8 @@ function SimulationFunctionsToolbar({
   openMovementSettingsModal,
   openDragSettingsModal,
   openDeviceSelectModal,
-  openUploadVideoModal
+  openUploadVideoModal,
+  downloadFileToMachine
 }) {
   return (
     <section className='bg-white border-r-2 border-solid border-black p-2'>
@@ -71,6 +72,20 @@ function SimulationFunctionsToolbar({
               onClick={openSaveAsModal}
             >
               Save As
+            </li>
+          </ul>
+        </div>
+
+        {/* Divider */}
+        <div className='w-full h-[1px] bg-slate-400'></div>
+
+        <div className='py-2'>
+          <ul>
+            <li
+              onClick={downloadFileToMachine}
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+            >
+              Download
             </li>
           </ul>
         </div>
