@@ -2,11 +2,11 @@
 import { myEmitterErrors } from '../event/errorEvents.js';
 // Domain
 import {
-  createDesign,
-  deleteDesignById,
-  findAllDesigns,
-  findDesignById,
-} from '../domain/designs.js';
+  createSimulation,
+  deleteSimulationById,
+  findAllSimulations,
+  findSimulationById,
+} from '../domain/simulations.js';
 // Response messages
 import {
   EVENT_MESSAGES,
@@ -20,56 +20,56 @@ import {
 } from '../event/utils/errorUtils.js';
 import { findUserById } from '../domain/users.js';
 
-export const getAllDesigns = async (req, res) => {
-  console.log('get all designs');
+export const getAllSimulations = async (req, res) => {
+  console.log('get all simulations');
 
   try {
-    const foundDesigns = await findAllDesigns();
-    console.log('found designs:', foundDesigns);
+    const foundSimulations = await findAllSimulations();
+    console.log('found simulations:', foundSimulations);
 
-    if (!foundDesigns) {
+    if (!foundSimulations) {
       const notFound = new NotFoundEvent(
         req.user,
         EVENT_MESSAGES.notFound,
-        EVENT_MESSAGES.designNotFound
+        EVENT_MESSAGES.simulationNotFound
       );
       myEmitterErrors.emit('error', notFound);
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
-    return sendDataResponse(res, 200, { designs: foundDesigns });
+    return sendDataResponse(res, 200, { simulations: foundSimulations });
   } catch (err) {
     //
-    const serverError = new ServerErrorEvent(req.user, `Get all designs`);
+    const serverError = new ServerErrorEvent(req.user, `Get all simulations`);
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
   }
 };
 
-// Get design by id
-export const getDesignById = async (req, res) => {
-  console.log('getDesignById');
-  const { designId } = req.params;
-  console.log('designId', designId);
+// Get simulation by id
+export const getSimulationById = async (req, res) => {
+  console.log('getSimulationById');
+  const { simulationId } = req.params;
+  console.log('simulationId', simulationId);
 
   try {
-    const foundDesign = await findDesignById(designId);
-    console.log('found design', foundDesign);
+    const foundSimulation = await findSimulationById(simulationId);
+    console.log('found simulation', foundSimulation);
 
-    if (!foundDesign) {
+    if (!foundSimulation) {
       const notFound = new NotFoundEvent(
         req.user,
         EVENT_MESSAGES.notFound,
-        EVENT_MESSAGES.designNotFound
+        EVENT_MESSAGES.simulationNotFound
       );
       myEmitterErrors.emit('error', notFound);
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    return sendDataResponse(res, 200, { design: foundDesign });
+    return sendDataResponse(res, 200, { simulation: foundSimulation });
   } catch (err) {
     // Error
-    const serverError = new ServerErrorEvent(req.user, `Get all designs`);
+    const serverError = new ServerErrorEvent(req.user, `Get all simulations`);
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
@@ -79,10 +79,13 @@ export const getDesignById = async (req, res) => {
 export const saveSimulation = async (req, res) => {};
 
 export const createNewSimulation = async (req, res) => {
-  console.log('creating new design');
-  const { designString, userId } = req.body;
-  console.log('designString, userId', designString, userId);
+  console.log('creating new simulation');
+  const { simulationData } = req.body;
+  const { userId } = req.params;
 
+  console.log('simulationData', simulationData);
+  console.log('userId', userId);
+  
   try {
     const foundUser = await findUserById(userId);
     if (!foundUser) {
@@ -95,65 +98,65 @@ export const createNewSimulation = async (req, res) => {
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    const createdDesign = await createDesign(designString, userId);
+    const createdSimulation = await createSimulation(simulationString, userId);
 
-    if (!createdDesign) {
+    if (!createdSimulation) {
       const badRequest = new BadRequestEvent(
         req.user,
         EVENT_MESSAGES.badRequest,
-        EVENT_MESSAGES.createDesignFail
+        EVENT_MESSAGES.createSimulationFail
       );
       myEmitterErrors.emit('error', badRequest);
       return sendMessageResponse(res, badRequest.code, badRequest.message);
     }
 
-    console.log('createdDesign', createdDesign);
-    return sendDataResponse(res, 201, { createdDesign: createdDesign });
+    console.log('createdSimulation', createdSimulation);
+    return sendDataResponse(res, 201, { createdSimulation: createdSimulation });
   } catch (err) {
     // Error
-    const serverError = new ServerErrorEvent(req.user, `Create new design`);
+    const serverError = new ServerErrorEvent(req.user, `Create new simulation`);
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
   }
 };
 
-// delete design
-export const deleteDesign = async (req, res) => {
-  console.log('deleteOpenDesign');
+// delete simulation
+export const deleteSimulation = async (req, res) => {
+  console.log('deleteOpenSimulation');
   console.log('req', req.params);
-  const designId = req.params.designId;
-  console.log('designId', designId);
+  const simulationId = req.params.simulationId;
+  console.log('simulationId', simulationId);
 
   try {
-    const foundDesign = await findDesignById(designId);
-    console.log('foundDesign card', foundDesign);
+    const foundSimulation = await findSimulationById(simulationId);
+    console.log('foundSimulation card', foundSimulation);
 
-    if (!foundDesign) {
+    if (!foundSimulation) {
       const notFound = new NotFoundEvent(
         req.user,
         EVENT_MESSAGES.notFound,
-        EVENT_MESSAGES.designNotFound
+        EVENT_MESSAGES.simulationNotFound
       );
       myEmitterErrors.emit('error', notFound);
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    const deletedDesign = await deleteDesignById(designId);
-    if (!deletedDesign) {
+    const deletedSimulation = await deleteSimulationById(simulationId);
+    if (!deletedSimulation) {
       const notDeleted = new BadRequestEvent(
         req.user,
         EVENT_MESSAGES.badRequest,
-        EVENT_MESSAGES.designNotDeleted
+        EVENT_MESSAGES.simulationNotDeleted
       );
       myEmitterErrors.emit('error', notDeleted);
       return sendMessageResponse(res, notDeleted.code, notDeleted.message);
     }
 
-    return sendDataResponse(res, 202, { deletedDesign: deletedDesign });
+    return sendDataResponse(res, 202, { deletedSimulation: deletedSimulation });
   } catch (err) {
     // Error
-    const serverError = new ServerErrorEvent(req.user, `Create design`);
+    const serverError = new ServerErrorEvent(req.user, `Create simulation`);
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;

@@ -6,6 +6,7 @@ async function seed() {
 
   const testUser = await dbClient.user.create({
     data: {
+      id: 'testUser',
       email: `xtombrock1989@gmail.com`,
       password,
     },
@@ -13,6 +14,7 @@ async function seed() {
 
   const devUser = await dbClient.user.create({
     data: {
+      id: 'dev',
       email: 'dev@dev.com',
       password,
       role: 'DEVELOPER',

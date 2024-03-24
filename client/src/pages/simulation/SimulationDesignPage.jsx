@@ -16,22 +16,22 @@ import SimulationDataToobar from '../../components/toolbars/SimulationDataToobar
 import SimulationFunctionsToolbar from '../../components/toolbars/SimulationFunctionsToolbar';
 import SimulationPageTopToolBar from '../../components/toolbars/SimulationPageTopToolBar';
 import SaveAsModal from '../../components/modals/SaveAsModal';
+import CanvasSimulationTool from '../../components/canvas/CanvasSimulationTool';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
 import { SimulationContext } from '../../context/SimulationContext';
+import { UserContext } from '../../context/UserContext';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
-import CanvasSimulationTool from '../../components/canvas/CanvasSimulationTool';
 
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
+  const { user } = useContext(UserContext)
   const {
     setIsCreatingNewLoop,
-    rulersVisible,
     setRulersVisible,
     simulationIsRunning,
     setSimulationIsRunning,
-    isLandscapeMode,
     setIsLandscapeMode,
     setDisplaySimOrLoop,
     simulationToolSelected,
@@ -47,7 +47,6 @@ function SimulationDesignPage() {
     speedOfArmMoving,
     setSpeedOfArmMoving,
     addCreateLoopModalOpen,
-    setAddCreateLoopModalOpen,
     timeoutModalOpen,
     setTimeoutModalOpen,
     timeoutLength,
@@ -58,15 +57,12 @@ function SimulationDesignPage() {
     setDragSettingsModalOpen,
     speedOfDraggingArmMoving,
     setSpeedOfDraggingArmMoving,
-    clearAllDataPointsFromSimulation,
-    contextRef,
     positionOfMouseAndCanvasVisible,
     setpositionOfMouseAndCanvasVisible,
     consentMessageVisible,
     setConsentMessageVisible,
     consentMessage,
     setConsentMessage,
-    consentFunction,
     setConsentFunction,
     simulationData,
   } = useContext(SimulationContext);
@@ -184,7 +180,7 @@ function SimulationDesignPage() {
   // Save simulation
   const saveCurrentSimulationFile = () => {
     client
-      .post('/simulations/save-simulation')
+      .post(`/simulations/user/create-new-simulation/${user.id}`)
       .then((res) => {
         console.log('RES', res.data.data.newSimulation);
       })
@@ -202,8 +198,24 @@ function SimulationDesignPage() {
   const closeSaveAsModal = () => {
     setSaveAsModalOpen(false); //
   };
+
+  const [isSavingFile, setIsSavingFile] = useState(false)
+
   // Save as
   const saveAsNewFile = () => {
+    setIsSavingFile(true)
+
+    client
+      .post('/simulations/user/create-new-simulation', simulationData, false)
+      .then((res) => {
+        console.log('res', res);
+        setIsSavingFile(false)
+      })
+      
+      .catch((err) => {
+        console.error('Unable to save data', err);
+        setIsSavingFile(false)
+      });
     setSaveAsModalOpen(false); //
   };
 
