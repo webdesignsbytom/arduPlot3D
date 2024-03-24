@@ -11,7 +11,7 @@ function CanvasSimulationTool() {
   const armCanvasRef = useRef(null);
   const deviceContextRef = useRef(null);
   const armContextRef = useRef(null);
-  const currentPositionRef = useRef({ x: 0, y: 0 });
+  const currentPositionRef = useRef({ xPos: 0, yPos: 0 });
   const startTimeRef = useRef(null);
 
   const [canvasDimensionIncrease, setCanvasDimensionIncrease] = useState(50);
@@ -30,18 +30,11 @@ function CanvasSimulationTool() {
     armCanvas.height = selectedDevice.xPixels + canvasDimensionIncrease;
     armContextRef.current = armCanvas.getContext('2d');
 
-    let armRef = armContextRef.current;
-
     let startingXpos = canvasDimensionIncrease / 2;
     let startingYpos = canvasDimensionIncrease / 2;
 
-    currentPositionRef.current = { x: startingXpos, y: startingYpos };
+    currentPositionRef.current = { xPos: startingXpos, yPos: startingYpos };
 
-    armRef.clearRect(0, 0, armRef.canvas.width, armRef.canvas.height); // Clear the canvas
-    armRef.beginPath();
-    armRef.arc(startingXpos, startingYpos, 20, 0, 2 * Math.PI); // Draw circle
-    armRef.fillStyle = 'black';
-    armRef.fill();
   }, [selectedDevice]);
 
   useEffect(() => {
@@ -73,8 +66,8 @@ function CanvasSimulationTool() {
 
     initialPositions.unshift({
       dataType: 'starting_pos',
-      xPos: currentPositionRef.current.x,
-      yPos: currentPositionRef.current.y,
+      xPos: currentPositionRef.current.xPos,
+      yPos: currentPositionRef.current.yPos,
     });
 
     let currentIndex = 0; // Start at the initial position
@@ -109,13 +102,10 @@ function CanvasSimulationTool() {
       }
 
       if (initialPositions[currentIndex].dataType === 'move_tap') {
-        startX = initialPositions[currentIndex - 1].xPos;
-        startY = initialPositions[currentIndex - 1].yPos;
-        endX = initialPositions[currentIndex].xPos;
-        endY = initialPositions[currentIndex].yPos;
-      } else {
-        endX = canvasDimensionIncrease / 2
-        endY = canvasDimensionIncrease / 2  
+        startX = initialPositions[currentIndex - 1].xPos + canvasDimensionIncrease / 2;
+        startY = initialPositions[currentIndex - 1].yPos + canvasDimensionIncrease / 2;
+        endX = initialPositions[currentIndex].xPos + canvasDimensionIncrease / 2;
+        endY = initialPositions[currentIndex].yPos + canvasDimensionIncrease / 2;
       }
 
       const currentX = startX + (endX - startX) * progress;
