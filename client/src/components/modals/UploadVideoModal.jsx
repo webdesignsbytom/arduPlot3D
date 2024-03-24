@@ -13,7 +13,7 @@ function UploadVideoModal({ closeUploadVideoModal }) {
   };
 
   return (
-    <section className='grid outline outline-yellow-400 outline-2 rounded-lg bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+    <section className='grid outline outline-yellow-400 outline-2 rounded-lg z-20 bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='p-2'>
         <div className='text-center'>
           <h4 className=''>Upload Video</h4>

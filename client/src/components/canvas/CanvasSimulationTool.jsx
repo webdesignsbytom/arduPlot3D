@@ -140,7 +140,7 @@ function CanvasSimulationTool() {
       />
       <canvas
         ref={armCanvasRef}
-        className={`border-solid absolute z-30 border-black border-2 rounded-xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
+        className={`border-solid absolute z-10 border-black border-2 rounded-xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
       />
       <div
         className={`grid grid-cols-reg gap-2 absolute left-1 top-1 bg-white z-50 outline outline-yellow-400 outline-1 rounded-xl px-4 py-1`}
