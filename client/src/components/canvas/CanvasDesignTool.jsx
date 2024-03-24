@@ -93,7 +93,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   // Load current points on startup
   useEffect(() => {
-    console.log('SUEEFFECT');
     const context = contextRef.current;
     // Clear the canvas first
     context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -128,7 +127,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         }
       });
     } else {
-      console.log('1111111111111111');
       dataPointMarkerRef.current = 0;
       // Handling for loop data being edited
       // Assume loopDataBeingEdited.mainSimulationLoopDataPoints is similar to 'simulation' group data
@@ -146,13 +144,9 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     if (pointsToDisplay.length > 0) {
       // Draw the points
       pointsToDisplay.forEach((element, index) => {
-        console.log('111 mainIndexTally', mainIndexTally);
         let markerIndex = element.decimalIndex || mainIndexTally; // Use decimalIndex if present, otherwise index + 1
-        console.log('222 MarkerIndex', markerIndex);
-        console.log('333 isDecimal', isDecimal);
 
         if (element.decimalIndex) {
-          console.log('BBBBBBB');
           if (!isDecimal) {
             mainIndexTally++;
           }
@@ -160,18 +154,14 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         }
 
         if (!element.decimalIndex) {
-          console.log('element.decimalIndex');
           isDecimal = false;
           mainIndexTally++;
         }
 
-        console.log('MARKER INDEX', markerIndex);
         sortDataElements(element, markerIndex);
-        console.log('------------------');
       });
 
       let newIndex = simulationData.mainSimulationDataPoints.length;
-      console.log('NEW INDEX: ', newIndex);
       dataPointMarkerRef.current = newIndex;
     }
   }, [isCreatingEditingLoop, numberOfDataPointsToDisplay, simulationData, loopDataBeingEdited]);
@@ -202,7 +192,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const drawPlotPoint = (newDataPoint, colour, markerIndex) => {
     const context = contextRef.current;
     context.strokeStyle = colour; // Sets the color of the circle's outline
-    console.log('333dataPointMarkerRef.current', markerIndex);
 
     if (!isCreatingDragDataPoint) {
       context.beginPath();
@@ -319,9 +308,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   const createMarker = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
-    console.log('SSSSSSSSSSSSSSSSSSS', dataPointMarkerRef.current);
+    
     if (isCreatingDragDataPoint) {
-      console.log('PPPPPPPPPPPPPPPPPP');
       setSecondDragPoint(offsetX, offsetY);
       return;
     }

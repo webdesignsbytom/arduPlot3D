@@ -5,7 +5,7 @@ function ConsentAlert({ consentMessage, cancalFunction }) {
   const { runConsentFunction } = useContext(SimulationContext);
 
   return (
-    <section className='grid gap-4 outline outline-yellow-400 outline-2 rounded-lg p-2 bg-white h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+    <section className='grid gap-4 outline z-20 outline-yellow-400 outline-2 rounded-lg p-2 bg-white h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='grid px-4'>
         <article className='text-center'>
           <h4 className='text-black font-semibold'>{consentMessage}</h4>

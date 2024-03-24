@@ -21,6 +21,7 @@ import { ToggleContext } from '../../context/ToggleContext';
 import { SimulationContext } from '../../context/SimulationContext';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
+import CanvasSimulationTool from '../../components/canvas/CanvasSimulationTool';
 
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -79,8 +80,12 @@ function SimulationDesignPage() {
   // Save
   const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
 
+  // Reset
+  const [isResettingAnimation, setIsResettingAnimation] = useState(false);
+
+
   useEffect(() => {
-    setActiveNav('/design');
+    setActiveNav('/simulation');
   }, []);
 
   const clearAllDataPoints = () => {
@@ -89,41 +94,9 @@ function SimulationDesignPage() {
     setConsentFunction('clearAllDataPoints');
   };
 
-
-
-  const resetSimulationToStartingPoint = () => {};
-
-  // const drawConnectingLines = () => {
-  //   // add to array of points
-  //   const tempStore = lineRef.current;
-  //   lineRef.current = tempStore;
-
-  //   if (tempStore.length > 2) {
-  //     // Draw line from start to finish
-  //     let start = tempStore[0];
-  //     let finish = tempStore[tempStore.length - 1];
-  //     console.log('start.', start);
-  //     console.log('finsi', finish);
-
-  //     contextRef.current.beginPath();
-  //     contextRef.current.moveTo(start.xPos, start.yPos);
-  //     contextRef.current.lineTo(finish.xPos, finish.yPos);
-  //     contextRef.current.stroke();
-
-  //     let previousRef = start;
-
-  //     for (let index = 1; index < tempStore.length; index++) {
-  //       const element = tempStore[index];
-  //       console.log('element', element);
-
-  //       contextRef.current.beginPath();
-  //       contextRef.current.moveTo(previousRef.xPos, previousRef.yPos);
-  //       contextRef.current.lineTo(element.xPos, element.yPos);
-  //       contextRef.current.stroke();
-  //       previousRef = element;
-  //     }
-  //   }
-  // };
+  const resetSimulationToStartingPoint = () => {
+    setIsResettingAnimation(!isResettingAnimation);
+  };
 
   // Create new simulation loop of commands
   const createNewSimulationLoop = () => {
@@ -144,7 +117,7 @@ function SimulationDesignPage() {
     setRulersVisible(false);
   };
 
-  //
+  // Run simulation
   const runSimulation = () => {
     setSimulationIsRunning(true);
   };
@@ -381,9 +354,15 @@ function SimulationDesignPage() {
 
           {/* CANVAS */}
           <div className='bg-white h-full grid outline-black outline outline-2 overflow-hidden'>
-            <CanvasDesignTool
-              positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
-            />
+            {simulationIsRunning ? (
+              <CanvasSimulationTool isResettingAnimation={isResettingAnimation} />
+            ) : (
+              <CanvasDesignTool
+                positionOfMouseAndCanvasVisible={
+                  positionOfMouseAndCanvasVisible
+                }
+              />
+            )}
           </div>
         </section>
 
