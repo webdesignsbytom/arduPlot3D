@@ -131,7 +131,7 @@ function SimulationPageTopToolBar({
         {/* Move and tap tool */}
         <button
           onClick={selectTapAndMoveTool}
-          title='Move and Tap'
+          title='Move and Tap tool'
           className={`px-2 ${
             simulationToolSelected === 'move_tap'
               ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
@@ -159,7 +159,7 @@ function SimulationPageTopToolBar({
         {/* Timeout tool */}
         <button
           onClick={selectTimeoutTool}
-          title='Timeout'
+          title='Timeout tool'
           className={`px-2 ${
             simulationToolSelected === 'timeout'
               ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
@@ -228,7 +228,7 @@ function SimulationPageTopToolBar({
           {numberOfDataPointsToDisplay === availablePointsToDisplayData[0] ? (
             <button
               onClick={setPointsToDisplaySettings}
-              title='Display latest data point only'
+              title='Display all data points'
               className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
             >
               <IoMdInfinite />
@@ -246,7 +246,7 @@ function SimulationPageTopToolBar({
             availablePointsToDisplayData[2] ? (
             <button
               onClick={setPointsToDisplaySettings}
-              title='Display latest data point only'
+              title='Display two data point only'
               className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
             >
               2
@@ -255,7 +255,7 @@ function SimulationPageTopToolBar({
             availablePointsToDisplayData[3] ? (
             <button
               onClick={setPointsToDisplaySettings}
-              title='Display latest data point only'
+              title='Display three data point only'
               className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
             >
               3
@@ -264,7 +264,7 @@ function SimulationPageTopToolBar({
             availablePointsToDisplayData[4] ? (
             <button
               onClick={setPointsToDisplaySettings}
-              title='Display latest data point only'
+              title='Display five data point only'
               className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
             >
               5
@@ -273,7 +273,7 @@ function SimulationPageTopToolBar({
             availablePointsToDisplayData[5] ? (
             <button
               onClick={setPointsToDisplaySettings}
-              title='Display latest data point only'
+              title='Display 10 data point only'
               className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-yellow-400 hover:bg-yellow-100 rounded-md'
             >
               10
@@ -301,8 +301,9 @@ function SimulationPageTopToolBar({
         </div>
         <div>
           <button
+            title='Clear all data points in simulation - does not include saved loops'
             onClick={clearAllDataPoints}
-            className='px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights bg-red-400 hover:bg-red-100 rounded-md'
+            className='px-2 py-[0.5px] h-full outline-black outline outline-2 active:scale-95 no__highlights bg-red-400 hover:bg-red-100 rounded-md'
           >
             Clear all
           </button>

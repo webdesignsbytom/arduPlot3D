@@ -68,6 +68,7 @@ function SimulationDesignPage() {
     setConsentMessage,
     consentFunction,
     setConsentFunction,
+    simulationData,
   } = useContext(SimulationContext);
 
   // Video modal
@@ -82,7 +83,6 @@ function SimulationDesignPage() {
 
   // Reset
   const [isResettingAnimation, setIsResettingAnimation] = useState(false);
-
 
   useEffect(() => {
     setActiveNav('/simulation');
@@ -272,34 +272,73 @@ function SimulationDesignPage() {
   };
 
   // Download simulation for sd card
-  const downloadAsTextFile = () => {
-    // const plotterCommands = translateToPlotterLanguage();
-    // const blob = new Blob([plotterCommands], { type: 'text/plain' });
-    // const href = URL.createObjectURL(blob);
-    // const link = document.createElement('a');
-    // link.href = href;
-    // link.download = 'drawingCommands.txt'; // Name of the file to download
-    // document.body.appendChild(link);
-    // link.click();
-    // document.body.removeChild(link);
-    // URL.revokeObjectURL(href);
+  const downloadFileToMachine = () => {
+    console.log('111111111111');
+    const plotterCommands = translateToPlotterLanguage();
+    const blob = new Blob([plotterCommands], { type: 'text/plain' });
+    const href = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = `${simulationData.simulationTitle}.txt`; // Name of the file to download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(href);
   };
 
-  // Assuming lineRef.current contains an array of objects with x and y coordinates
   // Example: [{xPos: 10, yPos: 20}, {xPos: 30, yPos: 40}]
   // Function to translate drawing commands to ASCII/Plotter language
 
-  // const translateToPlotterLanguage = () => {
-  //   let commands = '';
-  //   lineRef.current.forEach((point, index) => {
-  //     if (index === 0) {
-  //       commands += `MOVE ${point.xPos} ${point.yPos};\n`; // Move to start without drawing
-  //     } else {
-  //       commands += `DRAW ${point.xPos} ${point.yPos};\n`; // Draw line to next point
-  //     }
-  //   });
-  //   return commands;
-  // };
+  function translateToPlotterLanguage() {
+    console.log('222222222222');
+
+    let commands = '';
+
+    const formatPoint = (point) => {
+      switch (point.dataType) {
+        case 'tap':
+        case 'move':
+        case 'move_tap':
+          return `${point.dataType.toUpperCase()} xPos: ${point.xPos}, yPos: ${
+            point.yPos
+          }, xySpeed: ${point.xySpeed}, zSpeed: ${point.zSpeed}, numFingers: ${
+            point.numFingers
+          }, timeLength: ${point.timeLength}\n`;
+        case 'drag':
+          return `${point.dataType.toUpperCase()} startxPos: ${
+            point.startxPos
+          }, startyPos: ${point.startyPos}, finishxPos: ${
+            point.finishxPos
+          }, finishyPos: ${point.finishyPos}, xySpeed: ${
+            point.xySpeed
+          }, zSpeed: ${point.zSpeed}, numFingers: ${
+            point.numFingers
+          }, timeLength: ${point.timeLength}\n`;
+        case 'timeout':
+          return `${point.dataType.toUpperCase()} timeoutLength: ${
+            point.timeoutLength
+          }\n`;
+        default:
+          return `Unknown DataType: ${point.dataType}\n`;
+      }
+    };
+
+    // Translate main simulation data points
+    simulationData.mainSimulationDataPoints.forEach((point) => {
+      commands += formatPoint(point);
+    });
+
+    // Translate simulation loops
+    // simulationData.simulationLoops.forEach(loop => {
+    //   commands += `LOOP: ${loop.loopTitle}\n`;
+    //   loop.mainSimulationLoopDataPoints.forEach(point => {
+    //     commands += `  ${formatPoint(point)}`;
+    //   });
+    //   commands += `LOOP END: ${loop.loopTitle}, Time to Complete: ${loop.loopTimeToComplete}ms\n`;
+    // });
+
+    return commands;
+  }
 
   return (
     <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
@@ -322,6 +361,7 @@ function SimulationDesignPage() {
             openDragSettingsModal={openDragSettingsModal}
             openDeviceSelectModal={openDeviceSelectModal}
             openUploadVideoModal={openUploadVideoModal}
+            downloadFileToMachine={downloadFileToMachine}
           />
         </section>
 
@@ -355,7 +395,9 @@ function SimulationDesignPage() {
           {/* CANVAS */}
           <div className='bg-white h-full grid outline-black outline outline-2 overflow-hidden'>
             {simulationIsRunning ? (
-              <CanvasSimulationTool isResettingAnimation={isResettingAnimation} />
+              <CanvasSimulationTool
+                isResettingAnimation={isResettingAnimation}
+              />
             ) : (
               <CanvasDesignTool
                 positionOfMouseAndCanvasVisible={
