@@ -80,8 +80,12 @@ function SimulationDesignPage() {
   // Save
   const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
 
+  // Reset
+  const [isResettingAnimation, setIsResettingAnimation] = useState(false);
+
+
   useEffect(() => {
-    setActiveNav('/design');
+    setActiveNav('/simulation');
   }, []);
 
   const clearAllDataPoints = () => {
@@ -90,9 +94,9 @@ function SimulationDesignPage() {
     setConsentFunction('clearAllDataPoints');
   };
 
-
-
-  const resetSimulationToStartingPoint = () => {};
+  const resetSimulationToStartingPoint = () => {
+    setIsResettingAnimation(!isResettingAnimation);
+  };
 
   // const drawConnectingLines = () => {
   //   // add to array of points
@@ -383,12 +387,14 @@ function SimulationDesignPage() {
           {/* CANVAS */}
           <div className='bg-white h-full grid outline-black outline outline-2 overflow-hidden'>
             {simulationIsRunning ? (
-              <CanvasSimulationTool />
+              <CanvasSimulationTool isResettingAnimation={isResettingAnimation} />
             ) : (
               <CanvasDesignTool
-              positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
+                positionOfMouseAndCanvasVisible={
+                  positionOfMouseAndCanvasVisible
+                }
               />
-              )}
+            )}
           </div>
         </section>
 

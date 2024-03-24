@@ -5,7 +5,7 @@ import { SimulationContext } from '../../context/SimulationContext';
 import { FaMousePointer } from 'react-icons/fa';
 import { blankSimulationAnimationObject } from '../../utils/design/TempData';
 
-function CanvasSimulationTool() {
+function CanvasSimulationTool({ isResettingAnimation }) {
   const { selectedDevice, simulationData } = useContext(SimulationContext);
   const deviceCanvasRef = useRef(null);
   const armCanvasRef = useRef(null);
@@ -133,7 +133,7 @@ function CanvasSimulationTool() {
     return () => {
       startTimeRef.current = null; // Reset startTimeRef on component unmount
     };
-  }, [simulationData]); // Re-run the animation if simulationData changes
+  }, [simulationData, isResettingAnimation]); // Re-run the animation if simulationData changes
 
   return (
     <div className='relative grid justify-center items-center'>
