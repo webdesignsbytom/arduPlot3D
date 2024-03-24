@@ -34,7 +34,6 @@ function CanvasSimulationTool({ isResettingAnimation }) {
     let startingYpos = canvasDimensionIncrease / 2;
 
     currentPositionRef.current = { xPos: startingXpos, yPos: startingYpos };
-
   }, [selectedDevice]);
 
   useEffect(() => {
@@ -73,24 +72,20 @@ function CanvasSimulationTool({ isResettingAnimation }) {
     let currentIndex = 0; // Start at the initial position
     let travelTime = 1000; // milliseconds for each segment
 
-    const drawMovingFinger = (x, y) => {
-      console.log('xy', x, y);
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clear the canvas
-      context.beginPath();
-      context.arc(x, y, 20, 0, 2 * Math.PI); // Draw circle
-      context.fillStyle = 'black';
-      context.fill();
-    };
-
     const animate = (timestamp) => {
-      console.log('initialPositions', initialPositions);
-
+      // Get time
       if (!startTimeRef.current) startTimeRef.current = timestamp;
       const elapsedTime = timestamp - startTimeRef.current;
 
-      if (currentIndex >= initialPositions.length - 1) return; // Stop if we've reached the last point
+      // Stop if we've reached the last point
+      if (currentIndex >= initialPositions.length - 1) return;
 
-      const progress = Math.min(1, elapsedTime / travelTime); // Ensure progress doesn't exceed 1
+      // Ensure progress doesn't exceed 1
+      const progress = Math.min(1, elapsedTime / travelTime);
+
+      const currentDataPoint = initialPositions[currentIndex];
+      let circleSize = 20; // Default circle size
+      console.log('CURRENT: ', currentDataPoint);
 
       let startX, startY, endX, endY;
 
@@ -102,18 +97,34 @@ function CanvasSimulationTool({ isResettingAnimation }) {
       }
 
       if (initialPositions[currentIndex].dataType === 'move_tap') {
-        startX = initialPositions[currentIndex - 1].xPos + canvasDimensionIncrease / 2;
-        startY = initialPositions[currentIndex - 1].yPos + canvasDimensionIncrease / 2;
-        endX = initialPositions[currentIndex].xPos + canvasDimensionIncrease / 2;
-        endY = initialPositions[currentIndex].yPos + canvasDimensionIncrease / 2;
+        startX =
+          initialPositions[currentIndex - 1].xPos + canvasDimensionIncrease / 2;
+        startY =
+          initialPositions[currentIndex - 1].yPos + canvasDimensionIncrease / 2;
+        endX =
+          initialPositions[currentIndex].xPos + canvasDimensionIncrease / 2;
+        endY =
+          initialPositions[currentIndex].yPos + canvasDimensionIncrease / 2;
+      }
+
+      if (initialPositions[currentIndex].dataType === 'tap') {
+        // Move to postion
+        startX =
+          initialPositions[currentIndex - 1].xPos + canvasDimensionIncrease / 2;
+        startY =
+          initialPositions[currentIndex - 1].yPos + canvasDimensionIncrease / 2;
+        endX =
+          initialPositions[currentIndex].xPos + canvasDimensionIncrease / 2;
+        endY =
+          initialPositions[currentIndex].yPos + canvasDimensionIncrease / 2;
+        // Tap down animtion
+        // ???
       }
 
       const currentX = startX + (endX - startX) * progress;
       const currentY = startY + (endY - startY) * progress;
 
-      console.log('xy2222', currentX, currentY);
-
-      drawMovingFinger(currentX, currentY);
+      drawMovingFinger(currentX, currentY, circleSize);
 
       if (elapsedTime >= travelTime) {
         // Move to the next segment
@@ -128,6 +139,15 @@ function CanvasSimulationTool({ isResettingAnimation }) {
     };
 
     requestAnimationFrame(animate);
+
+    // Modify drawMovingFinger to accept circleSize
+    const drawMovingFinger = (x, y, circleSize) => {
+      context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clear the canvas
+      context.beginPath();
+      context.arc(x, y, circleSize, 0, 2 * Math.PI); // Draw circle with variable size
+      context.fillStyle = 'black';
+      context.fill();
+    };
 
     // Cleanup
     return () => {
