@@ -98,38 +98,6 @@ function SimulationDesignPage() {
     setIsResettingAnimation(!isResettingAnimation);
   };
 
-  // const drawConnectingLines = () => {
-  //   // add to array of points
-  //   const tempStore = lineRef.current;
-  //   lineRef.current = tempStore;
-
-  //   if (tempStore.length > 2) {
-  //     // Draw line from start to finish
-  //     let start = tempStore[0];
-  //     let finish = tempStore[tempStore.length - 1];
-  //     console.log('start.', start);
-  //     console.log('finsi', finish);
-
-  //     contextRef.current.beginPath();
-  //     contextRef.current.moveTo(start.xPos, start.yPos);
-  //     contextRef.current.lineTo(finish.xPos, finish.yPos);
-  //     contextRef.current.stroke();
-
-  //     let previousRef = start;
-
-  //     for (let index = 1; index < tempStore.length; index++) {
-  //       const element = tempStore[index];
-  //       console.log('element', element);
-
-  //       contextRef.current.beginPath();
-  //       contextRef.current.moveTo(previousRef.xPos, previousRef.yPos);
-  //       contextRef.current.lineTo(element.xPos, element.yPos);
-  //       contextRef.current.stroke();
-  //       previousRef = element;
-  //     }
-  //   }
-  // };
-
   // Create new simulation loop of commands
   const createNewSimulationLoop = () => {
     setIsCreatingNewLoop(true);
