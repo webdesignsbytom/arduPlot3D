@@ -46,12 +46,3 @@ Backend: Express, Prisma, JavaScript
 
 API tests run through Insomnia testing suit.
 Check server dir for test files.
-
-
-Design Page
-  - Sim Data container
-    - Simulation data points
-      sim container
-    - loop or sim
-    - loop container
-      - sim container
