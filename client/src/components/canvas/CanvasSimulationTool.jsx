@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { FaMousePointer } from 'react-icons/fa';
+import { blankSimulationAnimationObject } from '../../utils/design/TempData';
 
 function CanvasSimulationTool() {
   const { selectedDevice, simulationData } = useContext(SimulationContext);
@@ -47,12 +48,8 @@ function CanvasSimulationTool() {
     const context = armContextRef.current;
     if (!context) return;
 
-    let initialPositions = [
-      { x: 100, y: 222 },
-      { x: 200, y: 300 },
-      { x: 100, y: 66 },
-      { x: 12, y: 300 },
-    ];
+    let initialPositions =
+      blankSimulationAnimationObject.mainSimulationDataPoints;
 
     let flattenedData = [];
 
@@ -74,17 +71,17 @@ function CanvasSimulationTool() {
       }
     });
 
-    console.log('FLATTTTTTTT', flattenedData);
-
     initialPositions.unshift({
-      x: currentPositionRef.current.x,
-      y: currentPositionRef.current.y,
+      dataType: 'starting_pos',
+      xPos: currentPositionRef.current.x,
+      yPos: currentPositionRef.current.y,
     });
 
     let currentIndex = 0; // Start at the initial position
     let travelTime = 1000; // milliseconds for each segment
 
     const drawMovingFinger = (x, y) => {
+      console.log('xy', x, y);
       context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clear the canvas
       context.beginPath();
       context.arc(x, y, 20, 0, 2 * Math.PI); // Draw circle
@@ -93,6 +90,8 @@ function CanvasSimulationTool() {
     };
 
     const animate = (timestamp) => {
+      console.log('initialPositions', initialPositions);
+
       if (!startTimeRef.current) startTimeRef.current = timestamp;
       const elapsedTime = timestamp - startTimeRef.current;
 
@@ -100,15 +99,29 @@ function CanvasSimulationTool() {
 
       const progress = Math.min(1, elapsedTime / travelTime); // Ensure progress doesn't exceed 1
 
-      const startX = initialPositions[currentIndex].x;
-      const startY = initialPositions[currentIndex].y;
-      const endX = initialPositions[currentIndex + 1].x;
-      const endY = initialPositions[currentIndex + 1].y;
+      let startX, startY, endX, endY;
+
+      if (initialPositions[currentIndex].dataType === 'starting_pos') {
+        startX = initialPositions[currentIndex].xPos;
+        startY = initialPositions[currentIndex].yPos;
+        endX = initialPositions[currentIndex].xPos;
+        endY = initialPositions[currentIndex].yPos;
+      }
+
+      if (initialPositions[currentIndex].dataType === 'move_tap') {
+        startX = initialPositions[currentIndex - 1].xPos;
+        startY = initialPositions[currentIndex - 1].yPos;
+        endX = initialPositions[currentIndex].xPos;
+        endY = initialPositions[currentIndex].yPos;
+      } else {
+        endX = canvasDimensionIncrease / 2
+        endY = canvasDimensionIncrease / 2  
+      }
 
       const currentX = startX + (endX - startX) * progress;
       const currentY = startY + (endY - startY) * progress;
 
-      currentPositionRef.current = { x: currentX, y:  currentY };
+      console.log('xy2222', currentX, currentY);
 
       drawMovingFinger(currentX, currentY);
 
