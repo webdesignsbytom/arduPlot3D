@@ -2,6 +2,7 @@ import { initxyMovementSpeed, initzMovementSpeed } from './SpeedUtils';
 
 export const blankLoopObject = {
   loopTitle: '',
+  dataGroup: 'loop',
   mainSimulationLoopDataPoints: [],
   loopTimeToComplete: 0,
 };
@@ -10,6 +11,7 @@ export const blankSimulationObject = {
   simulationTitle: '',
   mainSimulationDataPoints: [],
   simulationLoops: [],
+  simulationTimeToComplete: 0,
 };
 
 export const blankSimulationAnimationObject = {

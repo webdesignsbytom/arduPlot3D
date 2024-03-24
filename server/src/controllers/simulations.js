@@ -80,14 +80,13 @@ export const saveSimulation = async (req, res) => {};
 
 export const createNewSimulation = async (req, res) => {
   console.log('creating new simulation');
-  const { simulationData } = req.body;
+  const { simulationTitle, mainSimulationDataPoints, simulationLoops, simulationTimeToComplete } =
+    req.body;
   const { userId } = req.params;
 
-  console.log('simulationData', simulationData);
-  console.log('userId', userId);
-  
   try {
     const foundUser = await findUserById(userId);
+
     if (!foundUser) {
       const notFound = new NotFoundEvent(
         req.user,
@@ -98,7 +97,7 @@ export const createNewSimulation = async (req, res) => {
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    const createdSimulation = await createSimulation(simulationString, userId);
+    const createdSimulation = await createSimulation(userId, simulationTitle, mainSimulationDataPoints, simulationLoops, simulationTimeToComplete);
 
     if (!createdSimulation) {
       const badRequest = new BadRequestEvent(

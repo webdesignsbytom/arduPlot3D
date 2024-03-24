@@ -1,23 +1,9 @@
 import React, { useEffect, useState } from 'react';
-// Api
-import client from '../../api/client';
 // File data
 import { saveFileTypes } from '../../utils/design/DesignUtils';
 
 function SaveAsModal({ saveAsNewFile, closeSaveAsModal }) {
   const [availableFileTypes] = useState(saveFileTypes);
-
-  useEffect(() => {
-    client
-      .post('/simulations/create-new-simulation')
-      .then((res) => {
-        console.log('RES', res.data.data.newSimulation);
-      })
-
-      .catch((err) => {
-        console.error('Unable to create simulation', err);
-      });
-  }, []);
 
   return (
     <section className='grid outline outline-yellow-400 outline-2 z-20 rounded-lg bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>

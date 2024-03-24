@@ -14,13 +14,27 @@ export const findSimulationById = (simulationId) =>
     },
   });
 
-export const createSimulation = (simulationString, userId) =>
+  export const createSimulation = (userId, simulationTitle, mainSimulationDataPoints, simulationLoops, simulationTimeToComplete) =>
   dbClient.simulation.create({
     data: {
+      title: simulationTitle,
+      fullSimulation: JSON.stringify(mainSimulationDataPoints), // Assuming this is how you store simulation data points
+      totalTime: simulationTimeToComplete, // Set this accordingly based on your logic
       userId: userId,
-      simulationString: simulationString,
+      // Use the `createMany` operator under `loops` for nested creation
+      loops: {
+        createMany: {
+          data: simulationLoops.map(loop => ({
+            title: loop.loopTitle,
+            dataGroup: loop.dataGroup,
+            fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints), // Example structure; adjust based on actual structure
+            totalTime: loop.loopTimeToComplete,
+          })),
+        },
+      },
     },
   });
+
 
 export const deleteSimulationById = (simulationId) =>
   dbClient.simulation.delete({

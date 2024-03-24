@@ -26,7 +26,7 @@ import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
   const {
     setIsCreatingNewLoop,
     setRulersVisible,
@@ -179,8 +179,13 @@ function SimulationDesignPage() {
 
   // Save simulation
   const saveCurrentSimulationFile = () => {
+    console.log('USER', user.id);
     client
-      .post(`/simulations/user/create-new-simulation/${user.id}`)
+      .post(
+        `/simulations/user/save-simulation/${user.id}`,
+        simulationData,
+        false
+      )
       .then((res) => {
         console.log('RES', res.data.data.newSimulation);
       })
@@ -199,22 +204,25 @@ function SimulationDesignPage() {
     setSaveAsModalOpen(false); //
   };
 
-  const [isSavingFile, setIsSavingFile] = useState(false)
+  const [isSavingFile, setIsSavingFile] = useState(false);
 
   // Save as
   const saveAsNewFile = () => {
-    setIsSavingFile(true)
-
+    setIsSavingFile(true);
     client
-      .post('/simulations/user/create-new-simulation', simulationData, false)
+      .post(
+        `/simulations/user/create-new-simulation/${user.id}`,
+        simulationData,
+        false
+      )
       .then((res) => {
         console.log('res', res);
-        setIsSavingFile(false)
+        setIsSavingFile(false);
       })
-      
+
       .catch((err) => {
         console.error('Unable to save data', err);
-        setIsSavingFile(false)
+        setIsSavingFile(false);
       });
     setSaveAsModalOpen(false); //
   };
@@ -374,6 +382,7 @@ function SimulationDesignPage() {
             openDeviceSelectModal={openDeviceSelectModal}
             openUploadVideoModal={openUploadVideoModal}
             downloadFileToMachine={downloadFileToMachine}
+            saveAsNewFile={saveAsNewFile}
           />
         </section>
 

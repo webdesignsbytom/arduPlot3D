@@ -13,7 +13,7 @@ function SimulationFunctionsToolbar({
   openDragSettingsModal,
   openDeviceSelectModal,
   openUploadVideoModal,
-  downloadFileToMachine
+  downloadFileToMachine,
 }) {
   return (
     <section className='bg-white border-r-2 border-solid border-black p-2'>

@@ -35,7 +35,7 @@ model Simulation {
   title          String    @default("")
   fullSimulation String
   loops          Loop[]
-  totalTime      Int
+  totalTime      Int // milliseconds
   userId         String    @unique
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
@@ -47,6 +47,7 @@ model Loop {
   title        String     @default("")
   fullLoop     String
   totalTime    Int
+  dataGroup    String
   simulationId String     @unique
   simulation   Simulation @relation(fields: [simulationId], references: [id], onDelete: Cascade)
   createdAt    DateTime   @default(now())

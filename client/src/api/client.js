@@ -4,7 +4,7 @@ const host = process.env.REACT_APP_API_URL;
 const tokenKey = process.env.REACT_APP_USER_TOKEN;
 
 const client = {
-  get: path => {
+  get: (path) => {
     const url = `${host}${path}`;
     const headers = {
       Authorization: `Bearer ${localStorage.getItem(tokenKey)}`,
@@ -34,7 +34,7 @@ const client = {
     return axios.patch(url, data, { headers });
   },
 
-  delete: path => {
+  delete: (path) => {
     const url = `${host}${path}`;
     const headers = {
       Authorization: `Bearer ${localStorage.getItem(tokenKey)}`,
