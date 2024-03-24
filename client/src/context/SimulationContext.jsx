@@ -37,7 +37,7 @@ const SimulationContextProvider = ({ children }) => {
   // Design
   const [rulersVisible, setRulersVisible] = useState(true);
   const [isPxOrMmDimensions, setIsPxOrMmDimensions] = useState(false); // False = px
-  const [simulationIsRunning, setSimulationIsRunning] = useState(false);
+  const [simulationIsRunning, setSimulationIsRunning] = useState(true);
   const [isLandscapeMode, setIsLandscapeMode] = useState(true); // Starts landscape mode
 
   // Loops
