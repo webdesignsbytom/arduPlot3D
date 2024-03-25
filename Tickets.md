@@ -11,3 +11,12 @@
 9. Create library page of simulations
 
 When the delete button is clicked in edit loop mode, the index before gets deleted
+
+
+## GPGL
+
+Binary format for vector commands
+
+GPGL Header - tool type - set up info
+GPGL Body - main simulation
+GPGL Footer
