@@ -4,6 +4,14 @@
 
 Tom's Plotter Graphic Language (TPGL)
 
+Binary format for vector commands
+
+## Components
+
+TPGL Header - tool type - set up info
+TPGL Body - main simulation
+TPGL Footer - whats in this?
+
 ## Commands
 
 ### Motions
@@ -11,11 +19,13 @@ Tom's Plotter Graphic Language (TPGL)
 1. Move to = M
 2. Finger Down = FD
 3. Finger Up = FU
-4. End = E
+4. End = E (␃) 0x03
 5. XY speed = 
-6. Z speed =
-7. Number of fingers FN
-8. Pause = P
+6. Change XY speed =
+7. Z speed =
+8. Change Z speed =
+9. Number of fingers FN
+10. Pause = P
 
 ### Data Types
 
