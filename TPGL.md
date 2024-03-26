@@ -20,10 +20,10 @@ TPGL Footer - whats in this?
 2. Finger Down = FD
 3. Finger Up = FU
 4. Terminate = T (␃) 0x03
-5. XY speed = X
-6. Change XY speed =
-7. Z speed = Z
-8. Change Z speed =
+5. XY speed = IS
+6. Change XY speed = IX
+7. Z speed = OS
+8. Change Z speed = OX
 9. Number of fingers FN
 10. Pause = P
 
@@ -55,8 +55,8 @@ Sequence alphabetical after T
 Process:
 
 1  MoveCommand  Terminate  ||  2  MoveAndTapCommand   xySpeed   xy        Num fingers  zSpeed  fingerDown  fingerUp   Terminate    ||  3 MoveAndTapCommand
-   DM x0,y0     T          ||     DMT                 X5        x50,y50   FN1          Z5      FD          FU         T            ||  
+   DM x0,y0     T          ||     DMT                 IS5       x50,y50   FN1          OS5      FD          FU        T            ||  
 
 String:
 
-M0,0(T),DMT,X5,X50,Y50,FN1,Z5,FD,FU(T),
+M0,0(T),DMT,OS5,X50,Y50,FN1,IS5,FD,FU(T),
