@@ -22,7 +22,7 @@ TPGL Footer - whats in this?
 4. Terminate = T (␃) 0x03
 5. XY speed = X
 6. Change XY speed =
-7. Z speed =
+7. Z speed = Z
 8. Change Z speed =
 9. Number of fingers FN
 10. Pause = P
@@ -52,4 +52,9 @@ Sequence alphabetical after T
 
 ## Example Command
 
-M0,0(T),DMT50,50
+Process:
+
+1  MoveCommand   || 2  MoveAndTapCommand   xySpeed   xy        Num fingers  zSpeed  fingerDown  fingerUp    ||  3 MoveAndTapCommand
+   DM x0,y0      ||    DMT                 X5        x50,y50   FN1          Z5      FD          FU          ||  
+
+M0,0(T),DMT50,50(T),
