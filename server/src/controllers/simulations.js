@@ -15,6 +15,7 @@ import {
 } from '../utils/responses.js';
 import {
   BadRequestEvent,
+  MissingFieldEvent,
   NotFoundEvent,
   ServerErrorEvent,
 } from '../event/utils/errorUtils.js';
@@ -80,11 +81,32 @@ export const saveSimulation = async (req, res) => {};
 
 export const createNewSimulation = async (req, res) => {
   console.log('creating new simulation');
-  const { simulationTitle, mainSimulationDataPoints, simulationLoops, simulationTimeToComplete } =
-    req.body;
+  const {
+    simulationTitle,
+    mainSimulationDataPoints,
+    simulationLoops,
+    simulationTimeToComplete,
+  } = req.body;
+
   const { userId } = req.params;
 
   try {
+    if (
+      !userId ||
+      !simulationTitle ||
+      !mainSimulationDataPoints ||
+      !simulationLoops ||
+      !simulationTimeToComplete
+    ) {
+      const missingField = new MissingFieldEvent(
+        req.user,
+        EVENT_MESSAGES.missingFields,
+        EVENT_MESSAGES.simulationFieldMissing
+      );
+
+      return sendMessageResponse(res, missingField.code, missingField.message);
+    }
+
     const foundUser = await findUserById(userId);
 
     if (!foundUser) {
@@ -97,7 +119,18 @@ export const createNewSimulation = async (req, res) => {
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    const createdSimulation = await createSimulation(userId, simulationTitle, mainSimulationDataPoints, simulationLoops, simulationTimeToComplete);
+    simulationLoops.forEach(element => {
+      console.log('element', element);
+    });
+
+
+    const createdSimulation = await createSimulation(
+      userId,
+      simulationTitle,
+      mainSimulationDataPoints,
+      simulationLoops,
+      simulationTimeToComplete
+    );
 
     if (!createdSimulation) {
       const badRequest = new BadRequestEvent(

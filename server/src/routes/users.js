@@ -3,8 +3,6 @@ import {
   deleteUser,
   getAllUsers,
   getUserByEmail,
-  getUserByUsername,
-  registerNewUser,
 } from '../controllers/users.js';
 import {
   validateAuthentication,
@@ -14,9 +12,8 @@ import {
 const router = Router();
 
 router.get('/get-all-users', getAllUsers);
-router.post('/register', registerNewUser);
+router.post('/register',);
 router.get('/user/email/:email', getUserByEmail);
-router.get('/user/username/:username', getUserByUsername);
 router.delete('/delete/:userId', deleteUser);
 
 export default router;
