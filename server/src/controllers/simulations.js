@@ -6,6 +6,8 @@ import {
   deleteSimulationById,
   findAllSimulations,
   findSimulationById,
+  findSimulationByTitle,
+  updateSimulation,
 } from '../domain/simulations.js';
 // Response messages
 import {
@@ -77,7 +79,103 @@ export const getSimulationById = async (req, res) => {
   }
 };
 
-export const saveSimulation = async (req, res) => {};
+export const saveSimulation = async (req, res) => {
+  const {
+    id,
+    simulationTitle,
+    mainSimulationDataPoints,
+    simulationLoops,
+    simulationTimeToComplete,
+  } = req.body;
+
+  const { userId } = req.params;
+
+  try {
+    if (
+      !userId ||
+      !simulationTitle ||
+      !mainSimulationDataPoints ||
+      !simulationLoops ||
+      !simulationTimeToComplete
+    ) {
+      const missingField = new MissingFieldEvent(
+        req.user,
+        EVENT_MESSAGES.missingFields,
+        EVENT_MESSAGES.simulationFieldMissing
+      );
+
+      return sendMessageResponse(res, missingField.code, missingField.message);
+    }
+
+    const foundSimulation = await findSimulationById(id);
+
+    const foundUser = await findUserById(userId);
+
+    if (!foundUser) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.userNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    simulationLoops.forEach((element) => {
+      console.log('element', element);
+    });
+
+    if (foundSimulation) {
+      console.log('AAAAAAAAAAAAA');
+
+      const updatedSimulation = await updateSimulation(
+        id,
+        simulationTitle,
+        mainSimulationDataPoints,
+        simulationLoops,
+        simulationTimeToComplete
+      );
+
+      if (!updatedSimulation) {
+        const badRequest = new BadRequestEvent(
+          req.user,
+          EVENT_MESSAGES.badRequest,
+          EVENT_MESSAGES.updateSimulationFail
+        );
+        myEmitterErrors.emit('error', badRequest);
+        return sendMessageResponse(res, badRequest.code, badRequest.message);
+      }
+
+      return sendDataResponse(res, 201, { savedSimulation: updatedSimulation });
+    } else if (!foundSimulation) {
+      const createdSimulation = await createSimulation(
+        userId,
+        simulationTitle,
+        mainSimulationDataPoints,
+        simulationLoops,
+        simulationTimeToComplete
+      );
+
+      if (!createdSimulation) {
+        const badRequest = new BadRequestEvent(
+          req.user,
+          EVENT_MESSAGES.badRequest,
+          EVENT_MESSAGES.createSimulationFail
+        );
+        myEmitterErrors.emit('error', badRequest);
+        return sendMessageResponse(res, badRequest.code, badRequest.message);
+      }
+
+      return sendDataResponse(res, 201, { createdSimulation: createdSimulation });
+    }
+  } catch (err) {
+    // Error
+    const serverError = new ServerErrorEvent(req.user, `Create new simulation`);
+    myEmitterErrors.emit('error', serverError);
+    sendMessageResponse(res, serverError.code, serverError.message);
+    throw err;
+  }
+};
 
 export const createNewSimulation = async (req, res) => {
   console.log('creating new simulation');
@@ -119,10 +217,9 @@ export const createNewSimulation = async (req, res) => {
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    simulationLoops.forEach(element => {
+    simulationLoops.forEach((element) => {
       console.log('element', element);
     });
-
 
     const createdSimulation = await createSimulation(
       userId,

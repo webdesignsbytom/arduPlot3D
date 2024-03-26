@@ -13,20 +13,32 @@ export const findSimulationById = (simulationId) =>
       id: simulationId,
     },
   });
+export const findSimulationByTitle = (simulationTitle) =>
+  dbClient.simulation.findFirst({
+    where: {
+      title: simulationTitle,
+    },
+  });
 
-  export const createSimulation = (userId, simulationTitle, mainSimulationDataPoints, simulationLoops, simulationTimeToComplete) =>
+export const createSimulation = (
+  userId,
+  simulationTitle,
+  mainSimulationDataPoints,
+  simulationLoops,
+  simulationTimeToComplete
+) =>
   dbClient.simulation.create({
     data: {
       userId: userId,
       title: simulationTitle,
       fullSimulation: JSON.stringify(mainSimulationDataPoints),
-      timeToComplete: simulationTimeToComplete, 
+      timeToComplete: simulationTimeToComplete,
       loops: {
         createMany: {
-          data: simulationLoops.map(loop => ({
+          data: simulationLoops.map((loop) => ({
             title: loop.loopTitle,
             dataGroup: loop.dataGroup,
-            fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints), 
+            fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints),
             timeToComplete: loop.loopTimeToComplete,
           })),
         },
@@ -34,6 +46,31 @@ export const findSimulationById = (simulationId) =>
     },
   });
 
+export const updateSimulation = (
+  id,
+  simulationTitle,
+  mainSimulationDataPoints,
+  simulationLoops,
+  simulationTimeToComplete
+) =>
+  dbClient.simulation.update({
+    where: { id: id },
+    data: {
+      title: simulationTitle,
+      fullSimulation: JSON.stringify(mainSimulationDataPoints),
+      timeToComplete: simulationTimeToComplete,
+      loops: {
+        createMany: {
+          data: simulationLoops.map((loop) => ({
+            title: loop.loopTitle,
+            dataGroup: loop.dataGroup,
+            fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints),
+            timeToComplete: loop.loopTimeToComplete,
+          })),
+        },
+      },
+    },
+  });
 
 export const deleteSimulationById = (simulationId) =>
   dbClient.simulation.delete({

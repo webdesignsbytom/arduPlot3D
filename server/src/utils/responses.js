@@ -25,6 +25,7 @@ export const EVENT_MESSAGES = {
   simulationTag: `Simulation database`,
   simulationNotFound: `Failed to find simulation`,
   createSimulationFail: `Failed to create simulation`,
+  updateSimulationFail: `Failed to update simulation`,
   simulationNotDeleted: `Failed to delete simulation`,
   simulationFieldMissing: `Missing simulation field data in request`,
   // Users
