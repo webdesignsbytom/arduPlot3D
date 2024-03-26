@@ -49,7 +49,23 @@ Sequence alphabetical after T
 5. Test finger 2 = TE 
 6. Test finger 3 = TF
 7. Zero/Home All axis = AZ - not a test function
-8. Firmware update = AF
+
+### Firmware
+
+1. Firmware update = AF
+
+2. Syntax 
+ESC0x19
+
+Return value syntax 
+a(T)  a: 	
+
+-1: 	ready to receive firmware binary 
+0: 	firmware update successful 
+1: 	invalid update command 
+2: 	crc error (corrupt binary) 
+3: 	bad firmware 
+4: 	firmware update was canceled 
 
 ## Example Command
 
