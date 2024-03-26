@@ -19,8 +19,8 @@ TPGL Footer - whats in this?
 1. Move to = M
 2. Finger Down = FD
 3. Finger Up = FU
-4. End = E (␃) 0x03
-5. XY speed = 
+4. Terminate = T (␃) 0x03
+5. XY speed = X
 6. Change XY speed =
 7. Z speed =
 8. Change Z speed =
@@ -49,3 +49,7 @@ Sequence alphabetical after T
 5. Test finger 2 = TE 
 6. Test finger 3 = TF
 7. Zero/Home All axis = Z
+
+## Example Command
+
+M0,0(T),DMT50,50
