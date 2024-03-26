@@ -42,13 +42,18 @@ Plot points have 5 data tpyes
 Test functions and UI commands
 Sequence alphabetical after T
 
+1. Zero/Home All axis = AZ - not a test function
+2. Finger travel distance =
+3. Update finger travel distance =
+
+### Test functions
+
 1. Test XY = TA
 2. Text Z = TB
 3. Text XYZ = TC
 4. Test finger 1 = TD 
 5. Test finger 2 = TE 
 6. Test finger 3 = TF
-7. Zero/Home All axis = AZ - not a test function
 
 ### Firmware
 
