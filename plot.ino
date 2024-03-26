@@ -24,8 +24,10 @@ void loop() {
 void parseAndExecuteCommand(String command) {
   if (command.startsWith("M")) { // Move command
     executeMoveCommand(command);
-  } else if (command.startsWith("E")) { // Draw command (relative move)
+  } else if (command.startsWith("E")) { // Draw command
     executeDrawCommand(command);
+  } else if (command.startsWith("S")) { // Speed command
+    executeSpeedCommand(command);
   }
   // Add more conditions here for other command types
 }
@@ -71,6 +73,22 @@ void drawLine(long deltaX, long deltaY) {
     stepperX.run();
     stepperY.run();
   }
+}
+
+void executeSpeedCommand(String command) {
+  // Remove command identifier and split parameters
+  command.remove(0, 1); // Remove 'S'
+  int commaIndex = command.indexOf(',');
+  long speedX = command.substring(0, commaIndex).toInt(); // Extract speed for X motor
+  long speedY = command.substring(commaIndex + 1).toInt(); // Extract speed for Y motor
+  
+  // Set new speeds
+  stepperX.setMaxSpeed(speedX);
+  stepperY.setMaxSpeed(speedY);
+
+  // Optionally, you can also adjust acceleration here
+  // stepperX.setAcceleration(newAccelerationX);
+  // stepperY.setAcceleration(newAccelerationY);
 }
 
 long convertPUToSteps(long pu) {
