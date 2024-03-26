@@ -48,7 +48,8 @@ Sequence alphabetical after T
 4. Test finger 1 = TD 
 5. Test finger 2 = TE 
 6. Test finger 3 = TF
-7. Zero/Home All axis = Z - not a test function
+7. Zero/Home All axis = AZ - not a test function
+8. Firmware update = AF
 
 ## Example Command
 
