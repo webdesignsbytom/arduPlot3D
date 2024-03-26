@@ -57,4 +57,6 @@ Process:
 1  MoveCommand  Terminate  ||  2  MoveAndTapCommand   xySpeed   xy        Num fingers  zSpeed  fingerDown  fingerUp   Terminate    ||  3 MoveAndTapCommand
    DM x0,y0     T          ||     DMT                 X5        x50,y50   FN1          Z5      FD          FU         T            ||  
 
-M0,0(T),DMT50,50(T),
+String:
+
+M0,0(T),DMT,X5,X50,Y50,FN1,Z5,FD,FU(T),
