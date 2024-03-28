@@ -7,7 +7,6 @@ import {
   findAllSimulations,
   findAllUsersSimulations,
   findSimulationById,
-  findSimulationByTitle,
   updateSimulation,
 } from '../domain/simulations.js';
 // Response messages
@@ -25,11 +24,8 @@ import {
 import { findUserById } from '../domain/users.js';
 
 export const getAllSimulations = async (req, res) => {
-  console.log('get all simulations');
-
   try {
     const foundSimulations = await findAllSimulations();
-    console.log('found simulations:', foundSimulations);
 
     if (!foundSimulations) {
       const notFound = new NotFoundEvent(
@@ -51,7 +47,6 @@ export const getAllSimulations = async (req, res) => {
 };
 
 export const getAllUsersSimulations = async (req, res) => {
-  console.log('get all simulations');
   const { userId } = req.params;
 
   try {
@@ -69,7 +64,6 @@ export const getAllUsersSimulations = async (req, res) => {
     }
 
     const foundSimulations = await findAllUsersSimulations(userId);
-    console.log('found simulations:', foundSimulations);
 
     if (!foundSimulations) {
       const notFound = new NotFoundEvent(
@@ -92,13 +86,10 @@ export const getAllUsersSimulations = async (req, res) => {
 
 // Get simulation by id
 export const getSimulationById = async (req, res) => {
-  console.log('getSimulationById');
   const { simulationId } = req.params;
-  console.log('simulationId', simulationId);
 
   try {
     const foundSimulation = await findSimulationById(simulationId);
-    console.log('found simulation', foundSimulation);
 
     if (!foundSimulation) {
       const notFound = new NotFoundEvent(
@@ -167,7 +158,6 @@ export const saveSimulation = async (req, res) => {
     });
 
     if (foundSimulation) {
-      console.log('AAAAAAAAAAAAA');
 
       const updatedSimulation = await updateSimulation(
         id,
@@ -221,7 +211,6 @@ export const saveSimulation = async (req, res) => {
 };
 
 export const createNewSimulation = async (req, res) => {
-  console.log('creating new simulation');
   const {
     simulationTitle,
     mainSimulationDataPoints,
@@ -282,11 +271,10 @@ export const createNewSimulation = async (req, res) => {
       return sendMessageResponse(res, badRequest.code, badRequest.message);
     }
 
-    console.log('createdSimulation', createdSimulation);
     return sendDataResponse(res, 201, { createdSimulation: createdSimulation });
   } catch (err) {
     // Error
-    const serverError = new ServerErrorEvent(req.user, `Create new simulation`);
+    const serverError = new ServerErrorEvent(req.user, `Create new simulation failed`);
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
@@ -295,12 +283,10 @@ export const createNewSimulation = async (req, res) => {
 
 // delete simulation
 export const deleteSimulation = async (req, res) => {
-  console.log('deleteOpenSimulation');
   const { simulationId } = req.params;
 
   try {
     const foundSimulation = await findSimulationById(simulationId);
-    console.log('foundSimulation card', foundSimulation);
 
     if (!foundSimulation) {
       const notFound = new NotFoundEvent(
@@ -326,7 +312,7 @@ export const deleteSimulation = async (req, res) => {
     return sendDataResponse(res, 202, { deletedSimulation: deletedSimulation });
   } catch (err) {
     // Error
-    const serverError = new ServerErrorEvent(req.user, `Create simulation`);
+    const serverError = new ServerErrorEvent(req.user, `Delete simulation failed`);
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
