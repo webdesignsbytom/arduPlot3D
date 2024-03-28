@@ -19,7 +19,7 @@ export const findUserById = (userId) =>
   dbClient.user.findUnique({
     where: {
       id: userId,
-    }
+    },
   });
 
 export const findUserByIdBasic = (userId) =>
@@ -29,7 +29,6 @@ export const findUserByIdBasic = (userId) =>
     },
   });
 
-
 export const findUsersByRole = (role) =>
   dbClient.user.findMany({
     where: {
@@ -37,6 +36,13 @@ export const findUsersByRole = (role) =>
     },
   });
 
+export const createUser = (email, password) =>
+  dbClient.user.create({
+    data: {
+      email: email,
+      password: password,
+    },
+  });
 
 export const findVerification = (userId) =>
   dbClient.userVerification.findUnique({

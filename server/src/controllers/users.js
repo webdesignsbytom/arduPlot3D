@@ -9,6 +9,7 @@ import {
   findUserByEmail,
   findUserById,
   deleteUserById,
+  createUser,
 } from '../domain/users.js';
 // Response messages
 import {
@@ -109,6 +110,64 @@ export const getUserByEmail = async (req, res) => {
   } catch (err) {
     // Error
     const serverError = new ServerErrorEvent(req.user, `Get user by ID`);
+    myEmitterErrors.emit('error', serverError);
+    sendMessageResponse(res, serverError.code, serverError.message);
+    throw err;
+  }
+};
+
+export const registerNewUser = async (req, res) => {
+  console.log('create new user');
+
+  const { email, password, agreedToTerms } = req.body;
+  const lowerCaseEmail = email.toLowerCase();
+
+  try {
+    // Check missing data
+    if (!lowerCaseEmail || !password) {
+      //
+      const missingField = new MissingFieldEvent(
+        null,
+        'Registration: Missing Field/s event'
+      );
+      myEmitterErrors.emit('error', missingField);
+      return sendMessageResponse(res, missingField.code, missingField.message);
+    }
+
+    // Check if unique names exist
+    const foundUser = await findUserByEmail(lowerCaseEmail);
+
+    if (foundUser) {
+      return sendDataResponse(res, 400, { email: EVENT_MESSAGES.emailInUse });
+    }
+
+    // Encode password
+    const hashedPassword = await bcrypt.hash(password, hashRate);
+
+    // Create user
+    const createdUser = await createUser(
+      lowerCaseEmail,
+      hashedPassword,
+    );
+
+    if (!createdUser) {
+      const notCreated = new BadRequestEvent(
+        EVENT_MESSAGES.badRequest,
+        EVENT_MESSAGES.createUserFail
+      );
+      myEmitterErrors.emit('error', notCreated);
+      return sendMessageResponse(res, notCreated.code, notCreated.message);
+    }
+
+    delete createdUser.password;
+    delete createdUser.updatedAt;
+
+    return sendDataResponse(res, 202, { createdUser: createdUser });
+  } catch (err) {
+    // Error
+    const serverError = new RegistrationServerErrorEvent(
+      `Register Server error`
+    );
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
