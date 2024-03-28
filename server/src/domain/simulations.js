@@ -6,6 +6,16 @@ export const findAllSimulations = () =>
       createdAt: 'desc',
     },
   });
+  
+export const findAllUsersSimulations = (userId) =>
+  dbClient.simulation.findMany({
+    where: {
+      userId: userId,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
 
 export const findSimulationById = (simulationId) =>
   dbClient.simulation.findFirst({

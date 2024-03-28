@@ -5,6 +5,7 @@ import {
   createSimulation,
   deleteSimulationById,
   findAllSimulations,
+  findAllUsersSimulations,
   findSimulationById,
   findSimulationByTitle,
   updateSimulation,
@@ -28,6 +29,46 @@ export const getAllSimulations = async (req, res) => {
 
   try {
     const foundSimulations = await findAllSimulations();
+    console.log('found simulations:', foundSimulations);
+
+    if (!foundSimulations) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.simulationNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+    return sendDataResponse(res, 200, { simulations: foundSimulations });
+  } catch (err) {
+    //
+    const serverError = new ServerErrorEvent(req.user, `Get all simulations`);
+    myEmitterErrors.emit('error', serverError);
+    sendMessageResponse(res, serverError.code, serverError.message);
+    throw err;
+  }
+};
+
+export const getAllUsersSimulations = async (req, res) => {
+  console.log('get all simulations');
+  const { userId } = req.params;
+
+  try {
+
+    const foundUser = await findUserById(userId);
+
+    if (!foundUser) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.userNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    const foundSimulations = await findAllUsersSimulations(userId);
     console.log('found simulations:', foundSimulations);
 
     if (!foundSimulations) {
@@ -166,7 +207,9 @@ export const saveSimulation = async (req, res) => {
         return sendMessageResponse(res, badRequest.code, badRequest.message);
       }
 
-      return sendDataResponse(res, 201, { createdSimulation: createdSimulation });
+      return sendDataResponse(res, 201, {
+        createdSimulation: createdSimulation,
+      });
     }
   } catch (err) {
     // Error
@@ -253,9 +296,7 @@ export const createNewSimulation = async (req, res) => {
 // delete simulation
 export const deleteSimulation = async (req, res) => {
   console.log('deleteOpenSimulation');
-  console.log('req', req.params);
-  const simulationId = req.params.simulationId;
-  console.log('simulationId', simulationId);
+  const { simulationId } = req.params;
 
   try {
     const foundSimulation = await findSimulationById(simulationId);
