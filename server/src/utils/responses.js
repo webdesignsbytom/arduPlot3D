@@ -15,7 +15,7 @@ export const EVENT_MESSAGES = {
   notFoundOpponent: `Not Found battle opponent`,
   missingUserIdentifier: `Missing User identifier`,
   missingFields: `Missing fields in request`,
-  alreadyClaimed: `Already Claimed`,
+  unableToComplete: `Unable to complete request`,
   // Events
   eventTag: `Event database`,
   eventNotFound: `Failed to find event`,

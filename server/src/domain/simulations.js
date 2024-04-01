@@ -6,6 +6,19 @@ export const findAllSimulations = () =>
       createdAt: 'desc',
     },
   });
+export const findAllLibrarySimulations = () =>
+  dbClient.simulation.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+    where: {
+      isVisibleInLibrary: true,
+    },
+    include: {
+      user: true, // if you want to include user details
+      loops: true, // if you want to include details about loops associated with the simulation
+    },
+  });
   
 export const findAllUsersSimulations = (userId) =>
   dbClient.simulation.findMany({
@@ -23,6 +36,17 @@ export const findSimulationById = (simulationId) =>
       id: simulationId,
     },
   });
+
+export const updateSimulationVisibility = (simulationId, visibility) =>
+  dbClient.simulation.update({
+    where: {
+      id: simulationId,
+    },
+    data: {
+      isVisibleInLibrary: visibility
+    }
+  });
+
 export const findSimulationByTitle = (simulationTitle) =>
   dbClient.simulation.findFirst({
     where: {

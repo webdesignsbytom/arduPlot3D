@@ -21,6 +21,168 @@ async function seed() {
     },
   });
 
+  // Creating a simulation for the test user
+  const simulation = await dbClient.simulation.create({
+    data: {
+      id: 'testSim',
+      title: 'Temp Sim 1',
+      fullSimulation: JSON.stringify([
+        {
+          dataGroup: 'simulation',
+          dataType: 'tap',
+          xPos: 10,
+          yPos: 20,
+          zSpeed: 'initzMovementSpeed',
+          numFingers: 1,
+          timeLength: 0,
+        },
+        {
+          dataGroup: 'simulation',
+          dataType: 'move_tap',
+          xPos: 22,
+          yPos: 20,
+          xySpeed: 'initxyMovementSpeed',
+          zSpeed: 'initzMovementSpeed',
+          numFingers: 1,
+          timeLength: 0,
+        },
+        {
+          dataGroup: 'simulation',
+          dataType: 'move',
+          xPos: 33,
+          yPos: 40,
+          xySpeed: 'initxyMovementSpeed',
+          timeLength: 0,
+        },
+        {
+          dataGroup: 'simulation',
+          dataType: 'move_tap',
+          xPos: 42,
+          yPos: 20,
+          xySpeed: 'initxyMovementSpeed',
+          zSpeed: 'initzMovementSpeed',
+          numFingers: 1,
+          timeLength: 0,
+        },
+        {
+          dataGroup: 'simulation',
+          dataType: 'timeout',
+          xPos: 88,
+          yPos: 77,
+          timeoutLength: 0,
+        },
+      ]),
+      timeToComplete: 500000,
+      isVisibleInLibrary: false,
+      userId: testUser.id,
+    },
+  });
+
+  // Creating loops associated with the simulation
+  await Promise.all([
+    dbClient.loop.create({
+      data: {
+        title: 'Loop 1',
+        fullLoop: JSON.stringify([
+          {
+            dataGroup: 'loop',
+            dataType: 'tap',
+            xPos: 23,
+            yPos: 13,
+            zSpeed: 'initzMovementSpeed',
+            numFingers: 1,
+            timeLength: 0,
+          },
+          {
+            dataGroup: 'loop',
+            dataType: 'move_tap',
+            xPos: 22,
+            yPos: 23,
+            xySpeed: 'initxyMovementSpeed',
+            zSpeed: 'initzMovementSpeed',
+            numFingers: 1,
+            timeLength: 0,
+          },
+          {
+            dataGroup: 'loop',
+            dataType: 'move',
+            xPos: 24,
+            yPos: 32,
+            xySpeed: 'initxyMovementSpeed',
+            timeLength: 0,
+          },
+          {
+            dataGroup: 'loop',
+            dataType: 'move_tap',
+            xPos: 24,
+            yPos: 44,
+            xySpeed: 'initxyMovementSpeed',
+            zSpeed: 'initzMovementSpeed',
+            numFingers: 1,
+            timeLength: 0,
+          },
+        ]),
+        timeToComplete: 1230,
+        simulationId: simulation.id,
+        dataGroup: 'simulation', // Added the missing dataGroup field
+      },
+    }),
+    dbClient.loop.create({
+      data: {
+        title: 'Loop 3',
+        fullLoop: JSON.stringify([
+          {
+            dataGroup: 'loop',
+            dataType: 'tap',
+            xPos: 49,
+            yPos: 19,
+            zSpeed: 'initzMovementSpeed',
+            numFingers: 1,
+            timeLength: 0,
+          },
+          {
+            dataGroup: 'loop',
+            dataType: 'move_tap',
+            xPos: 64,
+            yPos: 62,
+            xySpeed: 'initxyMovementSpeed',
+            zSpeed: 'initzMovementSpeed',
+            numFingers: 1,
+            timeLength: 0,
+          },
+          {
+            dataGroup: 'loop',
+            dataType: 'move',
+            xPos: 46,
+            yPos: 53,
+            xySpeed: 'initxyMovementSpeed',
+            timeLength: 0,
+          },
+          {
+            dataGroup: 'loop',
+            dataType: 'move_tap',
+            xPos: 64,
+            yPos: 164,
+            xySpeed: 'initxyMovementSpeed',
+            zSpeed: 'initzMovementSpeed',
+            numFingers: 1,
+            timeLength: 0,
+          },
+          {
+            dataGroup: 'loop',
+            dataType: 'timeout',
+            xPos: 88,
+            yPos: 77,
+            timeoutLength: 0,
+          },
+        ]),
+        timeToComplete: 1230,
+        simulationId: simulation.id,
+        dataGroup: 'simulation', // Added the missing dataGroup field
+      },
+    }),
+  ]);
+
   // EVENTS
   const eventOne = await dbClient.event.create({
     data: {

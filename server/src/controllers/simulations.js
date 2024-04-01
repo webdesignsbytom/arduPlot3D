@@ -8,6 +8,7 @@ import {
   findAllUsersSimulations,
   findSimulationById,
   updateSimulation,
+  updateSimulationVisibility,
 } from '../domain/simulations.js';
 // Response messages
 import {
@@ -18,6 +19,7 @@ import {
 import {
   BadRequestEvent,
   MissingFieldEvent,
+  NoPermissionEvent,
   NotFoundEvent,
   ServerErrorEvent,
 } from '../event/utils/errorUtils.js';
@@ -50,7 +52,6 @@ export const getAllUsersSimulations = async (req, res) => {
   const { userId } = req.params;
 
   try {
-
     const foundUser = await findUserById(userId);
 
     if (!foundUser) {
@@ -158,7 +159,6 @@ export const saveSimulation = async (req, res) => {
     });
 
     if (foundSimulation) {
-
       const updatedSimulation = await updateSimulation(
         id,
         simulationTitle,
@@ -274,13 +274,63 @@ export const createNewSimulation = async (req, res) => {
     return sendDataResponse(res, 201, { createdSimulation: createdSimulation });
   } catch (err) {
     // Error
-    const serverError = new ServerErrorEvent(req.user, `Create new simulation failed`);
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Create new simulation failed`
+    );
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
   }
 };
 
+// Publish Simulation
+export const publishSimulation = async (req, res) => {
+  const { simulationId, userId } = req.params;
+  const { visibility } = req.body;
+  console.log('userId', userId);
+  console.log('simulationId', simulationId);
+  console.log('visibility', visibility);
+  try {
+    const foundSimulation = await findSimulationById(simulationId);
+
+    if (!foundSimulation) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.simulationNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    if (userId !== foundSimulation.userId) {
+      const notPermitted = new NoPermissionEvent(
+        req.user,
+        EVENT_MESSAGES.NoPermissionEvent,
+        EVENT_MESSAGES.unableToComplete
+      );
+      myEmitterErrors.emit('error', notPermitted);
+      return sendMessageResponse(res, notPermitted.code, notPermitted.message);
+    }
+
+    const updatedSimulation = await updateSimulationVisibility(
+      simulationId,
+      visibility
+    );
+    
+    return sendDataResponse(res, 201, { updatedSimulation: updatedSimulation });
+  } catch (err) {
+    // Error
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Delete simulation failed`
+    );
+    myEmitterErrors.emit('error', serverError);
+    sendMessageResponse(res, serverError.code, serverError.message);
+    throw err;
+  }
+};
 // delete simulation
 export const deleteSimulation = async (req, res) => {
   const { simulationId } = req.params;
@@ -312,7 +362,10 @@ export const deleteSimulation = async (req, res) => {
     return sendDataResponse(res, 202, { deletedSimulation: deletedSimulation });
   } catch (err) {
     // Error
-    const serverError = new ServerErrorEvent(req.user, `Delete simulation failed`);
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Delete simulation failed`
+    );
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;

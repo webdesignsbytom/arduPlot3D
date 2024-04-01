@@ -10,6 +10,7 @@ import authRouter from './routes/auth.js';
 import userRouter from './routes/users.js';
 import eventRouter from './routes/events.js';
 import simulationRouter from './routes/simulations.js';
+import libraryRouter from './routes/library.js';
 // Env
 import { HTTP_URL, PORT } from './utils/config.js';
 
@@ -35,6 +36,7 @@ app.use('/', authRouter);
 app.use('/users', userRouter);
 app.use('/events', eventRouter);
 app.use('/simulations', simulationRouter);
+app.use('/library', libraryRouter);
 
 // Server interface page
 app.get('/', (req, res) => {

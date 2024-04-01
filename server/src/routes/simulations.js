@@ -6,6 +6,7 @@ import {
   saveSimulation,
   getAllUsersSimulations,
   deleteSimulation,
+  publishSimulation,
 } from '../controllers/simulations.js';
 import {
   validateAuthentication,
@@ -19,6 +20,7 @@ router.get('/user/:userId/get-all-simulations', getAllUsersSimulations);
 router.get('/user/get-simulation/:simulationId', getSimulationById);
 router.post('/user/save-simulation/:userId', saveSimulation); // Save as function front end
 router.post('/user/create-new-simulation/:userId', createNewSimulation); // Save as function front end
+router.put('/user/publish-simulation-to-library/:userId/:simulationId', publishSimulation); // Save as function front end
 router.delete('/user/delete-simulation/:simulationId', deleteSimulation);
 
 export default router;
