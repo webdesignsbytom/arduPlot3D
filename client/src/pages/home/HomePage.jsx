@@ -30,7 +30,7 @@ function HomePage() {
               <div>
                 <h2 className='text-xl font-semibold'>Welcome To</h2>
                 <h1 className='text-3xl font-poppins font-bold'>
-                  POLYGON CUTTER
+                  ArduPlot3D
                 </h1>
               </div>
               <div className='mt-4 grid'>
@@ -38,10 +38,9 @@ function HomePage() {
                   <span className='text-hyperlink-blue font-semibold'>
                     <Link to='/sign-up'>Sign up</Link>
                   </span>{' '}
-                  today and draw, <br /> plot or program the exact shape your
-                  project requires. <br /> Save your results or download the
-                  code <br /> straight to your cutting device.
+                  today and create plotted programs for your ArduPlot device. 
                 </p>
+                <p>Visit the library for prereleased games!</p>
               </div>
             </article>
             {/* cta */}
