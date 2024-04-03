@@ -7,6 +7,7 @@ import TestPage from './pages/test/TestPage';
 import Error404 from './pages/error/Error404';
 import LibraryPage from './pages/library/LibraryPage';
 import SimulationDesignPage from './pages/simulation/SimulationDesignPage';
+import ConfigurationPage from './pages/config/ConfigurationPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path='/sign-up' element={<RegisterPage />} />
       <Route path='/design' element={<SimulationDesignPage />} />
       <Route path='/library' element={<LibraryPage />} />
+      <Route path='/device-configuration' element={<ConfigurationPage />} />
       <Route path='/test' element={<TestPage />} />
       <Route path='*' element={<Error404 />} />
     </Routes>

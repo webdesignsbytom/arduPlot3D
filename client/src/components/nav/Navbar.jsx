@@ -80,6 +80,11 @@ function Navbar() {
                 Library
               </Link>
             </li>
+            <li className={activeNav === '/device-configuration' ? 'text-gray-600 hover:text-gray-700 active:scale-95' : 'hover:text-gray-700 active:scale-95'}>
+              <Link className='w-full' to='/device-configuration'>
+                Config
+              </Link>
+            </li>
             {!user.email && (
               <>
                 <li className={activeNav === '/login' ? 'text-gray-600 hover:text-gray-700 active:scale-95' : 'hover:text-gray-700 active:scale-95'}>
@@ -145,6 +150,17 @@ function Navbar() {
               >
                 <Link className='w-full' to='/library'>
                   Library
+                </Link>
+              </li>
+              <li
+                className={
+                  activeNav === '/device-configuration'
+                    ? 'w-full no__highlights nav__bg hover:bg-green-500 active:scale-95 grid py-2 outline-2 outline outline-black bg-yellow-700 text-gray-800 font-semibold'
+                    : 'w-full no__highlights nav__bg hover:bg-blue-500 active:scale-95 grid py-2 outline-2 outline outline-black bg-yellow-500 text-gray-800 font-semibold'
+                }
+              >
+                <Link className='w-full' to='/device-configuration'>
+                  Config
                 </Link>
               </li>
 
