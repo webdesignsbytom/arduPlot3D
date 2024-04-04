@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 // Device data
 import { availableDevicesForSimulations } from '../../utils/design/AvailableDevices';
+import DeviceSelectDropdownMenu from '../menus/DeviceSelectDropdownMenu';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
 
@@ -24,27 +25,7 @@ function DeviceSelectModal({ closeDeviceSelectModal }) {
         </div>
 
         <section className='mt-4'>
-          <div>
-            <label htmlFor='mobile_device' className='text-sm'>
-              Select mobile device
-            </label>
-            <div>
-              <select
-                onChange={handleDeviceChange}
-                name='device_options'
-                id='device_options'
-                className='outline outline-1 outline-yellow-400 px-1 rounded-lg'
-              >
-                {availableDevices.map((device, index) => {
-                  return (
-                    <option key={index} value={device.id}>
-                      {device.title}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div>
+         <DeviceSelectDropdownMenu handleDeviceChange={handleDeviceChange} />
         </section>
 
         <section className='grid mt-4'>
