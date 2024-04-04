@@ -16,10 +16,11 @@ export const getAllLibrarySimulations = async (req, res) => {
         myEmitterErrors.emit('error', notFound);
         return sendMessageResponse(res, notFound.code, notFound.message);
       }
-      return sendDataResponse(res, 200, { simulations: foundSimulations });
+
+      return sendDataResponse(res, 200, { libraryFiles: foundSimulations });
     } catch (err) {
       //
-      const serverError = new ServerErrorEvent(req.user, `Get all simulations`);
+      const serverError = new ServerErrorEvent(req.user, `Get all library simulations failed`);
       myEmitterErrors.emit('error', serverError);
       sendMessageResponse(res, serverError.code, serverError.message);
       throw err;
