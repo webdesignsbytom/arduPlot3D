@@ -14,6 +14,7 @@ function SimulationFunctionsToolbar({
   openDeviceSelectModal,
   openUploadVideoModal,
   downloadFileToMachine,
+  openLoadModal,
 }) {
   return (
     <section className='bg-white border-r-2 border-solid border-black p-2'>
@@ -72,6 +73,12 @@ function SimulationFunctionsToolbar({
               onClick={openSaveAsModal}
             >
               Save As
+            </li>
+            <li
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+              onClick={openLoadModal}
+            >
+              Load File
             </li>
           </ul>
         </div>

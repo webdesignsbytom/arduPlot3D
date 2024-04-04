@@ -23,6 +23,7 @@ import { SimulationContext } from '../../context/SimulationContext';
 import { UserContext } from '../../context/UserContext';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
+import LoadSimulationModal from '../../components/modals/LoadSimulationModal';
 
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -76,6 +77,9 @@ function SimulationDesignPage() {
 
   // Save
   const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
+
+  // Load
+  const [loadModalOpen, setLoadModalOpen] = useState(false);
 
   // Reset
   const [isResettingAnimation, setIsResettingAnimation] = useState(false);
@@ -202,6 +206,15 @@ function SimulationDesignPage() {
   // Close save as
   const closeSaveAsModal = () => {
     setSaveAsModalOpen(false); //
+  };
+
+  // Open load 
+  const openLoadModal = () => {
+    setLoadModalOpen(true); //
+  };
+  // Close load
+  const closeLoadSimulationModal = () => {
+    setLoadModalOpen(false); //
   };
 
   const [isSavingFile, setIsSavingFile] = useState(false);
@@ -360,6 +373,10 @@ function SimulationDesignPage() {
     return commands;
   }
 
+  const loadSimulationFile = () => {
+    console.log('AAA');
+  };
+
   return (
     <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
       <Navbar />
@@ -383,6 +400,7 @@ function SimulationDesignPage() {
             openUploadVideoModal={openUploadVideoModal}
             downloadFileToMachine={downloadFileToMachine}
             saveAsNewFile={saveAsNewFile}
+            openLoadModal={openLoadModal}
           />
         </section>
 
@@ -488,11 +506,19 @@ function SimulationDesignPage() {
         <DeviceSelectModal closeDeviceSelectModal={closeDeviceSelectModal} />
       )}
 
-      {/* Device selection */}
+      {/* Save  */}
       {saveAsModalOpen && (
         <SaveAsModal
           saveAsNewFile={saveAsNewFile}
           closeSaveAsModal={closeSaveAsModal}
+        />
+      )}
+
+      {/* Load */}
+      {loadModalOpen && (
+        <LoadSimulationModal
+          loadSimulationFile={loadSimulationFile}
+          closeLoadSimulationModal={closeLoadSimulationModal}
         />
       )}
 
