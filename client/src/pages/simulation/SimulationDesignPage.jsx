@@ -24,6 +24,7 @@ import { UserContext } from '../../context/UserContext';
 // Configuration modal
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 import LoadSimulationModal from '../../components/modals/LoadSimulationModal';
+import PublishSimulationModal from '../../components/modals/PublishSimulationModal';
 
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -293,6 +294,7 @@ function SimulationDesignPage() {
     setDragSettingsModalOpen(false);
     setTimeoutModalOpen(false);
     closeUploadVideoModal(false);
+    setIsPublishModalOpen(false);
     setSaveAsModalOpen(false); //
   };
 
@@ -303,6 +305,17 @@ function SimulationDesignPage() {
   const closeUploadVideoModal = () => {
     setuploadVideoModalOpen(false);
   };
+
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false)
+
+  const openPublishModal = () => {
+    closeAllModalsMaster();
+    setIsPublishModalOpen(true);
+  };
+  const closePublishModal = () => {
+    setIsPublishModalOpen(false);
+  };
+
 
   // Download simulation for sd card
   const downloadFileToMachine = () => {
@@ -401,6 +414,7 @@ function SimulationDesignPage() {
             downloadFileToMachine={downloadFileToMachine}
             saveAsNewFile={saveAsNewFile}
             openLoadModal={openLoadModal}
+            openPublishModal={openPublishModal}
           />
         </section>
 
@@ -525,6 +539,11 @@ function SimulationDesignPage() {
       {/* Upload video */}
       {uploadVideoModalOpen && (
         <UploadVideoModal closeUploadVideoModal={closeUploadVideoModal} />
+      )}
+
+      {/* Publish siulation */}
+      {isPublishModalOpen && (
+        <PublishSimulationModal closePublishModal={closePublishModal} />
       )}
 
       {/* Loop selection */}

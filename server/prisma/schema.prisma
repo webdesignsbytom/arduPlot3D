@@ -38,6 +38,7 @@ model Simulation {
   timeToComplete     Int // milliseconds
   isVisibleInLibrary Boolean   @default(false)
   voteScore          Int       @default(0)
+  description        String    @default("")
   userId             String
   user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt          DateTime  @default(now())

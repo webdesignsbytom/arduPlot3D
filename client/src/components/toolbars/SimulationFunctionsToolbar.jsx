@@ -14,7 +14,7 @@ function SimulationFunctionsToolbar({
   openDeviceSelectModal,
   openUploadVideoModal,
   downloadFileToMachine,
-  openLoadModal,
+  openLoadModal,openPublishModal
 }) {
   return (
     <section className='bg-white border-r-2 border-solid border-black p-2'>
@@ -166,6 +166,21 @@ function SimulationFunctionsToolbar({
               className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
             >
               Upload Video
+            </li>
+          </ul>
+        </div>
+
+        {/* Divider */}
+        <div className='w-full h-[1px] bg-slate-400'></div>
+
+        <div className='py-2'>
+          <ul>
+            <li
+              title='Publish simulation'
+              onClick={openPublishModal}
+              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
+            >
+              Publish simulation
             </li>
           </ul>
         </div>
