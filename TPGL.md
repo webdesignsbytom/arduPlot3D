@@ -8,7 +8,7 @@ Binary format for vector commands
 
 ## Links
 https://github.com/winder/Universal-G-Code-Sender
-
+https://all3dp.com/2/marlin-firmware-how-to-edit-marlin-firmware/
 
 ## Components
 
