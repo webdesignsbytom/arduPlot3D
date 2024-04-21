@@ -6,6 +6,10 @@ Tom's Plotter Graphic Language (TPGL)
 
 Binary format for vector commands
 
+## Links
+https://github.com/winder/Universal-G-Code-Sender
+https://all3dp.com/2/marlin-firmware-how-to-edit-marlin-firmware/
+
 ## Components
 
 TPGL Header - tool type - set up info
@@ -87,158 +91,17 @@ M0,0(T),DMT,OS5,X50,Y50,FN1,IS5,FD,FU(T),
 
 Sending data to bluetooth device: FG(T)FH(T)FG(T)FH(T)FG(T)FH(T)FG(T)FH(T)FG(T)FH(T)
 
-bluetooth.js:137 Data has successfully sent to BT device.
-bluetooth.js:48
-DataView(16)
-buffer
-:
-ArrayBuffer(16)
-byteLength
-:
-16
-detached
-:
-false
-maxByteLength
-:
-16
-resizable
-:
-false
-[[Prototype]]
-:
-ArrayBuffer
-[[Int8Array]]
-:
-Int8Array(16)
-0
-:
-73
-1
-:
-32
-2
-:
-97
-3
-:
-109
-4
-:
-32
-5
-:
-97
-6
-:
-110
-7
-:
-32
-8
-:
-97
-9
-:
-114
-10
-:
-100
-11
-:
-117
-12
-:
-105
-13
-:
-110
-14
-:
-111
-15
-:
-46
-buffer
-:
-ArrayBuffer(16)
-byteLength
-:
-16
-byteOffset
-:
-0
-length
-:
-16
-Symbol(Symbol.toStringTag)
-:
-"Int8Array"
-[[Prototype]]
-:
-TypedArray
-[[Uint8Array]]
-:
-Uint8Array(16)
-0
-:
-73
-1
-:
-32
-2
-:
-97
-3
-:
-109
-4
-:
-32
-5
-:
-97
-6
-:
-110
-7
-:
-32
-8
-:
-97
-9
-:
-114
-10
-:
-100
-11
-:
-117
-12
-:
-105
-13
-:
-110
-14
-:
-111
-15
-:
-46
-buffer
-:
-ArrayBuffer(16)
-byteLength
-:
-16
-byteOffset
-:
-0
-length
-:
-16
-Symbol(Symbol.toStringTag)
-:
+Header:
+H Speed=100,StartPos=0,0,Calibration=Standard
+
+Body:
+M 0,0 T
+DMT 10,10 50,50 5s T
+FU T
+FD T
+
+Footer:
+F ReturnHome
+F CleanUp
+
+
