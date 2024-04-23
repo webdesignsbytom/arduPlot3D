@@ -27,6 +27,7 @@ enum MenuState { MAIN_MENU,
                  MOTOR_CONTROL_MENU,
                  TESTS_MENU,
                  SHUTDOWN_MENU };
+
 MenuState currentMenuState = MAIN_MENU;
 
 // SD Data
@@ -261,7 +262,6 @@ void PrintDirectory(File dir, int numTabs) {
     }  //End else
 
     entry.close();  //Write the file to the disk.
+  }
 
-  }  //End while.
-
-}  //End PrintDirectory function.
+} 
