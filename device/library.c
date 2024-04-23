@@ -11,7 +11,7 @@ typedef struct
     int pen_down; // 1 if the pen is down, 0 if it's up
 } MachineState;
 
-void machine_init(MachineConfig *config, MachineState *state)
+void machine_init(MachineConfig* config, MachineState* state)
 {
     config->steps_per_mm = 100.0;
     state->current_position[0] = 0.0;
@@ -39,6 +39,8 @@ void machine_tap(MachineState *state)
     // Set the pen_down field back to 0 to indicate that the finger has returned to its home position
     state->pen_down = 0;
 }
+
+#include <string.h>
 
 // Function to execute a GPGL command
 void machine_execute_command(MachineConfig *config, MachineState *state, const char *command)
@@ -99,7 +101,8 @@ int main()
     machine_set_feed_rate(&state, 100.0);
 
     // Example usage: execute a custom TPGL command
-    const char *tpgl_command = "P1 X50 Y50 Z1;";
+    const char * tpgl_command = "P1 X50 Y50 Z1;";
+
     machine_execute_command(&config, &state, tpgl_command);
 
     return 0;
