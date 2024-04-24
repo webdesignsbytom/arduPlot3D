@@ -11,8 +11,8 @@
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 
 // Menu items
-String mainMenuItems[] = { "SD Card", "Motor Control", "Tests", "Cheese", "France", "Romie", "Bacurka" };
-String motorControlMenu[] = { "Speed+", "Speed-", "Release", "Home XY", "Stop", "Back" };
+String mainMenuItems[] = { "SD Card", "Motor Control", "Tests" };
+String motorControlMenu[] = { "Speed+", "Speed-", "Deactivate motors", "Home XY", "Stop", "Back" };
 String deviceTestsMenu[] = { "SD-Comm", "3-Axis", "Wifi-Comm", "BLE-Comm", "Back" };
 
 // SD card menu
@@ -22,7 +22,8 @@ String sdCardMenu[maxFiles];
 
 String* currentMenu = mainMenuItems;  // Start with main menu
 int mainMenuItemCount = sizeof(mainMenuItems) / sizeof(mainMenuItems[0]);
-int currentMenuItem = 0;  // variable to track the current menu item
+int currentMainMenuItem = 0;  // variable to track the current menu item
+int currentSubMenuItem = 0;   // variable to track the current menu item
 
 // Menu state
 enum MenuState { MAIN_MENU,
@@ -41,6 +42,11 @@ constexpr int dirPinMotorX = 23;
 constexpr int stepPinMotorX = 2;
 constexpr int dirPinMotorY = 22;
 constexpr int stepPinMotorY = 3;
+
+constexpr int enablePinMotorX = 30;  // Enable pin for X motor driver
+constexpr int enablePinMotorY = 32;  // Enable pin for Y motor driver
+
+static bool manualEnabled = false;
 
 // Stepper motor configurations
 AccelStepper stepperX(AccelStepper::DRIVER, stepPinMotorX, dirPinMotorX);
@@ -80,7 +86,6 @@ byte pin_column[COL_NUM] = { 37, 35, 33, 31 };  //connect to the column pinouts 
 //initialize an instance of class NewKeypad
 Keypad customKeypad = Keypad(makeKeymap(keys), pin_rows, pin_column, ROW_NUM, COL_NUM);
 
-
 void setup() {
   Serial.begin(9600);
 
@@ -111,7 +116,7 @@ void setup() {
 
   lcd.clear();
   lcd.print("> ");
-  lcd.print(mainMenuItems[currentMenuItem]);
+  lcd.print(mainMenuItems[currentMainMenuItem]);
 
   // SD
   pinMode(chipSelectPin, OUTPUT);
@@ -179,14 +184,14 @@ void loop() {
 void updateMenuDisplay() {
   lcd.clear();
   lcd.print("> ");
-  lcd.print(currentMenu[currentMenuItem]);  // Displays the current selected item
+  lcd.print(currentMenu[currentMainMenuItem]);  // Displays the current selected item
 
   int numRows = 4;  // Get the number of rows on the LCD
 
   // Display subsequent menu items on the third and fourth rows
   for (int row = 1; row < numRows; row++) {
     lcd.setCursor(2, row);
-    int nextMenuItem = (currentMenuItem + row) % mainMenuItemCount;
+    int nextMenuItem = (currentMainMenuItem + row) % mainMenuItemCount;
     lcd.print(currentMenu[nextMenuItem]);
   }
 }
@@ -239,21 +244,30 @@ void handleButtonPress(char key) {
     case 'A':  // BACK button
       navigateBack();
       break;
+    case '4': 
+      startXaxisMotorOnly(); // X start 
+      break;
+    case '5':  
+      stopXaxisMotorOnly(); // X stop
+      break;
+    case '6':  
+      reverseXaxisMotorOnly(); // X revese
+      break;
     default:
       break;
   }
 }
 
 void moveCursorUp() {
-  if (currentMenuItem > 0) {
-    currentMenuItem--;
+  if (currentMainMenuItem > 0) {
+    currentMainMenuItem--;
   }
   updateMenuDisplay();
 }
 
 void moveCursorDown() {
-  if (currentMenuItem < mainMenuItemCount - 1) {
-    currentMenuItem++;
+  if (currentMainMenuItem < mainMenuItemCount - 1) {
+    currentMainMenuItem++;
   }
   updateMenuDisplay();
 }
@@ -261,47 +275,61 @@ void moveCursorDown() {
 void selectMenuItem() {
   switch (currentMenuState) {
     case MAIN_MENU:
-      switch (currentMenuItem) {
+      switch (currentMainMenuItem) {
         case 0:
-          currentMenuState = SD_CARD_MENU;
           openSDreader();
           break;
         case 1:
-          currentMenuState = MOTOR_CONTROL_MENU;
-          // Add logic for motor control menu
+          openMotorControlMenu();
           break;
         case 2:
-          currentMenuState = TESTS_MENU;
-          // Add logic for tests menu
-          break;
+          openDeviceTestsMenu();
         default:
           break;
       }
       break;
     case SD_CARD_MENU:
-      // Read and print the contents of the selected file
-      readFileFromSD(sdCardMenu[currentMenuItem]);
+      readFileFromSD(sdCardMenu[currentMainMenuItem]);
       break;
-    // Add cases for other menus if needed
+    case MOTOR_CONTROL_MENU:
+      switch (currentMainMenuItem) {
+        case 0:
+          increaseOverallSpeed();
+          break;
+        case 1:
+          decreaseOverallSpeed();
+          break;
+        case 2:
+          releaseXYMotors();
+          break;
+        case 3:
+          homeAllAxis();
+          break;
+        default:
+          break;
+      }
+      break;
     default:
       break;
   }
 }
 
-
+// Go back to previous menu
 void navigateBack() {
   Serial.println("BACK <<---------------");
   // Implement logic to navigate back in menu
   // This might involve changing the current menu or going up one level in the menu hierarchy
   currentMenuState = MAIN_MENU;
   currentMenu = mainMenuItems;
-  currentMenuItem = 0;
+  currentMainMenuItem = 0;
   updateMenuDisplay();
 }
 
+// SD Card reader
 void openSDreader() {
   currentMenuState = SD_CARD_MENU;
   currentMenu = sdCardMenu;
+  currentMainMenuItem = 0;
 
   lcd.clear();
   if (!SD.begin(chipSelectPin)) {
@@ -333,3 +361,61 @@ void readFileFromSD(String filename) {
   // Close the file
   file.close();
 }
+
+// Motor control
+void openMotorControlMenu() {
+  Serial.println("MOTOR CONTROL ----------->>");
+  currentMenuState = MOTOR_CONTROL_MENU;
+  currentMenu = motorControlMenu;
+  currentMainMenuItem = 0;
+
+  updateMenuDisplay();
+}
+
+void increaseOverallSpeed() {
+  Serial.println("increaseOverallSpeed");
+}
+
+void decreaseOverallSpeed() {
+  Serial.println("decreaseOverallSpeed");
+}
+
+void releaseXYMotors() {
+  Serial.println("releaseXYMotors");
+  manualEnabled = !manualEnabled;                             // Toggle state
+  digitalWrite(enablePinMotorX, manualEnabled ? HIGH : LOW);  // Disable or enable X motor
+  digitalWrite(enablePinMotorY, manualEnabled ? HIGH : LOW);  // Disable or enable Y motor
+
+  // Change the menu item text based on manual mode state
+  if (manualEnabled) {
+    motorControlMenu[2] = "Activate motors";  // Change to "Activate motors" when manual mode is disabled
+  } else {
+    motorControlMenu[2] = "Deactivate motors";  // Change to "Deactivate motors" when manual mode is enabled
+  }
+
+  updateMenuDisplay();
+}
+
+void homeAllAxis() {
+  Serial.println("homeAllAxis");
+}
+
+// Device tests
+void openDeviceTestsMenu() {
+  Serial.println("TESTS MENU ----------->>");
+  currentMenuState = TESTS_MENU;
+  currentMenu = deviceTestsMenu;
+  currentMainMenuItem = 0;
+
+  updateMenuDisplay();
+}
+
+// X axis test
+void startXaxisMotorOnly() {
+    Serial.println("START X");
+}
+void stopXaxisMotorOnly() {
+    Serial.println("START X");
+}
+void reverseXaxisMotorOnly()
+    Serial.println("START X");
