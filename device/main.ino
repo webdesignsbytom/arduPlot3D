@@ -592,14 +592,14 @@ void runOneFingerTap() {
     // Additional setup for the movement if needed
   }
 } 
+
 void runTwoFingerTap() {
-
 }
+
 void runThreeFingerTap() {
-
 }
-void runFingerPinch() {
 
+void runFingerPinch() {
 }
 
 
