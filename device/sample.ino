@@ -12,7 +12,7 @@ LiquidCrystal_I2C lcd(0x27, 20, 4);
 
 // Menu items
 String mainMenuItems[] = { "SD Card", "Motor Control", "Tests" };
-String motorControlMenu[] = { "Deactivate motors", "Speed+", "Speed-", "Home XY", "Stop", "Back" };
+String motorControlMenu[] = { "Speed+", "Speed-", "Deactivate motors", "Home XY", "Stop", "Back" };
 String deviceTestsMenu[] = { "SD-Comm", "3-Axis", "Wifi-Comm", "BLE-Comm", "Back" };
 
 // SD card menus
@@ -52,32 +52,9 @@ static bool manualEnabled = false;
 AccelStepper stepperX(AccelStepper::DRIVER, stepPinMotorX, dirPinMotorX);
 AccelStepper stepperY(AccelStepper::DRIVER, stepPinMotorY, dirPinMotorY);
 
-// Z axis servos
-
-// Define an enum to represent different movement states
-enum ZMovementState {
-  MOVEMENT_IDLE,
-  MOVEMENT_RUNNING,
-  MOVEMENT_COMPLETED
-};
-
-// Define a struct to store movement parameters and state
-struct ZMovement {
-  int currentAngle;       // Current angle of the movement
-  bool increasing;        // Direction of movement
-  unsigned long lastMoveTime;  // Last time the movement was updated
-  ZMovementState state;    // Current state of the movement
-};
-
-// Create instances of the Movement struct for each movement function
-ZMovement oneFingerTapMovement;
-ZMovement twoFingerTapMovement;
-ZMovement threeFingerTapMovement;
-ZMovement fingerPinchMovement;
-
 // Servo setup
-Servo fingerOneServo;
-constexpr int fingerOneServoPin = 25;
+Servo sg90Servo;
+constexpr int servoPin = 25;
 
 // Servo position flags
 bool servoPositionHigh = true;  // Start with servo at 180 degrees
@@ -86,17 +63,16 @@ bool servoPositionHigh = true;  // Start with servo at 180 degrees
 bool xAxisIsMoving = false;
 bool xMovingForward = true;
 int xForwardLimit = 2900;
-int xBackwardLimit = -5000;
+int xBackwardLimit = 0;
 
 bool yAxisIsMoving = false;
 bool yMovingForward = true;
-int yForwardLimit = 1600;
-int yBackwardLimit = -2500;
+int yForwardLimit = 600;
+int yBackwardLimit = 0;
 
 // Keypad
 const byte ROW_NUM = 4;  //four rows
 const byte COL_NUM = 4;  //four columns
-char DEPRESSED_BTN;
 
 //define the cymbols on the buttons of the keypads
 char keys[ROW_NUM][COL_NUM] = {
@@ -135,15 +111,8 @@ void setup() {
   stepperY.moveTo(yForwardLimit);
 
   // Servo initialization and starting position
-  fingerOneServo.attach(fingerOneServoPin);
-  fingerOneServo.write(0);  // Start with servo at 180 degrees
-
-    // Initialize oneFingerTapMovement
-  oneFingerTapMovement.currentAngle = 0;
-  oneFingerTapMovement.increasing = true;
-  oneFingerTapMovement.lastMoveTime = 0;
-  oneFingerTapMovement.state = MOVEMENT_IDLE;
-
+  sg90Servo.attach(servoPin);
+  sg90Servo.write(0);  // Start with servo at 180 degrees
 
   delay(1000);
 
@@ -160,7 +129,6 @@ void setup() {
 }
 
 void loop() {
-
   char customKey = customKeypad.getKey();
 
   if (customKey != NO_KEY) {
@@ -168,13 +136,8 @@ void loop() {
   }
 
   // Check for button 4 release
-  // Check for button release to stop X-axis movement
-  if (customKeypad.getState() == RELEASED) {
-    if (DEPRESSED_BTN == 4) {
-      stopXAxis();  // Stop X-axis movement
-    } else if (DEPRESSED_BTN == 7) {
-      stopYAxis();
-    }
+  if (customKeypad.getState() == RELEASED && customKeypad.getKey() == '4') {
+    stopXAxis();  // Stop X-axis movement
   }
 
   // X-axis movement
@@ -215,17 +178,16 @@ void loop() {
         increasing = true;  // Change direction at 0 degrees
       }
     }
-    fingerOneServo.write(currentAngle);
+    sg90Servo.write(currentAngle);
     lastMoveTime = millis();
   }
 
   // Continuously run the stepper motors
   if (xAxisIsMoving) {
+
     stepperX.run();
   }
-  if (yAxisIsMoving) {
-    stepperY.run();
-  }
+  //stepperY.run();
 }
 
 
@@ -296,36 +258,10 @@ void handleButtonPress(char key) {
       moveXAxis();  // X start
       break;
     case '5':
-      stopXaxisMotorOnly();  // X stopstopXAxis
+      stopXaxisMotorOnly();  // X stop
       break;
     case '6':
       reverseXaxisMotorOnly();  // X reverse
-      break;
-    case 'B':
-      break;
-    case '7':
-      moveYAxis();  // Y start
-      break;
-    case '8':
-      stopYaxisMotorOnly();  // Y stopstopYAxis
-      break;
-    case '9':
-      reverseYaxisMotorOnly();  // Y reverse
-      break;
-    case 'C':
-      reverseYaxisMotorOnly();  // Y reverse
-      break;
-    case '*':
-      runOneFingerTap();  // 1 finger tap
-      break;
-    case '0':
-      runTwoFingerTap();  // 2 finger tap
-      break;
-    case '#':
-      runThreeFingerTap();  // 3 finger tap
-      break;
-    case 'D':
-      runFingerPinch();  // Pinch
       break;
     default:
       break;
@@ -369,13 +305,13 @@ void selectMenuItem() {
     case MOTOR_CONTROL_MENU:
       switch (currentMainMenuItem) {
         case 0:
-          releaseXYMotors();
-          break;
-        case 1:
           increaseOverallSpeed();
           break;
-        case 2:
+        case 1:
           decreaseOverallSpeed();
+          break;
+        case 2:
+          releaseXYMotors();
           break;
         case 3:
           homeAllAxis();
@@ -463,9 +399,9 @@ void releaseXYMotors() {
 
   // Change the menu item text based on manual mode state
   if (manualEnabled) {
-    motorControlMenu[0] = "Activate motors";  // Change to "Activate motors" when manual mode is disabled
+    motorControlMenu[2] = "Activate motors";  // Change to "Activate motors" when manual mode is disabled
   } else {
-    motorControlMenu[0] = "Deactivate motors";  // Change to "Deactivate motors" when manual mode is enabled
+    motorControlMenu[2] = "Deactivate motors";  // Change to "Deactivate motors" when manual mode is enabled
   }
 
   updateMenuDisplay();
@@ -495,111 +431,40 @@ void stopXaxisMotorOnly() {
 }
 void reverseXaxisMotorOnly() {
   Serial.println("REVERSE X");
-  xMovingForward = !xMovingForward;
 }
 
 void moveXAxis() {
-  Serial.println("START XXXXXX");
-  DEPRESSED_BTN = 4;
-  // If the X-axis is already moving, we should stop it first
-  if (xAxisIsMoving) {
-    stopXAxis();
-    return;
-  }
+  Serial.println("START X");
+  Serial.println(xAxisIsMoving);
+  Serial.println("");
 
-  // Determine direction based on current position
-  if (xMovingForward) {
-    Serial.println("START X333 >>>>");
-    stepperX.moveTo(xForwardLimit);
-  } else {
-    Serial.println("START X333 <<<<");
-    stepperX.moveTo(xBackwardLimit);
+  if (!xAxisIsMoving) {
+    Serial.println("START X222");
+    xAxisIsMoving = true;
+    // Determine direction based on current position
+    if (xMovingForward) {
+      Serial.println("START X333 >>>>");
+      Serial.println(xAxisIsMoving);
+      stepperX.moveTo(-1);
+      Serial.println("");
+      // stepperX.run();
+    } else {
+      Serial.println("START X333 <<<<");
+      stepperX.moveTo(1);
+      stepperX.run();
+    }
   }
-
-  // Start the movement
-  xAxisIsMoving = true;
-  stepperX.run();
 }
 
 // Function to stop moving the X-axis
 void stopXAxis() {
-  Serial.println("END STOP 1111 >>>>");
-  DEPRESSED_BTN = "X";
+    Serial.println("END STOP 1111 >>>>");
   if (xAxisIsMoving) {
     // Stop the X-axis movement
     stepperX.stop();
     xAxisIsMoving = false;
-    Serial.println("END STOP 22222 >>>>");
+    Serial.println("END STOP 22222>>>>");
     Serial.println(xAxisIsMoving);
     Serial.println("");
   }
 }
-
-// Y axis test
-void startYaxisMotorOnly() {
-  Serial.println("START Y");
-  yAxisIsMoving = true;
-}
-void stopYaxisMotorOnly() {
-  Serial.println("STOP Y");
-}
-void reverseYaxisMotorOnly() {
-  Serial.println("REVERSE Y");
-  yMovingForward = !yMovingForward;
-}
-
-void moveYAxis() {
-  Serial.println("START Yyyyyyyy");
-  DEPRESSED_BTN = 7;
-  // If the X-axis is already moving, we should stop it first
-  if (yAxisIsMoving) {
-    stopYAxis();
-    return;
-  }
-
-  // Determine direction based on current position
-  if (yMovingForward) {
-    Serial.println("START Y333 >>>>");
-    stepperY.moveTo(yForwardLimit);
-  } else {
-    Serial.println("START Y333 <<<<");
-    stepperY.moveTo(yBackwardLimit);
-  }
-
-  // Start the movement
-  yAxisIsMoving = true;
-  stepperY.run();
-}
-
-// Function to stop moving the X-axis
-void stopYAxis() {
-  Serial.println("END STOP YYYYYy >>>>");
-  DEPRESSED_BTN = "X";
-  if (yAxisIsMoving) {
-    // Stop the Y-axis movement
-    stepperY.stop();
-    yAxisIsMoving = false;
-    Serial.println("END STOP YYYY >>>>");
-    Serial.println(yAxisIsMoving);
-    Serial.println("");
-  }
-}
-
-
-void runOneFingerTap() {
-  if (movement.state == MOVEMENT_IDLE) {
-    movement.state = MOVEMENT_RUNNING;
-    // Additional setup for the movement if needed
-  }
-} 
-void runTwoFingerTap() {
-
-}
-void runThreeFingerTap() {
-
-}
-void runFingerPinch() {
-
-}
-
-
