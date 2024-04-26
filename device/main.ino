@@ -15,15 +15,10 @@ String mainMenuItems[] = { "SD Card", "Motor Control", "Tests" };
 String motorControlMenu[] = { "Deactivate motors", "Speed+", "Speed-", "Home XY", "Stop", "Back" };
 String deviceTestsMenu[] = { "SD-Comm", "3-Axis", "Wifi-Comm", "BLE-Comm", "Back" };
 
-// SD card menus
-const int maxFiles = 50;  // Maximum number of files
-String sdCardMenu[maxFiles];
-
-
 String* currentMenu = mainMenuItems;  // Start with main menu
 int mainMenuItemCount = sizeof(mainMenuItems) / sizeof(mainMenuItems[0]);
 int currentMainMenuItem = 0;  // variable to track the current menu item
-int currentSubMenuItem = 0;   // variable to track the current menu item
+int currentSubMenuItem = 0;   // variable to track the current submenu item
 
 // Menu state
 enum MenuState { MAIN_MENU,
@@ -33,9 +28,11 @@ enum MenuState { MAIN_MENU,
 };
 MenuState currentMenuState = MAIN_MENU;
 
-// SD Data
+// SD Card and data
 const int chipSelectPin = 53;  // Change this to your desired CS pin number
-bool hasSDcard = false;
+bool . = false;
+const int maxFiles = 50;  // Maximum number of files
+String sdCardMenu[maxFiles]; // Menu list
 
 // Stepper motor connections
 constexpr int dirPinMotorX = 23;
