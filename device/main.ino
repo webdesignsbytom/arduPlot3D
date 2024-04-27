@@ -30,7 +30,7 @@ MenuState currentMenuState = MAIN_MENU;
 
 // SD Card and data
 const int chipSelectPin = 53;  // Change this to your desired CS pin number
-bool . = false;
+bool hasSDcard = false;
 const int maxFiles = 50;  // Maximum number of files
 String sdCardMenu[maxFiles]; // Menu list
 
