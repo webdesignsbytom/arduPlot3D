@@ -4,7 +4,9 @@ import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { IoReloadCircle } from 'react-icons/io5';
 import { FaMousePointer } from 'react-icons/fa';
+// Constants
 import {
+  CanvasMainColour,
   DragFunctionColour,
   MoveFunctionColour,
   MoveTapFunctionColour,
@@ -75,7 +77,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     canvas.height = deviceHeightPixels;
 
     // set canvas to visible colour
-    canvas.style.backgroundColor = '#bee0ec';
+    canvas.style.backgroundColor = CanvasMainColour;
 
     const context = canvas.getContext('2d');
 
@@ -579,7 +581,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   };
 
   return (
-    <div className={`relative grid justify-center items-center `}>
+    <div className={`relative grid justify-center items-center`}>
       {rulersVisible && (
         <div className='absolute grid grid-cols-rev top-1 right-1 z-10 outline outline-yellow-400 outline-1 rounded-xl px-6 py-1'>
           {isPxOrMmDimensions ? (

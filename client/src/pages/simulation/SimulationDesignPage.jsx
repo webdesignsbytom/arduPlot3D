@@ -199,6 +199,7 @@ function SimulationDesignPage() {
         console.error('Unable to create simulation', err);
       });
   };
+  
   // Open save as
   const openSaveAsModal = () => {
     closeAllModalsMaster();
