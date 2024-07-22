@@ -25,6 +25,19 @@ import { UserContext } from '../../context/UserContext';
 import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
 import LoadSimulationModal from '../../components/modals/LoadSimulationModal';
 import PublishSimulationModal from '../../components/modals/PublishSimulationModal';
+// Icons
+import { FaClipboardList } from 'react-icons/fa';
+// Constants
+import {
+  CREATE_NEW_SIMULATION,
+  DRAG_FUNCTION,
+  MOVE_FUNCTION,
+  MOVE_TAP_FUNCTION,
+  SAVE_SIMULATION,
+  SIMULATION_PAGE_URL,
+  TAP_FUNCTION,
+  TIMEOUT_FUNCTION,
+} from '../../utils/design/Constants';
 
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -85,8 +98,12 @@ function SimulationDesignPage() {
   // Reset
   const [isResettingAnimation, setIsResettingAnimation] = useState(false);
 
+  // Left menu
+  const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
+  const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
+
   useEffect(() => {
-    setActiveNav('/simulation');
+    setActiveNav(SIMULATION_PAGE_URL);
   }, []);
 
   const clearAllDataPoints = () => {
@@ -143,17 +160,17 @@ function SimulationDesignPage() {
 
   // Select tap tool
   const selectTapTool = () => {
-    setSimulationToolSelected('tap');
+    setSimulationToolSelected(TAP_FUNCTION);
   };
 
   // Select tap and move tool
   const selectTapAndMoveTool = () => {
-    setSimulationToolSelected('move_tap');
+    setSimulationToolSelected(MOVE_TAP_FUNCTION);
   };
 
   // Select drag tool
   const selectDragTool = () => {
-    setSimulationToolSelected('drag');
+    setSimulationToolSelected(DRAG_FUNCTION);
   };
 
   // Select timeout tool
@@ -184,13 +201,8 @@ function SimulationDesignPage() {
 
   // Save simulation
   const saveCurrentSimulationFile = () => {
-    console.log('USER', user.id);
     client
-      .post(
-        `/simulations/user/save-simulation/${user.id}`,
-        simulationData,
-        false
-      )
+      .post(`${SAVE_SIMULATION}/${user.id}`,simulationData)
       .then((res) => {
         console.log('RES', res.data.data.newSimulation);
       })
@@ -199,7 +211,7 @@ function SimulationDesignPage() {
         console.error('Unable to create simulation', err);
       });
   };
-  
+
   // Open save as
   const openSaveAsModal = () => {
     closeAllModalsMaster();
@@ -210,7 +222,7 @@ function SimulationDesignPage() {
     setSaveAsModalOpen(false); //
   };
 
-  // Open load 
+  // Open load
   const openLoadModal = () => {
     setLoadModalOpen(true); //
   };
@@ -224,12 +236,9 @@ function SimulationDesignPage() {
   // Save as
   const saveAsNewFile = () => {
     setIsSavingFile(true);
+
     client
-      .post(
-        `/simulations/user/create-new-simulation/${user.id}`,
-        simulationData,
-        false
-      )
+      .post(`${CREATE_NEW_SIMULATION}/${user.id}`, simulationData)
       .then((res) => {
         console.log('res', res);
         setIsSavingFile(false);
@@ -307,7 +316,7 @@ function SimulationDesignPage() {
     setuploadVideoModalOpen(false);
   };
 
-  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false)
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
 
   const openPublishModal = () => {
     closeAllModalsMaster();
@@ -317,10 +326,8 @@ function SimulationDesignPage() {
     setIsPublishModalOpen(false);
   };
 
-
   // Download simulation for sd card
   const downloadFileToMachine = () => {
-    console.log('111111111111');
     const plotterCommands = translateToPlotterLanguage();
     const blob = new Blob([plotterCommands], { type: 'text/plain' });
     const href = URL.createObjectURL(blob);
@@ -337,21 +344,19 @@ function SimulationDesignPage() {
   // Function to translate drawing commands to ASCII/Plotter language
 
   function translateToPlotterLanguage() {
-    console.log('222222222222');
-
     let commands = '';
 
     const formatPoint = (point) => {
       switch (point.dataType) {
-        case 'tap':
-        case 'move':
-        case 'move_tap':
+        case TAP_FUNCTION:
+        case MOVE_FUNCTION:
+        case MOVE_TAP_FUNCTION:
           return `${point.dataType.toUpperCase()} xPos: ${point.xPos}, yPos: ${
             point.yPos
           }, xySpeed: ${point.xySpeed}, zSpeed: ${point.zSpeed}, numFingers: ${
             point.numFingers
           }, timeLength: ${point.timeLength}\n`;
-        case 'drag':
+        case DRAG_FUNCTION:
           return `${point.dataType.toUpperCase()} startxPos: ${
             point.startxPos
           }, startyPos: ${point.startyPos}, finishxPos: ${
@@ -361,7 +366,7 @@ function SimulationDesignPage() {
           }, zSpeed: ${point.zSpeed}, numFingers: ${
             point.numFingers
           }, timeLength: ${point.timeLength}\n`;
-        case 'timeout':
+        case TIMEOUT_FUNCTION:
           return `${point.dataType.toUpperCase()} timeoutLength: ${
             point.timeoutLength
           }\n`;
@@ -398,7 +403,19 @@ function SimulationDesignPage() {
       {/* Main */}
       <main className='grid h-full grid-cols-a1a overflow-hidden'>
         {/* Functions bar */}
-        <section className='grid max-w-[200px]'>
+        <section className='grid h-full overflow-hidden max-w-full'>
+          {/* Open close button */}
+          {!userMenuIsOpen && (
+            <div className='grid mt-2 ml-2 p-1 bg-yellow-400 h-fit items-center justify-center rounded-full shadow-lg'>
+              <FaClipboardList
+                size={20}
+                onClick={() => setUserMenuIsOpen(true)}
+                title='Open menu'
+                className='hover:brightness-90 cursor-pointer text-white'
+              />
+            </div>
+          )}
+
           <SimulationFunctionsToolbar
             runSimulation={runSimulation}
             stopSimulation={stopSimulation}
@@ -416,6 +433,8 @@ function SimulationDesignPage() {
             saveAsNewFile={saveAsNewFile}
             openLoadModal={openLoadModal}
             openPublishModal={openPublishModal}
+            userMenuIsOpen={userMenuIsOpen}
+            setUserMenuIsOpen={setUserMenuIsOpen}
           />
         </section>
 
@@ -463,8 +482,22 @@ function SimulationDesignPage() {
         </section>
 
         {/* data bar */}
-        <section className='grid overflow-hidden h-full max-w-[300px]'>
-          <SimulationDataToobar />
+        <section className={`grid overflow-hidden h-full max-w-[300px]`}>
+          {!simulationDataIsOpen && (
+            <div className='grid mt-2 mr-2 p-1 bg-yellow-400 h-fit items-center justify-center rounded-full shadow-lg'>
+              <FaClipboardList
+                size={20}
+                onClick={() => setSimulationDataIsOpen(true)}
+                title='Open menu'
+                className='hover:brightness-90 cursor-pointer text-white'
+              />
+            </div>
+          )}
+          <section className={`${simulationDataIsOpen ? '' : 'hidden'}`}>
+            <SimulationDataToobar
+              setSimulationDataIsOpen={setSimulationDataIsOpen}
+            />
+          </section>
         </section>
       </main>
 

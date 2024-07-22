@@ -8,6 +8,8 @@ import Error404 from './pages/error/Error404';
 import LibraryPage from './pages/library/LibraryPage';
 import SimulationDesignPage from './pages/simulation/SimulationDesignPage';
 import ConfigurationPage from './pages/config/ConfigurationPage';
+// Constants
+import { SIMULATION_PAGE_URL } from './utils/design/Constants';
 
 function App() {
   return (
@@ -15,7 +17,7 @@ function App() {
       <Route path='/' index element={<HomePage />} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/sign-up' element={<RegisterPage />} />
-      <Route path='/design' element={<SimulationDesignPage />} />
+      <Route path={SIMULATION_PAGE_URL} element={<SimulationDesignPage />} />
       <Route path='/library' element={<LibraryPage />} />
       <Route path='/device-configuration' element={<ConfigurationPage />} />
       <Route path='/test' element={<TestPage />} />

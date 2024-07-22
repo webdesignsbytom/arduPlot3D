@@ -1,4 +1,6 @@
 import React from 'react';
+// Icons
+import { FaArrowAltCircleLeft } from 'react-icons/fa';
 
 function SimulationFunctionsToolbar({
   runSimulation,
@@ -14,177 +16,130 @@ function SimulationFunctionsToolbar({
   openDeviceSelectModal,
   openUploadVideoModal,
   downloadFileToMachine,
-  openLoadModal,openPublishModal
+  openLoadModal,
+  openPublishModal,
+  userMenuIsOpen,
+  setUserMenuIsOpen,
 }) {
+  // Close this container
+  const hideContainer = () => {
+    setUserMenuIsOpen(false);
+  };
+
+  // Lists of user functions
+  const simulationActions = [
+    { label: 'Run Simulation', onClick: runSimulation },
+    { label: 'Stop Simulation', onClick: stopSimulation },
+    { label: 'Reset Simulation', onClick: resetSimulationToStartingPoint },
+  ];
+
+  const fileActions = [
+    { label: 'New Simulation', onClick: createNewSimulationFile },
+    { label: 'Save', onClick: saveCurrentSimulationFile },
+    { label: 'Save As', onClick: openSaveAsModal },
+    { label: 'Load File', onClick: openLoadModal },
+  ];
+
+  const downloadActions = [
+    { label: 'Download', onClick: downloadFileToMachine },
+  ];
+
+  const settingsActions = [
+    { label: 'Tap Settings', onClick: openTapSettingsModal },
+    { label: 'Move Settings', onClick: openMovementSettingsModal },
+    { label: 'Drag Settings', onClick: openDragSettingsModal },
+    { label: 'Timeout Settings', onClick: openTimeoutSettingsModal },
+  ];
+
+  const deviceActions = [
+    { label: 'Device Select', onClick: openDeviceSelectModal },
+    { label: 'Dimensions', onClick: () => {} },
+    { label: 'Custom', onClick: () => {} },
+    { label: 'Offset', onClick: () => {} },
+    { label: 'Layout', onClick: () => {} },
+  ];
+
+  const videoActions = [
+    { label: 'Upload Video', onClick: openUploadVideoModal },
+  ];
+
+  const publishActions = [
+    { label: 'Publish Simulation', onClick: openPublishModal },
+  ];
+
+  const renderActions = (actions) => (
+    <ul>
+      {actions.map(({ label, onClick }, index) => (
+        <li
+          key={index}
+          className="cursor-pointer hover:text-gray-600 active:scale-95 no__highlights"
+          onClick={onClick}
+        >
+          {label}
+        </li>
+      ))}
+    </ul>
+  );
+
   return (
-    <section className='bg-white border-r-2 border-solid border-black p-2'>
-      {/* Header data */}
-      <article>
-        <h2 className='text-xl text-center'>Simulation Tools</h2>
+    <section
+      className={`bg-white overflow-y-auto scrollbar_hidden border-r-2 border-solid border-black ${userMenuIsOpen ? '' : 'hidden'}`}
+    >
+     <div className='p-2'>
+       {/* Header data */}
+       <article className="grid grid-cols-rev gap-4 mb-2">
+        <div className='grid items-center'>
+          <h2 className="font-semibold 2xl:text-xl text-center">Simulation Tools</h2>
+        </div>
+
+        <div className="grid items-center justify-center">
+          <FaArrowAltCircleLeft
+            onClick={hideContainer}
+            title="Hide"
+            className="hover:brightness-90 cursor-pointer text-yellow-400"
+            size={20}
+          />
+        </div>
       </article>
 
       {/* Divider */}
-      <div className='w-full h-[1px] bg-slate-400'></div>
+      <div className="w-full h-[1px] bg-slate-400"></div>
 
       {/* Tools */}
-      <section>
-        <div className='py-2'>
-          <ul>
-            <li
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-              onClick={runSimulation}
-            >
-              Run Simulation
-            </li>
-            <li
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-              onClick={stopSimulation}
-            >
-              Stop Simulation
-            </li>
-            <li
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-              onClick={resetSimulationToStartingPoint}
-            >
-              Reset Simulation
-            </li>
-          </ul>
-        </div>
+      <section className='text-sm 2xl:text-base'>
+        <div className="py-2">{renderActions(simulationActions)}</div>
 
         {/* Divider */}
-        <div className='w-full h-[1px] bg-slate-400'></div>
+        <div className="w-full h-[1px] bg-slate-400"></div>
 
-        <div className='py-2'>
-          <ul>
-            <li
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-              onClick={createNewSimulationFile}
-            >
-              New Simulation
-            </li>
-            <li
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-              onClick={saveCurrentSimulationFile}
-            >
-              Save
-            </li>
-            <li
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-              onClick={openSaveAsModal}
-            >
-              Save As
-            </li>
-            <li
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-              onClick={openLoadModal}
-            >
-              Load File
-            </li>
-          </ul>
-        </div>
+        <section className="py-2">{renderActions(fileActions)}</section>
 
         {/* Divider */}
-        <div className='w-full h-[1px] bg-slate-400'></div>
+        <div className="w-full h-[1px] bg-slate-400"></div>
 
-        <div className='py-2'>
-          <ul>
-            <li
-              onClick={downloadFileToMachine}
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-            >
-              Download
-            </li>
-          </ul>
-        </div>
+        <section className="py-2">{renderActions(downloadActions)}</section>
 
         {/* Divider */}
-        <div className='w-full h-[1px] bg-slate-400'></div>
+        <div className="w-full h-[1px] bg-slate-400"></div>
 
-        <div className='py-2'>
-          <ul>
-            <li
-              onClick={openTapSettingsModal}
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-            >
-              Tap Settings
-            </li>
-            <li
-              onClick={openMovementSettingsModal}
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-            >
-              Move Settings
-            </li>
-            <li
-              onClick={openDragSettingsModal}
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-            >
-              Drag Settings
-            </li>
-            <li
-              onClick={openTimeoutSettingsModal}
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-            >
-              Timeout Settings
-            </li>
-          </ul>
-        </div>
+        <section className="py-2">{renderActions(settingsActions)}</section>
 
         {/* Divider */}
-        <div className='w-full h-[1px] bg-slate-400'></div>
+        <div className="w-full h-[1px] bg-slate-400"></div>
 
-        <div className='py-2'>
-          <ul>
-            <li
-              onClick={openDeviceSelectModal}
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-            >
-              Device Select
-            </li>
-            <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
-              Dimensions
-            </li>
-            <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
-              Custom
-            </li>
-            <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
-              Offset
-            </li>
-            <li className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'>
-              Layout
-            </li>
-          </ul>
-        </div>
+        <section className="py-2">{renderActions(deviceActions)}</section>
 
         {/* Divider */}
-        <div className='w-full h-[1px] bg-slate-400'></div>
+        <div className="w-full h-[1px] bg-slate-400"></div>
 
-        <div className='py-2'>
-          <ul>
-            <li
-              title='Upload video'
-              onClick={openUploadVideoModal}
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-            >
-              Upload Video
-            </li>
-          </ul>
-        </div>
+        <section className="py-2">{renderActions(videoActions)}</section>
 
         {/* Divider */}
-        <div className='w-full h-[1px] bg-slate-400'></div>
+        <div className="w-full h-[1px] bg-slate-400"></div>
 
-        <div className='py-2'>
-          <ul>
-            <li
-              title='Publish simulation'
-              onClick={openPublishModal}
-              className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
-            >
-              Publish simulation
-            </li>
-          </ul>
-        </div>
+        <section className="py-2">{renderActions(publishActions)}</section>
       </section>
+     </div>
     </section>
   );
 }
