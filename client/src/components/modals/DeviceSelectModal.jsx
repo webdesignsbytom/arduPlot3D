@@ -24,15 +24,15 @@ function DeviceSelectModal({ closeDeviceSelectModal }) {
           <h4 className=''>Device Selection</h4>
         </div>
 
-        <section className='mt-4'>
-         <DeviceSelectDropdownMenu handleDeviceChange={handleDeviceChange} />
+        <section className='py-4 pl-6'>
+          <DeviceSelectDropdownMenu handleDeviceChange={handleDeviceChange} />
         </section>
 
         <section className='grid mt-4'>
           <div className='grid justify-center'>
-            <button
+          <button
               onClick={closeDeviceSelectModal}
-              className='bg-yellow-400 active:scale-95 px-4 py-2 w-full rounded-lg'
+              className='bg-yellow-400 active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
             >
               Close
             </button>

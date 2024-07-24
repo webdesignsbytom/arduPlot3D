@@ -119,6 +119,7 @@ function SimulationDesignPage() {
     setIsCreatingNewLoop(true);
     setDisplaySimOrLoop('loop');
   };
+  
   // Save new simulation loop of commands
   const saveNewSimulationLoop = () => {
     setIsCreatingNewLoop(false);
@@ -135,6 +136,7 @@ function SimulationDesignPage() {
 
   // Run simulation
   const runSimulation = () => {
+    closeAllModalsMaster()
     setSimulationIsRunning(true);
   };
   //
@@ -144,6 +146,7 @@ function SimulationDesignPage() {
 
   // Display Landscape
   const setSimulationLandScape = () => {
+    closeAllModalsMaster()
     setIsLandscapeMode(true);
   };
   // Display portrait
@@ -209,20 +212,21 @@ function SimulationDesignPage() {
   // Open save as
   const openSaveAsModal = () => {
     closeAllModalsMaster();
-    setSaveAsModalOpen(true); //
+    setSaveAsModalOpen(true);
   };
   // Close save as
   const closeSaveAsModal = () => {
-    setSaveAsModalOpen(false); //
+    setSaveAsModalOpen(false);
   };
 
   // Open load
   const openLoadModal = () => {
-    setLoadModalOpen(true); //
+    closeAllModalsMaster()
+    setLoadModalOpen(true); 
   };
   // Close load
   const closeLoadSimulationModal = () => {
-    setLoadModalOpen(false); //
+    setLoadModalOpen(false);
   };
 
   const [isSavingFile, setIsSavingFile] = useState(false);
@@ -299,7 +303,8 @@ function SimulationDesignPage() {
     setTimeoutModalOpen(false);
     closeUploadVideoModal(false);
     setIsPublishModalOpen(false);
-    setSaveAsModalOpen(false); //
+    setSaveAsModalOpen(false);
+    setLoadModalOpen(false);
   };
 
   const openUploadVideoModal = () => {

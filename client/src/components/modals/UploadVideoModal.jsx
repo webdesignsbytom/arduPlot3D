@@ -13,39 +13,40 @@ function UploadVideoModal({ closeUploadVideoModal }) {
   };
 
   return (
-    <section className='grid outline outline-yellow-400 outline-2 rounded-lg z-20 bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-      <div className='p-2'>
+    <section className='grid outline outline-yellow-400 outline-2 rounded-lg z-20 bg-white md:w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+      <div className='py-2 px-2'>
         <div className='text-center'>
-          <h4 className=''>Upload Video</h4>
-          <div>
-            <p>
+          <h4 className='text-lg'>Upload Video</h4>
+          <div className='pt-1'>
+            <p className='text-sm'>
               Video can be played under the simulation design canvas to assist
               with plotting.
             </p>
           </div>
         </div>
 
-        <section className='mt-4 p-1'>
+        <section className='py-4'>
           <div>
-            <label htmlFor='videoFile' className='text-sm'>
-              Select Video
-            </label>
+            <section className='pl-2 py-1 grid grid-cols-rev gap-2'>
+              <div className='grid gap-2'>
+                <label htmlFor='videoFile' className='text-sm'>
+                  Select Video
+                </label>
+                <input
+                  type='file'
+                  id='videoFile'
+                  accept='video/*'
+                  onChange={handleFileChange}
+                  className='cursor-pointer'
+                />
+              </div>
 
-            <div className='pl-2 py-1 grid grid-cols-rev gap-2'>
-              <input
-                type='file'
-                id='videoFile'
-                accept='video/*'
-                onChange={handleFileChange}
-                className=''
-              />
-
-              <div>
-                <button className='outline outline-1 outline-yellow-400 bg-white active:scale-95 px-4 py-2 w-full rounded-lg'>
+              <div className='grid items-center'>
+                <button className='outline outline-1 outline-yellow-400 bg-white active:scale-95 px-4 py-2 w-full rounded-lg hover:text-white hover:bg-yellow-400'>
                   Add
                 </button>
               </div>
-            </div>
+            </section>
           </div>
         </section>
 
@@ -53,7 +54,7 @@ function UploadVideoModal({ closeUploadVideoModal }) {
           <div className='grid justify-center'>
             <button
               onClick={closeUploadVideoModal}
-              className='bg-yellow-400 active:scale-95 px-4 py-2 w-full rounded-lg'
+              className='bg-yellow-400 active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
             >
               Close
             </button>

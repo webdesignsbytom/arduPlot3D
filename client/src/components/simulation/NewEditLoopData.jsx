@@ -10,8 +10,6 @@ function NewEditLoopData() {
     loopDataBeingEdited,
     setLoopDataBeingEdited,
     displayLoopDataPointsIndex,
-    simulationData,
-    setSimulationData,
     saveLoopPerminently,
     dataPointMarkerRef,
     deleteSavedLoopFromSimulation,
@@ -21,6 +19,7 @@ function NewEditLoopData() {
   const endOfListRef = useRef(null); // Ref for the end of the list
 
   useEffect(() => {
+    // TODO: 
     endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
     dataPointMarkerRef.current =
       loopDataBeingEdited.mainSimulationLoopDataPoints.length;

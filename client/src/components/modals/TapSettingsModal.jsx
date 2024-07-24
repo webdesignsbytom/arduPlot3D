@@ -26,9 +26,9 @@ function TapSettingsModal({
 
   return (
     <section className='grid outline z-20 outline-yellow-400 outline-2 rounded-lg bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-      <div className='p-2'>
+      <div className='py-2 px-4'>
         <div className='text-center'>
-          <h4 className=''>Tap Settings</h4>
+          <h4 className='text-lg'>Tap Settings</h4>
         </div>
 
         <section className='mt-4'>
@@ -96,7 +96,7 @@ function TapSettingsModal({
           <div className='grid justify-center'>
             <button
               onClick={closeTapSettingsModal}
-              className='bg-yellow-400 active:scale-95 px-4 py-2 w-full rounded-lg'
+              className='bg-yellow-400 active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
             >
               Close
             </button>
