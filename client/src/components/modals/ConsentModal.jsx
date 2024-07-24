@@ -6,12 +6,12 @@ function ConsentModal({ consentMessage, cancalFunction }) {
   const { runConsentFunction } = useContext(SimulationContext);
 
   return (
-    <section className='grid outline z-20 outline-main-colour outline-2 rounded-lg bg-white h-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-2xl'>
+    <section className='grid outline z-20 outline-main-colour outline-2 rounded-lg bg-secondary-colour h-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-2xl'>
       <div className='grid grid-rows-[40px_1fr_auto] overflow-hidden'>
         {/* Header */}
         <section className='bg-main-colour w-full'>
           <div className='grid items-center text-center h-full'>
-            <p className='text-white text-xl'>Confirm</p>
+            <p className='text-secondary-colour text-xl'>Confirm</p>
           </div>
         </section>
 
@@ -37,7 +37,7 @@ function ConsentModal({ consentMessage, cancalFunction }) {
             <div className='grid w-full'>
               <button
                 onClick={cancalFunction}
-                className='grid bg-red-400 w-full h-fit px-2 py-2 rounded-lg text-white cursor-pointer hover:brightness-110 active:scale-95'
+                className='grid bg-red-400 w-full h-fit px-2 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'
               >
                 Cancel
               </button>
@@ -46,7 +46,7 @@ function ConsentModal({ consentMessage, cancalFunction }) {
             <div className='grid w-full'>
               <button
                 onClick={() => runConsentFunction(consentMessage.function)}
-                className='grid bg-main-colour w-full h-fit px-2 py-2 rounded-lg text-white cursor-pointer hover:brightness-110 active:scale-95'
+                className='grid bg-main-colour w-full h-fit px-2 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'
               >
                 Agree
               </button>

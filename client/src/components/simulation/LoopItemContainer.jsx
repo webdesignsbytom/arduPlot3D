@@ -53,7 +53,7 @@ function LoopItemContainer({ index, loopData }) {
                     {index + 1}.{dataIndex + 1}
                   </label>
                 </div>
-                <div className='grid w-full h-full bg-white outline-black outline outline-2'>
+                <div className='grid w-full h-full bg-secondary-colour outline-black outline outline-2'>
                   <input
                     title={loopDataPoint.dataType}
                     className={`w-full h-full px-2`}

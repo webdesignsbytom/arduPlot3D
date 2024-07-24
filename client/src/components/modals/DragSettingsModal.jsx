@@ -8,7 +8,7 @@ function DragSettingsModal({ speedOfDraggingArmMoving, setSpeedOfDraggingArmMovi
   };
 
   return (
-    <section className='grid outline z-20 outline-main-colour outline-2 rounded-lg bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+    <section className='grid outline z-20 outline-main-colour outline-2 rounded-lg bg-secondary-colour w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='py-2 px-4'>
         <div className='text-center'>
           <h4 className='text-lg'>Drag Settings</h4>
@@ -23,7 +23,7 @@ function DragSettingsModal({ speedOfDraggingArmMoving, setSpeedOfDraggingArmMovi
 
           <div className='grid grid-cols-rev gap-2 mt-1'>
             <input
-              className='outline outline-main-colour outline-1 bg-white px-1 w-full'
+              className='outline outline-main-colour outline-1 bg-secondary-colour px-1 w-full'
               type='number'
               name='dragMovementSpeed'
               id='dragMovementSpeed'

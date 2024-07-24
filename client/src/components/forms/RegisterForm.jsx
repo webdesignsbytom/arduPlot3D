@@ -75,7 +75,7 @@ function RegisterForm() {
       <div className='mb-6'>
         <input
           type='text'
-          className='form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
+          className='form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
           placeholder='Username'
           id='username'
           name='username'
@@ -86,7 +86,7 @@ function RegisterForm() {
         type='email'
         id='email'
         name='email'
-        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
+        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-gray-700 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
         placeholder='Email address'
         onChange={handleChange}
       />
@@ -94,7 +94,7 @@ function RegisterForm() {
         type='password'
         id='password'
         name='password'
-        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
+        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-gray-700 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
         placeholder='Password'
         onChange={handleChange}
       />
@@ -102,7 +102,7 @@ function RegisterForm() {
         type='password'
         id='confirmPassword'
         name='confirmPassword'
-        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
+        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-gray-700 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
         placeholder='Password'
         onChange={handleChange}
       />
@@ -111,7 +111,7 @@ function RegisterForm() {
       </div>
       <div className='form-check flex justify-center mb-6'>
         <input
-          className='form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer'
+          className='form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-secondary-colour checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer'
           type='checkbox'
           value=''
           id='termsChecked'
@@ -132,7 +132,7 @@ function RegisterForm() {
           type='submit'
           data-mdb-ripple='true'
           data-mdb-ripple-color='light'
-          className='inline-block px-6 py-2.5 mb-6 w-full bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-800 hover:shadow-lg focus:bg-blue-800 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-900 active:shadow-lg transition duration-150 ease-in-out'
+          className='inline-block px-6 py-2.5 mb-6 w-full bg-blue-600 text-secondary-colour font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-800 hover:shadow-lg focus:bg-blue-800 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-900 active:shadow-lg transition duration-150 ease-in-out'
         >
           {!registrationFormData.active && !registrationFormData.success && (
             <span>Sign Up</span>

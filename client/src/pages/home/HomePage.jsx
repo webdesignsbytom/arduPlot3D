@@ -48,7 +48,7 @@ function HomePage() {
             </article>
             {/* cta */}
             <div className='mt-6'>
-              <button id='/design' onClick={navigateToPage} className='px-4 py-2 bg-white outline-black outline outline-2 active:scale-95 no__highlights hover:bg-yellow-100 rounded-xl'>
+              <button id='/design' onClick={navigateToPage} className='px-4 py-2 bg-secondary-colour outline-black outline outline-2 active:scale-95 no__highlights hover:bg-yellow-100 rounded-xl'>
                 Try Now For Free
               </button>
             </div>

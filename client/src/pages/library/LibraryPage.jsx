@@ -36,7 +36,7 @@ function LibraryPage() {
 
       {/* Main */}
       <main className='grid h-full w-full overflow-hidden py-4'>
-        <section className='grid grid-rows-reg w-3/4 h-full mx-auto outline-black outline outline-2 rounded-xl bg-white px-4 py-2'>
+        <section className='grid grid-rows-reg w-3/4 h-full mx-auto outline-black outline outline-2 rounded-xl bg-secondary-colour px-4 py-2'>
           <div className='mb-2'>
             <h2 className='text-xl font-semibold text-main-colour'>
               Library of simulation files

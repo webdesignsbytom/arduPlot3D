@@ -35,7 +35,7 @@ console.log('PPPPPPPPPPPPPPPPPPPPPp');
       <div
         title='Click to view'
         onClick={() => openAndDisplayLoop(index)}
-        className='grid bg-white grid-flow-col items-center px-1 gap-2 w-full h-full outline-black outline outline-2 cursor-pointer active:scale-95 hover:bg-yellow-200'
+        className='grid bg-secondary-colour grid-flow-col items-center px-1 gap-2 w-full h-full outline-black outline outline-2 cursor-pointer active:scale-95 hover:bg-yellow-200'
       >
         <div>{loopData.loopTitle}</div>
       </div>

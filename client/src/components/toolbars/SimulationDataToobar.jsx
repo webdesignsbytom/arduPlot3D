@@ -24,7 +24,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
   };
 
   return (
-    <section className='bg-white h-full grid grid-rows-reg border-l-2 border-solid border-black px-1 py-2 overflow-hidden'>
+    <section className='bg-secondary-colour h-full grid grid-rows-reg border-l-2 border-solid border-black px-1 py-2 overflow-hidden'>
       {/* Header data */}
       <article className='grid h-fit'>
         <section className='grid grid-cols-reg mb-2'>

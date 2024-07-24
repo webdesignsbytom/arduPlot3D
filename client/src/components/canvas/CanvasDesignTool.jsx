@@ -624,7 +624,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       </div>
       {positionOfMouseAndCanvasVisible && (
         <div
-          className={`grid grid-cols-reg gap-2 absolute left-1 top-1 bg-white z-50 outline outline-main-colour outline-1 rounded-xl px-4 py-1`}
+          className={`grid grid-cols-reg gap-2 absolute left-1 top-1 bg-secondary-colour z-50 outline outline-main-colour outline-1 rounded-xl px-4 py-1`}
         >
           <div className='grid items-center justify-center pr-1'>
             <FaMousePointer />

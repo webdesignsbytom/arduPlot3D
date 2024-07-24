@@ -43,7 +43,7 @@ function SimulationItem({ dataIndex, dataPoint }) {
         </label>
       </div>
       <div className='grid grid-cols-reg w-full h-full outline-black outline outline-2'>
-        <div className='grid items-center bg-white px-1'>
+        <div className='grid items-center bg-secondary-colour px-1'>
           {dataPoint.dataType === TAP_FUNCTION && dataPoint.numFingers === 1 ? (
             <TbHandFinger />
           ) : dataPoint.dataType === TAP_FUNCTION && dataPoint.numFingers === 2 ? (

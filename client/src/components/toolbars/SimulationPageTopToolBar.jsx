@@ -140,13 +140,13 @@ function SimulationPageTopToolBar({
   return (
     <div className='grid grid-flow-col justify-between'>
       {/* Device selected title */}
-      <div className='bg-white'>
+      <div className='bg-secondary-colour'>
         <h4 className='text-xl font-semibold'>{selectedDevice.title}</h4>
       </div>
 
       <div className='flex gap-2'>
         {/* Timeout */}
-        <div className='px-1 py-[0.5px] outline-black outline outline-2 no__highlights bg-white rounded-md'>
+        <div className='px-1 py-[0.5px] outline-black outline outline-2 no__highlights bg-secondary-colour rounded-md'>
           {/* Times length */}
           <div className='text-xs'>
             <div>
@@ -198,7 +198,7 @@ function SimulationPageTopToolBar({
             title={button.title}
             className={`px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights ${
               button.selected
-                ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
+                ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
                 : 'bg-main-colour hover:bg-yellow-100'
             } rounded-md`}
           >
@@ -217,7 +217,7 @@ function SimulationPageTopToolBar({
               title={button.title}
               className={`px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights ${
                 button.selected
-                  ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
+                  ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
                   : 'bg-main-colour hover:bg-yellow-100'
               } rounded-md`}
             >

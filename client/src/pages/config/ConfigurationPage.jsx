@@ -30,7 +30,7 @@ function ConfigurationPage() {
 
       {/* Main */}
       <main className='grid h-full overflow-hidden'>
-        <section className='grid grid-rows-reg mx-auto my-auto bg-white outline outline-2 outline-black rounded-lg px-4 py-2'>
+        <section className='grid grid-rows-reg mx-auto my-auto bg-secondary-colour outline outline-2 outline-black rounded-lg px-4 py-2'>
           <article className='mb-2'>
             <div className='mb-2'>
               <h2 className='text-xl text-main-colour font-semibold'>Configure your device</h2>

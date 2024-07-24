@@ -415,7 +415,7 @@ function SimulationDesignPage() {
                 size={20}
                 onClick={() => setUserMenuIsOpen(true)}
                 title='Open menu'
-                className='hover:brightness-90 cursor-pointer text-white'
+                className='hover:brightness-90 cursor-pointer text-secondary-colour'
               />
             </div>
           )}
@@ -470,7 +470,7 @@ function SimulationDesignPage() {
           />
 
           {/* CANVAS */}
-          <div className='bg-white h-full grid outline-black outline outline-2 overflow-hidden'>
+          <div className='bg-secondary-colour h-full grid outline-black outline outline-2 overflow-hidden'>
             {simulationIsRunning ? (
               <CanvasSimulationTool
                 isResettingAnimation={isResettingAnimation}
@@ -493,7 +493,7 @@ function SimulationDesignPage() {
                 size={20}
                 onClick={() => setSimulationDataIsOpen(true)}
                 title='Open menu'
-                className='hover:brightness-90 cursor-pointer text-white'
+                className='hover:brightness-90 cursor-pointer text-secondary-colour'
               />
             </div>
           )}
