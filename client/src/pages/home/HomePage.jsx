@@ -1,8 +1,11 @@
 import React, { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 // Components
 import Navbar from '../../components/nav/Navbar';
-import { Link, useNavigate } from 'react-router-dom';
+// Context
 import { ToggleContext } from '../../context/ToggleContext';
+// Constants
+import { HOME_PAGE_URL } from '../../utils/Constants';
 
 function HomePage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -10,7 +13,7 @@ function HomePage() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    setActiveNav('/');
+    setActiveNav(HOME_PAGE_URL);
   }, []);
 
   const navigateToPage = (event) => {

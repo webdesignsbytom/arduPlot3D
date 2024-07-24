@@ -5,44 +5,50 @@ import client from '../../api/client';
 import { UserContext } from '../../context/UserContext';
 
 function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
   const [userSimulations, setUserSimulations] = useState([]);
 
   useEffect(() => {
-    console.log('PPP');
     client
-    .get(`/simulations/user/${user.id}/get-all-simulations`)
-    .then((res) => {
-      console.log(res.data.data.libraryFiles);
-      setUserSimulations(res.data.data.simulations);
-    })
-    .catch((err) => {
-      console.error('Unable to retrieve simulation data', err);
-    });
-  }, [])
+      .get(`/simulations/user/${user.id}/get-all-simulations`)
+      .then((res) => {
+        console.log(res.data.data.libraryFiles);
+        setUserSimulations(res.data.data.simulations);
+      })
+      .catch((err) => {
+        console.error('Unable to retrieve simulation data', err);
+      });
+  }, [user.id]);
 
   return (
     <section className='grid outline outline-yellow-400 outline-2 z-20 rounded-lg bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-      <div className='p-2'>
+      <div className='py-2 px-4'>
         <div className='text-center'>
-          <h4 className=''>Load</h4>
+          <h4 className='text-lg'>Load</h4>
         </div>
 
-        <section className='mt-4'>
+        <section className='py-4'>
           <div className='grid w-full gap-2'>
+            <article>
+              <div className='text-center'>
+                <p>Load a simulation from your saved files.</p>
+              </div>
+            </article>
             <div className='w-full'>
               <select
                 name='file_type'
                 id='file_type'
-                className='w-full outline outline-1 outline-yellow-400 px-1 rounded-md'
+                className='w-full outline outline-1 outline-yellow-400 p-1 rounded-md'
               >
-                {userSimulations.map((file, index) => {
-                  return (
+                {userSimulations.length === 0 ? (
+                  <option value='no_files'>Nothing to load</option>
+                ) : (
+                  userSimulations.map((file, index) => (
                     <option key={index} value={file.name}>
                       {file.title}
                     </option>
-                  );
-                })}
+                  ))
+                )}
               </select>
             </div>
           </div>
@@ -52,7 +58,7 @@ function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
           <div className='grid justify-center'>
             <button
               onClick={closeLoadSimulationModal}
-              className='bg-red-400 active:scale-95 px-4 py-2 w-full rounded-lg'
+              className='grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-white cursor-pointer hover:brightness-110 active:scale-95'
             >
               Close
             </button>
@@ -60,7 +66,7 @@ function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
           <div className='grid justify-center'>
             <button
               onClick={loadSimulationFile}
-              className='bg-yellow-400 active:scale-95 px-4 py-2 w-full rounded-lg'
+              className='grid bg-yellow-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-white cursor-pointer hover:brightness-110 active:scale-95'
             >
               Load
             </button>

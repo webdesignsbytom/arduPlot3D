@@ -25,7 +25,7 @@ function LoopsMenuDisplay() {
 
  
   return (
-    <div className='overflow-y-scroll gap-1 p-1'>
+    <div className='overflow-y-auto gap-1 p-1'>
       {loopDataArray.map((loop, index) => (
         <LoopItemContainer key={index} index={index} loopData={loop} />
       ))}

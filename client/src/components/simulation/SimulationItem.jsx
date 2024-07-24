@@ -12,10 +12,15 @@ import { FaArrowsTurnToDots } from 'react-icons/fa6';
 import { SimulationContext } from '../../context/SimulationContext';
 // Colours
 import {
+  DRAG_FUNCTION,
   DragFunctionColour,
+  MOVE_FUNCTION,
+  MOVE_TAP_FUNCTION,
   MoveFunctionColour,
   MoveTapFunctionColour,
+  TAP_FUNCTION,
   TapFunctionColour,
+  TIMEOUT_FUNCTION,
   TimeoutFunctionColour,
 } from '../../utils/design/Constants';
 
@@ -39,19 +44,19 @@ function SimulationItem({ dataIndex, dataPoint }) {
       </div>
       <div className='grid grid-cols-reg w-full h-full outline-black outline outline-2'>
         <div className='grid items-center bg-white px-1'>
-          {dataPoint.dataType === 'tap' && dataPoint.numFingers === 1 ? (
+          {dataPoint.dataType === TAP_FUNCTION && dataPoint.numFingers === 1 ? (
             <TbHandFinger />
-          ) : dataPoint.dataType === 'tap' && dataPoint.numFingers === 2 ? (
+          ) : dataPoint.dataType === TAP_FUNCTION && dataPoint.numFingers === 2 ? (
             <TbHandTwoFingers />
-          ) : dataPoint.dataType === 'tap' && dataPoint.numFingers === 3 ? (
+          ) : dataPoint.dataType === TAP_FUNCTION && dataPoint.numFingers === 3 ? (
             <TbHandThreeFingers />
-          ) : dataPoint.dataType === 'move_tap' ? (
+          ) : dataPoint.dataType === MOVE_TAP_FUNCTION ? (
             <FaArrowsTurnToDots />
-          ) : dataPoint.dataType === 'move' ? (
+          ) : dataPoint.dataType === MOVE_FUNCTION ? (
             <IoMdMove />
-          ) : dataPoint.dataType === 'drag' ? (
+          ) : dataPoint.dataType === DRAG_FUNCTION ? (
             <RiDragDropLine />
-          ) : dataPoint.dataType === 'timeout' ? (
+          ) : dataPoint.dataType === TIMEOUT_FUNCTION ? (
             <IoTimeOutline />
           ) : null}
         </div>
@@ -60,15 +65,15 @@ function SimulationItem({ dataIndex, dataPoint }) {
           className={`w-full h-full px-2`}
           style={{
             background:
-              dataPoint.dataType === 'tap'
+              dataPoint.dataType === TAP_FUNCTION
                 ? `linear-gradient(${TapFunctionColour}, #98e5bc)`
-                : dataPoint.dataType === 'move_tap'
+                : dataPoint.dataType === MOVE_TAP_FUNCTION
                 ? `linear-gradient(${MoveTapFunctionColour}, #e5d860)`
-                : dataPoint.dataType === 'move'
+                : dataPoint.dataType === MOVE_FUNCTION
                 ? `linear-gradient(${MoveFunctionColour}, #c4b5fd)`
-                : dataPoint.dataType === 'drag'
+                : dataPoint.dataType === DRAG_FUNCTION
                 ? `linear-gradient(${DragFunctionColour}, #f9a8d4)`
-                : dataPoint.dataType === 'timeout'
+                : dataPoint.dataType === TIMEOUT_FUNCTION
                 ? `linear-gradient(${TimeoutFunctionColour}, #93c5fd)`
                 : 'none',
           }}
@@ -76,13 +81,13 @@ function SimulationItem({ dataIndex, dataPoint }) {
           name='data_point'
           id='data_point'
           value={
-            dataPoint.dataType === 'tap' ||
-            dataPoint.dataType === 'move' ||
-            dataPoint.dataType === 'move_tap'
+            dataPoint.dataType === TAP_FUNCTION ||
+            dataPoint.dataType === MOVE_FUNCTION ||
+            dataPoint.dataType === MOVE_TAP_FUNCTION
               ? `x: ${dataPoint.xPos}, y: ${dataPoint.yPos}`
-              : dataPoint.dataType === 'timeout'
+              : dataPoint.dataType === TIMEOUT_FUNCTION
               ? `t: ${dataPoint.timeoutLength}`
-              : dataPoint.dataType === 'drag'
+              : dataPoint.dataType === DRAG_FUNCTION
               ? `x1: ${dataPoint.startxPos}, y1: ${dataPoint.startyPos} x2: ${dataPoint.finishxPos}, y2: ${dataPoint.finishyPos}`
               : null
           }

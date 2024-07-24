@@ -8,10 +8,16 @@ import client from '../../api/client';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import LoadingSpinner from '../../components/utils/LoadingSpinner';
+// Constants
+import {
+  HOME_PAGE_URL,
+  LOGIN_API,
+  LOGIN_PAGE_URL,
+} from '../../utils/Constants';
 
 function LoginPage() {
   const { setUser } = useContext(UserContext);
-  const { setActiveNav } = useContext(ToggleContext)
+  const { setActiveNav } = useContext(ToggleContext);
 
   const [loginInProgress, setLoginInProgress] = useState(false);
   const [loginError, setLoginError] = useState(false);
@@ -24,32 +30,31 @@ function LoginPage() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    setActiveNav('/login')
-  }, [])
+    setActiveNav(LOGIN_PAGE_URL);
+  }, []);
 
   const homePage = () => {
-    navigate('/', { replace: true });
+    navigate(HOME_PAGE_URL, { replace: true });
   };
 
   const handleLogin = (event) => {
     event.preventDefault();
 
-    setLoginInProgress(true)
+    setLoginInProgress(true);
     client
-      .post('/login', loginFormData, false)
+      .post(LOGIN_API, loginFormData, false)
       .then((res) => {
-
         localStorage.setItem(
           process.env.REACT_APP_USER_TOKEN,
           res.data.data.token
         );
-        setLoginInProgress(false)
+        setLoginInProgress(false);
         setUser(res.data.data.existingUser);
       })
       .then(() => homePage())
 
       .catch((err) => {
-        setLoginError(true)
+        setLoginError(true);
         console.error('Unable to login', err);
       });
   };
@@ -160,7 +165,9 @@ function LoginPage() {
                 </button>
                 {loginError && (
                   <div className='text-center'>
-                    <span className='text-red-700 font-semibold'>LOGIN FAILED</span>
+                    <span className='text-red-700 font-semibold'>
+                      LOGIN FAILED
+                    </span>
                   </div>
                 )}
                 <p className='font-light text-gray-500 dark:text-gray-400'>

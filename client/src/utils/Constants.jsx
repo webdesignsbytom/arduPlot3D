@@ -1,6 +1,9 @@
 // Routes
 export const CREATE_NEW_SIMULATION_API = '/simulations/user/create-new-simulation'
 export const SAVE_SIMULATION_API = '/simulations/user/save-simulation'
+export const PUBLISH_SIMULATION_API = '/simulations/user/publish-simulation-to-library'
+export const LIBRARY_SIMULATION_API = '/library/get-all-library-simulations'
+export const LOGIN_API = '/login'
 
 // Pages
 export const HOME_PAGE_URL = '/';

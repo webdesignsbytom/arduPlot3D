@@ -11,9 +11,6 @@ import LoopItemContainer from './LoopItemContainer';
 function SimulationDataPointDisplay() {
   const {
     simulationData,
-    setAddCreateLoopModalOpen,
-    displayLoopDataPoints,
-    displayLoopDataPointsIndex,
   } = useContext(SimulationContext);
 
   const [simulationDataObject, setSimulationDataObject] =
@@ -30,13 +27,8 @@ function SimulationDataPointDisplay() {
     endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [simulationDataObject]);
 
-  const addLoopToSimulation = (event) => {
-    event.preventDefault();
-    setAddCreateLoopModalOpen(true);
-  };
-
   return (
-    <div className='overflow-y-scroll gap-1 p-1' style={{ maxHeight: '80vh' }}>
+    <div className='overflow-y-auto gap-1 p-1' style={{ maxHeight: '80vh' }}>
       {/* Simulation datapoints */}
       {simulationDataObject.mainSimulationDataPoints.map((dataPoint, index) => {
         let isLastItem =
@@ -67,14 +59,6 @@ function SimulationDataPointDisplay() {
         }
       })}
       <div ref={endOfListRef} /> {/* Invisible div at the end of the list */}
-      <div className='mt-2'>
-        <button
-          onClick={(event) => addLoopToSimulation(event)}
-          className='bg-yellow-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
-        >
-          Add Loop +
-        </button>
-      </div>
     </div>
   );
 }

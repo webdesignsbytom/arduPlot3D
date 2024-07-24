@@ -2,12 +2,12 @@ import React, { useContext } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
 
-function ConsentAlert({ consentMessage, cancalFunction }) {
+function ConsentModal({ consentMessage, cancalFunction }) {
   const { runConsentFunction } = useContext(SimulationContext);
 
   return (
-    <section className='grid outline z-20 outline-yellow-400 outline-2 rounded-lg bg-white h-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-xl'>
-      <div className='grid grid-rows-[40px_1fr_auto]'>
+    <section className='grid outline z-20 outline-yellow-400 outline-2 rounded-lg bg-white h-1/2 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-2xl'>
+      <div className='grid grid-rows-[40px_1fr_auto] overflow-hidden'>
         {/* Header */}
         <section className='bg-yellow-400 w-full'>
           <div className='grid items-center text-center h-full'>
@@ -23,7 +23,7 @@ function ConsentAlert({ consentMessage, cancalFunction }) {
                 {consentMessage.title}
               </h4>
               <div className='w-2/3 mx-auto pt-6'>
-                <h5 className='text-black font-semibold'>
+                <h5 className='text-black'>
                   {consentMessage.message}
                 </h5>
               </div>
@@ -58,4 +58,4 @@ function ConsentAlert({ consentMessage, cancalFunction }) {
   );
 }
 
-export default ConsentAlert;
+export default ConsentModal;

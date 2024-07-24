@@ -4,7 +4,10 @@ import { ToggleContext } from '../../context/ToggleContext';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import DeviceSelectDropdownMenu from '../../components/menus/DeviceSelectDropdownMenu';
+// Data
 import { availableDevicesForSimulations } from '../../utils/design/AvailableDevices';
+// Constants
+import { CONFIGURATION_PAGE_URL } from '../../utils/Constants';
 
 function ConfigurationPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -13,7 +16,7 @@ function ConfigurationPage() {
   );
 
   useEffect(() => {
-    setActiveNav('/device-configuration');
+    setActiveNav(CONFIGURATION_PAGE_URL);
   }, []);
 
   const handleDeviceChange = (event) => {

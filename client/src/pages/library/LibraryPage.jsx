@@ -3,9 +3,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import client from '../../api/client';
 // Components
 import Navbar from '../../components/nav/Navbar';
+import LibrarySimItem from '../../components/library/LibrarySimItem';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
-import LibrarySimItem from '../../components/library/LibrarySimItem';
+// Constants
+import { LIBRARY_PAGE_URL, LIBRARY_SIMULATION_API } from '../../utils/Constants';
 
 function LibraryPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -13,12 +15,12 @@ function LibraryPage() {
   const [libraryOfSimulations, setLibraryOfSimulations] = useState([]);
 
   useEffect(() => {
-    setActiveNav('/');
+    setActiveNav(LIBRARY_PAGE_URL);
   }, []);
 
   useEffect(() => {
     client
-      .get(`/library/get-all-library-simulations`)
+      .get(`${LIBRARY_SIMULATION_API}`)
       .then((res) => {
         console.log(res.data.data.libraryFiles);
         setLibraryOfSimulations(res.data.data.libraryFiles);

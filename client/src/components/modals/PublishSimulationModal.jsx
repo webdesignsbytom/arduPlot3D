@@ -1,8 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 // Api
 import client from '../../api/client';
 // Context
 import { UserContext } from '../../context/UserContext';
+// Constants
+import { PUBLISH_SIMULATION_API } from '../../utils/Constants';
 
 function PublishSimulationModal({ closePublishModal }) {
   const { user } = useContext(UserContext);
@@ -11,7 +13,7 @@ function PublishSimulationModal({ closePublishModal }) {
   const publishNewSimulation = () => {
     client
       .patch(
-        `/simulations/user/publish-simulation-to-library/${user.id}/:simulationId`
+        `${PUBLISH_SIMULATION_API}/${user.id}/:simulationId`
       )
       .then((res) => {
         console.log(res.data.data.libraryFiles);
@@ -30,12 +32,12 @@ function PublishSimulationModal({ closePublishModal }) {
 
   return (
     <section className='grid outline outline-yellow-400 outline-2 z-20 rounded-lg bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-      <div className='p-2'>
+      <div className='py-2 px-4'>
         <div className='text-center'>
-          <h4 className=''>Publish to Library</h4>
+          <h4 className='text-lg'>Publish to Library</h4>
         </div>
 
-        <section className='mt-4'>
+        <section className='py-4'>
           <div className='grid w-full gap-2'>
             <div className='w-full'>
               <select
@@ -55,7 +57,7 @@ function PublishSimulationModal({ closePublishModal }) {
           </div>
         </section>
 
-        <section>
+        <section className='grid gap-2 pb-4'>
           <div className='my-2'>
             <h4 className='text-sm leading-5'>
               Add a desciption or readme style paragraph to allow other users to
@@ -76,16 +78,14 @@ function PublishSimulationModal({ closePublishModal }) {
           <div className='grid justify-center'>
             <button
               onClick={closePublishModal}
-              className='bg-red-400 active:scale-95 px-4 py-2 w-full rounded-lg'
-            >
+              className='grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-white cursor-pointer hover:brightness-110 active:scale-95'            >
               Close
             </button>
           </div>
           <div className='grid justify-center'>
             <button
               onClick={publishNewSimulation}
-              className='bg-yellow-400 active:scale-95 px-4 py-2 w-full rounded-lg'
-            >
+              className='grid bg-yellow-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-white cursor-pointer hover:brightness-110 active:scale-95'            >
               Publish
             </button>
           </div>

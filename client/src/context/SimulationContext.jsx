@@ -214,6 +214,7 @@ const SimulationContextProvider = ({ children }) => {
     setDisplayLoopDataPointsIndex(newLoopIndex);
     setAddCreateLoopModalOpen(false);
     setIsCreatingEditingLoop(true);
+    setDisplaySimOrLoop('simulation');
 
     // Use the spread operator to copy existing loops and add the new loop
     setSimulationData({

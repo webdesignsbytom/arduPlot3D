@@ -14,7 +14,7 @@ function UploadVideoModal({ closeUploadVideoModal }) {
 
   return (
     <section className='grid outline outline-yellow-400 outline-2 rounded-lg z-20 bg-white md:w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-      <div className='py-2 px-2'>
+      <div className='py-2 px-4'>
         <div className='text-center'>
           <h4 className='text-lg'>Upload Video</h4>
           <div className='pt-1'>

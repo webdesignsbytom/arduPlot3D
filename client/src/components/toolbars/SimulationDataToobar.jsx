@@ -10,7 +10,7 @@ import SimulationDataPointDisplay from '../simulation/SimulationDataPointDisplay
 import { FaArrowAltCircleRight } from 'react-icons/fa';
 
 function SimulationDataToobar({ setSimulationDataIsOpen }) {
-  const { displaySimOrLoop, isCreatingEditingLoop } =
+  const { displaySimOrLoop, isCreatingEditingLoop, setAddCreateLoopModalOpen } =
     useContext(SimulationContext);
 
   // Close this container
@@ -18,12 +18,16 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
     setSimulationDataIsOpen(false);
   };
 
+  const addLoopToSimulation = (event) => {
+    event.preventDefault();
+    setAddCreateLoopModalOpen(true);
+  };
+
   return (
     <section className='bg-white h-full grid grid-rows-reg border-l-2 border-solid border-black px-1 py-2 overflow-hidden'>
       {/* Header data */}
       <article className='grid h-fit'>
         <section className='grid grid-cols-reg mb-2'>
-
           <div className='grid ml-2 items-center justify-center'>
             <FaArrowAltCircleRight
               onClick={hideContainer}
@@ -49,7 +53,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
       </article>
 
       {/* Plot point information */}
-      <section className='grid h-full w-full overflow-hidden'>
+      <section className='grid grid-rows-rev h-full w-full overflow-hidden'>
         <div className='grid grid-rows-reg h-full w-full overflow-hidden'>
           {/* Sim or Loop selection Buttons */}
           {!isCreatingEditingLoop && <SimLoopButtons />}
@@ -73,6 +77,17 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
             </form>
           )}
         </div>
+
+        {!isCreatingEditingLoop && (
+          <div className='grid h-fit mt-2 px-1'>
+            <button
+              onClick={(event) => addLoopToSimulation(event)}
+              className='bg-yellow-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
+            >
+              Add Loop +
+            </button>
+          </div>
+        )}
       </section>
     </section>
   );

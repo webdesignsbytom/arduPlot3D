@@ -1,16 +1,18 @@
 import React, { useContext, useEffect } from 'react';
 // Images
-import TreeBG from '../../assets/images/pages/404cat.png';
+import CatImage from '../../assets/images/pages/404cat.png';
 // Components
 import Navbar from '../../components/nav/Navbar';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
+// Constants
+import { ERROR_404_PAGE_URL } from '../../utils/Constants';
 
 function Error404() {
   const { setActiveNav } = useContext(ToggleContext)
 
   useEffect(() => {
-    setActiveNav('*')
+    setActiveNav(ERROR_404_PAGE_URL)
   }, [])
   
   return (
@@ -33,7 +35,7 @@ function Error404() {
               </section>
             </section>
             <section className='flex lg:justify-end lg:mr-20'>
-              <img src={TreeBG} alt='lost cat' />
+              <img src={CatImage} alt='lost cat' />
             </section>
           </main>
         </div>

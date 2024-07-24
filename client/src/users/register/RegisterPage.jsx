@@ -4,12 +4,14 @@ import RegisterForm from '../../components/forms/RegisterForm';
 import Navbar from '../../components/nav/Navbar';
 // Context
 import { ToggleContext } from '../../context/ToggleContext';
+// Constants
+import { SIGN_UP_PAGE_URL } from '../../utils/Constants';
 
 function RegisterPage() {
   const { setActiveNav } = useContext(ToggleContext)
 
   useEffect(() => {
-    setActiveNav('/sign-up')
+    setActiveNav(SIGN_UP_PAGE_URL)
   }, [])
   
   return (

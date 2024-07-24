@@ -44,7 +44,7 @@ function NewEditLoopData() {
   };
 
   return (
-    <div className='grid overflow-y-scroll h-full w-full px-1'>
+    <div className='grid overflow-y-auto h-full w-full px-1'>
       <section className='grid w-full mb-2'>
         <div className='grid w-full'>
           <label htmlFor='loop_title' className='text-xs mb-1 text-left'>

@@ -4,7 +4,7 @@ import client from '../../api/client';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import CanvasDesignTool from '../../components/canvas/CanvasDesignTool';
-import ConsentAlert from '../../components/utils/ConsentAlert';
+import ConsentModal from '../../components/modals/ConsentModal';
 import TapSettingsModal from '../../components/modals/TapSettingsModal';
 import MovementSettingsModal from '../../components/modals/MovementSettingsModal';
 import DragSettingsModal from '../../components/modals/DragSettingsModal';
@@ -294,18 +294,6 @@ function SimulationDesignPage() {
     setDeviceSelectionModalOpen(false);
   };
 
-  // Close all modals master
-  const closeAllModalsMaster = () => {
-    setDeviceSelectionModalOpen(false);
-    setTapSettingsModalOpen(false);
-    setMovementSettingsModalOpen(false);
-    setDragSettingsModalOpen(false);
-    setTimeoutModalOpen(false);
-    closeUploadVideoModal(false);
-    setIsPublishModalOpen(false);
-    setSaveAsModalOpen(false);
-    setLoadModalOpen(false);
-  };
 
   const openUploadVideoModal = () => {
     closeAllModalsMaster();
@@ -394,6 +382,23 @@ function SimulationDesignPage() {
   const loadSimulationFile = () => {
     console.log('AAA');
   };
+
+    // Close all modals master
+    const closeAllModalsMaster = () => {
+      setDeviceSelectionModalOpen(false);
+      setTapSettingsModalOpen(false);
+      setMovementSettingsModalOpen(false);
+      setDragSettingsModalOpen(false);
+      setTimeoutModalOpen(false);
+      closeUploadVideoModal(false);
+      setIsPublishModalOpen(false);
+      setSaveAsModalOpen(false);
+      setLoadModalOpen(false);
+      setConsentMessageVisible(false)
+      
+      setConsentMessageVisible('');
+      setConsentMessage('');
+    };
 
   return (
     <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
@@ -492,7 +497,7 @@ function SimulationDesignPage() {
               />
             </div>
           )}
-          <section className={`${simulationDataIsOpen ? '' : 'hidden'}`}>
+          <section className={`${simulationDataIsOpen ? 'grid overflow-hidden' : 'hidden'}`}>
             <SimulationDataToobar
               setSimulationDataIsOpen={setSimulationDataIsOpen}
             />
@@ -502,7 +507,7 @@ function SimulationDesignPage() {
 
       {/* Popup modals */}
       {consentMessageVisible && (
-        <ConsentAlert
+        <ConsentModal
           consentMessage={consentMessage}
           cancalFunction={cancelFunction}
         />
