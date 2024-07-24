@@ -410,7 +410,7 @@ function SimulationDesignPage() {
         <section className='grid h-full overflow-hidden max-w-full'>
           {/* Open close button */}
           {!userMenuIsOpen && (
-            <div className='grid mt-2 ml-2 p-1 bg-yellow-400 h-fit items-center justify-center rounded-full shadow-lg'>
+            <div className='grid mt-2 ml-2 p-1 bg-main-colour h-fit items-center justify-center rounded-full shadow-lg'>
               <FaClipboardList
                 size={20}
                 onClick={() => setUserMenuIsOpen(true)}
@@ -488,7 +488,7 @@ function SimulationDesignPage() {
         {/* data bar */}
         <section className={`grid overflow-hidden h-full max-w-[300px]`}>
           {!simulationDataIsOpen && (
-            <div className='grid mt-2 mr-2 p-1 bg-yellow-400 h-fit items-center justify-center rounded-full shadow-lg'>
+            <div className='grid mt-2 mr-2 p-1 bg-main-colour h-fit items-center justify-center rounded-full shadow-lg'>
               <FaClipboardList
                 size={20}
                 onClick={() => setSimulationDataIsOpen(true)}

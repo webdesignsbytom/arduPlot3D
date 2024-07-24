@@ -189,7 +189,7 @@ function SimulationPageTopToolBar({
         </div>
 
         {/* Divider */}
-        <div className='bg-yellow-400 h-full w-[2px] outline outline-black outline-1 rounded-3xl'></div>
+        <div className='bg-main-colour h-full w-[2px] outline outline-black outline-1 rounded-3xl'></div>
 
         {toolButtons.map((button, index) => (
           <button
@@ -199,7 +199,7 @@ function SimulationPageTopToolBar({
             className={`px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights ${
               button.selected
                 ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-                : 'bg-yellow-400 hover:bg-yellow-100'
+                : 'bg-main-colour hover:bg-yellow-100'
             } rounded-md`}
           >
             {button.icon}
@@ -207,7 +207,7 @@ function SimulationPageTopToolBar({
         ))}
 
         {/* Divider */}
-        <div className='bg-yellow-400 h-full w-[2px] outline outline-black outline-1 rounded-3xl'></div>
+        <div className='bg-main-colour h-full w-[2px] outline outline-black outline-1 rounded-3xl'></div>
 
         <div className='grid grid-cols-4 w-fit gap-2'>
           {displayButtons.map((button, index) => (
@@ -218,7 +218,7 @@ function SimulationPageTopToolBar({
               className={`px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights ${
                 button.selected
                   ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-                  : 'bg-yellow-400 hover:bg-yellow-100'
+                  : 'bg-main-colour hover:bg-yellow-100'
               } rounded-md`}
             >
               {button.icon}

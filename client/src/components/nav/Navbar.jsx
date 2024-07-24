@@ -24,7 +24,7 @@ function Navbar() {
   };
 
   return (
-    <nav className='h-full relative z-30 grid grid-cols-reg bg-yellow-400 py-2 border-b-2 border-solid border-black'>
+    <nav className='h-full relative z-30 grid grid-cols-reg bg-main-colour py-2 border-b-2 border-solid border-black'>
       <section className='grid items-center justify-center pl-4'>
         <Link className='no__highlights' to='/'>
           <img

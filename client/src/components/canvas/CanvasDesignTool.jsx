@@ -579,7 +579,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   return (
     <div className={`relative grid justify-center items-center`}>
       {rulersVisible && (
-        <div className='absolute grid grid-cols-rev top-1 right-1 z-10 outline outline-yellow-400 outline-1 rounded-xl px-6 py-1'>
+        <div className='absolute grid grid-cols-rev top-1 right-1 z-10 outline outline-main-colour outline-1 rounded-xl px-6 py-1'>
           {isPxOrMmDimensions ? (
             <div>Dimensions: mm </div>
           ) : (
@@ -595,7 +595,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       )}
 
       <div className='grid absolute top-1 left-1/2 transform -translate-x-1/2'>
-        <div className='outline outline-yellow-400 outline-1 rounded-xl px-4 py-1 grid justify-center items-center'>
+        <div className='outline outline-main-colour outline-1 rounded-xl px-4 py-1 grid justify-center items-center'>
           {simulationData.simulationTimeToComplete} seconds
         </div>
       </div>
@@ -610,12 +610,12 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         {rulersVisible && (
           <>
             <div
-              className='flex absolute left-0 bottom-[100.5%] bg-yellow-400 rounded outline outline-[1px] outline-black'
+              className='flex absolute left-0 bottom-[100.5%] bg-main-colour rounded outline outline-[1px] outline-black'
               ref={rulerRefX}
               style={{ justifyContent: 'space-between', width: '100%' }}
             ></div>
             <div
-              className='flex flex-col absolute right-[100.5%] text-right top-0 bg-yellow-400 rounded outline outline-[1px] outline-black'
+              className='flex flex-col absolute right-[100.5%] text-right top-0 bg-main-colour rounded outline outline-[1px] outline-black'
               ref={rulerRefY}
               style={{ justifyContent: 'space-between', height: '100%' }}
             ></div>
@@ -624,7 +624,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       </div>
       {positionOfMouseAndCanvasVisible && (
         <div
-          className={`grid grid-cols-reg gap-2 absolute left-1 top-1 bg-white z-50 outline outline-yellow-400 outline-1 rounded-xl px-4 py-1`}
+          className={`grid grid-cols-reg gap-2 absolute left-1 top-1 bg-white z-50 outline outline-main-colour outline-1 rounded-xl px-4 py-1`}
         >
           <div className='grid items-center justify-center pr-1'>
             <FaMousePointer />

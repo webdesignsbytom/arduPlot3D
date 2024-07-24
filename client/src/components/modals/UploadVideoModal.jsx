@@ -13,7 +13,7 @@ function UploadVideoModal({ closeUploadVideoModal }) {
   };
 
   return (
-    <section className='grid outline outline-yellow-400 outline-2 rounded-lg z-20 bg-white md:w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+    <section className='grid outline outline-main-colour outline-2 rounded-lg z-20 bg-white md:w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='py-2 px-4'>
         <div className='text-center'>
           <h4 className='text-lg'>Upload Video</h4>
@@ -42,7 +42,7 @@ function UploadVideoModal({ closeUploadVideoModal }) {
               </div>
 
               <div className='grid items-center'>
-                <button className='outline outline-1 outline-yellow-400 bg-white active:scale-95 px-4 py-2 w-full rounded-lg hover:text-white hover:bg-yellow-400'>
+                <button className='outline outline-1 outline-main-colour bg-white active:scale-95 px-4 py-2 w-full rounded-lg hover:text-white hover:bg-main-colour'>
                   Add
                 </button>
               </div>
@@ -54,7 +54,7 @@ function UploadVideoModal({ closeUploadVideoModal }) {
           <div className='grid justify-center'>
             <button
               onClick={closeUploadVideoModal}
-              className='bg-yellow-400 active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
+              className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
             >
               Close
             </button>

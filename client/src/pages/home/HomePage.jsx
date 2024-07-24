@@ -28,7 +28,7 @@ function HomePage() {
       {/* Main */}
       <main className='grid h-full p-1 items-center justify-center'>
         <section>
-          <div className='grid text-center outline outline-2 outline-black rounded-xl bg-yellow-400 px-6 py-8'>
+          <div className='grid text-center outline outline-2 outline-black rounded-xl bg-main-colour px-6 py-8'>
             <article className=''>
               <div>
                 <h2 className='text-xl font-semibold'>Welcome To</h2>

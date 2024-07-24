@@ -56,7 +56,7 @@ function NewEditLoopData() {
             type='text'
             value={loopDataBeingEdited.loopTitle}
             onChange={handleChangeLoopTitleName}
-            className='outline outline-yellow-400 outline-1 rounded-xl px-1 py-1 bg-white w-full'
+            className='outline outline-main-colour outline-1 rounded-xl px-1 py-1 bg-white w-full'
           />
         </div>
       </section>

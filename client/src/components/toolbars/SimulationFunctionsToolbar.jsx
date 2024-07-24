@@ -96,7 +96,7 @@ function SimulationFunctionsToolbar({
           <FaArrowAltCircleLeft
             onClick={hideContainer}
             title="Hide"
-            className="hover:brightness-90 cursor-pointer text-yellow-400"
+            className="hover:brightness-90 cursor-pointer text-main-colour"
             size={20}
           />
         </div>

@@ -34,7 +34,7 @@ function LoopsMenuDisplay() {
       <div className='mt-2'>
         <button
           onClick={(event) => createNewLoop(event)}
-          className='bg-yellow-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
+          className='bg-main-colour rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
         >
           Create New Loop +
         </button>

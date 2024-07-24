@@ -35,7 +35,7 @@ function AddLoopToSimulationModal() {
   };
 
   return (
-    <section className='grid outline outline-yellow-400 outline-2 rounded-lg z-20 bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+    <section className='grid outline outline-main-colour outline-2 rounded-lg z-20 bg-white w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='py-2 px-4'>
         <div className='text-center'>
           <h4 className='text-lg'>Add Loop</h4>
@@ -51,7 +51,7 @@ function AddLoopToSimulationModal() {
           <section className='grid grid-cols-rev gap-2'>
             <div className='grid w-full text-center'>
               <select
-                className='outline outline-1 outline-yellow-400 px-1 rounded-lg w-full min-w-[200px]'
+                className='outline outline-1 outline-main-colour px-1 rounded-lg w-full min-w-[200px]'
                 onChange={handleLoopChange}
               >
                 {availableLoops.map((loop, index) => (
@@ -64,7 +64,7 @@ function AddLoopToSimulationModal() {
             <div>
               <button
                 onClick={() => addLoopToSimulation()}
-                className='outline outline-1 outline-yellow-400 bg-white active:scale-95 px-4 py-2 w-full rounded-lg hover:text-white hover:bg-yellow-400'
+                className='outline outline-1 outline-main-colour bg-white active:scale-95 px-4 py-2 w-full rounded-lg hover:text-white hover:bg-main-colour'
               >
                 Add
               </button>
@@ -75,7 +75,7 @@ function AddLoopToSimulationModal() {
             <div className='grid justify-center'>
               <button
                 onClick={createNewLoop}
-                className='outline outline-1 outline-yellow-400 bg-white active:scale-95 px-4 py-2 w-full rounded-lg hover:text-white hover:bg-yellow-400'
+                className='outline outline-1 outline-main-colour bg-white active:scale-95 px-4 py-2 w-full rounded-lg hover:text-white hover:bg-main-colour'
               >
                 Create New Loop
               </button>
@@ -87,7 +87,7 @@ function AddLoopToSimulationModal() {
           <div className='grid justify-center'>
             <button
               onClick={closeModal}
-              className='bg-yellow-400 active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
+              className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
             >
               Close
             </button>

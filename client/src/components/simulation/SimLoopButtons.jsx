@@ -22,7 +22,7 @@ function SimLoopButtons() {
           className={`${
             displaySimOrLoop === 'simulation'
               ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-              : 'bg-yellow-400'
+              : 'bg-main-colour'
           } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
         >
           Simulation
@@ -35,7 +35,7 @@ function SimLoopButtons() {
           className={`${
             displaySimOrLoop === 'loop'
               ? 'bg-white shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-              : 'bg-yellow-400'
+              : 'bg-main-colour'
           } px-2 rounded-lg text-black w-full outline outline-black outline-2 hover:brightness-90 active:scale-95`}
         >
           Loops

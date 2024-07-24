@@ -32,7 +32,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
             <FaArrowAltCircleRight
               onClick={hideContainer}
               title='Hide'
-              className='hover:brightness-90 cursor-pointer text-yellow-400'
+              className='hover:brightness-90 cursor-pointer text-main-colour'
               size={20}
             />
           </div>
@@ -82,7 +82,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
           <div className='grid h-fit mt-2 px-1'>
             <button
               onClick={(event) => addLoopToSimulation(event)}
-              className='bg-yellow-400 rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
+              className='bg-main-colour rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
             >
               Add Loop +
             </button>
