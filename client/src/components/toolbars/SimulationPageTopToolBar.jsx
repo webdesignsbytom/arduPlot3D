@@ -16,7 +16,14 @@ import { HiCursorArrowRipple } from 'react-icons/hi2';
 import { GiArrowCursor } from 'react-icons/gi';
 import { FaArrowsTurnToDots } from 'react-icons/fa6';
 import { IoMdInfinite } from 'react-icons/io';
-import { availablePointsToDisplayData } from '../../utils/design/Constants';
+import {
+  availablePointsToDisplayData,
+  DRAG_FUNCTION,
+  MOVE_FUNCTION,
+  MOVE_TAP_FUNCTION,
+  TAP_FUNCTION,
+  TIMEOUT_FUNCTION,
+} from '../../utils/design/Constants';
 
 function SimulationPageTopToolBar({
   drawConnectingLines,
@@ -46,10 +53,8 @@ function SimulationPageTopToolBar({
   // Context
   const {
     rulersVisible,
-    simulationIsRunning,
     isLandscapeMode,
     selectedDevice,
-    displaySimOsrLoop,
     numberOfDataPointsToDisplay,
     setPointsToDisplaySettings,
   } = useContext(SimulationContext);
@@ -145,12 +150,12 @@ function SimulationPageTopToolBar({
           {/* Times length */}
           <div className='text-xs'>
             <div>
-              {simulationToolSelected === 'tap' ? (
+              {simulationToolSelected === TAP_FUNCTION ? (
                 <div>
                   <label htmlFor='tap_speed'>Tap speed</label>
                   <div>{speedOfFingerMoving} mm/s</div>
                 </div>
-              ) : simulationToolSelected === 'move_tap' ? (
+              ) : simulationToolSelected === MOVE_TAP_FUNCTION ? (
                 <div className='grid grid-cols-2'>
                   <div>
                     <label htmlFor='tap_speed'>Tap speed</label>
@@ -161,19 +166,19 @@ function SimulationPageTopToolBar({
                     <div>{speedOfArmMoving} mm/s</div>
                   </div>
                 </div>
-              ) : simulationToolSelected === 'drag' ? (
+              ) : simulationToolSelected === DRAG_FUNCTION ? (
                 <div>
                   <label htmlFor='drag_speed'>Drag speed</label>
                   <div>{speedOfDraggingArmMoving} mm/s</div>
                 </div>
-              ) : simulationToolSelected === 'timeout' ? (
+              ) : simulationToolSelected === TIMEOUT_FUNCTION ? (
                 <div>
                   <label htmlFor='timeout_length'>Timeout</label>
                   <div>
                     {timeoutLength} {timeoutUnitSelected.symbol}
                   </div>
                 </div>
-              ) : simulationToolSelected === 'move' ? (
+              ) : simulationToolSelected === MOVE_FUNCTION ? (
                 <div>
                   <label htmlFor='movement_speed'>Movement Sp</label>
                   <div>{speedOfArmMoving} mm/s</div>

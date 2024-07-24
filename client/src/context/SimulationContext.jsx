@@ -14,7 +14,13 @@ import {
   blankSimulationObject,
   tempDesignData,
 } from '../utils/design/TempData';
-import { availablePointsToDisplayData } from '../utils/design/Constants';
+import {
+  availablePointsToDisplayData,
+  CLEAR_ALL_DATAPOINT_FUNC,
+  CREATE_NEW_SIM_FUNC,
+  DELETE_LOOP_FUNC,
+} from '../utils/design/Constants';
+import { ConfirmDeleteLoop } from '../utils/design/ConfrimMessages';
 
 export const SimulationContext = React.createContext();
 
@@ -101,8 +107,7 @@ const SimulationContextProvider = ({ children }) => {
 
   // Popup modals
   const [consentMessageVisible, setConsentMessageVisible] = useState('');
-  const [consentMessage, setConsentMessage] = useState('');
-  const [consentFunction, setConsentFunction] = useState('');
+  const [consentMessage, setConsentMessage] = useState({});
 
   // Save new or edited loop
   const saveLoopPerminently = () => {
@@ -205,11 +210,11 @@ const SimulationContextProvider = ({ children }) => {
       loopTitle: newLoopName, // Update the loop title with the new name
     };
 
-    setLoopDataBeingEdited(newLoop)
-    setDisplayLoopDataPointsIndex(newLoopIndex)
+    setLoopDataBeingEdited(newLoop);
+    setDisplayLoopDataPointsIndex(newLoopIndex);
     setAddCreateLoopModalOpen(false);
     setIsCreatingEditingLoop(true);
-    
+
     // Use the spread operator to copy existing loops and add the new loop
     setSimulationData({
       ...simulationData,
@@ -235,8 +240,7 @@ const SimulationContextProvider = ({ children }) => {
 
     setLoopToDeleteIndex(index);
     setConsentMessageVisible(true);
-    setConsentMessage('Are you sure you want to permanently delete this loop?');
-    setConsentFunction('deleteSavedLoop');
+    setConsentMessage(ConfirmDeleteLoop);
   };
 
   const deleteSavedLoop = () => {
@@ -251,24 +255,33 @@ const SimulationContextProvider = ({ children }) => {
       simulationLoops: updatedLoops,
     });
 
-    setIsCreatingEditingLoop(false); 
+    setIsCreatingEditingLoop(false);
   };
 
-  const runConsentFunction = () => {
+  // Click agree in concent modal
+  const runConsentFunction = (consentFunction) => {
     switch (consentFunction) {
-      case 'clearAllDataPoints':
+      case CLEAR_ALL_DATAPOINT_FUNC:
         clearAllDataPointsFromSimulation();
         break;
-      case 'deleteSavedLoop':
+      case DELETE_LOOP_FUNC:
         deleteSavedLoop();
+        break;
+      case CREATE_NEW_SIM_FUNC:
         break;
       default:
         console.log('No matching action found');
     }
 
+    setBlankConsentMessage();
+  };
+
+  // Clear state
+  const setBlankConsentMessage = () => {
     setConsentMessageVisible('');
     setConsentMessage('');
   };
+
   return (
     <SimulationContext.Provider
       value={{
@@ -353,8 +366,6 @@ const SimulationContextProvider = ({ children }) => {
         setConsentMessageVisible,
         consentMessage,
         setConsentMessage,
-        consentFunction,
-        setConsentFunction,
         runConsentFunction,
         saveLoopPerminently,
       }}

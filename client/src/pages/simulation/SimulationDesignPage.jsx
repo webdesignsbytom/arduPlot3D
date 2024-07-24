@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 // Api
 import client from '../../api/client';
 // Components
@@ -22,22 +22,27 @@ import { ToggleContext } from '../../context/ToggleContext';
 import { SimulationContext } from '../../context/SimulationContext';
 import { UserContext } from '../../context/UserContext';
 // Configuration modal
-import { confirmationModalMessages } from '../../utils/design/ConfrimMessage';
+import {
+  ConfirmClearAllDataPoints,
+  ConfirmCreateNewProject,
+} from '../../utils/design/ConfrimMessages';
 import LoadSimulationModal from '../../components/modals/LoadSimulationModal';
 import PublishSimulationModal from '../../components/modals/PublishSimulationModal';
 // Icons
 import { FaClipboardList } from 'react-icons/fa';
 // Constants
 import {
-  CREATE_NEW_SIMULATION,
   DRAG_FUNCTION,
   MOVE_FUNCTION,
   MOVE_TAP_FUNCTION,
-  SAVE_SIMULATION,
-  SIMULATION_PAGE_URL,
   TAP_FUNCTION,
   TIMEOUT_FUNCTION,
 } from '../../utils/design/Constants';
+import {
+  SIMULATION_PAGE_URL,
+  SAVE_SIMULATION_API,
+  CREATE_NEW_SIMULATION_API,
+} from '../../utils/Constants';
 
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -78,26 +83,20 @@ function SimulationDesignPage() {
     setConsentMessageVisible,
     consentMessage,
     setConsentMessage,
-    setConsentFunction,
     simulationData,
   } = useContext(SimulationContext);
 
   // Video modal
   const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
-
   // Device selection
   const [deviceSelectionModalOpen, setDeviceSelectionModalOpen] =
     useState(false);
-
   // Save
   const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
-
   // Load
   const [loadModalOpen, setLoadModalOpen] = useState(false);
-
   // Reset
   const [isResettingAnimation, setIsResettingAnimation] = useState(false);
-
   // Left menu
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
   const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
@@ -107,9 +106,8 @@ function SimulationDesignPage() {
   }, []);
 
   const clearAllDataPoints = () => {
-    setConsentMessage(confirmationModalMessages[0]);
+    setConsentMessage(ConfirmClearAllDataPoints);
     setConsentMessageVisible(true);
-    setConsentFunction('clearAllDataPoints');
   };
 
   const resetSimulationToStartingPoint = () => {
@@ -186,23 +184,19 @@ function SimulationDesignPage() {
   // Create new simulation
   const createNewSimulationFile = () => {
     closeAllModalsMaster();
-    setConsentMessage(confirmationModalMessages[1]);
+    setConsentMessage(ConfirmCreateNewProject);
     setConsentMessageVisible(true);
   };
-  const confirmNewSimulation = () => {
-    setConsentMessage('');
-    setConsentMessageVisible(false);
-    //clearAllDataPointsFromSimulation();
-  };
-  const cancelNewSimulation = () => {
-    setConsentMessage('');
+
+  const cancelFunction = () => {
+    setConsentMessage({});
     setConsentMessageVisible(false);
   };
 
   // Save simulation
   const saveCurrentSimulationFile = () => {
     client
-      .post(`${SAVE_SIMULATION}/${user.id}`,simulationData)
+      .post(`${SAVE_SIMULATION_API}/${user.id}`, simulationData)
       .then((res) => {
         console.log('RES', res.data.data.newSimulation);
       })
@@ -238,7 +232,7 @@ function SimulationDesignPage() {
     setIsSavingFile(true);
 
     client
-      .post(`${CREATE_NEW_SIMULATION}/${user.id}`, simulationData)
+      .post(`${CREATE_NEW_SIMULATION_API}/${user.id}`, simulationData)
       .then((res) => {
         console.log('res', res);
         setIsSavingFile(false);
@@ -505,7 +499,7 @@ function SimulationDesignPage() {
       {consentMessageVisible && (
         <ConsentAlert
           consentMessage={consentMessage}
-          cancalFunction={cancelNewSimulation}
+          cancalFunction={cancelFunction}
         />
       )}
 

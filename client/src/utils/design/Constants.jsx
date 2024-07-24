@@ -1,4 +1,4 @@
-export const CanvasMainColour = '#bee0ec'
+export const CanvasMainColour = '#2eaedb'
 
 // Tap function names
 export const TAP_FUNCTION = 'tap'
@@ -22,9 +22,8 @@ export const availablePointsToDisplayData = [
     '10'
 ]
 
-// Routes
-export const CREATE_NEW_SIMULATION = '/simulations/user/create-new-simulation'
-export const SAVE_SIMULATION = '/simulations/user/save-simulation'
 
-// Pages
-export const SIMULATION_PAGE_URL = '/design'
+// Function 
+export const CLEAR_ALL_DATAPOINT_FUNC = 'clearAllDataPoints'
+export const DELETE_LOOP_FUNC = 'deleteSavedLoop'
+export const CREATE_NEW_SIM_FUNC = 'createNewProject'

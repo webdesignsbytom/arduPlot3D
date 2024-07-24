@@ -7,12 +7,16 @@ import { FaMousePointer } from 'react-icons/fa';
 // Constants
 import {
   CanvasMainColour,
+  DRAG_FUNCTION,
   DragFunctionColour,
+  MOVE_FUNCTION,
+  MOVE_TAP_FUNCTION,
   MoveFunctionColour,
   MoveTapFunctionColour,
+  TAP_FUNCTION,
   TapFunctionColour,
+  TIMEOUT_FUNCTION,
   TimeoutFunctionColour,
-  availablePointsToDisplayData,
 } from '../../utils/design/Constants';
 
 function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
@@ -29,22 +33,15 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     numberOfFingerTapping,
     speedOfFingerMoving,
     timeoutLength,
-    timeoutUnitSelected,
-    dragSettingsModalOpen,
-    speedOfDraggingArmMoving,
     selectedDevice,
     speedOfArmMoving,
     isCreatingEditingLoop,
-    setDataCollection,
-    dataCollection,
-    setSimulationDataPoints,
     isLandscapeMode,
     rulersVisible,
     isPxOrMmDimensions,
     setIsPxOrMmDimensions,
     loopDataBeingEdited,
     setLoopDataBeingEdited,
-    displaySimOrLoop,
     numberOfDataPointsToDisplay,
   } = useContext(SimulationContext);
 
@@ -186,19 +183,19 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const sortDataElements = (element, markerIndex) => {
     // Use markerIndex for drawing the point
     switch (element.dataType) {
-      case 'tap':
+      case TAP_FUNCTION:
         drawPlotPoint(element, TapFunctionColour, markerIndex);
         break;
-      case 'move':
+      case MOVE_FUNCTION:
         drawPlotPoint(element, MoveFunctionColour, markerIndex);
         break;
-      case 'move_tap':
+      case MOVE_TAP_FUNCTION:
         drawPlotPoint(element, MoveTapFunctionColour, markerIndex);
         break;
-      case 'drag':
+      case DRAG_FUNCTION:
         drawPlotPoint(element, DragFunctionColour, markerIndex);
         break;
-      case 'timeout':
+      case TIMEOUT_FUNCTION:
         drawPlotPoint(element, TimeoutFunctionColour, markerIndex);
         break;
       default:
@@ -212,7 +209,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
     if (!isCreatingDragDataPoint) {
       context.beginPath();
-      if (newDataPoint.dataType !== 'drag') {
+      if (newDataPoint.dataType !== DRAG_FUNCTION) {
         context.arc(
           newDataPoint.xPos,
           newDataPoint.yPos,
@@ -230,7 +227,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         );
       } else {
         // Is drag data point
-        console.log('11111111111111');
         context.arc(
           newDataPoint.startxPos,
           newDataPoint.startyPos,
@@ -404,19 +400,19 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     }
 
     switch (simulationToolSelected) {
-      case 'tap':
+      case TAP_FUNCTION:
         createTapDataPoint(offsetX, offsetY, dataGroup);
         break;
-      case 'move':
+      case MOVE_FUNCTION:
         createMoveDataPoint(offsetX, offsetY, dataGroup);
         break;
-      case 'move_tap':
+      case MOVE_TAP_FUNCTION:
         createMoveAndTapDataPoint(offsetX, offsetY, dataGroup);
         break;
-      case 'drag':
+      case DRAG_FUNCTION:
         createDragDataPoint(offsetX, offsetY, dataGroup);
         break;
-      case 'timeout':
+      case TIMEOUT_FUNCTION:
         createTimeoutDataPoint(offsetX, offsetY, dataGroup);
         break;
       default:
