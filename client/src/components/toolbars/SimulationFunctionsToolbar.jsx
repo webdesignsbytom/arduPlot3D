@@ -83,7 +83,7 @@ function SimulationFunctionsToolbar({
 
   return (
     <section
-      className={`bg-secondary-colour overflow-y-auto scrollbar_hidden border-r-2 border-solid border-black ${userMenuIsOpen ? '' : 'hidden'}`}
+      className={`bg-secondary-colour h-full overflow-y-auto scrollbar_hidden border-r-2 border-solid border-black ${userMenuIsOpen ? '' : 'hidden'}`}
     >
      <div className='p-2'>
        {/* Header data */}

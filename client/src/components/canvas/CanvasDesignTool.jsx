@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
-// Icons
-import { IoReloadCircle } from 'react-icons/io5';
-import { FaMousePointer } from 'react-icons/fa';
 // Constants
 import {
   CanvasMainColour,
@@ -18,6 +15,15 @@ import {
   TIMEOUT_FUNCTION,
   TimeoutFunctionColour,
 } from '../../utils/design/Constants';
+import DataBarComponent from './DataBarComponent';
+import {
+  createDragDataPoint,
+  createMoveAndTapDataPoint,
+  createMoveDataPoint,
+  createTapDataPoint,
+  createTimeoutDataPoint,
+  setSecondDragPoint,
+} from '../../utils/design/UtilFunctions';
 
 function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const {
@@ -37,7 +43,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     speedOfArmMoving,
     isCreatingEditingLoop,
     isLandscapeMode,
-    rulersVisible,
+    rulesAndDataVisible,
     isPxOrMmDimensions,
     setIsPxOrMmDimensions,
     loopDataBeingEdited,
@@ -84,11 +90,11 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     context.lineWidth = 5;
     contextRef.current = context;
 
-    if (rulersVisible) {
+    if (rulesAndDataVisible) {
       // Setup rulers if visible
       setupRulers();
     }
-  }, [isLandscapeMode, rulersVisible, selectedDevice]);
+  }, [isLandscapeMode, rulesAndDataVisible, selectedDevice]);
 
   useEffect(() => {
     const storedSimulationData = localStorage.getItem('simulationData');
@@ -344,12 +350,129 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     }
   };
 
-  const updatePositionMarker = ({ nativeEvent }) => {
-    if (positionOfMouseAndCanvasVisible) {
-      const { offsetX, offsetY } = nativeEvent;
+  const createMarker = ({ nativeEvent }) => {
+    const { offsetX, offsetY } = nativeEvent;
 
-      setTooltip({ x: offsetX, y: offsetY });
+    // Create second drag marker
+    if (isCreatingDragDataPoint) {
+      setSecondDragPoint(
+        offsetX,
+        offsetY,
+        tempDragObject,
+        setTempDragObject,
+        drawPlotPoint,
+        DragFunctionColour,
+        dataPointMarkerRef,
+        updateLoopState,
+        setIsCreatingDragDataPoint
+      );
+      return;
     }
+
+    // Creating a loop or sim data point
+    let dataGroup = 'simulation';
+    if (isCreatingEditingLoop) {
+      dataGroup = 'loop';
+    }
+
+    switch (simulationToolSelected) {
+      case TAP_FUNCTION:
+        createTapDataPoint(
+          offsetX,
+          offsetY,
+          dataGroup,
+          speedOfFingerMoving,
+          numberOfFingerTapping,
+          dataPointMarkerRef,
+          updateLoopState,
+          drawPlotPoint,
+          TapFunctionColour
+        );
+        break;
+      case MOVE_FUNCTION:
+        createMoveDataPoint(
+          offsetX,
+          offsetY,
+          dataGroup,
+          speedOfArmMoving,
+          dataPointMarkerRef,
+          updateLoopState,
+          drawPlotPoint,
+          MoveFunctionColour
+        );
+        break;
+      case MOVE_TAP_FUNCTION:
+        createMoveAndTapDataPoint(
+          offsetX,
+          offsetY,
+          dataGroup,
+          speedOfArmMoving,
+          speedOfFingerMoving,
+          numberOfFingerTapping,
+          dataPointMarkerRef,
+          updateLoopState,
+          drawPlotPoint,
+          MoveTapFunctionColour
+        );
+        break;
+      case DRAG_FUNCTION:
+        createDragDataPoint(
+          offsetX,
+          offsetY,
+          dataGroup,
+          dataPointMarkerRef,
+          speedOfArmMoving,
+          speedOfFingerMoving,
+          numberOfFingerTapping,
+          drawPlotPoint,
+          DragFunctionColour,
+          setIsCreatingDragDataPoint,
+          setTempDragObject
+        );
+        break;
+      case TIMEOUT_FUNCTION:
+        createTimeoutDataPoint(
+          offsetX,
+          offsetY,
+          dataGroup,
+          timeoutLength,
+          dataPointMarkerRef,
+          updateLoopState,
+          drawPlotPoint,
+          TimeoutFunctionColour
+        );
+        break;
+      default:
+        console.log('No matching action found');
+    }
+  };
+
+  function updateLoopState(newDataPoint) {
+    if (isCreatingEditingLoop) {
+      setLoopDataBeingEdited((currentLoopData) => ({
+        ...currentLoopData,
+        mainSimulationLoopDataPoints: [
+          ...currentLoopData.mainSimulationLoopDataPoints,
+          newDataPoint, // Add the new data point to the existing array
+        ],
+      }));
+    } else {
+      // Update the simulationData state with the new data point
+      setSimulationData((currentSimulationData) => {
+        return {
+          ...currentSimulationData,
+          mainSimulationDataPoints: [
+            ...currentSimulationData.mainSimulationDataPoints,
+            newDataPoint,
+          ],
+        };
+      });
+    }
+  }
+
+  // General functions
+  const toggleDeviceDimensions = () => {
+    setIsPxOrMmDimensions(!isPxOrMmDimensions);
   };
 
   const setupRulers = () => {
@@ -386,260 +509,82 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     return marks;
   };
 
-  const createMarker = ({ nativeEvent }) => {
-    const { offsetX, offsetY } = nativeEvent;
+  const updatePositionMarker = ({ nativeEvent }) => {
+    if (positionOfMouseAndCanvasVisible) {
+      const { offsetX, offsetY } = nativeEvent;
 
-    if (isCreatingDragDataPoint) {
-      setSecondDragPoint(offsetX, offsetY);
-      return;
+      setTooltip({ x: offsetX, y: offsetY });
     }
-    // Creating a loop or sim data point
-    let dataGroup = 'simulation';
-    if (isCreatingEditingLoop) {
-      dataGroup = 'loop';
-    }
-
-    switch (simulationToolSelected) {
-      case TAP_FUNCTION:
-        createTapDataPoint(offsetX, offsetY, dataGroup);
-        break;
-      case MOVE_FUNCTION:
-        createMoveDataPoint(offsetX, offsetY, dataGroup);
-        break;
-      case MOVE_TAP_FUNCTION:
-        createMoveAndTapDataPoint(offsetX, offsetY, dataGroup);
-        break;
-      case DRAG_FUNCTION:
-        createDragDataPoint(offsetX, offsetY, dataGroup);
-        break;
-      case TIMEOUT_FUNCTION:
-        createTimeoutDataPoint(offsetX, offsetY, dataGroup);
-        break;
-      default:
-        console.log('No matching action found');
-    }
-  };
-
-  // Tap
-  const createTapDataPoint = (offsetX, offsetY, dataGroup) => {
-    let newDataPoint = {
-      dataGroup: dataGroup,
-      dataType: 'tap', // Tap, Move, MoveTap, Drag, Timeout
-      xPos: offsetX,
-      yPos: offsetY,
-      zSpeed: speedOfFingerMoving,
-      numFingers: numberOfFingerTapping,
-      timeLength: 0,
-    };
-
-    // Directly increment and use dataPointMarkerRef for new data points
-    dataPointMarkerRef.current += 1;
-
-    updateLoopState(newDataPoint);
-    drawPlotPoint(newDataPoint, TapFunctionColour, dataPointMarkerRef.current);
-  };
-
-  // Move
-  const createMoveDataPoint = (offsetX, offsetY, dataGroup) => {
-    let newDataPoint = {
-      dataGroup: dataGroup,
-      dataType: 'move', // Tap, Move, MoveTap, Drag, Timeout
-      xPos: offsetX,
-      yPos: offsetY,
-      xySpeed: speedOfArmMoving,
-      timeLength: 0,
-    };
-
-    // Directly increment and use dataPointMarkerRef for new data points
-    dataPointMarkerRef.current += 1;
-
-    updateLoopState(newDataPoint);
-    drawPlotPoint(newDataPoint, MoveFunctionColour, dataPointMarkerRef.current);
-  };
-
-  // Move And Tap
-  const createMoveAndTapDataPoint = (offsetX, offsetY, dataGroup) => {
-    let newDataPoint = {
-      dataGroup: dataGroup,
-      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
-      xPos: offsetX,
-      yPos: offsetY,
-      xySpeed: speedOfArmMoving,
-      zSpeed: speedOfFingerMoving,
-      numFingers: numberOfFingerTapping,
-      timeLength: 0,
-    };
-
-    // Directly increment and use dataPointMarkerRef for new data points
-    dataPointMarkerRef.current += 1;
-
-    updateLoopState(newDataPoint);
-    drawPlotPoint(
-      newDataPoint,
-      MoveTapFunctionColour,
-      dataPointMarkerRef.current
-    );
-  };
-
-  // Drag
-  const createDragDataPoint = (offsetX, offsetY, dataGroup) => {
-    let newDataPoint = {
-      dataGroup: dataGroup,
-      dataType: 'drag', // Tap, Move, MoveTap, Drag, Timeout
-      startxPos: offsetX,
-      startyPos: offsetY,
-      finishxPos: null,
-      finishyPos: null,
-      xySpeed: speedOfArmMoving,
-      zSpeed: speedOfFingerMoving,
-      numFingers: numberOfFingerTapping,
-      timeLength: 0,
-    };
-
-    // Directly increment and use dataPointMarkerRef for new data points
-    dataPointMarkerRef.current += 1;
-
-    drawPlotPoint(newDataPoint, DragFunctionColour, dataPointMarkerRef.current);
-
-    setIsCreatingDragDataPoint(true);
-    setTempDragObject(newDataPoint);
-  };
-
-  const setSecondDragPoint = (offsetX, offsetY) => {
-    let completedObject = {
-      ...tempDragObject,
-      finishxPos: offsetX,
-      finishyPos: offsetY,
-    };
-    // Update the tempDragObject with the new finish positions
-    setTempDragObject((currentDragObject) => ({
-      ...currentDragObject,
-      finishxPos: offsetX,
-      finishyPos: offsetY,
-    }));
-
-    drawPlotPoint(
-      completedObject,
-      DragFunctionColour,
-      dataPointMarkerRef.current
-    );
-
-    updateLoopState(completedObject);
-    setIsCreatingDragDataPoint(false);
-  };
-
-  // Timeout
-  const createTimeoutDataPoint = (offsetX, offsetY, dataGroup) => {
-    let newDataPoint = {
-      dataGroup: dataGroup,
-      dataType: 'timeout', // Tap, Move, MoveTap, Drag, Timeout
-      xPos: offsetX,
-      yPos: offsetY,
-      timeoutLength: timeoutLength, // milliseconds only
-    };
-
-    // Directly increment and use dataPointMarkerRef for new data points
-
-    dataPointMarkerRef.current += 1;
-    updateLoopState(newDataPoint);
-    drawPlotPoint(
-      newDataPoint,
-      TimeoutFunctionColour,
-      dataPointMarkerRef.current
-    );
-  };
-
-  function updateLoopState(newDataPoint) {
-    if (isCreatingEditingLoop) {
-      setLoopDataBeingEdited((currentLoopData) => ({
-        ...currentLoopData,
-        mainSimulationLoopDataPoints: [
-          ...currentLoopData.mainSimulationLoopDataPoints,
-          newDataPoint, // Add the new data point to the existing array
-        ],
-      }));
-    } else {
-      // Update the simulationData state with the new data point
-      setSimulationData((currentSimulationData) => {
-        return {
-          ...currentSimulationData,
-          mainSimulationDataPoints: [
-            ...currentSimulationData.mainSimulationDataPoints,
-            newDataPoint,
-          ],
-        };
-      });
-    }
-  }
-
-  const toggleDeviceDimensions = () => {
-    setIsPxOrMmDimensions(!isPxOrMmDimensions);
   };
 
   return (
-    <div className={`relative grid justify-center items-center`}>
-      {rulersVisible && (
-        <div className='absolute grid grid-cols-rev top-1 right-1 z-10 outline outline-main-colour outline-1 rounded-xl px-6 py-1'>
-          {isPxOrMmDimensions ? (
-            <div>Dimensions: mm </div>
-          ) : (
-            <div>Dimensions: px </div>
-          )}
-          <div className='grid items-center pl-2 justify-center'>
-            <IoReloadCircle
-              className='active:scale-95 active:animate-spin duration-300 cursor-pointer'
-              onClick={toggleDeviceDimensions}
-            />
-          </div>
-        </div>
-      )}
-
-      <div className='grid absolute top-1 left-1/2 transform -translate-x-1/2'>
-        <div className='outline outline-main-colour outline-1 rounded-xl px-4 py-1 grid justify-center items-center'>
-          {simulationData.simulationTimeToComplete} seconds
-        </div>
-      </div>
-
-      <div className='relative'>
-        <canvas
-          ref={canvasRef}
-          onMouseMove={updatePositionMarker}
-          onMouseUp={createMarker}
-          className={`border-solid border-black border-2 rounded-xl`}
-        />
-        {rulersVisible && (
-          <>
-            <div
-              className='flex absolute left-0 bottom-[100.5%] bg-main-colour rounded outline outline-[1px] outline-black'
-              ref={rulerRefX}
-              style={{ justifyContent: 'space-between', width: '100%' }}
-            ></div>
-            <div
-              className='flex flex-col absolute right-[100.5%] text-right top-0 bg-main-colour rounded outline outline-[1px] outline-black'
-              ref={rulerRefY}
-              style={{ justifyContent: 'space-between', height: '100%' }}
-            ></div>
-          </>
+    <section className={`relative grid`}>
+      <div
+        className={`grid ${
+          rulesAndDataVisible && 'grid-rows-reg gap-2'
+        } w-full h-full items-center justify-center`}
+      >
+        {/* Data bar */}
+        {rulesAndDataVisible && (
+          <DataBarComponent
+            isPxOrMmDimensions={isPxOrMmDimensions}
+            toggleDeviceDimensions={toggleDeviceDimensions}
+            positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
+            tooltip={tooltip}
+          />
         )}
-      </div>
-      {positionOfMouseAndCanvasVisible && (
-        <div
-          className={`grid grid-cols-reg gap-2 absolute left-1 top-1 bg-secondary-colour z-50 outline outline-main-colour outline-1 rounded-xl px-4 py-1`}
-        >
-          <div className='grid items-center justify-center pr-1'>
-            <FaMousePointer />
-          </div>
-          <div>{`X: ${tooltip.x}, Y: ${tooltip.y}`}</div>
-        </div>
-      )}
 
-      <div className='grid absolute bottom-2 left-2 text-2xl font-bold uppercase'>
-        Base
+        {/* Main Content */}
+        <section className='grid px-4'>
+          <div className={`grid w-full h-full`}>
+            <div
+              className={`${rulesAndDataVisible && 'grid grid-cols-reg gap-1'}`}
+            >
+              <div className='grid grid-rows-reg gap-1'>
+                <div className='w-[25px] h-[25px]'></div>
+                {/* Verticl ruler */}
+                {rulesAndDataVisible && (
+                  <div
+                    className='flex flex-col w-[25px] text-right bg-main-colour rounded outline outline-[1px] outline-black'
+                    ref={rulerRefY}
+                    style={{ justifyContent: 'space-between', height: '100%' }}
+                  ></div>
+                )}
+              </div>
+
+              <div
+                className={`${
+                  rulesAndDataVisible && 'grid grid-rows-reg gap-1'
+                }`}
+              >
+                {/* Horizontal ruler */}
+                {rulesAndDataVisible && (
+                  <div
+                    className='flex h-[25px] bg-main-colour rounded outline outline-[1px] outline-black'
+                    ref={rulerRefX}
+                    style={{ justifyContent: 'space-between', width: '100%' }}
+                  ></div>
+                )}
+                {/* Canvas */}
+                <canvas
+                  ref={canvasRef}
+                  onMouseMove={updatePositionMarker}
+                  onMouseUp={createMarker}
+                  className={`border-solid border-black border-2 rounded-xl`}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className='grid absolute bottom-2 left-2 text-2xl font-bold uppercase'>
+          Base
+        </div>
+        <div className='grid absolute bottom-2 right-2 text-2xl font-bold uppercase'>
+          Top
+        </div>
       </div>
-      <div className='grid absolute bottom-2 right-2 text-2xl font-bold uppercase'>
-        Top
-      </div>
-    </div>
+    </section>
   );
 }
 

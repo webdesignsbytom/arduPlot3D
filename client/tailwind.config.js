@@ -20,6 +20,7 @@ module.exports = {
         'transparent-white': 'rgba(255, 255, 255, 0.65)',
         'main-text': '#000000',
         'error-red': '#',
+        'warning': '#e4000f',
         'success-green': '#',
         'hyperlink': '#2563EB',
       },

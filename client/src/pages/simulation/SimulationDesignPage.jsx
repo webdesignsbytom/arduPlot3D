@@ -119,7 +119,7 @@ function SimulationDesignPage() {
     setIsCreatingNewLoop(true);
     setDisplaySimOrLoop('loop');
   };
-  
+
   // Save new simulation loop of commands
   const saveNewSimulationLoop = () => {
     setIsCreatingNewLoop(false);
@@ -136,7 +136,7 @@ function SimulationDesignPage() {
 
   // Run simulation
   const runSimulation = () => {
-    closeAllModalsMaster()
+    closeAllModalsMaster();
     setSimulationIsRunning(true);
   };
   //
@@ -146,7 +146,7 @@ function SimulationDesignPage() {
 
   // Display Landscape
   const setSimulationLandScape = () => {
-    closeAllModalsMaster()
+    closeAllModalsMaster();
     setIsLandscapeMode(true);
   };
   // Display portrait
@@ -221,8 +221,8 @@ function SimulationDesignPage() {
 
   // Open load
   const openLoadModal = () => {
-    closeAllModalsMaster()
-    setLoadModalOpen(true); 
+    closeAllModalsMaster();
+    setLoadModalOpen(true);
   };
   // Close load
   const closeLoadSimulationModal = () => {
@@ -293,7 +293,6 @@ function SimulationDesignPage() {
   const closeDeviceSelectModal = () => {
     setDeviceSelectionModalOpen(false);
   };
-
 
   const openUploadVideoModal = () => {
     closeAllModalsMaster();
@@ -383,64 +382,83 @@ function SimulationDesignPage() {
     console.log('AAA');
   };
 
-    // Close all modals master
-    const closeAllModalsMaster = () => {
-      setDeviceSelectionModalOpen(false);
-      setTapSettingsModalOpen(false);
-      setMovementSettingsModalOpen(false);
-      setDragSettingsModalOpen(false);
-      setTimeoutModalOpen(false);
-      closeUploadVideoModal(false);
-      setIsPublishModalOpen(false);
-      setSaveAsModalOpen(false);
-      setLoadModalOpen(false);
-      setConsentMessageVisible(false)
-      
-      setConsentMessageVisible('');
-      setConsentMessage('');
-    };
+  // Close all modals master
+  const closeAllModalsMaster = () => {
+    setDeviceSelectionModalOpen(false);
+    setTapSettingsModalOpen(false);
+    setMovementSettingsModalOpen(false);
+    setDragSettingsModalOpen(false);
+    setTimeoutModalOpen(false);
+    closeUploadVideoModal(false);
+    setIsPublishModalOpen(false);
+    setSaveAsModalOpen(false);
+    setLoadModalOpen(false);
+    setConsentMessageVisible(false);
+
+    setConsentMessageVisible('');
+    setConsentMessage('');
+  };
 
   return (
     <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
       <Navbar />
 
       {/* Main */}
-      <main className='grid h-full grid-cols-a1a overflow-hidden'>
-        {/* Functions bar */}
-        <section className='grid h-full overflow-hidden max-w-full'>
-          {/* Open close button */}
-          {!userMenuIsOpen && (
-            <div className='grid mt-2 ml-2 p-1 bg-main-colour h-fit items-center justify-center rounded-full shadow-lg'>
-              <FaClipboardList
-                size={20}
-                onClick={() => setUserMenuIsOpen(true)}
-                title='Open menu'
-                className='hover:brightness-90 cursor-pointer text-secondary-colour'
-              />
-            </div>
-          )}
+      <main
+        className={`relative grid h-full ${
+          userMenuIsOpen && !simulationDataIsOpen
+            ? 'grid-cols-reg'
+            : simulationDataIsOpen && !userMenuIsOpen
+            ? 'grid-cols-rev'
+            : userMenuIsOpen && simulationDataIsOpen
+            ? 'grid-cols-a1a'
+            : ''
+        } overflow-hidden`}
+      >
+        {/* Open close button */}
+        {!userMenuIsOpen && (
+          <button className='absolute left-2 z-50 top-1/2 grid p-1 bg-main-colour h-fit items-center justify-center rounded-full shadow-lg'>
+            <FaClipboardList
+              size={20}
+              onClick={() => setUserMenuIsOpen(true)}
+              title='Open menu'
+              className='hover:brightness-90 cursor-pointer text-secondary-colour'
+            />
+          </button>
+        )}
 
-          <SimulationFunctionsToolbar
-            runSimulation={runSimulation}
-            stopSimulation={stopSimulation}
-            resetSimulationToStartingPoint={resetSimulationToStartingPoint}
-            createNewSimulationFile={createNewSimulationFile}
-            saveCurrentSimulationFile={saveCurrentSimulationFile}
-            openSaveAsModal={openSaveAsModal}
-            openTimeoutSettingsModal={openTimeoutSettingsModal}
-            openTapSettingsModal={openTapSettingsModal}
-            openMovementSettingsModal={openMovementSettingsModal}
-            openDragSettingsModal={openDragSettingsModal}
-            openDeviceSelectModal={openDeviceSelectModal}
-            openUploadVideoModal={openUploadVideoModal}
-            downloadFileToMachine={downloadFileToMachine}
-            saveAsNewFile={saveAsNewFile}
-            openLoadModal={openLoadModal}
-            openPublishModal={openPublishModal}
-            userMenuIsOpen={userMenuIsOpen}
-            setUserMenuIsOpen={setUserMenuIsOpen}
-          />
-        </section>
+        {!simulationDataIsOpen && (
+          <button className='absolute right-2 z-50 top-1/2 grid p-1 bg-main-colour h-fit items-center justify-center rounded-full shadow-lg'>
+            <FaClipboardList
+              size={20}
+              onClick={() => setSimulationDataIsOpen(true)}
+              title='Open menu'
+              className='hover:brightness-90 cursor-pointer text-secondary-colour'
+            />
+          </button>
+        )}
+
+        {/* Functions bar */}
+        <SimulationFunctionsToolbar
+          runSimulation={runSimulation}
+          stopSimulation={stopSimulation}
+          resetSimulationToStartingPoint={resetSimulationToStartingPoint}
+          createNewSimulationFile={createNewSimulationFile}
+          saveCurrentSimulationFile={saveCurrentSimulationFile}
+          openSaveAsModal={openSaveAsModal}
+          openTimeoutSettingsModal={openTimeoutSettingsModal}
+          openTapSettingsModal={openTapSettingsModal}
+          openMovementSettingsModal={openMovementSettingsModal}
+          openDragSettingsModal={openDragSettingsModal}
+          openDeviceSelectModal={openDeviceSelectModal}
+          openUploadVideoModal={openUploadVideoModal}
+          downloadFileToMachine={downloadFileToMachine}
+          saveAsNewFile={saveAsNewFile}
+          openLoadModal={openLoadModal}
+          openPublishModal={openPublishModal}
+          userMenuIsOpen={userMenuIsOpen}
+          setUserMenuIsOpen={setUserMenuIsOpen}
+        />
 
         {/* canvas */}
         <section className='grid grid-rows-reg gap-2 p-2 overflow-hidden'>
@@ -469,8 +487,8 @@ function SimulationDesignPage() {
             positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
           />
 
-          {/* CANVAS */}
-          <div className='bg-secondary-colour h-full grid outline-black outline outline-2 overflow-hidden'>
+          {/* CANVAS container */}
+          <section className='grid bg-secondary-colour h-full w-full border-solid border-2 border-black overflow-hidden'>
             {simulationIsRunning ? (
               <CanvasSimulationTool
                 isResettingAnimation={isResettingAnimation}
@@ -482,22 +500,16 @@ function SimulationDesignPage() {
                 }
               />
             )}
-          </div>
+          </section>
         </section>
 
         {/* data bar */}
-        <section className={`grid overflow-hidden h-full max-w-[300px]`}>
-          {!simulationDataIsOpen && (
-            <div className='grid mt-2 mr-2 p-1 bg-main-colour h-fit items-center justify-center rounded-full shadow-lg'>
-              <FaClipboardList
-                size={20}
-                onClick={() => setSimulationDataIsOpen(true)}
-                title='Open menu'
-                className='hover:brightness-90 cursor-pointer text-secondary-colour'
-              />
-            </div>
-          )}
-          <section className={`${simulationDataIsOpen ? 'grid overflow-hidden' : 'hidden'}`}>
+        <section
+          className={`${
+            simulationDataIsOpen ? 'grid overflow-hidden' : 'hidden'
+          }`}
+        >
+          <section className={`grid overflow-hidden h-full max-w-[300px]`}>
             <SimulationDataToobar
               setSimulationDataIsOpen={setSimulationDataIsOpen}
             />

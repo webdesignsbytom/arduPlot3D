@@ -52,7 +52,7 @@ function SimulationPageTopToolBar({
 }) {
   // Context
   const {
-    rulersVisible,
+    rulesAndDataVisible,
     isLandscapeMode,
     selectedDevice,
     numberOfDataPointsToDisplay,
@@ -131,111 +131,128 @@ function SimulationPageTopToolBar({
         ),
     },
     {
-      onClick: rulersVisible ? hideCanvasRulers : displayCanvasRulers,
-      title: rulersVisible ? 'Hide Rulers' : 'Display Rulers',
-      icon: rulersVisible ? <MdHideSource /> : <FaRulerCombined />,
+      onClick: rulesAndDataVisible ? hideCanvasRulers : displayCanvasRulers,
+      title: rulesAndDataVisible ? 'Hide Rulers' : 'Display Rulers',
+      icon: rulesAndDataVisible ? <MdHideSource /> : <FaRulerCombined />,
     },
   ];
 
+  const renderSimulationToolContent = () => {
+    switch (simulationToolSelected) {
+      case TAP_FUNCTION:
+        return (
+          <div>
+            <label htmlFor='tap_speed'>Tap speed</label>
+            <div>{speedOfFingerMoving} mm/s</div>
+          </div>
+        );
+      case MOVE_TAP_FUNCTION:
+        return (
+          <div className='grid grid-cols-2'>
+            <div>
+              <label htmlFor='tap_speed'>Tap speed</label>
+              <div>{speedOfFingerMoving} mm/s</div>
+            </div>
+            <div>
+              <label htmlFor='movement_speed'>Movement Sp</label>
+              <div>{speedOfArmMoving} mm/s</div>
+            </div>
+          </div>
+        );
+      case DRAG_FUNCTION:
+        return (
+          <div>
+            <label htmlFor='drag_speed'>Drag speed</label>
+            <div>{speedOfDraggingArmMoving} mm/s</div>
+          </div>
+        );
+      case TIMEOUT_FUNCTION:
+        return (
+          <div>
+            <label htmlFor='timeout_length'>Timeout</label>
+            <div>
+              {timeoutLength} {timeoutUnitSelected.symbol}
+            </div>
+          </div>
+        );
+      case MOVE_FUNCTION:
+        return (
+          <div>
+            <label htmlFor='movement_speed'>Movement Sp</label>
+            <div>{speedOfArmMoving} mm/s</div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className='grid grid-flow-col justify-between'>
+    <section className='grid grid-flow-col justify-between'>
       {/* Device selected title */}
       <div className='bg-secondary-colour'>
-        <h4 className='text-xl font-semibold'>{selectedDevice.title}</h4>
+        <h4 className='hidden lg:inline text-xl font-semibold'>{selectedDevice.title}</h4>
       </div>
 
       <div className='flex gap-2'>
         {/* Timeout */}
-        <div className='px-1 py-[0.5px] outline-black outline outline-2 no__highlights bg-secondary-colour rounded-md'>
+        <div className='px-1 h-[32px] w-full outline-black outline outline-2 no__highlights bg-secondary-colour rounded-md'>
           {/* Times length */}
-          <div className='text-xs'>
-            <div>
-              {simulationToolSelected === TAP_FUNCTION ? (
-                <div>
-                  <label htmlFor='tap_speed'>Tap speed</label>
-                  <div>{speedOfFingerMoving} mm/s</div>
-                </div>
-              ) : simulationToolSelected === MOVE_TAP_FUNCTION ? (
-                <div className='grid grid-cols-2'>
-                  <div>
-                    <label htmlFor='tap_speed'>Tap speed</label>
-                    <div>{speedOfFingerMoving} mm/s</div>
-                  </div>
-                  <div>
-                    <label htmlFor='movement_speed'>Movement Sp</label>
-                    <div>{speedOfArmMoving} mm/s</div>
-                  </div>
-                </div>
-              ) : simulationToolSelected === DRAG_FUNCTION ? (
-                <div>
-                  <label htmlFor='drag_speed'>Drag speed</label>
-                  <div>{speedOfDraggingArmMoving} mm/s</div>
-                </div>
-              ) : simulationToolSelected === TIMEOUT_FUNCTION ? (
-                <div>
-                  <label htmlFor='timeout_length'>Timeout</label>
-                  <div>
-                    {timeoutLength} {timeoutUnitSelected.symbol}
-                  </div>
-                </div>
-              ) : simulationToolSelected === MOVE_FUNCTION ? (
-                <div>
-                  <label htmlFor='movement_speed'>Movement Sp</label>
-                  <div>{speedOfArmMoving} mm/s</div>
-                </div>
-              ) : null}
-            </div>
-          </div>
+          <div className='text-xs'>{renderSimulationToolContent()}</div>
         </div>
 
         {/* Divider */}
-        <div className='bg-main-colour h-full w-[2px] outline outline-black outline-1 rounded-3xl'></div>
+        <div className='bg-main-colour h-[32px] w-[2px] outline outline-black outline-1 rounded-3xl'></div>
 
         {toolButtons.map((button, index) => (
           <button
             key={index}
             onClick={button.onClick}
             title={button.title}
-            className={`px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights ${
+            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] outline-black outline outline-2 active:scale-95 no__highlights ${
               button.selected
                 ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
                 : 'bg-main-colour hover:bg-yellow-100'
             } rounded-md`}
           >
-            {button.icon}
+            <div className='grid items-center justify-center'>
+              {button.icon}
+            </div>
           </button>
         ))}
 
         {/* Divider */}
-        <div className='bg-main-colour h-full w-[2px] outline outline-black outline-1 rounded-3xl'></div>
+        <div className='bg-main-colour h-[32px] w-[2px] outline outline-black outline-1 rounded-3xl'></div>
 
-        <div className='grid grid-cols-4 w-fit gap-2'>
-          {displayButtons.map((button, index) => (
-            <button
-              key={index}
-              onClick={button.onClick}
-              title={button.title}
-              className={`px-2 py-[0.5px] outline-black outline outline-2 active:scale-95 no__highlights ${
-                button.selected
-                  ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-                  : 'bg-main-colour hover:bg-yellow-100'
-              } rounded-md`}
-            >
+        {displayButtons.map((button, index) => (
+          <button
+            key={index}
+            onClick={button.onClick}
+            title={button.title}
+            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] outline-black outline outline-2 active:scale-95 no__highlights ${
+              button.selected
+                ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
+                : 'bg-main-colour hover:bg-yellow-100'
+            } rounded-md`}
+          >
+            <div className='grid items-center justify-center'>
               {button.icon}
-            </button>
-          ))}
-        </div>
+            </div>
+          </button>
+        ))}
         <div>
           <button
             title='Clear all data points in simulation - does not include saved loops'
             onClick={clearAllDataPoints}
-            className='px-2 py-[0.5px] h-full outline-black outline outline-2 active:scale-95 no__highlights bg-red-400 hover:bg-red-100 rounded-md'
+            className='px-2 h-[32px] outline-black outline outline-2 active:scale-95 no__highlights bg-warning hover:brightness-90 rounded-md'
           >
-            Clear all
+            <div className='grid items-center justify-center'>
+              <span>Clear</span>
+            </div>
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

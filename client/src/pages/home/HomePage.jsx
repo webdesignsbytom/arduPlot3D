@@ -38,12 +38,12 @@ function HomePage() {
               </div>
               <div className='mt-4 grid'>
                 <p>
-                  <span className='text-hyperlink-blue font-semibold'>
-                    <Link to='/sign-up'>Sign up</Link>
-                  </span>{' '}
-                  today and create plotted programs for your ArduPlot device. 
+                  Sign up today and create plotted programs for your ArduPlot device. 
                 </p>
                 <p>Visit the library for prereleased games!</p>
+                <div className='py-2'>
+                  <p>Not made for mobile phones!</p>
+                </div>
               </div>
             </article>
             {/* cta */}
