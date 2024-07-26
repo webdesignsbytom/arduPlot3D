@@ -1,0 +1,21 @@
+trigger:
+- master
+
+parameters:
+  - name: NodeJSServer
+    default: 'Node JS Server'
+  - name: ReactClient
+    default: 'React Web Client'
+  
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world! 
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo ${{ parameters.NodeJSServer }}
+    echo ----------------
+    echo ${{ parameters[0] }}
+  displayName: 'Run a multi-line script'
