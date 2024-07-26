@@ -17,5 +17,5 @@ steps:
 - script: |
     echo ${{ parameters.NodeJSServer }}
     echo ----------------
-    echo $(Build)
+    echo $(Agent.BuildDirectory)
   displayName: 'Run a multi-line script'
