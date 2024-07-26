@@ -17,4 +17,5 @@ steps:
 - script: |
     echo ${{ parameters.NodeJSServer }}
     echo ----------------
+    echo $(Build)
   displayName: 'Run a multi-line script'
