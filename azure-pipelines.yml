@@ -26,8 +26,15 @@ steps:
     echo $(Pipeline.Workspace)/s   - 2
     echo $(Build.SourcesDirectory)   - 3
     echo $(Build.SourcesDirectory)   - 4
+    ----------------------------------
     ls -a
+    ----------------------------------
     pwd
+    ----------------------------------
     whoami
+    ----------------------------------
     ls /
+    ----------------------------------
+    cd ..
+    ls -a
   displayName: Build Data
