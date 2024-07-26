@@ -18,4 +18,12 @@ steps:
     echo ${{ parameters.NodeJSServer }}
     echo ----------------
     echo $(Agent.BuildDirectory)
+    echo $(Agent.BuildDirectory/**)
   displayName: 'Run a multi-line script'
+
+- script: |
+    echo $(Build.ArtifactStagingDirectory) - 1ASD
+    echo $(Pipeline.Workspace)/s   - 2
+    echo $(Build.SourcesDirectory)   - 3
+    echo $(Build.SourcesDirectory)   - 4
+  displayName: Build Data
