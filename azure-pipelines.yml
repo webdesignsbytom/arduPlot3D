@@ -65,3 +65,12 @@ jobs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)/client-build'
       ArtifactName: 'ReactClientBuild'
     displayName: 'Publish React Client Build Artifacts'
+
+- job: BuildLocalHost
+  displayName: 'Create linux host'
+  dependsOn: BuildReactClient
+  steps:
+  - script: |
+      echo ls -a 
+      apt-get install nginx 
+    displayName: ''
