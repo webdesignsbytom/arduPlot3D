@@ -10,31 +10,54 @@ parameters:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world! 
-  displayName: 'Run a one-line script'
+jobs:
+- job: BuildNodeJSServer
+  displayName: 'Build Node.js Server'
+  steps:
+  - script: echo Hello, Node.js Server!
+    displayName: 'Run a one-line script'
 
-- script: |
-    echo ${{ parameters.NodeJSServer }}
-    echo ----------------
-    echo $(Agent.BuildDirectory)
-    echo $(Agent.BuildDirectory/**)
-  displayName: 'Run a multi-line script'
+  - script: |
+      echo ${{ parameters.NodeJSServer }}
+      echo ----------------
+      echo $(Agent.BuildDirectory)
+      echo $(Agent.BuildDirectory/**)
+    displayName: 'Run a multi-line script'
 
-- script: |
-    echo $(Build.ArtifactStagingDirectory) - 1ASD
-    echo $(Pipeline.Workspace)/s   - 2
-    echo $(Build.SourcesDirectory)   - 3
-    echo $(Build.SourcesDirectory)   - 4
-    ----------------------------------
-    ls -a
-    ----------------------------------
-    pwd
-    ----------------------------------
-    whoami
-    ----------------------------------
-    ls /
-    ----------------------------------
-    cd ..
-    ls -a
-  displayName: Build Data
+  - script: |
+      echo $(Build.ArtifactStagingDirectory) - 1ASD
+      echo $(Pipeline.Workspace)/s   - 2
+      echo $(Build.SourcesDirectory)   - 3
+      echo $(Build.SourcesDirectory)   - 4
+      echo ----------------------------------
+      ls -a
+      echo ----------------------------------
+      pwd
+      echo ----------------------------------
+      whoami
+      echo ----------------------------------
+      ls /
+      echo ----------------------------------
+      cd ..
+      ls -a
+    displayName: 'Build Data'
+
+  - script: |
+      cd $(Build.SourcesDirectory)/server
+      echo Running in the server directory
+      npm install
+      npm run build
+    displayName: 'Build Node.js Server'
+
+- job: BuildReactClient
+  displayName: 'Build React Client'
+  steps:
+  - script: echo Hello, React Client!
+    displayName: 'Run a one-line script'
+
+  - script: |
+      cd $(Build.SourcesDirectory)/client
+      echo Running in the client directory
+      npm install
+      npm run build
+    displayName: 'Build React Client'
