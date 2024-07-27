@@ -74,6 +74,6 @@ app.use((error, req, res, next) => {
 // Start our API server
 app.listen(PORT, () => {
   console.log(
-    `\nServer is running on ${HTTP_URL}${PORT} \n This no longer consumes souls\n`
+    `\nServer is running on ${HTTP_URL}${PORT} \n This no longer consumes chocolate\n`
   );
 });
