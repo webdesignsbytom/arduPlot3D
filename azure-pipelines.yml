@@ -36,7 +36,7 @@ jobs:
       SERVER_PID=$!
       echo Server is running with PID $SERVER_PID
       # Save the PID to a file for later use
-      echo $SERVER_PID > server.pid
+      echo $SERVER_PID > $(Build.ArtifactStagingDirectory)/server.pid
     displayName: 'Start Node.js Server'
 
 - job: TestNodeJSServer
@@ -52,7 +52,7 @@ jobs:
         curl -s -o /dev/null -w "%{http_code}" $url
       done
       # Stop the server after tests
-      SERVER_PID=$(cat server.pid)
+      SERVER_PID=$(cat $(Build.ArtifactStagingDirectory)/server.pid)
       kill $SERVER_PID
       echo Server stopped
     displayName: 'Test and Stop Node.js Server'
