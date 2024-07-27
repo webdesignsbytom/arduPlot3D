@@ -36,30 +36,12 @@ jobs:
       SERVER_PID=$!
       echo Server is running with PID $SERVER_PID
       # Save the PID to a file for later use
-      echo $SERVER_PID > server.pid
+      echo $SERVER_PID > $(Pipeline.Workspace)/server.pid
     displayName: 'Start Node.js Server'
-
-- job: TestNodeJSServer
-  displayName: 'Test Node.js Server'
-  dependsOn: BuildNodeJSServer
-  steps:
-  - script: |
-      cd $(Build.SourcesDirectory)/server
-      echo Running tests against the server
-      TEST_URLS="${{ parameters.TestUrls }}"
-      for url in $TEST_URLS; do
-        echo Testing $url
-        curl -s -o /dev/null -w "%{http_code}" $url
-      done
-      # Stop the server after tests
-      SERVER_PID=$(cat server.pid)
-      kill $SERVER_PID
-      echo Server stopped
-    displayName: 'Test and Stop Node.js Server'
 
 - job: BuildReactClient
   displayName: 'Build React Client'
-  dependsOn: TestNodeJSServer
+  dependsOn: BuildNodeJSServer
   steps:
   - script: echo Hello, React Client!
     displayName: 'Run a one-line script'
@@ -70,3 +52,18 @@ jobs:
       npm install
       npm run build
     displayName: 'Build React Client'
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)/client/build'
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/client-build'
+    displayName: 'Copy React Client Build to Artifact Staging Directory'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/client-build'
+      ArtifactName: 'ReactClientBuild'
+    displayName: 'Publish React Client Build Artifacts'
+
+

@@ -37,7 +37,8 @@ function ConsentModal({ consentMessage, cancalFunction }) {
             <div className='grid w-full'>
               <button
                 onClick={cancalFunction}
-                className='grid bg-red-400 w-full h-fit px-2 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'
+                className='grid bg-red-400 w-full h-fit px-2 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
+                aria-label='Cancel confirm'
               >
                 Cancel
               </button>
@@ -47,6 +48,7 @@ function ConsentModal({ consentMessage, cancalFunction }) {
               <button
                 onClick={() => runConsentFunction(consentMessage.function)}
                 className='grid bg-main-colour w-full h-fit px-2 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'
+                aria-label='Agree to confirmation requests'
               >
                 Agree
               </button>

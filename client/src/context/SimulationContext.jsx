@@ -269,12 +269,19 @@ const SimulationContextProvider = ({ children }) => {
         deleteSavedLoop();
         break;
       case CREATE_NEW_SIM_FUNC:
+        createNewFile();
         break;
       default:
         console.log('No matching action found');
     }
 
     setBlankConsentMessage();
+  };
+
+  const createNewFile = () => {
+    setSimulationData(blankSimulationObject);
+    setSimulationLoopData(blankLoopObject);
+    localStorage.setItem('simulationData', JSON.stringify(blankSimulationObject));
   };
 
   // Clear state

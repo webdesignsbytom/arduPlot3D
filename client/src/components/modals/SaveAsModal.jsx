@@ -19,14 +19,14 @@ function SaveAsModal({ saveAsNewFile, closeSaveAsModal }) {
                 type='text'
                 name='file_name'
                 id='file_name'
-                className='w-full outline outline-1 outline-main-colour p-1 rounded-md'
+                className='w-full outline outline-1 outline-main-colour p-1 rounded-md shadow-lg'
               />
             </div>
             <div className='w-full'>
               <select
                 name='file_type'
                 id='file_type'
-                className='w-full outline outline-1 outline-main-colour p-1 rounded-md'
+                className='w-full outline outline-1 outline-main-colour p-1 rounded-md shadow-lg'
               >
                 {availableFileTypes.map((file, index) => {
                   return (
@@ -44,7 +44,7 @@ function SaveAsModal({ saveAsNewFile, closeSaveAsModal }) {
           <div className='grid justify-center'>
             <button
               onClick={closeSaveAsModal}
-              className='grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'
+              className='grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
             >
               Close
             </button>
@@ -52,7 +52,7 @@ function SaveAsModal({ saveAsNewFile, closeSaveAsModal }) {
           <div className='grid justify-center'>
             <button
               onClick={saveAsNewFile}
-              className='grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'
+              className='grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
             >
               Save
             </button>

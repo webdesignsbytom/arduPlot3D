@@ -4,3 +4,6 @@ export const loadingAnimationData = {
     message: ''
 }
 
+export function getDevicePixelDensity() {
+    return window.devicePixelRatio || 1;
+}

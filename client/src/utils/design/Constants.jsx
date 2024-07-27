@@ -1,4 +1,5 @@
 export const CanvasMainColour = '#2eaedb'
+export const CanvasRulerColour = '#d3d3d3'
 
 // Tap function names
 export const TAP_FUNCTION = 'tap'
@@ -21,7 +22,6 @@ export const availablePointsToDisplayData = [
     '5',
     '10'
 ]
-
 
 // Function 
 export const CLEAR_ALL_DATAPOINT_FUNC = 'clearAllDataPoints'

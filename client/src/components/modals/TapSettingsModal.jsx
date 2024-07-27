@@ -43,7 +43,7 @@ function TapSettingsModal({
               onClick={setNumberOfFingers}
               className={`grid bg-secondary-colour ${
                 numberOfFingerTapping === 1 ? 'bg-main-colour' : 'bg-secondary-colour'
-              } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tl-xl rounded-bl-xl active:scale-95`}
+              } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tl-xl rounded-bl-xl active:scale-95 shadow-lg`}
             >
               1
             </button>
@@ -52,7 +52,7 @@ function TapSettingsModal({
               onClick={setNumberOfFingers}
               className={`grid bg-secondary-colour ${
                 numberOfFingerTapping === 2 ? 'bg-main-colour' : 'bg-secondary-colour'
-              } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit active:scale-95`}
+              } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit active:scale-95 shadow-lg`}
             >
               2
             </button>
@@ -61,7 +61,7 @@ function TapSettingsModal({
               onClick={setNumberOfFingers}
               className={`grid bg-secondary-colour ${
                 numberOfFingerTapping === 3 ? 'bg-main-colour' : 'bg-secondary-colour'
-              } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tr-xl rounded-br-xl active:scale-95`}
+              } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tr-xl rounded-br-xl active:scale-95 shadow-lg`}
             >
               3
             </button>
@@ -77,12 +77,13 @@ function TapSettingsModal({
 
           <div className='grid grid-cols-rev gap-2 mt-1'>
             <input
-              className='outline outline-main-colour outline-1 bg-secondary-colour px-1 w-full'
+              className='outline outline-main-colour outline-1 bg-secondary-colour px-1 w-full shadow-lg'
               type='number'
               name='tapSpeed'
               id='tapSpeed'
               value={speedOfFingerMoving} // Controlled component
               onChange={handleSpeedChange} // Handle the change event
+              aria-label='Change speed of tapping finger'
             />
             <div>
               <span className='text-sm' title='Millimeters per second'>
@@ -96,7 +97,8 @@ function TapSettingsModal({
           <div className='grid justify-center'>
             <button
               onClick={closeTapSettingsModal}
-              className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
+              className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90 shadow-lg'
+              aria-label='Close button modal'
             >
               Close
             </button>

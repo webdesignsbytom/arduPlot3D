@@ -51,8 +51,9 @@ function AddLoopToSimulationModal() {
           <section className='grid grid-cols-rev gap-2'>
             <div className='grid w-full text-center'>
               <select
-                className='outline outline-1 outline-main-colour px-1 rounded-lg w-full min-w-[200px]'
+                className='outline outline-1 outline-main-colour px-1 rounded-lg w-full min-w-[200px] shadow-lg'
                 onChange={handleLoopChange}
+                aria-label='List of available premade loops'
               >
                 {availableLoops.map((loop, index) => (
                   <option value={index} key={index}>
@@ -64,7 +65,8 @@ function AddLoopToSimulationModal() {
             <div>
               <button
                 onClick={() => addLoopToSimulation()}
-                className='outline outline-1 outline-main-colour bg-secondary-colour active:scale-95 px-4 py-2 w-full rounded-lg hover:text-secondary-colour hover:bg-main-colour'
+                className='outline outline-1 outline-main-colour bg-secondary-colour active:scale-95 px-4 py-2 w-full rounded-lg hover:text-secondary-colour hover:bg-main-colour shadow-lg'
+                aria-label='Add selected loop to simulation button'
               >
                 Add
               </button>
@@ -75,7 +77,8 @@ function AddLoopToSimulationModal() {
             <div className='grid justify-center'>
               <button
                 onClick={createNewLoop}
-                className='outline outline-1 outline-main-colour bg-secondary-colour active:scale-95 px-4 py-2 w-full rounded-lg hover:text-secondary-colour hover:bg-main-colour'
+                className='outline outline-1 outline-main-colour bg-secondary-colour active:scale-95 px-4 py-2 w-full rounded-lg hover:text-secondary-colour hover:bg-main-colou shadow-lg'
+                aria-label='Create a new loop button'
               >
                 Create New Loop
               </button>
@@ -88,6 +91,7 @@ function AddLoopToSimulationModal() {
             <button
               onClick={closeModal}
               className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
+              aria-label='Close Add Loop modal'
             >
               Close
             </button>

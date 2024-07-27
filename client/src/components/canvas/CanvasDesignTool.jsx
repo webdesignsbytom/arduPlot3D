@@ -545,7 +545,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
                 {/* Verticl ruler */}
                 {rulesAndDataVisible && (
                   <div
-                    className='flex flex-col w-[25px] text-right bg-main-colour rounded outline outline-[1px] outline-black'
+                    className='flex flex-col text-xs w-[25px] max-w-[25px] text-right bg-[#d3d3d3] rounded outline outline-[1px] outline-black'
                     ref={rulerRefY}
                     style={{ justifyContent: 'space-between', height: '100%' }}
                   ></div>
@@ -560,7 +560,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
                 {/* Horizontal ruler */}
                 {rulesAndDataVisible && (
                   <div
-                    className='flex h-[25px] bg-main-colour rounded outline outline-[1px] outline-black'
+                    className='flex text-xs h-[25px] max-h-[25px] bg-[#d3d3d3] rounded outline outline-[1px] outline-black'
                     ref={rulerRefX}
                     style={{ justifyContent: 'space-between', width: '100%' }}
                   ></div>

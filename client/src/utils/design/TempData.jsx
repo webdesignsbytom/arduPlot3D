@@ -14,6 +14,112 @@ export const blankSimulationObject = {
   simulationTimeToComplete: 0,
 };
 
+export const simulationAnimationObject = {
+  simulationTitle: '',
+  mainSimulationDataPoints: [
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 222,
+      yPos: 120,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 22,
+      yPos: 20,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 123,
+      yPos: 33,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 66,
+      yPos: 300,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 22,
+      yPos: 20,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 232,
+      yPos: 232,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 311,
+      yPos: 211,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 11,
+      yPos: 111,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 99,
+      yPos: 321,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+    {
+      dataGroup: 'simulation',
+      dataType: 'move_tap', // Tap, Move, MoveTap, Drag, Timeout
+      xPos: 222,
+      yPos: 20,
+      xySpeed: initxyMovementSpeed,
+      zSpeed: initzMovementSpeed,
+      numFingers: 1,
+      timeLength: 0,
+    },
+  ],
+  simulationLoops: [],
+};
 export const blankSimulationAnimationObject = {
   simulationTitle: '',
   mainSimulationDataPoints: [

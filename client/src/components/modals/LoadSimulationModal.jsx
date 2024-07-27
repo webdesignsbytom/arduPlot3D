@@ -38,13 +38,14 @@ function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
               <select
                 name='file_type'
                 id='file_type'
-                className='w-full outline outline-1 outline-main-colour p-1 rounded-md'
+                className='w-full outline outline-1 outline-main-colour p-1 rounded-md shadow-lg'
+                aria-label='File type selector'
               >
                 {userSimulations.length === 0 ? (
                   <option value='no_files'>Nothing to load</option>
                 ) : (
                   userSimulations.map((file, index) => (
-                    <option key={index} value={file.name}>
+                    <option key={index} value={file.name} aria-label={`${file.title} option`}>
                       {file.title}
                     </option>
                   ))
@@ -58,7 +59,7 @@ function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
           <div className='grid justify-center'>
             <button
               onClick={closeLoadSimulationModal}
-              className='grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'
+              className='grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
             >
               Close
             </button>
@@ -66,7 +67,7 @@ function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
           <div className='grid justify-center'>
             <button
               onClick={loadSimulationFile}
-              className='grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'
+              className='grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
             >
               Load
             </button>

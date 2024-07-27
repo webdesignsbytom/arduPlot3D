@@ -12,9 +12,7 @@ function PublishSimulationModal({ closePublishModal }) {
 
   const publishNewSimulation = () => {
     client
-      .patch(
-        `${PUBLISH_SIMULATION_API}/${user.id}/:simulationId`
-      )
+      .patch(`${PUBLISH_SIMULATION_API}/${user.id}/:simulationId`)
       .then((res) => {
         console.log(res.data.data.libraryFiles);
         setUserSimulations(res.data.data.simulations);
@@ -43,11 +41,15 @@ function PublishSimulationModal({ closePublishModal }) {
               <select
                 name='file_type'
                 id='file_type'
-                className='w-full outline outline-1 outline-main-colour px-1 rounded-md'
+                className='w-full outline outline-1 outline-main-colour px-1 rounded-md shadow-lg'
               >
                 {userSimulations.map((file, index) => {
                   return (
-                    <option key={index} value={file.name}>
+                    <option
+                      key={index}
+                      value={file.name}
+                      aria-label={`${file.title} option`}
+                    >
                       {file.title}
                     </option>
                   );
@@ -66,7 +68,7 @@ function PublishSimulationModal({ closePublishModal }) {
           </div>
           <div className='grid'>
             <textarea
-              className='outline outline-1 w-full outline-black p-1 rounded-md'
+              className='outline outline-1 w-full outline-black p-1 rounded-md shadow-lg'
               onChange={handleDescriptionChange}
               name='description'
               id='description'
@@ -78,14 +80,18 @@ function PublishSimulationModal({ closePublishModal }) {
           <div className='grid justify-center'>
             <button
               onClick={closePublishModal}
-              className='grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'            >
+              className='grid bg-warning w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
+              aria-label='Close modal button'
+            >
               Close
             </button>
           </div>
           <div className='grid justify-center'>
             <button
               onClick={publishNewSimulation}
-              className='grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95'            >
+              className='grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
+              aria-label='Publish simulation to public library'
+            >
               Publish
             </button>
           </div>

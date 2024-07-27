@@ -32,7 +32,8 @@ function DeviceSelectModal({ closeDeviceSelectModal }) {
           <div className='grid justify-center'>
           <button
               onClick={closeDeviceSelectModal}
-              className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
+              className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90 shadow-lg'
+              aria-label='Close modal button'
             >
               Close
             </button>

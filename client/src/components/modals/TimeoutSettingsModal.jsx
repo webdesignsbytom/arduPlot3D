@@ -71,7 +71,7 @@ function TimeoutSettingsModal({
 
           <div className='grid grid-cols-rev gap-2 mt-1'>
             <input
-              className='outline outline-main-colour outline-1 bg-secondary-colour px-1 w-full'
+              className='outline outline-main-colour outline-1 bg-secondary-colour px-1 w-full shadow-lg'
               type='number'
               name='movementSpeed'
               id='movementSpeed'
@@ -94,9 +94,10 @@ function TimeoutSettingsModal({
 
         <section className='grid mt-4'>
           <div className='grid justify-center'>
-          <button
+            <button
               onClick={closeTimeoutSettingsModal}
-              className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
+              className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90 shadow-lg'
+              aria-label='Close button modal'
             >
               Close
             </button>

@@ -17,11 +17,12 @@ function DeviceSelectDropdownMenu({ handleDeviceChange }) {
           onChange={handleDeviceChange}
           name='device_options'
           id='device_options'
-          className='outline outline-1 outline-main-colour px-1 rounded-lg p-1'
+          className='outline outline-1 outline-main-colour px-1 rounded-lg p-1 shadow-lg'
+          aria-label='Select phone options'
         >
           {availableDevices.map((device, index) => {
             return (
-              <option key={index} value={device.id}>
+              <option key={index} value={device.id} aria-label={`${device.title} option`}>
                 {device.title}
               </option>
             );
