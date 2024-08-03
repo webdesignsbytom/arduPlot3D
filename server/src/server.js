@@ -11,8 +11,6 @@ import userRouter from './routes/users.js';
 import eventRouter from './routes/events.js';
 import simulationRouter from './routes/simulations.js';
 import libraryRouter from './routes/library.js';
-// Env
-import { HTTP_URL, PORT } from './utils/config.js';
 
 const app = express();
 app.disable('x-powered-by');
@@ -23,6 +21,8 @@ app.use(
     origin: "*"
   })
 );
+
+const PORT = process.env.PORT || 3000;
 
 app.use(morgan('dev'));
 app.use(express.json());
