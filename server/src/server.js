@@ -3,8 +3,10 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 // Path
-import { join } from 'path';
+import path from 'path';
 import * as url from 'url';
+import { join } from 'path';
+
 // Import routers
 import authRouter from './routes/auth.js';
 import userRouter from './routes/users.js';
@@ -23,13 +25,15 @@ app.use(
 );
 
 const PORT = process.env.PORT || 3000;
+const HTTP_URL = process.env.HTTP_URL;
 
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Create path to HTML
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+// Get the directory name
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Start of actions
 app.use('/', authRouter);
