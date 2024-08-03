@@ -5,7 +5,6 @@
 #include <SPI.h>
 #include <SD.h>
 #include <LiquidCrystal_I2C.h>
-#include <Keypad.h>
 
 // The parameters are (I2C address, number of columns, number of rows).
 LiquidCrystal_I2C lcd(0x27, 20, 4);
@@ -314,17 +313,21 @@ void navigateToMain() {
 
 // SD Card reader
 void openSDreader() {
+  Serial.println("OPEN SD CARD MENU");
+
   currentMenuState = SD_CARD_MENU;
   currentMenu = sdCardMenu;
   currentMenuItemIndex = 0;
 
   lcd.clear();
+
   if (!SD.begin(chipSelectPin)) {
     lcd.setCursor(0, 1);
     lcd.print("No SD Card");
     while (1)
       ;  // Halt the program if SD card initialization fails
   }
+
   Serial.println("SD Card initialized");
   updateSDCardMenuOptions();
 }
@@ -373,22 +376,21 @@ void openTestControlMenu() {
 
 // Read files from SD Card
 void readFileFromSD(String filename) {
+  Serial.println("READING FILES XXXXXXXXXXXXXXXXX");
+
   // Open the file for reading
   File file = SD.open(filename);
-
+  
   if (!file) {
     Serial.println("Failed to open file.");
     return;
   }
 
-  Serial.println("File contents:");
-
-  // Read and print each line of the file
-  while (file.available()) {
-    Serial.println(file.readStringUntil('\n'));
-  }
+  Serial.println(file.readStringUntil('\n'));
 
   // Close the file
+  Serial.println("fIINSIHJED READING FILES");
+
   file.close();
 }
 
@@ -407,7 +409,9 @@ void updateSDCardMenuOptions() {
 
   while (File entry = dir.openNextFile()) {
     String filename = entry.name();
-
+    Serial.println("FILENAME: ");
+    Serial.print(filename);
+    Serial.println("\n");
     // Add filename to the array
     sdCardMenu[fileCount] = filename;
 
