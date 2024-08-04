@@ -37,7 +37,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
             />
           </div>
           <div>
-            <h2 className='font-semibold 2xl:text-xl text-center'>
+            <h2 className='font-semibold 2xl:text-2xl text-center'>
               Simulation Data
             </h2>
           </div>

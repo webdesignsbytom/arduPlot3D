@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 7000;
 const HTTP_URL = process.env.HTTP_URL;
 
 app.use(morgan('dev'));

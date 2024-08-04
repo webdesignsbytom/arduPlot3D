@@ -22,7 +22,7 @@ function TimeoutSettingsModal({
     const newLength = event.target.value; // Get the new speed value from the input
     setTimeoutLength(newLength); // Update the state with the new speed
   };
-
+console.log('timeoutUnitSelected', timeoutUnitSelected);
   return (
     <section className='grid outline z-20 outline-main-colour outline-2 rounded-lg bg-secondary-colour w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='py-2 px-4'>
@@ -42,7 +42,7 @@ function TimeoutSettingsModal({
               onClick={setTimeUnits}
               className={`grid bg-secondary-colour ${
                 timeoutUnitSelected.name === 'seconds'
-                  ? 'bg-main-colour'
+                  ? 'bg-yellow-400'
                   : 'bg-secondary-colour'
               } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tl-xl rounded-bl-xl active:scale-95`}
             >
@@ -53,7 +53,7 @@ function TimeoutSettingsModal({
               onClick={setTimeUnits}
               className={`grid bg-secondary-colour ${
                 timeoutUnitSelected.name === 'milliseconds'
-                  ? 'bg-main-colour'
+                  ? 'bg-yellow-400'
                   : 'bg-secondary-colour'
               } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tr-xl rounded-br-xl active:scale-95`}
             >

@@ -488,7 +488,7 @@ function SimulationDesignPage() {
           />
 
           {/* CANVAS container */}
-          <section className='grid bg-secondary-colour h-full w-full border-solid border-2 border-black overflow-hidden'>
+          <section className='grid bg-gray-200 h-full w-full border-solid border-2 border-black overflow-hidden'>
             {simulationIsRunning ? (
               <CanvasSimulationTool
                 isResettingAnimation={isResettingAnimation}
@@ -509,7 +509,9 @@ function SimulationDesignPage() {
             simulationDataIsOpen ? 'grid overflow-hidden' : 'hidden'
           }`}
         >
-          <section className={`grid overflow-hidden h-full max-w-[300px]`}>
+          <section
+            className={`grid overflow-hidden h-full max-w-[300px] 2xl:max-w-[400px]`}
+          >
             <SimulationDataToobar
               setSimulationDataIsOpen={setSimulationDataIsOpen}
             />

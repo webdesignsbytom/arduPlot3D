@@ -33,7 +33,21 @@ function SimulationItem({ dataIndex, dataPoint }) {
   } = useContext(SimulationContext);
 
   return (
-    <div key={dataIndex} className='grid grid-cols-a1a h-[30px] w-full gap-2'>
+    <article
+      key={dataIndex}
+      title={
+        dataPoint.dataType === TAP_FUNCTION ||
+        dataPoint.dataType === MOVE_FUNCTION ||
+        dataPoint.dataType === MOVE_TAP_FUNCTION
+          ? `x: ${dataPoint.xPos}, y: ${dataPoint.yPos}`
+          : dataPoint.dataType === TIMEOUT_FUNCTION
+          ? `t: ${dataPoint.timeoutLength}`
+          : dataPoint.dataType === DRAG_FUNCTION
+          ? `x1: ${dataPoint.startxPos}, y1: ${dataPoint.startyPos} x2: ${dataPoint.finishxPos}, y2: ${dataPoint.finishyPos}`
+          : null
+      }
+      className='grid grid-cols-a1a h-[30px] w-full gap-2'
+    >
       <div className='grid items-center justify-center w-[30px] bg-blue-200 h-full outline outline-2 outline-black px-2'>
         <label
           htmlFor='data_point'
@@ -46,9 +60,11 @@ function SimulationItem({ dataIndex, dataPoint }) {
         <div className='grid items-center bg-secondary-colour px-1'>
           {dataPoint.dataType === TAP_FUNCTION && dataPoint.numFingers === 1 ? (
             <TbHandFinger />
-          ) : dataPoint.dataType === TAP_FUNCTION && dataPoint.numFingers === 2 ? (
+          ) : dataPoint.dataType === TAP_FUNCTION &&
+            dataPoint.numFingers === 2 ? (
             <TbHandTwoFingers />
-          ) : dataPoint.dataType === TAP_FUNCTION && dataPoint.numFingers === 3 ? (
+          ) : dataPoint.dataType === TAP_FUNCTION &&
+            dataPoint.numFingers === 3 ? (
             <TbHandThreeFingers />
           ) : dataPoint.dataType === MOVE_TAP_FUNCTION ? (
             <FaArrowsTurnToDots />
@@ -108,7 +124,7 @@ function SimulationItem({ dataIndex, dataPoint }) {
           <IoCloseCircleSharp />
         </button>
       </div>
-    </div>
+    </article>
   );
 }
 

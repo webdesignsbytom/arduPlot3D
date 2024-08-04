@@ -89,7 +89,7 @@ function SimulationFunctionsToolbar({
        {/* Header data */}
        <article className="grid grid-cols-rev gap-4 mb-2">
         <div className='grid items-center'>
-          <h2 className="font-semibold 2xl:text-xl text-center">Simulation Tools</h2>
+          <h2 className="font-semibold 2xl:text-2xl text-center">Simulation Tools</h2>
         </div>
 
         <div className="grid items-center justify-center">

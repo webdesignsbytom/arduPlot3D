@@ -226,6 +226,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         );
         context.stroke();
         context.fillStyle = 'black'; // This will ensure the text is always black
+        context.font='15px Arial';
         context.fillText(
           markerIndex,
           newDataPoint.xPos + 5,
@@ -243,6 +244,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         );
         context.stroke();
         context.fillStyle = 'black'; // This will ensure the text is always black
+        context.font='15px Arial';
         context.fillText(
           markerIndex,
           newDataPoint.startxPos + 5,
@@ -309,6 +311,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
           );
           context.stroke(); // Apply the arrow head to the canvas
           context.fillStyle = 'black';
+          context.font='15px Arial';
           context.fill(); // Fill the arrow head with black color
         }
 
@@ -324,6 +327,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         );
         context.stroke();
         context.fillStyle = 'black'; // This will ensure the text is always black
+        context.font='15px Arial';
         context.fillText(
           markerIndex,
           newDataPoint.finishxPos + 5,
@@ -342,6 +346,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       );
       context.stroke();
       context.fillStyle = 'black'; // This will ensure the text is always black
+      context.font='15px Arial';
       context.fillText(
         markerIndex,
         newDataPoint.finishxPos + 5,
@@ -541,11 +546,11 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
               className={`${rulesAndDataVisible && 'grid grid-cols-reg gap-1'}`}
             >
               <div className='grid grid-rows-reg gap-1'>
-                <div className='w-[25px] h-[25px]'></div>
+                <div className='w-[25px] h-[25px] 2xl:w-[40px] 2xl:h-[40px]'></div>
                 {/* Verticl ruler */}
                 {rulesAndDataVisible && (
                   <div
-                    className='flex flex-col text-xs w-[25px] max-w-[25px] text-right bg-[#d3d3d3] rounded outline outline-[1px] outline-black'
+                    className='flex flex-col text-xs w-[25px] max-w-[25px] 2xl:w-[40px] 2xl:max-w-[40px] text-right bg-[#d3d3d3] rounded outline outline-[1px] outline-black'
                     ref={rulerRefY}
                     style={{ justifyContent: 'space-between', height: '100%' }}
                   ></div>
@@ -560,7 +565,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
                 {/* Horizontal ruler */}
                 {rulesAndDataVisible && (
                   <div
-                    className='flex text-xs h-[25px] max-h-[25px] bg-[#d3d3d3] rounded outline outline-[1px] outline-black'
+                    className='flex text-xs h-[25px] max-h-[25px] 2xl:h-[40px] 2xl:max-h-[40px] bg-[#d3d3d3] rounded outline outline-[1px] outline-black'
                     ref={rulerRefX}
                     style={{ justifyContent: 'space-between', width: '100%' }}
                   ></div>
@@ -570,7 +575,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
                   ref={canvasRef}
                   onMouseMove={updatePositionMarker}
                   onMouseUp={createMarker}
-                  className={`border-solid border-black border-2 rounded-xl`}
+                  className={`border-solid border-black border-2 rounded-xl cursor-pointer`}
                 />
               </div>
             </div>
