@@ -1,3 +1,16 @@
+.stripped_border {
+  background-image: linear-gradient(
+    45deg,
+    var(--colour3) 25%,
+    var(--colour2) 25%,
+    var(--colour2) 50%,
+    var(--colour3) 50%,
+    var(--colour3) 75%,
+    var(--colour2) 75%,
+    var(--colour2) 100%
+  );
+  background-size: 56.57px 56.57px;
+}
 
 .main__bg {
   background-color: #ffffff;

@@ -6,6 +6,10 @@ module.exports = {
       backgroundImage: {
         'green-bg': "url('../assets/img/myea/green-bg1.png')",
       },
+      boxShadow: {
+        input: 'inset 1px 1px 6px 1px #00000014',
+        cardShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+      },
       colors: {
         'main-colour': '#fbbf24',
         'nav-colour': '#fbbf24',
@@ -20,9 +24,12 @@ module.exports = {
         'transparent-white': 'rgba(255, 255, 255, 0.65)',
         'main-text': '#000000',
         'error-red': '#',
-        'warning': '#e4000f',
+        warning: '#e4000f',
         'success-green': '#',
-        'hyperlink': '#2563EB',
+        hyperlink: '#2563EB',
+        colour1: '#f7f7f7', // Snow
+        colour2: '#fbbf24', // Honolulu Blue
+        colour3: '#98cd8d', // Prussian Blue
       },
       width: {
         eighty: '80%',
@@ -55,7 +62,7 @@ module.exports = {
         '1a1': '1fr 0.4fr 1fr',
         aa: 'auto auto',
         '3x': '3fr 1fr',
-        'x3': '0.8fr 3fr',
+        x3: '0.8fr 3fr',
         '2x': '2fr 1fr',
       },
     },

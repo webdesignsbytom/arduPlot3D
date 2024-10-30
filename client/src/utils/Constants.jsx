@@ -1,3 +1,9 @@
+// Company data
+export const CompanyName = 'ArduPlot 3D';
+export const CompanyPhoneNumber = '07846286385';
+export const ContactEmailAddress = 'hello@bytetoast-studio.com';
+export const DirectorName = 'Tom Brockington';
+
 // Routes
 export const CREATE_NEW_SIMULATION_API = '/simulations/user/create-new-simulation'
 export const SAVE_SIMULATION_API = '/simulations/user/save-simulation'
