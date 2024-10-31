@@ -30,12 +30,15 @@ const SimulationContextProvider = ({ children }) => {
   const dataPointMarkerRef = useRef(1);
   const emptyRef = useRef([]);
 
+  console.log('dataPointMarkerRef', dataPointMarkerRef);
+
   const [dataCollection, setDataCollection] = useState([]);
   const [loopDataPoints, setLoopDataPoints] = useState([]);
   const [simulationDataPoints, setSimulationDataPoints] = useState([]);
-
   // Simulation data and list of loops for simulation
   const [simulationData, setSimulationData] = useState(tempDesignData);
+  const [simulationDataId, setSimulationDataId] = useState(1);
+  console.log('simulationData', simulationData);
 
   // Simulation loops data
   const [simulationLoopData, setSimulationLoopData] = useState(blankLoopObject);
@@ -147,7 +150,7 @@ const SimulationContextProvider = ({ children }) => {
 
   const handleDataPointChange = (event, dataPoint) => {
     console.log('dataPoint', dataPoint);
-    const { value } = event.target
+    const { value } = event.target;
     console.log('value', value);
   };
 
@@ -169,6 +172,8 @@ const SimulationContextProvider = ({ children }) => {
       simulationTitle: currentFileName,
       simulationLoops: currentLoopData,
     });
+
+    setSimulationDataId(1);
   };
 
   const deleteDataPointFromSimulation = (event, dataIndex) => {
@@ -285,7 +290,10 @@ const SimulationContextProvider = ({ children }) => {
   const createNewFile = () => {
     setSimulationData(blankSimulationObject);
     setSimulationLoopData(blankLoopObject);
-    localStorage.setItem('simulationData', JSON.stringify(blankSimulationObject));
+    localStorage.setItem(
+      'simulationData',
+      JSON.stringify(blankSimulationObject)
+    );
   };
 
   // Clear state
@@ -380,6 +388,8 @@ const SimulationContextProvider = ({ children }) => {
         setConsentMessage,
         runConsentFunction,
         saveLoopPerminently,
+        simulationDataId,
+        setSimulationDataId,
       }}
     >
       {children}

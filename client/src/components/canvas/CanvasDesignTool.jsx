@@ -49,6 +49,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     loopDataBeingEdited,
     setLoopDataBeingEdited,
     numberOfDataPointsToDisplay,
+    simulationDataId,
+    setSimulationDataId,
   } = useContext(SimulationContext);
 
   // State to manage tooltip visibility and position
@@ -385,6 +387,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     switch (simulationToolSelected) {
       case TAP_FUNCTION:
         createTapDataPoint(
+          simulationDataId,
           offsetX,
           offsetY,
           dataGroup,
@@ -398,6 +401,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         break;
       case MOVE_FUNCTION:
         createMoveDataPoint(
+          simulationDataId,
           offsetX,
           offsetY,
           dataGroup,
@@ -410,6 +414,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         break;
       case MOVE_TAP_FUNCTION:
         createMoveAndTapDataPoint(
+          simulationDataId,
           offsetX,
           offsetY,
           dataGroup,
@@ -424,6 +429,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         break;
       case DRAG_FUNCTION:
         createDragDataPoint(
+          simulationDataId,
           offsetX,
           offsetY,
           dataGroup,
@@ -439,6 +445,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         break;
       case TIMEOUT_FUNCTION:
         createTimeoutDataPoint(
+          simulationDataId,
           offsetX,
           offsetY,
           dataGroup,
@@ -452,6 +459,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       default:
         console.log('No matching action found');
     }
+
+    setSimulationDataId(prev => prev + 1)
   };
 
   function updateLoopState(newDataPoint) {

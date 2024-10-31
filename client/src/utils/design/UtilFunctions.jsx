@@ -8,6 +8,7 @@ import {
 
 // Drag
 export const createDragDataPoint = (
+  simulationDataId,
   offsetX,
   offsetY,
   dataGroup,
@@ -21,7 +22,7 @@ export const createDragDataPoint = (
   setTempDragObject
 ) => {
   let newDataPoint = {
-    id: dataPointMarkerRef.current,
+    id: simulationDataId,
     dataGroup: dataGroup,
     dataType: DRAG_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     startxPos: offsetX,
@@ -80,6 +81,7 @@ export const setSecondDragPoint = (
 
 // Tap
 export const createTapDataPoint = (
+  simulationDataId,
   offsetX,
   offsetY,
   dataGroup,
@@ -91,7 +93,7 @@ export const createTapDataPoint = (
   TapFunctionColour
 ) => {
   let newDataPoint = {
-    id: dataPointMarkerRef.current,
+    id: simulationDataId,
     dataGroup: dataGroup,
     dataType: TAP_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     xPos: offsetX,
@@ -110,6 +112,7 @@ export const createTapDataPoint = (
 
 // Move
 export const createMoveDataPoint = (
+  simulationDataId,
   offsetX,
   offsetY,
   dataGroup,
@@ -120,7 +123,7 @@ export const createMoveDataPoint = (
   MoveFunctionColour
 ) => {
   let newDataPoint = {
-    id: dataPointMarkerRef.current,
+    id: simulationDataId,
     dataGroup: dataGroup,
     dataType: MOVE_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     xPos: offsetX,
@@ -138,6 +141,7 @@ export const createMoveDataPoint = (
 
 // Move And Tap
 export const createMoveAndTapDataPoint = (
+  simulationDataId,
   offsetX,
   offsetY,
   dataGroup,
@@ -150,7 +154,7 @@ export const createMoveAndTapDataPoint = (
   MoveTapFunctionColour
 ) => {
   let newDataPoint = {
-    id: dataPointMarkerRef.current,
+    id: simulationDataId,
     dataGroup: dataGroup,
     dataType: MOVE_TAP_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     xPos: offsetX,
@@ -174,6 +178,7 @@ export const createMoveAndTapDataPoint = (
 
 // Timeout
 export const createTimeoutDataPoint = (
+  simulationDataId,
   offsetX,
   offsetY,
   dataGroup,
@@ -184,7 +189,7 @@ export const createTimeoutDataPoint = (
   TimeoutFunctionColour
 ) => {
   let newDataPoint = {
-    id: dataPointMarkerRef.current,
+    id: simulationDataId,
     dataGroup: dataGroup,
     dataType: TIMEOUT_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     xPos: offsetX,
