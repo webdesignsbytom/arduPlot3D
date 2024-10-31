@@ -145,7 +145,11 @@ const SimulationContextProvider = ({ children }) => {
     setDisplayLoopDataPointsIndex(index);
   };
 
-  const handleDataPointChange = () => {};
+  const handleDataPointChange = (event, dataPoint) => {
+    console.log('dataPoint', dataPoint);
+    const { value } = event.target
+    console.log('value', value);
+  };
 
   const clearAllDataPointsFromSimulation = () => {
     const currentFileName = simulationData.simulationTitle;

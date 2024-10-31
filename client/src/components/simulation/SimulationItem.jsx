@@ -82,7 +82,7 @@ function SimulationItem({ dataIndex, dataPoint }) {
           style={{
             background:
               dataPoint.dataType === TAP_FUNCTION
-                ? `linear-gradient(${TapFunctionColour}, #98e5bc)`
+                ? `linear-gradient(${TapFunctionColour}, #87f4ad)`
                 : dataPoint.dataType === MOVE_TAP_FUNCTION
                 ? `linear-gradient(${MoveTapFunctionColour}, #e5d860)`
                 : dataPoint.dataType === MOVE_FUNCTION
@@ -90,7 +90,7 @@ function SimulationItem({ dataIndex, dataPoint }) {
                 : dataPoint.dataType === DRAG_FUNCTION
                 ? `linear-gradient(${DragFunctionColour}, #f9a8d4)`
                 : dataPoint.dataType === TIMEOUT_FUNCTION
-                ? `linear-gradient(${TimeoutFunctionColour}, #93c5fd)`
+                ? `linear-gradient(${TimeoutFunctionColour}, #fa8773)`
                 : 'none',
           }}
           type='text'
@@ -107,7 +107,7 @@ function SimulationItem({ dataIndex, dataPoint }) {
               ? `x1: ${dataPoint.startxPos}, y1: ${dataPoint.startyPos} x2: ${dataPoint.finishxPos}, y2: ${dataPoint.finishyPos}`
               : null
           }
-          onChange={handleDataPointChange}
+          onChange={(event) => handleDataPointChange(event, dataPoint)}
         />
       </div>
       {/* Delete button */}

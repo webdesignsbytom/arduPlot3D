@@ -21,6 +21,7 @@ export const createDragDataPoint = (
   setTempDragObject
 ) => {
   let newDataPoint = {
+    id: dataPointMarkerRef.current,
     dataGroup: dataGroup,
     dataType: DRAG_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     startxPos: offsetX,
@@ -90,6 +91,7 @@ export const createTapDataPoint = (
   TapFunctionColour
 ) => {
   let newDataPoint = {
+    id: dataPointMarkerRef.current,
     dataGroup: dataGroup,
     dataType: TAP_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     xPos: offsetX,
@@ -118,6 +120,7 @@ export const createMoveDataPoint = (
   MoveFunctionColour
 ) => {
   let newDataPoint = {
+    id: dataPointMarkerRef.current,
     dataGroup: dataGroup,
     dataType: MOVE_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     xPos: offsetX,
@@ -147,6 +150,7 @@ export const createMoveAndTapDataPoint = (
   MoveTapFunctionColour
 ) => {
   let newDataPoint = {
+    id: dataPointMarkerRef.current,
     dataGroup: dataGroup,
     dataType: MOVE_TAP_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     xPos: offsetX,
@@ -180,6 +184,7 @@ export const createTimeoutDataPoint = (
   TimeoutFunctionColour
 ) => {
   let newDataPoint = {
+    id: dataPointMarkerRef.current,
     dataGroup: dataGroup,
     dataType: TIMEOUT_FUNCTION, // Tap, Move, MoveTap, Drag, Timeout
     xPos: offsetX,

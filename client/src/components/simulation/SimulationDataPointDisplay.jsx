@@ -5,7 +5,6 @@ import { SimulationContext } from '../../context/SimulationContext';
 import SimulationItem from './SimulationItem';
 import LoopItem from './LoopItem';
 // Icons
-import { IoCloseCircleSharp } from 'react-icons/io5';
 import LoopItemContainer from './LoopItemContainer';
 
 function SimulationDataPointDisplay() {
