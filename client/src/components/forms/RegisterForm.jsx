@@ -15,7 +15,7 @@ function RegisterForm() {
     country: '',
     termsChecked: true,
   });
-  const [registerError, setRegisterError] = useState(false)
+  const [registerError, setRegisterError] = useState(false);
   const [registrationFormData, setRegistrationFormData] = useState({
     active: false,
     success: false,
@@ -49,13 +49,13 @@ function RegisterForm() {
       })
 
       .catch((err) => {
-        setRegisterError(true)
+        setRegisterError(true);
         console.error('Unable to register new user', err);
       });
   };
 
   const handleChange = (event) => {
-    setRegisterError(false)
+    setRegisterError(false);
     const { name, value } = event.target;
 
     setRegisterFormData({
@@ -75,7 +75,7 @@ function RegisterForm() {
       <div className='mb-6'>
         <input
           type='text'
-          className='form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
+          className='form-control block w-full px-3 py-1.5 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
           placeholder='Username'
           id='username'
           name='username'
@@ -86,7 +86,7 @@ function RegisterForm() {
         type='email'
         id='email'
         name='email'
-        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-gray-700 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
+        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
         placeholder='Email address'
         onChange={handleChange}
       />
@@ -94,7 +94,7 @@ function RegisterForm() {
         type='password'
         id='password'
         name='password'
-        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-gray-700 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
+        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
         placeholder='Password'
         onChange={handleChange}
       />
@@ -102,7 +102,7 @@ function RegisterForm() {
         type='password'
         id='confirmPassword'
         name='confirmPassword'
-        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-gray-700 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
+        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
         placeholder='Password'
         onChange={handleChange}
       />

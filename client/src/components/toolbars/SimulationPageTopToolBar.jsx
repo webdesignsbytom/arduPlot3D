@@ -189,7 +189,6 @@ function SimulationPageTopToolBar({
 
   return (
     <section className='grid grid-flow-col justify-between'>
-
       {/* Device selected title */}
       <div className='bg-secondary-colour grid items-center px-2 border-2 border-black border-solid rounded-tr-xl rounded-br-xl shadow-cardShadow'>
         <h4 className='hidden lg:inline text-xl font-semibold'>
@@ -199,7 +198,7 @@ function SimulationPageTopToolBar({
 
       <div className='flex gap-2'>
         {/* Timeout */}
-        <div className='grid items-center px-1 h-[32px] 2xl:h-[48px] w-full outline-black outline outline-2 no__highlights bg-secondary-colour rounded-md'>
+        <div className='grid items-center px-1 h-[32px] 2xl:h-[48px] w-full outline-black outline outline-2 no__highlights bg-secondary-colour rounded shadow-cardShadow'>
           {/* Times length */}
           <div className='text-xs'>{renderSimulationToolContent()}</div>
         </div>

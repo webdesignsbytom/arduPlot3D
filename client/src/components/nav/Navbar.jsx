@@ -65,34 +65,34 @@ function Navbar() {
       <section className='hidden lg:grid justify-end'>
         <div className='grid items-center pr-4'>
           <ul className='grid grid-flow-col w-fit justify-end gap-4 font-semibold'>
-            <li className={activeNav === '/' ? 'text-gray-600 hover:text-gray-700 active:scale-95' : 'hover:text-gray-700 active:scale-95'}>
+            <li className={activeNav === '/' ? 'text-gray-600 hover:text-colour5 active:scale-95' : 'hover:text-colour5 active:scale-95'}>
               <Link className='w-full' to='/'>
                 Home
               </Link>
             </li>
-            <li className={activeNav === '/design' ? 'text-gray-600 hover:text-gray-700 active:scale-95' : 'hover:text-gray-700 active:scale-95'}>
+            <li className={activeNav === '/design' ? 'text-gray-600 hover:text-colour5 active:scale-95' : 'hover:text-colour5 active:scale-95'}>
               <Link className='w-full' to='/design'>
                 Design
               </Link>
             </li>
-            <li className={activeNav === '/library' ? 'text-gray-600 hover:text-gray-700 active:scale-95' : 'hover:text-gray-700 active:scale-95'}>
+            <li className={activeNav === '/library' ? 'text-gray-600 hover:text-colour5 active:scale-95' : 'hover:text-colour5 active:scale-95'}>
               <Link className='w-full' to='/library'>
                 Library
               </Link>
             </li>
-            <li className={activeNav === '/device-configuration' ? 'text-gray-600 hover:text-gray-700 active:scale-95' : 'hover:text-gray-700 active:scale-95'}>
+            <li className={activeNav === '/device-configuration' ? 'text-gray-600 hover:text-colour5 active:scale-95' : 'hover:text-colour5 active:scale-95'}>
               <Link className='w-full' to='/device-configuration'>
                 Config
               </Link>
             </li>
             {!user.email && (
               <>
-                <li className={activeNav === '/login' ? 'text-gray-600 hover:text-gray-700 active:scale-95' : 'hover:text-gray-700 active:scale-95'}>
+                <li className={activeNav === '/login' ? 'text-gray-600 hover:text-colour5 active:scale-95' : 'hover:text-colour5 active:scale-95'}>
                   <Link className='w-full' to='/Login'>
                     Login
                   </Link>
                 </li>
-                <li className={activeNav === '/sign-up' ? 'text-gray-600 hover:text-gray-700 active:scale-95' : 'hover:text-gray-700 active:scale-95'}>
+                <li className={activeNav === '/sign-up' ? 'text-gray-600 hover:text-colour5 active:scale-95' : 'hover:text-colour5 active:scale-95'}>
                   <Link className='w-full' to='/sign-up'>
                     Sign Up
                   </Link>
@@ -100,7 +100,7 @@ function Navbar() {
               </>
             )}
             {(user.role === 'ADMIN' || user.role === 'DEVELOPER') && (
-              <li className={activeNav === '/admin' ? 'text-gray-600 hover:text-gray-700 active:scale-95' : 'hover:text-gray-700 active:scale-95'}>
+              <li className={activeNav === '/admin' ? 'text-gray-600 hover:text-colour5 active:scale-95' : 'hover:text-colour5 active:scale-95'}>
                 <Link className='w-full' to='/admin'>
                   Admin
                 </Link>

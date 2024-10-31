@@ -81,7 +81,7 @@ function LoginPage() {
       <section className='grid h-full grid-rows-reg'>
         <Navbar />
         <main className='bg-secondary-colour main__bg grid items-center justify-center'>
-          <div className='grid justify-center items-center w-full bg-secondary-colour rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
+          <div className='grid justify-center items-center w-full bg-secondary-colour rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-colour5'>
             <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
               <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-secondary-colour'>
                 Sign in to your account
@@ -98,7 +98,7 @@ function LoginPage() {
                     type='email'
                     name='email'
                     id='email'
-                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-secondary-colour dark:focus:ring-blue-600 dark:focus:border-blue-600'
+                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-colour5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-secondary-colour dark:focus:ring-blue-600 dark:focus:border-blue-600'
                     placeholder='name@email.com'
                     onChange={handleChange}
                     required
@@ -116,7 +116,7 @@ function LoginPage() {
                     name='password'
                     id='password'
                     placeholder='••••••••'
-                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-secondary-colour dark:focus:ring-blue-600 dark:focus:border-blue-600'
+                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-colour5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-secondary-colour dark:focus:ring-blue-600 dark:focus:border-blue-600'
                     required
                     onChange={handleChange}
                   />

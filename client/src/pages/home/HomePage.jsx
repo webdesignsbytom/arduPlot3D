@@ -1,12 +1,11 @@
-import React, { useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
 // Analytics
 import { usePageTracking } from '../../components/hooks/useAnalytics';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import { HelmetItem } from '../../components/utils/HelmetItem';
 // Constants
-import { CompanyName, SIMULATION_PAGE_URL } from '../../utils/Constants';
+import { CompanyName } from '../../utils/Constants';
 import HomePageHeader from '../../components/home/HomePageHeader';
 
 function HomePage() {

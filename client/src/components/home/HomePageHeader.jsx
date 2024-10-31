@@ -10,7 +10,7 @@ function HomePageHeader() {
         {/* Text */}
         <article className='grid gap-4 h-fit'>
           <div>
-            <h2 className='text-xl font-semibold text-gray-700'>Welcome To</h2>
+            <h2 className='text-xl font-semibold text-colour5'>Welcome To</h2>
             <h1 className='text-4xl font-poppins font-bold text-colour2'>
               ArduPlot<span className='text-colour3'>3</span>D
             </h1>
@@ -32,7 +32,7 @@ function HomePageHeader() {
         <section className='px-4 py-2'>
           <Link to={SIMULATION_PAGE_URL}>
             <div className='stripped_border_dense py-1 px-1 shadow-cardShadow'>
-              <div className='bg-colour1 text-lg w-full py-2 px-2 hover:bg-colour2 font-semibold duration-300'>
+              <div className='bg-colour1 text-colour5 text-lg w-full py-2 px-2 hover:bg-colour2 font-semibold duration-300'>
                 Try Now For Free
               </div>
             </div>
