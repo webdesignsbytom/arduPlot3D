@@ -27,9 +27,10 @@ module.exports = {
         warning: '#e4000f',
         'success-green': '#',
         hyperlink: '#2563EB',
-        colour1: '#f7f7f7', // Snow
-        colour2: '#fbbf24', // Honolulu Blue
-        colour3: '#98cd8d', // Prussian Blue
+        colour1: '#f7f7f7',
+        colour2: '#fbbf24',
+        colour3: '#98cd8d',
+        colour4: '#fdd267',
       },
       width: {
         eighty: '80%',

@@ -14,7 +14,7 @@ function SimLoopButtons() {
   };
   
   return (
-    <section className='grid grid-cols-2 gap-2 h-fit w-full p-2'>
+    <section className='grid grid-cols-2 gap-2 h-fit w-fit mx-auto px-2 py-4'>
       <div className='grid w-full'>
         <button
           title='Main simulation data points'

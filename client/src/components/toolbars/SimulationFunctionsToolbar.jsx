@@ -72,7 +72,7 @@ function SimulationFunctionsToolbar({
       {actions.map(({ label, onClick }, index) => (
         <li
           key={index}
-          className="cursor-pointer hover:text-gray-600 active:scale-95 no__highlights"
+          className='cursor-pointer hover:text-gray-600 active:scale-95 no__highlights'
           onClick={onClick}
         >
           {label}
@@ -83,63 +83,67 @@ function SimulationFunctionsToolbar({
 
   return (
     <section
-      className={`bg-secondary-colour h-full overflow-y-auto scrollbar_hidden border-r-2 border-solid border-black ${userMenuIsOpen ? '' : 'hidden'}`}
+      className={`bg-secondary-colour h-full overflow-y-auto scrollbar_hidden border-r-2 border-solid border-black ${
+        userMenuIsOpen ? '' : 'hidden'
+      }`}
     >
-     <div className='p-2'>
-       {/* Header data */}
-       <article className="grid grid-cols-rev gap-4 mb-2">
-        <div className='grid items-center'>
-          <h2 className="font-semibold 2xl:text-2xl text-center">Simulation Tools</h2>
-        </div>
+      <div className='p-2'>
+        {/* Header data */}
+        <article className='grid grid-cols-rev gap-4 mb-2'>
+          <div className='grid items-center'>
+            <h2 className='font-semibold text-xl text-center'>
+              Simulation Tools
+            </h2>
+          </div>
 
-        <div className="grid items-center justify-center">
-          <FaArrowAltCircleLeft
-            onClick={hideContainer}
-            title="Hide"
-            className="hover:brightness-90 cursor-pointer text-main-colour"
-            size={20}
-          />
-        </div>
-      </article>
-
-      {/* Divider */}
-      <div className="w-full h-[1px] bg-slate-400"></div>
-
-      {/* Tools */}
-      <section className='text-sm 2xl:text-base'>
-        <div className="py-2">{renderActions(simulationActions)}</div>
+          <div className='grid items-center justify-center'>
+            <FaArrowAltCircleLeft
+              onClick={hideContainer}
+              title='Hide'
+              className='hover:brightness-90 cursor-pointer text-main-colour'
+              size={20}
+            />
+          </div>
+        </article>
 
         {/* Divider */}
-        <div className="w-full h-[1px] bg-slate-400"></div>
+        <div className='w-full h-[1px] bg-slate-400'></div>
 
-        <section className="py-2">{renderActions(fileActions)}</section>
+        {/* Tools */}
+        <section className='text-sm 2xl:text-base'>
+          <div className='py-2'>{renderActions(simulationActions)}</div>
 
-        {/* Divider */}
-        <div className="w-full h-[1px] bg-slate-400"></div>
+          {/* Divider */}
+          <div className='w-full h-[1px] bg-slate-400'></div>
 
-        <section className="py-2">{renderActions(downloadActions)}</section>
+          <section className='py-2'>{renderActions(fileActions)}</section>
 
-        {/* Divider */}
-        <div className="w-full h-[1px] bg-slate-400"></div>
+          {/* Divider */}
+          <div className='w-full h-[1px] bg-slate-400'></div>
 
-        <section className="py-2">{renderActions(settingsActions)}</section>
+          <section className='py-2'>{renderActions(downloadActions)}</section>
 
-        {/* Divider */}
-        <div className="w-full h-[1px] bg-slate-400"></div>
+          {/* Divider */}
+          <div className='w-full h-[1px] bg-slate-400'></div>
 
-        <section className="py-2">{renderActions(deviceActions)}</section>
+          <section className='py-2'>{renderActions(settingsActions)}</section>
 
-        {/* Divider */}
-        <div className="w-full h-[1px] bg-slate-400"></div>
+          {/* Divider */}
+          <div className='w-full h-[1px] bg-slate-400'></div>
 
-        <section className="py-2">{renderActions(videoActions)}</section>
+          <section className='py-2'>{renderActions(deviceActions)}</section>
 
-        {/* Divider */}
-        <div className="w-full h-[1px] bg-slate-400"></div>
+          {/* Divider */}
+          <div className='w-full h-[1px] bg-slate-400'></div>
 
-        <section className="py-2">{renderActions(publishActions)}</section>
-      </section>
-     </div>
+          <section className='py-2'>{renderActions(videoActions)}</section>
+
+          {/* Divider */}
+          <div className='w-full h-[1px] bg-slate-400'></div>
+
+          <section className='py-2'>{renderActions(publishActions)}</section>
+        </section>
+      </div>
     </section>
   );
 }

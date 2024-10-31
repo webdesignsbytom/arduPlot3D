@@ -61,6 +61,12 @@ function SimulationPageTopToolBar({
 
   const toolButtons = [
     {
+      onClick: selectMoveTool,
+      title: 'Move tool',
+      selected: simulationToolSelected === 'move',
+      icon: <IoMdMove />,
+    },
+    {
       onClick: selectTapTool,
       title: 'Tap tool',
       selected: simulationToolSelected === 'tap',
@@ -90,12 +96,6 @@ function SimulationPageTopToolBar({
       title: 'Timeout tool',
       selected: simulationToolSelected === 'timeout',
       icon: <IoTimeOutline />,
-    },
-    {
-      onClick: selectMoveTool,
-      title: 'Move tool',
-      selected: simulationToolSelected === 'move',
-      icon: <IoMdMove />,
     },
   ];
 
@@ -139,6 +139,13 @@ function SimulationPageTopToolBar({
 
   const renderSimulationToolContent = () => {
     switch (simulationToolSelected) {
+      case MOVE_FUNCTION:
+        return (
+          <div>
+            <label htmlFor='movement_speed'>Movement Sp</label>
+            <div>{speedOfArmMoving} mm/s</div>
+          </div>
+        );
       case TAP_FUNCTION:
         return (
           <div>
@@ -175,13 +182,6 @@ function SimulationPageTopToolBar({
             </div>
           </div>
         );
-      case MOVE_FUNCTION:
-        return (
-          <div>
-            <label htmlFor='movement_speed'>Movement Sp</label>
-            <div>{speedOfArmMoving} mm/s</div>
-          </div>
-        );
       default:
         return null;
     }
@@ -189,9 +189,12 @@ function SimulationPageTopToolBar({
 
   return (
     <section className='grid grid-flow-col justify-between'>
+
       {/* Device selected title */}
-      <div className='bg-secondary-colour'>
-        <h4 className='hidden lg:inline text-xl font-semibold'>{selectedDevice.title}</h4>
+      <div className='bg-secondary-colour grid items-center px-2 border-2 border-black border-solid rounded-tr-xl rounded-br-xl shadow-cardShadow'>
+        <h4 className='hidden lg:inline text-xl font-semibold'>
+          {selectedDevice.title}
+        </h4>
       </div>
 
       <div className='flex gap-2'>
@@ -212,7 +215,7 @@ function SimulationPageTopToolBar({
             className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] 2xl:min-h-[48px] 2xl:w-[48px] 2xl:h-[48px] 2xl:min-w-[48px] outline-black outline outline-2 active:scale-95 no__highlights ${
               button.selected
                 ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-                : 'bg-main-colour hover:bg-yellow-100'
+                : 'bg-colour4 hover:bg-yellow-100 shadow-cardShadow'
             } rounded-md`}
           >
             <div className='grid items-center justify-center'>
@@ -232,7 +235,7 @@ function SimulationPageTopToolBar({
             className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] 2xl:min-h-[48px] 2xl:w-[48px] 2xl:h-[48px] 2xl:min-w-[48px] outline-black outline outline-2 active:scale-95 no__highlights ${
               button.selected
                 ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-                : 'bg-main-colour hover:bg-yellow-100'
+                : 'bg-colour4 hover:bg-yellow-100'
             } rounded-md`}
           >
             <div className='grid items-center justify-center'>
@@ -247,7 +250,7 @@ function SimulationPageTopToolBar({
             className='px-2 h-[32px] 2xl:h-[48px] outline-black outline outline-2 active:scale-95 no__highlights bg-warning hover:brightness-90 rounded-md'
           >
             <div className='grid items-center justify-center'>
-              <span>Clear</span>
+              <span className='text-colour1'>CLEAR</span>
             </div>
           </button>
         </div>

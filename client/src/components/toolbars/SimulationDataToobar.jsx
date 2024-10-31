@@ -24,7 +24,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
   };
 
   return (
-    <section className='bg-secondary-colour h-full grid grid-rows-reg border-l-2 border-solid border-black px-1 py-2 overflow-hidden'>
+    <section className='bg-secondary-colour h-full grid grid-rows-reg w-fit max-w-[350px] border-l-2 border-solid border-black px-1 py-2 overflow-hidden'>
       {/* Header data */}
       <article className='grid h-fit'>
         <section className='grid grid-cols-reg mb-2'>
@@ -37,7 +37,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
             />
           </div>
           <div>
-            <h2 className='font-semibold 2xl:text-2xl text-center'>
+            <h2 className='font-semibold text-xl text-center'>
               Simulation Data
             </h2>
           </div>
@@ -45,8 +45,8 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
         {/* Divider */}
         <div className='w-full h-[1px] bg-slate-400'></div>
 
-        <div className='p-1'>
-          <p className='leading-4 text-xs'>
+        <div className='p-1 text-center'>
+          <p className='leading-4 text-xs '>
             Edit and modify the positions to refine your simulation.
           </p>
         </div>

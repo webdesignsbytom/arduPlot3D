@@ -28,8 +28,6 @@ import {
 } from '../../utils/design/ConfrimMessages';
 import LoadSimulationModal from '../../components/modals/LoadSimulationModal';
 import PublishSimulationModal from '../../components/modals/PublishSimulationModal';
-// Icons
-import { FaClipboardList } from 'react-icons/fa';
 // Constants
 import {
   DRAG_FUNCTION,
@@ -43,6 +41,7 @@ import {
   SAVE_SIMULATION_API,
   CREATE_NEW_SIMULATION_API,
 } from '../../utils/Constants';
+import SimulationDisplayComponent from '../../components/simulation/SimulationDisplayComponent';
 
 function SimulationDesignPage() {
   const { setActiveNav } = useContext(ToggleContext);
@@ -415,29 +414,6 @@ function SimulationDesignPage() {
             : ''
         } overflow-hidden`}
       >
-        {/* Open close button */}
-        {!userMenuIsOpen && (
-          <button className='absolute left-2 z-50 top-1/2 grid p-1 bg-main-colour h-fit items-center justify-center rounded-full shadow-lg'>
-            <FaClipboardList
-              size={20}
-              onClick={() => setUserMenuIsOpen(true)}
-              title='Open menu'
-              className='hover:brightness-90 cursor-pointer text-secondary-colour'
-            />
-          </button>
-        )}
-
-        {!simulationDataIsOpen && (
-          <button className='absolute right-2 z-50 top-1/2 grid p-1 bg-main-colour h-fit items-center justify-center rounded-full shadow-lg'>
-            <FaClipboardList
-              size={20}
-              onClick={() => setSimulationDataIsOpen(true)}
-              title='Open menu'
-              className='hover:brightness-90 cursor-pointer text-secondary-colour'
-            />
-          </button>
-        )}
-
         {/* Functions bar */}
         <SimulationFunctionsToolbar
           runSimulation={runSimulation}
@@ -488,19 +464,13 @@ function SimulationDesignPage() {
           />
 
           {/* CANVAS container */}
-          <section className='grid bg-gray-200 h-full w-full border-solid border-2 border-black overflow-hidden'>
-            {simulationIsRunning ? (
-              <CanvasSimulationTool
-                isResettingAnimation={isResettingAnimation}
-              />
-            ) : (
-              <CanvasDesignTool
-                positionOfMouseAndCanvasVisible={
-                  positionOfMouseAndCanvasVisible
-                }
-              />
-            )}
-          </section>
+          <SimulationDisplayComponent
+            isResettingAnimation={isResettingAnimation}
+            userMenuIsOpen={userMenuIsOpen}
+            setUserMenuIsOpen={setUserMenuIsOpen}
+            simulationDataIsOpen={simulationDataIsOpen}
+            setSimulationDataIsOpen={setSimulationDataIsOpen}
+          />
         </section>
 
         {/* data bar */}

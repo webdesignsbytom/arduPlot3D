@@ -6,7 +6,7 @@ import { SIMULATION_PAGE_URL } from '../../utils/Constants';
 function HomePageHeader() {
   return (
     <header className='stripped_border grid p-5 w-full h-fit shadow-cardShadow'>
-      <div className='grid gap-8 text-center bg-colour1 py-6 px-4 lg:px-8 lg:py-8 h-fit w-full'>
+      <div className='grid gap-8 text-center bg-colour1 shadow-input py-6 px-4 lg:px-8 lg:py-8 h-fit w-full'>
         {/* Text */}
         <article className='grid gap-4 h-fit'>
           <div>
@@ -31,8 +31,8 @@ function HomePageHeader() {
         {/* cta */}
         <section className='px-4 py-2'>
           <Link to={SIMULATION_PAGE_URL}>
-            <div className='stripped_border py-1 px-1'>
-              <div className='bg-colour1 text-lg w-full py-2 px-2 hover:bg-transparent'>
+            <div className='stripped_border_dense py-1 px-1 shadow-cardShadow'>
+              <div className='bg-colour1 text-lg w-full py-2 px-2 hover:bg-colour2 font-semibold duration-300'>
                 Try Now For Free
               </div>
             </div>
