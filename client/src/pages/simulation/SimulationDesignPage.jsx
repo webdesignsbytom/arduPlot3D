@@ -35,6 +35,8 @@ import {
   CREATE_NEW_SIMULATION_API,
 } from '../../utils/Constants';
 import SimulationDisplayComponent from '../../components/simulation/SimulationDisplayComponent';
+import { useModalContext } from '../../context/ModalContext';
+import ConnectToDeviceModal from '../../components/modals/ConnectToDeviceModal';
 
 function SimulationDesignPage() {
   const { user } = useContext(UserContext);
@@ -72,6 +74,7 @@ function SimulationDesignPage() {
     setConsentMessage,
     simulationData,
   } = useContext(SimulationContext);
+  const { connectToDeviceModalOpen } = useModalContext()
 
   // Video modal
   const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
@@ -193,7 +196,7 @@ function SimulationDesignPage() {
     closeAllModalsMaster();
     setLoadModalOpen(true);
   };
-  
+
   // Close load
   const closeLoadSimulationModal = () => {
     setLoadModalOpen(false);
@@ -282,7 +285,68 @@ function SimulationDesignPage() {
     setIsPublishModalOpen(false);
   };
 
-  // Download simulation for sd card
+  // Function to translate simulation data to GPGL commands
+  function translateToPlotterLanguage() {
+    let commands = '';
+    let lastPosition = { x: null, y: null }; // Track the last position to avoid redundant PA
+
+    const formatPoint = (point) => {
+      // Check if the point and dataType are defined
+      if (!point || !point.dataType) {
+        return '// Invalid point data\n'; // Skip this point if dataType is missing
+      }
+
+      let command = '';
+
+      // Check if position has changed to avoid redundant PA commands
+      if (point.xPos !== lastPosition.x || point.yPos !== lastPosition.y) {
+        command += `PA ${point.xPos || 0},${point.yPos || 0}; `;
+        lastPosition = { x: point.xPos, y: point.yPos }; // Update last position
+      }
+
+      switch (point.dataType.toLowerCase()) {
+        case 'tap':
+          command += `PD; PU;\n`; // Tap down and lift up
+          break;
+        case 'move':
+          command += `PU;\n`; // Move without engaging
+          break;
+        case 'move_tap':
+          command += `PD; PU;\n`; // Move and tap
+          break;
+        case 'drag':
+          // Only issue PA if start position is different
+          if (
+            point.startxPos !== lastPosition.x ||
+            point.startyPos !== lastPosition.y
+          ) {
+            command += `PA ${point.startxPos || 0},${point.startyPos || 0}; `;
+            lastPosition = { x: point.startxPos, y: point.startyPos };
+          }
+          command += `PD; PA ${point.finishxPos || 0},${
+            point.finishyPos || 0
+          }; PU;\n`; // Drag
+          lastPosition = { x: point.finishxPos, y: point.finishyPos }; // Update last position
+          break;
+        case 'timeout':
+          command += `WAIT ${point.timeoutLength || 0};\n`; // Wait for timeout
+          break;
+        default:
+          command += `// Unknown dataType: ${point.dataType}\n`;
+      }
+
+      return command;
+    };
+
+    // Translate main simulation data points to GPGL commands
+    simulationData.mainSimulationDataPoints.forEach((point) => {
+      commands += formatPoint(point);
+    });
+
+    return commands;
+  }
+
+  // Download function to save the commands as a file
   const downloadFileToMachine = () => {
     const plotterCommands = translateToPlotterLanguage();
     const blob = new Blob([plotterCommands], { type: 'text/plain' });
@@ -295,58 +359,6 @@ function SimulationDesignPage() {
     document.body.removeChild(link);
     URL.revokeObjectURL(href);
   };
-
-  // Example: [{xPos: 10, yPos: 20}, {xPos: 30, yPos: 40}]
-  // Function to translate drawing commands to ASCII/Plotter language
-
-  function translateToPlotterLanguage() {
-    let commands = '';
-
-    const formatPoint = (point) => {
-      switch (point.dataType) {
-        case TAP_FUNCTION:
-        case MOVE_FUNCTION:
-        case MOVE_TAP_FUNCTION:
-          return `${point.dataType.toUpperCase()} xPos: ${point.xPos}, yPos: ${
-            point.yPos
-          }, xySpeed: ${point.xySpeed}, zSpeed: ${point.zSpeed}, numFingers: ${
-            point.numFingers
-          }, timeLength: ${point.timeLength}\n`;
-        case DRAG_FUNCTION:
-          return `${point.dataType.toUpperCase()} startxPos: ${
-            point.startxPos
-          }, startyPos: ${point.startyPos}, finishxPos: ${
-            point.finishxPos
-          }, finishyPos: ${point.finishyPos}, xySpeed: ${
-            point.xySpeed
-          }, zSpeed: ${point.zSpeed}, numFingers: ${
-            point.numFingers
-          }, timeLength: ${point.timeLength}\n`;
-        case TIMEOUT_FUNCTION:
-          return `${point.dataType.toUpperCase()} timeoutLength: ${
-            point.timeoutLength
-          }\n`;
-        default:
-          return `Unknown DataType: ${point.dataType}\n`;
-      }
-    };
-
-    // Translate main simulation data points
-    simulationData.mainSimulationDataPoints.forEach((point) => {
-      commands += formatPoint(point);
-    });
-
-    // Translate simulation loops
-    // simulationData.simulationLoops.forEach(loop => {
-    //   commands += `LOOP: ${loop.loopTitle}\n`;
-    //   loop.mainSimulationLoopDataPoints.forEach(point => {
-    //     commands += `  ${formatPoint(point)}`;
-    //   });
-    //   commands += `LOOP END: ${loop.loopTitle}, Time to Complete: ${loop.loopTimeToComplete}ms\n`;
-    // });
-
-    return commands;
-  }
 
   const loadSimulationFile = () => {
     console.log('AAA');
@@ -536,6 +548,8 @@ function SimulationDesignPage() {
 
       {/* Loop selection */}
       {addCreateLoopModalOpen && <AddLoopToSimulationModal />}
+
+      {connectToDeviceModalOpen && <ConnectToDeviceModal />}
     </div>
   );
 }

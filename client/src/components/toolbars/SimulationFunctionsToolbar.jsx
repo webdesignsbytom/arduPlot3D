@@ -1,6 +1,8 @@
 import React from 'react';
 // Icons
 import { FaArrowAltCircleLeft } from 'react-icons/fa';
+// Context
+import { useModalContext } from '../../context/ModalContext';
 
 function SimulationFunctionsToolbar({
   runSimulation,
@@ -21,6 +23,7 @@ function SimulationFunctionsToolbar({
   userMenuIsOpen,
   setUserMenuIsOpen,
 }) {
+  const { toggleConnectToDeviceModal } = useModalContext();
   // Close this container
   const hideContainer = () => {
     setUserMenuIsOpen(false);
@@ -42,6 +45,7 @@ function SimulationFunctionsToolbar({
 
   const downloadActions = [
     { label: 'Download', onClick: downloadFileToMachine },
+    { label: 'Connect Device', onClick: toggleConnectToDeviceModal },
   ];
 
   const settingsActions = [

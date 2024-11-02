@@ -55,14 +55,14 @@ function Navbar() {
 
       {/* Main Navigation */}
       <section className='hidden lg:grid justify-end'>
-        <ul className='grid grid-flow-col w-fit justify-end gap-4 font-semibold pr-4'>
+        <ul className='grid grid-flow-col items-center w-fit justify-end gap-4 font-semibold pr-4'>
           {navItems.map(({ path, label }) => (
             <li key={path}>
               <NavLink
                 to={path}
                 className={({ isActive }) =>
                   `hover:text-colour5 active:scale-95 ${
-                    isActive ? 'text-gray-600' : ''
+                    isActive ? 'text-colour1' : ''
                   }`
                 }
               >

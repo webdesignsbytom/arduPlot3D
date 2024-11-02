@@ -6,13 +6,28 @@ const ModalContext = createContext();
 // Create the provider component
 const ModalContextProvider = ({ children }) => {
   const [toggleNavigation, setToggleNavigation] = useState(false);
+  const [connectToDeviceModalOpen, setConnectToDeviceModalOpen] =
+    useState(false);
 
   const toggleNavbarOpenClosed = () => {
     setToggleNavigation(!toggleNavigation);
   };
 
+  const toggleConnectToDeviceModal = () => {
+    setConnectToDeviceModalOpen(!connectToDeviceModalOpen);
+  };
+
   return (
-    <ModalContext.Provider value={{ toggleNavigation, toggleNavbarOpenClosed }}>
+    <ModalContext.Provider
+      value={{
+        // Navbar
+        toggleNavigation,
+        toggleNavbarOpenClosed,
+        // Connect to device
+        toggleConnectToDeviceModal,
+        connectToDeviceModalOpen,
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );
