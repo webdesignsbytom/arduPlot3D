@@ -75,7 +75,7 @@ function RegisterForm() {
       <div className='mb-6'>
         <input
           type='text'
-          className='form-control block w-full px-3 py-1.5 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
+          className='form-control block w-full px-3 py-1.5 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-colour2 focus:outline-none'
           placeholder='Username'
           id='username'
           name='username'
@@ -86,7 +86,7 @@ function RegisterForm() {
         type='email'
         id='email'
         name='email'
-        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
+        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-colour2 focus:outline-none'
         placeholder='Email address'
         onChange={handleChange}
       />
@@ -94,7 +94,7 @@ function RegisterForm() {
         type='password'
         id='password'
         name='password'
-        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
+        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-colour2 focus:outline-none'
         placeholder='Password'
         onChange={handleChange}
       />
@@ -102,21 +102,24 @@ function RegisterForm() {
         type='password'
         id='confirmPassword'
         name='confirmPassword'
-        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-blue-600 focus:outline-none'
+        className='form-control block w-full px-3 py-1.5 mb-6 text-base font-normal text-colour5 bg-secondary-colour bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-colour5 focus:bg-secondary-colour focus:border-colour2 focus:outline-none'
         placeholder='Password'
         onChange={handleChange}
       />
       <div className='mb-6'>
         <CountrySelect />
       </div>
+
       <div className='form-check flex justify-center mb-6'>
         <input
-          className='form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-secondary-colour checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer'
+          className='form-check-input h-4 w-4 border border-gray-300 rounded-sm transition duration-200 mt-1 align-top float-left mr-2 cursor-pointer checked:bg-colour2'
           type='checkbox'
           value=''
           id='termsChecked'
           name='termsChecked'
           checked
+          aria-label='Agree to terms and conditions'
+          style={{ accentColor: 'var(--colour2)' }} // Using `accent-color` here
           onChange={handleChecked}
         />
         <label
@@ -132,7 +135,7 @@ function RegisterForm() {
           type='submit'
           data-mdb-ripple='true'
           data-mdb-ripple-color='light'
-          className='inline-block px-6 py-2.5 mb-6 w-full bg-blue-600 text-secondary-colour font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-800 hover:shadow-lg focus:bg-blue-800 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-900 active:shadow-lg transition duration-150 ease-in-out'
+          className='inline-block px-6 py-2.5 mb-6 w-full bg-colour2 text-secondary-colour font-medium text-xs leading-tight uppercase rounded shadow-md hover:brightness-110 hover:shadow-lg focus:brightness-110 focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out'
         >
           {!registrationFormData.active && !registrationFormData.success && (
             <span>Sign Up</span>
@@ -156,7 +159,7 @@ function RegisterForm() {
         Already a member?{' '}
         <Link
           to='/sign-up'
-          className='font-medium text-blue-600 hover:underline'
+          className='font-medium text-colour2 hover:underline'
         >
           Login Now
         </Link>
@@ -168,7 +171,7 @@ function RegisterForm() {
         <a
           href='#!'
           role='button'
-          className='text-blue-600 hover:text-blue-800 focus:text-blue-800 action:text-green-900 transition duration-200 ease-in-out'
+          className='text-colour2 hover:brightness-110 focus:brightness-110 action:text-green-900 transition duration-200 ease-in-out'
         >
           {/* <!-- Facebook --> */}
           <svg
@@ -185,7 +188,7 @@ function RegisterForm() {
         <a
           href='#!'
           role='button'
-          className='text-blue-600 hover:text-blue-800 focus:text-blue-800 action:text-green-900 transition duration-200 ease-in-out'
+          className='text-colour2 hover:brightness-110 focus:brightness-110 action:text-green-900 transition duration-200 ease-in-out'
         >
           {/* <!-- Google --> */}
           <svg
@@ -203,7 +206,7 @@ function RegisterForm() {
         <a
           href='#!'
           role='button'
-          className='text-blue-600 hover:text-blue-800 focus:text-blue-800 action:text-green-900 transition duration-200 ease-in-out'
+          className='text-colour2 hover:brightness-110 focus:brightness-110 action:text-green-900 transition duration-200 ease-in-out'
         >
           {/* <!-- Twitter --> */}
           <svg
@@ -221,7 +224,7 @@ function RegisterForm() {
         <a
           href='#!'
           role='button'
-          className='text-blue-600 hover:text-blue-800 focus:text-blue-800 action:text-green-900 transition duration-200 ease-in-out'
+          className='text-colour2 hover:brightness-110 focus:brightness-110 action:text-green-900 transition duration-200 ease-in-out'
         >
           {/* <!-- Github --> */}
           <svg

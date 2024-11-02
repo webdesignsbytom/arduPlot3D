@@ -3,19 +3,19 @@ import React, { useContext } from 'react';
 import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { FaRulerCombined } from 'react-icons/fa';
-import { MdHideSource } from 'react-icons/md';
 import { IoPhonePortrait } from 'react-icons/io5';
 import { IoPhoneLandscape } from 'react-icons/io5';
 import { TbHandFinger } from 'react-icons/tb';
+import { BiSolidHide } from "react-icons/bi";
 import { TbHandTwoFingers } from 'react-icons/tb';
 import { TbHandThreeFingers } from 'react-icons/tb';
 import { RiDragDropLine } from 'react-icons/ri';
-import { IoTimeOutline } from 'react-icons/io5';
 import { IoMdMove } from 'react-icons/io';
 import { HiCursorArrowRipple } from 'react-icons/hi2';
 import { GiArrowCursor } from 'react-icons/gi';
 import { FaArrowsTurnToDots } from 'react-icons/fa6';
 import { IoMdInfinite } from 'react-icons/io';
+import { ImClock } from "react-icons/im";
 import {
   availablePointsToDisplayData,
   DRAG_FUNCTION,
@@ -91,7 +91,7 @@ function SimulationPageTopToolBar({
       onClick: selectTimeoutTool,
       title: 'Timeout tool',
       selected: simulationToolSelected === 'timeout',
-      icon: <IoTimeOutline />,
+      icon: <ImClock />,
     },
   ];
 
@@ -129,7 +129,7 @@ function SimulationPageTopToolBar({
     {
       onClick: rulesAndDataVisible ? hideCanvasRulers : displayCanvasRulers,
       title: rulesAndDataVisible ? 'Hide Rulers' : 'Display Rulers',
-      icon: rulesAndDataVisible ? <MdHideSource /> : <FaRulerCombined />,
+      icon: rulesAndDataVisible ? <BiSolidHide  /> : <FaRulerCombined />,
     },
   ];
 

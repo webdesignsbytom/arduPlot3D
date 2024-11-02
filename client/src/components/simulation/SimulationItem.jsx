@@ -51,7 +51,7 @@ function SimulationItem({ dataIndex, dataPoint }) {
       <div className='grid items-center justify-center w-[30px] bg-blue-200 h-full outline outline-2 outline-black px-2'>
         <label
           htmlFor='data_point'
-          className='h-full grid items-center justify-center'
+          className='h-full text-sm font-medium grid items-center justify-center'
         >
           {dataIndex + 1}
         </label>
