@@ -26,13 +26,6 @@ import {
 } from '../../utils/design/Constants';
 
 function SimulationPageTopToolBar({
-  drawConnectingLines,
-  clearAllDataPoints,
-  createNewSimulationLoop,
-  saveNewSimulationLoop,
-  hideCanvasRulers,
-  displayCanvasRulers,
-  stopSimulation,
   setSimulationLandScape,
   setSimulationPortrait,
   timeoutLength,
@@ -57,6 +50,9 @@ function SimulationPageTopToolBar({
     selectedDevice,
     numberOfDataPointsToDisplay,
     setPointsToDisplaySettings,
+    clearAllDataPoints,
+    displayCanvasRulers,
+    hideCanvasRulers,
   } = useContext(SimulationContext);
 
   const toolButtons = [
@@ -141,14 +137,14 @@ function SimulationPageTopToolBar({
     switch (simulationToolSelected) {
       case MOVE_FUNCTION:
         return (
-          <div>
+          <div className='flex xl:grid gap-1'>
             <label htmlFor='movement_speed'>Movement Sp</label>
             <div>{speedOfArmMoving} mm/s</div>
           </div>
         );
       case TAP_FUNCTION:
         return (
-          <div>
+          <div className='flex xl:grid gap-1'>
             <label htmlFor='tap_speed'>Tap speed</label>
             <div>{speedOfFingerMoving} mm/s</div>
           </div>
@@ -156,11 +152,11 @@ function SimulationPageTopToolBar({
       case MOVE_TAP_FUNCTION:
         return (
           <div className='grid grid-cols-2'>
-            <div>
+            <div className='flex xl:grid gap-1'>
               <label htmlFor='tap_speed'>Tap speed</label>
               <div>{speedOfFingerMoving} mm/s</div>
             </div>
-            <div>
+            <div className='flex xl:grid gap-1'>
               <label htmlFor='movement_speed'>Movement Sp</label>
               <div>{speedOfArmMoving} mm/s</div>
             </div>
@@ -168,14 +164,14 @@ function SimulationPageTopToolBar({
         );
       case DRAG_FUNCTION:
         return (
-          <div>
+          <div className='flex xl:grid gap-1'>
             <label htmlFor='drag_speed'>Drag speed</label>
             <div>{speedOfDraggingArmMoving} mm/s</div>
           </div>
         );
       case TIMEOUT_FUNCTION:
         return (
-          <div>
+          <div className='flex xl:grid gap-1'>
             <label htmlFor='timeout_length'>Timeout</label>
             <div>
               {timeoutLength} {timeoutUnitSelected.symbol}
@@ -196,22 +192,22 @@ function SimulationPageTopToolBar({
         </h4>
       </div>
 
-      <div className='flex gap-2'>
+      <div className='grid grid-flow-col items-center gap-2'>
         {/* Timeout */}
-        <div className='grid items-center px-1 h-[32px] 2xl:h-[48px] w-full outline-black outline outline-2 no__highlights bg-secondary-colour rounded shadow-cardShadow'>
+        <div className='grid items-center px-1 h-[32px] xl:h-[48px] w-full outline-black outline outline-2 no__highlights bg-secondary-colour rounded shadow-cardShadow'>
           {/* Times length */}
           <div className='text-xs'>{renderSimulationToolContent()}</div>
         </div>
 
         {/* Divider */}
-        <div className='bg-main-colour h-[32px] w-[2px] 2xl:h-[48px] outline outline-black outline-1 rounded-3xl'></div>
+        <div className='bg-main-colour h-[32px] w-[2px] xl:h-[48px] outline outline-black outline-1 rounded-3xl'></div>
 
         {toolButtons.map((button, index) => (
           <button
             key={index}
             onClick={button.onClick}
             title={button.title}
-            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] 2xl:min-h-[48px] 2xl:w-[48px] 2xl:h-[48px] 2xl:min-w-[48px] outline-black outline outline-2 active:scale-95 no__highlights ${
+            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] xl:min-h-[48px] xl:w-[48px] xl:h-[48px] xl:min-w-[48px] outline-black outline outline-2 active:scale-95 no__highlights ${
               button.selected
                 ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
                 : 'bg-colour4 hover:bg-yellow-100 shadow-cardShadow'
@@ -224,17 +220,17 @@ function SimulationPageTopToolBar({
         ))}
 
         {/* Divider */}
-        <div className='bg-main-colour h-[32px] 2xl:h-[48px] w-[2px] outline outline-black outline-1 rounded-3xl'></div>
+        <div className='bg-main-colour h-[32px] xl:h-[48px] w-[2px] outline outline-black outline-1 rounded-3xl'></div>
 
         {displayButtons.map((button, index) => (
           <button
             key={index}
             onClick={button.onClick}
             title={button.title}
-            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] 2xl:min-h-[48px] 2xl:w-[48px] 2xl:h-[48px] 2xl:min-w-[48px] outline-black outline outline-2 active:scale-95 no__highlights ${
+            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] xl:min-h-[48px] xl:w-[48px] xl:h-[48px] xl:min-w-[48px] outline-black outline outline-2 active:scale-95 no__highlights ${
               button.selected
                 ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
-                : 'bg-colour4 hover:bg-yellow-100'
+                : 'bg-colour4 hover:bg-yellow-100 shadow-cardShadow'
             } rounded-md`}
           >
             <div className='grid items-center justify-center'>
@@ -246,7 +242,7 @@ function SimulationPageTopToolBar({
           <button
             title='Clear all data points in simulation - does not include saved loops'
             onClick={clearAllDataPoints}
-            className='px-2 h-[32px] 2xl:h-[48px] outline-black outline outline-2 active:scale-95 no__highlights bg-warning hover:brightness-90 rounded-md'
+            className='px-2 h-[32px] xl:h-[48px] outline-black outline outline-2 active:scale-95 no__highlights bg-warning hover:brightness-90 rounded-md shadow-cardShadow'
           >
             <div className='grid items-center justify-center'>
               <span className='text-colour1'>CLEAR</span>

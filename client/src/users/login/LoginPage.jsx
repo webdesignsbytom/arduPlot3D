@@ -1,23 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // Context
 import { UserContext } from '../../context/UserContext';
-import { ToggleContext } from '../../context/ToggleContext';
 // API
 import client from '../../api/client';
 // Components
 import Navbar from '../../components/nav/Navbar';
-import LoadingSpinner from '../../components/utils/LoadingSpinner';
+import LoadingSpinner from '../../components/utils/LoadingSpinner'
 // Constants
 import {
   HOME_PAGE_URL,
   LOGIN_API,
-  LOGIN_PAGE_URL,
 } from '../../utils/Constants';
 
 function LoginPage() {
   const { setUser } = useContext(UserContext);
-  const { setActiveNav } = useContext(ToggleContext);
 
   const [loginInProgress, setLoginInProgress] = useState(false);
   const [loginError, setLoginError] = useState(false);
@@ -28,10 +25,6 @@ function LoginPage() {
   });
 
   let navigate = useNavigate();
-
-  useEffect(() => {
-    setActiveNav(LOGIN_PAGE_URL);
-  }, []);
 
   const homePage = () => {
     navigate(HOME_PAGE_URL, { replace: true });

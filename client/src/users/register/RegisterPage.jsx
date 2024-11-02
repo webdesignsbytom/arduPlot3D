@@ -1,18 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 // Components
 import RegisterForm from '../../components/forms/RegisterForm';
 import Navbar from '../../components/nav/Navbar';
-// Context
-import { ToggleContext } from '../../context/ToggleContext';
-// Constants
-import { SIGN_UP_PAGE_URL } from '../../utils/Constants';
 
 function RegisterPage() {
-  const { setActiveNav } = useContext(ToggleContext)
 
-  useEffect(() => {
-    setActiveNav(SIGN_UP_PAGE_URL)
-  }, [])
   
   return (
     <div className='bg-black main__bg h-screen grid'>

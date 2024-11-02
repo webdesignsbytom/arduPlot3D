@@ -1,23 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-// Context
-import { ToggleContext } from '../../context/ToggleContext';
+import React, { useState } from 'react';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import DeviceSelectDropdownMenu from '../../components/menus/DeviceSelectDropdownMenu';
 // Data
 import { availableDevicesForSimulations } from '../../utils/design/AvailableDevices';
-// Constants
-import { CONFIGURATION_PAGE_URL } from '../../utils/Constants';
+
 
 function ConfigurationPage() {
-  const { setActiveNav } = useContext(ToggleContext);
   const [selectedConfigDevice, setSelectedConfigDevice] = useState(
     availableDevicesForSimulations[0]
   );
-
-  useEffect(() => {
-    setActiveNav(CONFIGURATION_PAGE_URL);
-  }, []);
 
   const handleDeviceChange = (event) => {
     const { value } = event.target;

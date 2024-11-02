@@ -1,22 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // Api
 import client from '../../api/client';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import LibrarySimItem from '../../components/library/LibrarySimItem';
-// Context
-import { ToggleContext } from '../../context/ToggleContext';
 // Constants
-import { LIBRARY_PAGE_URL, LIBRARY_SIMULATION_API } from '../../utils/Constants';
+import { LIBRARY_SIMULATION_API } from '../../utils/Constants';
 
 function LibraryPage() {
-  const { setActiveNav } = useContext(ToggleContext);
-
   const [libraryOfSimulations, setLibraryOfSimulations] = useState([]);
-
-  useEffect(() => {
-    setActiveNav(LIBRARY_PAGE_URL);
-  }, []);
 
   useEffect(() => {
     client

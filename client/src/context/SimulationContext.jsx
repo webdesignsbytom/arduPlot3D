@@ -20,7 +20,10 @@ import {
   CREATE_NEW_SIM_FUNC,
   DELETE_LOOP_FUNC,
 } from '../utils/design/Constants';
-import { ConfirmDeleteLoop } from '../utils/design/ConfrimMessages';
+import {
+  ConfirmClearAllDataPoints,
+  ConfirmDeleteLoop,
+} from '../utils/design/ConfrimMessages';
 
 export const SimulationContext = React.createContext();
 
@@ -149,9 +152,38 @@ const SimulationContextProvider = ({ children }) => {
   };
 
   const handleDataPointChange = (event, dataPoint) => {
-    console.log('dataPoint', dataPoint);
+    // Assuming the input format is something like "x: 300, y: 400"
     const { value } = event.target;
-    console.log('value', value);
+
+    // Parse the input to extract xPos and yPos values
+    const [xPosString, yPosString] = value.split(',').map((str) => str.trim());
+    const xPos = parseInt(xPosString.split(':')[1]);
+    const yPos = parseInt(yPosString.split(':')[1]);
+
+    if (!isNaN(xPos) && !isNaN(yPos)) {
+      // Find the index of the data point we want to update
+      const index = simulationData.mainSimulationDataPoints.findIndex(
+        (point) => point.id === dataPoint.id
+      );
+
+      if (index !== -1) {
+        // Create a new array with the updated data point
+        const updatedDataPoints = [...simulationData.mainSimulationDataPoints];
+        updatedDataPoints[index] = {
+          ...updatedDataPoints[index],
+          xPos,
+          yPos,
+        };
+
+        // Update the state with the new array
+        setSimulationData((prevSimulationData) => ({
+          ...prevSimulationData,
+          mainSimulationDataPoints: updatedDataPoints,
+        }));
+      }
+    } else {
+      console.log('Invalid input for xPos and yPos:', value);
+    }
   };
 
   const clearAllDataPointsFromSimulation = () => {
@@ -234,7 +266,7 @@ const SimulationContextProvider = ({ children }) => {
 
   const setPointsToDisplaySettings = (event) => {
     event.preventDefault();
-
+    console.log('AAAAAAAAAA');
     // Find the current index of numberOfDataPointsToDisplay
     const currentIndex = availablePointsToDisplayData.indexOf(
       numberOfDataPointsToDisplay
@@ -300,6 +332,20 @@ const SimulationContextProvider = ({ children }) => {
   const setBlankConsentMessage = () => {
     setConsentMessageVisible('');
     setConsentMessage('');
+  };
+
+  const clearAllDataPoints = () => {
+    setConsentMessage(ConfirmClearAllDataPoints);
+    setConsentMessageVisible(true);
+  };
+
+  // Display rulers on canvas
+  const displayCanvasRulers = () => {
+    setRulersVisible(true);
+  };
+  // Hide rulers on canvas
+  const hideCanvasRulers = () => {
+    setRulersVisible(false);
   };
 
   return (
@@ -390,6 +436,9 @@ const SimulationContextProvider = ({ children }) => {
         saveLoopPerminently,
         simulationDataId,
         setSimulationDataId,
+        clearAllDataPoints,
+        displayCanvasRulers,
+        hideCanvasRulers,
       }}
     >
       {children}

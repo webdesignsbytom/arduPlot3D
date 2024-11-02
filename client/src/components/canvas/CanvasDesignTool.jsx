@@ -52,6 +52,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     simulationDataId,
     setSimulationDataId,
   } = useContext(SimulationContext);
+  console.log('numberOfDataPointsToDisplay', numberOfDataPointsToDisplay);
 
   // State to manage tooltip visibility and position
   const [tooltip, setTooltip] = useState({ x: 0, y: 0 });
@@ -149,10 +150,16 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       flattenedData = [...loopDataBeingEdited.mainSimulationLoopDataPoints];
     }
 
+    console.log('2numberOfDataPointsToDisplay', numberOfDataPointsToDisplay);
+    console.log('flattenedData.length', flattenedData.length);
+
     // Determine the number of points to display
     let displayCount =
       displayCountMap[numberOfDataPointsToDisplay] || flattenedData.length;
+    console.log('displayCount', displayCount);
+
     const pointsToDisplay = flattenedData.slice(-displayCount);
+    console.log('pointsToDisplay', pointsToDisplay);
 
     let mainIndexTally = 1;
     let isDecimal = false;
@@ -460,7 +467,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         console.log('No matching action found');
     }
 
-    setSimulationDataId(prev => prev + 1)
+    setSimulationDataId((prev) => prev + 1);
   };
 
   function updateLoopState(newDataPoint) {
@@ -495,8 +502,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     const rulerX = rulerRefX.current;
     const rulerY = rulerRefY.current;
 
-    let deviceWidthPixels = selectedDevice.xPixels; // Width in pixels
-    let deviceHeightPixels = selectedDevice.yPixels; // Height in pixels
+    let deviceWidthPixels = selectedDevice.xPixels;
+    let deviceHeightPixels = selectedDevice.yPixels;
 
     if (isLandscapeMode) {
       [deviceWidthPixels, deviceHeightPixels] = [
@@ -505,24 +512,71 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       ];
     }
 
-    // Generate ruler markings for X and Y
+    // Set the generated ruler markup in the containers
     rulerX.innerHTML = generateRulerMarks(deviceWidthPixels, 'horizontal');
     rulerY.innerHTML = generateRulerMarks(deviceHeightPixels, 'vertical');
   };
 
   const generateRulerMarks = (pixels, orientation) => {
+    const unitSize = 100; // Size of each major unit on the ruler in pixels
+    const units = Math.floor(pixels / unitSize);
     let marks = '';
-    const unitSize = 100; // Size of each unit on the ruler in pixels
-    const units = Math.floor(pixels / unitSize); // Use floor to not exceed device dimensions
 
     for (let i = 0; i <= units; i++) {
-      marks += `<div style="flex: none; padding: 2px;">${i * 100}</div>`;
+      // Major marker with label every 100px
+      marks += `
+        <div style="
+          position: absolute;
+          ${
+            orientation === 'horizontal'
+              ? `left: ${i * unitSize}px;`
+              : `top: ${i * unitSize - 10}px; right: 2px;`
+          }
+          width: ${unitSize}px;
+          display: flex;
+          align-items: center;
+          ${
+            orientation === 'horizontal'
+              ? 'justify-content: center;'
+              : 'justify-content: flex-end;'
+          }
+          ${orientation === 'horizontal' ? 'transform: translateX(-50%);' : ''}
+        ">
+          ${i * unitSize}
+        </div>
+      `;
+
+      // Minor tick marks every 10px within each 100px block
+      for (let j = 1; j < 10; j++) {
+        const position = i * unitSize + j * 10;
+        const tickLength = j === 5 ? 8 : 5; // Longer tick at every 50px
+
+        marks += `
+          <div style="
+            position: absolute;
+            ${
+              orientation === 'horizontal'
+                ? `left: ${position}px; top: 0;`
+                : `top: ${position}px; right: 0;`
+            }
+            ${
+              orientation === 'horizontal'
+                ? `height: ${tickLength}px; width: 1px;`
+                : `width: ${tickLength}px; height: 1px;`
+            }
+            background-color: black;
+          "></div>
+        `;
+      }
     }
-    // To handle the last segment if it doesn't reach another full 100 pixels
-    if (pixels % unitSize > 0) {
-      marks += `<div style="flex: none; padding: 2px;">${pixels}</div>`;
-    }
-    return marks;
+
+    return `
+      <div style="position: relative; ${
+        orientation === 'horizontal' ? 'height: 20px;' : 'width: 40px;'
+      }">
+        ${marks}
+      </div>
+    `;
   };
 
   const updatePositionMarker = ({ nativeEvent }) => {
@@ -557,11 +611,11 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
               className={`${rulesAndDataVisible && 'grid grid-cols-reg gap-1'}`}
             >
               <div className='grid grid-rows-reg gap-1'>
-                <div className='w-[25px] h-[25px] 2xl:w-[40px] 2xl:h-[40px]'></div>
+                <div className='w-[40px] h-[40px]'></div>
                 {/* Verticl ruler */}
                 {rulesAndDataVisible && (
                   <div
-                    className='flex flex-col text-xs w-[25px] max-w-[25px] 2xl:w-[40px] 2xl:max-w-[40px] text-right bg-colour2 border-solid border-black border-[1px] overflow-hidden'
+                    className='flex flex-col text-xs w-[40px] max-w-[40px] text-right bg-colour2 border-solid border-black border-[1px] overflow-hidden'
                     ref={rulerRefY}
                     style={{ justifyContent: 'space-between', height: '100%' }}
                   ></div>
@@ -576,7 +630,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
                 {/* Horizontal ruler */}
                 {rulesAndDataVisible && (
                   <div
-                    className='flex text-xs h-[25px] max-h-[25px] 2xl:h-[40px] 2xl:max-h-[40px] bg-colour2 border-solid border-black border-[1px] overflow-hidden'
+                    className='flex text-xs h-[40px] max-h-[40px] bg-colour2 border-solid border-black border-[1px] overflow-hidden'
                     ref={rulerRefX}
                     style={{ justifyContent: 'space-between', width: '100%' }}
                   ></div>

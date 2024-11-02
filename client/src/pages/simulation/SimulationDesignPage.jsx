@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 // Api
 import client from '../../api/client';
 // Components
 import Navbar from '../../components/nav/Navbar';
-import CanvasDesignTool from '../../components/canvas/CanvasDesignTool';
 import ConsentModal from '../../components/modals/ConsentModal';
 import TapSettingsModal from '../../components/modals/TapSettingsModal';
 import MovementSettingsModal from '../../components/modals/MovementSettingsModal';
@@ -16,16 +15,11 @@ import SimulationDataToobar from '../../components/toolbars/SimulationDataToobar
 import SimulationFunctionsToolbar from '../../components/toolbars/SimulationFunctionsToolbar';
 import SimulationPageTopToolBar from '../../components/toolbars/SimulationPageTopToolBar';
 import SaveAsModal from '../../components/modals/SaveAsModal';
-import CanvasSimulationTool from '../../components/canvas/CanvasSimulationTool';
 // Context
-import { ToggleContext } from '../../context/ToggleContext';
 import { SimulationContext } from '../../context/SimulationContext';
 import { UserContext } from '../../context/UserContext';
 // Configuration modal
-import {
-  ConfirmClearAllDataPoints,
-  ConfirmCreateNewProject,
-} from '../../utils/design/ConfrimMessages';
+import { ConfirmCreateNewProject } from '../../utils/design/ConfrimMessages';
 import LoadSimulationModal from '../../components/modals/LoadSimulationModal';
 import PublishSimulationModal from '../../components/modals/PublishSimulationModal';
 // Constants
@@ -37,22 +31,16 @@ import {
   TIMEOUT_FUNCTION,
 } from '../../utils/design/Constants';
 import {
-  SIMULATION_PAGE_URL,
   SAVE_SIMULATION_API,
   CREATE_NEW_SIMULATION_API,
 } from '../../utils/Constants';
 import SimulationDisplayComponent from '../../components/simulation/SimulationDisplayComponent';
 
 function SimulationDesignPage() {
-  const { setActiveNav } = useContext(ToggleContext);
   const { user } = useContext(UserContext);
   const {
-    setIsCreatingNewLoop,
-    setRulersVisible,
-    simulationIsRunning,
     setSimulationIsRunning,
     setIsLandscapeMode,
-    setDisplaySimOrLoop,
     simulationToolSelected,
     setSimulationToolSelected,
     numberOfFingerTapping,
@@ -100,38 +88,20 @@ function SimulationDesignPage() {
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
   const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
 
-  useEffect(() => {
-    setActiveNav(SIMULATION_PAGE_URL);
-  }, []);
-
-  const clearAllDataPoints = () => {
-    setConsentMessage(ConfirmClearAllDataPoints);
-    setConsentMessageVisible(true);
-  };
-
   const resetSimulationToStartingPoint = () => {
     setIsResettingAnimation(!isResettingAnimation);
   };
 
-  // Create new simulation loop of commands
-  const createNewSimulationLoop = () => {
-    setIsCreatingNewLoop(true);
-    setDisplaySimOrLoop('loop');
-  };
+  // // Create new simulation loop of commands
+  // const createNewSimulationLoop = () => {
+  //   setIsCreatingNewLoop(true);
+  //   setDisplaySimOrLoop('loop');
+  // };
 
-  // Save new simulation loop of commands
-  const saveNewSimulationLoop = () => {
-    setIsCreatingNewLoop(false);
-  };
-
-  // Display rulers on canvas
-  const displayCanvasRulers = () => {
-    setRulersVisible(true);
-  };
-  // Hide rulers on canvas
-  const hideCanvasRulers = () => {
-    setRulersVisible(false);
-  };
+  // // Save new simulation loop of commands
+  // const saveNewSimulationLoop = () => {
+  //   setIsCreatingNewLoop(false);
+  // };
 
   // Run simulation
   const runSimulation = () => {
@@ -223,6 +193,7 @@ function SimulationDesignPage() {
     closeAllModalsMaster();
     setLoadModalOpen(true);
   };
+  
   // Close load
   const closeLoadSimulationModal = () => {
     setLoadModalOpen(false);
@@ -440,11 +411,6 @@ function SimulationDesignPage() {
         <section className='grid grid-rows-reg gap-2 p-2 overflow-hidden'>
           {/* Top tool bar menu */}
           <SimulationPageTopToolBar
-            clearAllDataPoints={clearAllDataPoints}
-            createNewSimulationLoop={createNewSimulationLoop}
-            saveNewSimulationLoop={saveNewSimulationLoop}
-            hideCanvasRulers={hideCanvasRulers}
-            displayCanvasRulers={displayCanvasRulers}
             setSimulationLandScape={setSimulationLandScape}
             setSimulationPortrait={setSimulationPortrait}
             timeoutLength={timeoutLength}

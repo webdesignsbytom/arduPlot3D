@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 // Context
 import UserContextProvider from './context/UserContext';
-import ToggleContextProvider from './context/ToggleContext';
+import ModalContextProvider from './context/ModalContext';
 import SimulationContextProvider from './context/SimulationContext';
 // Styles
 import './styles/index.css';
@@ -20,11 +20,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <UserContextProvider>
-      <ToggleContextProvider>
+      <ModalContextProvider>
         <SimulationContextProvider>
           <App />
         </SimulationContextProvider>
-      </ToggleContextProvider>
+      </ModalContextProvider>
     </UserContextProvider>
   </BrowserRouter>
 );

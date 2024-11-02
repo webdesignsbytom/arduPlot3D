@@ -8,7 +8,7 @@ export const MOVE_TAP_FUNCTION = 'move_tap';
 export const DRAG_FUNCTION = 'drag';
 export const TIMEOUT_FUNCTION = 'timeout';
 // Tap function colors
-export const TapFunctionColour = '#24f76e';
+export const TapFunctionColour = '#6ebd41';
 export const MoveFunctionColour = '#ddd6fe';
 export const MoveTapFunctionColour = '#fef08a';
 export const DragFunctionColour = '#fbcfe8';

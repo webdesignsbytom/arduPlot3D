@@ -24,6 +24,9 @@
 
 .squared__bg {
   background-image: url('../assets/images/backgrounds/graphy-dark.png');
+  background-size: 100px; /* Ensures the image keeps its original dimensions */
+  background-repeat: repeat; /* Ensures the background pattern tiles if the container is larger */
+  background-position: 0 0; /* Starts the background at the top-left corner */
 }
 
 .main__bg {
