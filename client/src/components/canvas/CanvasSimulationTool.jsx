@@ -4,6 +4,7 @@ import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { FaMousePointer } from 'react-icons/fa';
 import { blankSimulationAnimationObject } from '../../utils/design/TempData';
+import { MdTimer } from 'react-icons/md';
 
 function CanvasSimulationTool({ isResettingAnimation }) {
   const { selectedDevice, simulationData } = useContext(SimulationContext);
@@ -155,34 +156,53 @@ function CanvasSimulationTool({ isResettingAnimation }) {
     };
   }, [simulationData, isResettingAnimation]); // Re-run the animation if simulationData changes
 
+  const commonStyles =
+    'bg-colour1 text-lg px-1 py-1 border-2 border-solid border-gray-300 shadow-cardShadow';
+
   return (
-    <div className='relative grid justify-center items-center'>
-      <canvas
-        ref={deviceCanvasRef}
-        className={`border-solid border-black border-2 rounded-xl`}
-      />
-      <canvas
-        ref={armCanvasRef}
-        className={`border-solid absolute z-10 border-black border-2 rounded-xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
-      />
-      <div
-        className={`grid grid-cols-reg gap-2 absolute left-1 top-1 bg-secondary-colour z-50 outline outline-main-colour outline-1 rounded-xl px-4 py-1`}
-      >
-        <div className='grid items-center justify-center pr-1'>
-          <FaMousePointer />
-        </div>
-        <div>{`X: ${
-          currentPositionRef.current.x - canvasDimensionIncrease / 2
-        }, Y: ${
-          currentPositionRef.current.y - canvasDimensionIncrease / 2
-        }`}</div>
+    <section className='relative grid grid-rows-reg bg-colour1'>
+      {/* Databar */}
+      <section className='grid grid-cols-2 gap-2 w-full px-2 pt-2 pb-2'>
+        {/* Dimensions */}
+        <section className='grid w-full'>
+          <div
+            className={`grid grid-flow-col gap-4 justify-center ${commonStyles}`}
+          >
+            <div className='grid items-center justify-center pr-1'>
+              <FaMousePointer />
+            </div>
+            <div>   
+              {`X: ${
+                currentPositionRef.current.xPos - canvasDimensionIncrease / 2
+              }, Y: ${
+                currentPositionRef.current.yPos - canvasDimensionIncrease / 2
+              }`}
+            </div>
+          </div>
+        </section>
+
+        {/* Time */}
+        <section className='grid w-full'>
+          <div
+            className={`grid grid-flow-col gap-4 justify-center items-center ${commonStyles}`}
+          >
+            <MdTimer />
+            <span>{simulationData.simulationTimeToComplete} seconds</span>
+          </div>
+        </section>
+      </section>
+
+      <div className='grid relative items-center justify-center'>
+        <canvas
+          ref={deviceCanvasRef}
+          className={`border-solid absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-colour2 border-4 rounded-xl`}
+        />
+        <canvas
+          ref={armCanvasRef}
+          className={`border-solid absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-colour2 border-4 rounded-xl`}
+        />
       </div>
-      <div className='grid absolute top-1 left-1/2 transform -translate-x-1/2'>
-        <div className='outline outline-main-colour outline-1 rounded-xl px-4 py-1 grid justify-center items-center'>
-          {simulationData.simulationTimeToComplete} seconds
-        </div>
-      </div>
-    </div>
+    </section>
   );
 }
 

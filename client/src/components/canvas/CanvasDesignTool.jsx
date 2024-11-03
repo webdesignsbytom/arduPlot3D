@@ -280,7 +280,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
           // Dynamically adjust gap and arrow head size based on distance
           let gap, headlen;
-          if (distance < 40) {
+          if (distance < 35) {
             gap = 1; // Smaller gap for short distances
             headlen = 4; // Smaller arrow head for short distances
           } else {
@@ -536,7 +536,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
           ${
             orientation === 'horizontal'
               ? `left: ${i * unitSize}px;`
-              : `top: ${i * unitSize - 10}px; right: 2px;`
+              : `top: ${i * unitSize - 10}px; right: 4px;`
           }
           width: ${unitSize}px;
           display: flex;
@@ -578,7 +578,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
     return `
       <div style="position: relative; ${
-        orientation === 'horizontal' ? 'height: 20px;' : 'width: 40px;'
+        orientation === 'horizontal' ? 'height: 20px;' : 'width: 35px;'
       }">
         ${marks}
       </div>
@@ -617,11 +617,11 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
               className={`${rulesAndDataVisible && 'grid grid-cols-reg gap-1'}`}
             >
               <div className='grid grid-rows-reg gap-1'>
-                <div className='w-[40px] h-[40px]'></div>
+                <div className='w-[35px] h-[35px]'></div>
                 {/* Verticl ruler */}
                 {rulesAndDataVisible && (
                   <div
-                    className='flex flex-col text-xs w-[40px] max-w-[40px] text-right bg-colour2 border-solid border-black border-[1px] overflow-hidden'
+                    className='flex flex-col text-xs w-[35px] max-w-[35px] text-right bg-colour2 border-solid border-black border-[1px] overflow-hidden'
                     ref={rulerRefY}
                     style={{ justifyContent: 'space-between', height: '100%' }}
                   ></div>
@@ -636,7 +636,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
                 {/* Horizontal ruler */}
                 {rulesAndDataVisible && (
                   <div
-                    className='flex text-xs h-[40px] max-h-[40px] bg-colour2 border-solid border-black border-[1px] overflow-hidden'
+                    className='flex text-xs h-[35px] max-h-[35px] bg-colour2 border-solid border-black border-[1px] overflow-hidden'
                     ref={rulerRefX}
                     style={{ justifyContent: 'space-between', width: '100%' }}
                   ></div>
