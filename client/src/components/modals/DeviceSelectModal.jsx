@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 // Device data
 import { availableDevicesForSimulations } from '../../utils/design/AvailableDevices';
 import DeviceSelectDropdownMenu from '../menus/DeviceSelectDropdownMenu';
@@ -8,11 +8,7 @@ import { useModalContext } from '../../context/ModalContext';
 
 function DeviceSelectModal() {
   const { handleCloseDeviceSelectModal } = useModalContext();
-  const { selectedDevice, setSelectedDevice } = useContext(SimulationContext);
-
-  const [availableDevices, setAvailableDevices] = useState(
-    availableDevicesForSimulations
-  );
+  const { setSelectedDevice } = useContext(SimulationContext);
 
   const handleDeviceChange = (event) => {
     const { value } = event.target;

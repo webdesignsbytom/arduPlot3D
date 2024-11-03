@@ -538,6 +538,8 @@ const SimulationContextProvider = ({ children }) => {
         handleResetSimulationToStartingPoint,
         // Save
         handleSaveSimulation,
+        isSavingFile,
+        setIsSavingFile,
         // Tools
         // Selected
         simulationToolSelected,

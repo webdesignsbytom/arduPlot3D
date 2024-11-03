@@ -64,7 +64,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    var rect = canvas.parentNode.getBoundingClientRect();
 
     let deviceWidthPixels = selectedDevice.xPixels;
     let deviceHeightPixels = selectedDevice.yPixels;

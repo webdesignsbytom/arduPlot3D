@@ -3,8 +3,6 @@ import React, { useContext } from 'react';
 import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { FaRulerCombined } from 'react-icons/fa';
-import { IoPhonePortrait } from 'react-icons/io5';
-import { IoPhoneLandscape } from 'react-icons/io5';
 import { TbHandFinger } from 'react-icons/tb';
 import { BiSolidHide } from 'react-icons/bi';
 import { TbHandTwoFingers } from 'react-icons/tb';
