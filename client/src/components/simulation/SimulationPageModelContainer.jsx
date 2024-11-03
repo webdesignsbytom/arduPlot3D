@@ -13,6 +13,7 @@ import MovementSettingsModal from '../modals/MovementSettingsModal';
 import TapSettingsModal from '../modals/TapSettingsModal';
 import PublishSimulationModal from '../modals/PublishSimulationModal';
 import UploadVideoModal from '../modals/UploadVideoModal';
+import DeviceSelectModal from '../modals/DeviceSelectModal';
 
 function SimulationPageModelContainer() {
   const {
@@ -27,6 +28,7 @@ function SimulationPageModelContainer() {
     tapSettingsModalOpen,
     uploadVideoModalOpen,
     isPublishModalOpen,
+    deviceSelectionModalOpen,
   } = useModalContext();
 
   return (
@@ -39,8 +41,10 @@ function SimulationPageModelContainer() {
       {loadModalIsOpen && <LoadSimulationModal />}
       {/* Loop */}
       {addCreateLoopModalOpen && <AddLoopToSimulationModal />}
-      {/* Device */}
+      {/* Connect */}
       {connectToDeviceModalOpen && <ConnectToDeviceModal />}
+      {/* Device select */}
+      {deviceSelectionModalOpen && <DeviceSelectModal />}
       {/* Publish */}
       {isPublishModalOpen && <PublishSimulationModal />}
       {/* Upload video */}

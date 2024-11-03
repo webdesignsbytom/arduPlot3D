@@ -26,12 +26,7 @@ import {
   TIMEOUT_FUNCTION,
 } from '../../utils/design/Constants';
 
-function SimulationPageTopToolBar({
-  setSimulationLandScape,
-  setSimulationPortrait,
-  toggleMousePositionDisplay,
-  positionOfMouseAndCanvasVisible,
-}) {
+function SimulationPageTopToolBar() {
   // Context
   const {
     rulesAndDataVisible,
@@ -54,6 +49,10 @@ function SimulationPageTopToolBar({
     timeoutUnitSelected,
     speedOfArmMoving,
     speedOfDraggingArmMoving,
+    setSimulationLandScape,
+    setSimulationPortrait,
+    toggleMousePositionDisplay,
+    positionOfMouseAndCanvasVisible,
   } = useContext(SimulationContext);
 
   const toolButtons = [

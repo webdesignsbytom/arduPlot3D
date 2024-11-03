@@ -436,6 +436,15 @@ const SimulationContextProvider = ({ children }) => {
       });
   };
 
+  // Display Landscape
+  const setSimulationLandScape = () => {
+    setIsLandscapeMode(true);
+  };
+  // Display portrait
+  const setSimulationPortrait = () => {
+    setIsLandscapeMode(false);
+  };
+
   // Close menu toolbar
   const hideUserMenuContainer = () => {
     setUserMenuIsOpen(false);
@@ -444,6 +453,11 @@ const SimulationContextProvider = ({ children }) => {
   // Close data toolbar
   const hideDatapointContainer = () => {
     setSimulationDataIsOpen(false);
+  };
+
+  // Display position on canvas
+  const toggleMousePositionDisplay = () => {
+    setpositionOfMouseAndCanvasVisible(!positionOfMouseAndCanvasVisible);
   };
 
   return (
@@ -467,8 +481,6 @@ const SimulationContextProvider = ({ children }) => {
         setRulersVisible,
         simulationIsRunning,
         setSimulationIsRunning,
-        isLandscapeMode,
-        setIsLandscapeMode,
         selectedDevice,
         setSelectedDevice,
         displaySimOrLoop,
@@ -498,8 +510,6 @@ const SimulationContextProvider = ({ children }) => {
         setSimulationDataPoints,
         isPxOrMmDimensions,
         setIsPxOrMmDimensions,
-        positionOfMouseAndCanvasVisible,
-        setpositionOfMouseAndCanvasVisible,
         createNewLoop,
         numberOfDataPointsToDisplay,
         setNumberOfDataPointsToDisplay,
@@ -555,7 +565,16 @@ const SimulationContextProvider = ({ children }) => {
         speedOfFingerMoving,
         setSpeedOfFingerMoving,
         // Movement
-        changeMovementSpeed
+        changeMovementSpeed,
+        // Orientation
+        setSimulationLandScape,
+        setSimulationPortrait,
+        isLandscapeMode,
+        setIsLandscapeMode,
+        // Mouse position
+        toggleMousePositionDisplay,
+        positionOfMouseAndCanvasVisible,
+        setpositionOfMouseAndCanvasVisible,
       }}
     >
       {children}
