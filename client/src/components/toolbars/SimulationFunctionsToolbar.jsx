@@ -5,23 +5,19 @@ import { FaArrowAltCircleLeft } from 'react-icons/fa';
 import { useModalContext } from '../../context/ModalContext';
 import { SimulationContext } from '../../context/SimulationContext';
 
-function SimulationFunctionsToolbar({
-  openTimeoutSettingsModal,
-  openTapSettingsModal,
-  openMovementSettingsModal,
-  openDragSettingsModal,
-  openDeviceSelectModal,
-  openUploadVideoModal,
-  downloadFileToMachine,
-  openLoadModal,
-  openPublishModal,
-  userMenuIsOpen,
-  setUserMenuIsOpen,
-}) {
+function SimulationFunctionsToolbar() {
   const {
     toggleConnectToDeviceModal,
     handleOpenNewSimulationModal,
     handleOpenSaveAsModal,
+    handleOpenLoadModal,
+    handleOpenDragSettingsModal,
+    handleOpenTimeoutSettingsModal,
+    handleOpenTapSettingsModal,
+    handleOpenMovementSettingsModal,
+    handleOpenDeviceSelectModal,
+    handleOpenUploadVideoModal,
+    handleOpenPublishModal,
   } = useModalContext();
 
   const {
@@ -29,12 +25,9 @@ function SimulationFunctionsToolbar({
     stopSimulation,
     handleResetSimulationToStartingPoint,
     handleSaveSimulation,
+    handleDownload,
+    hideUserMenuContainer,
   } = useContext(SimulationContext);
-
-  // Close this container
-  const hideContainer = () => {
-    setUserMenuIsOpen(false);
-  };
 
   // Lists of user functions
   const simulationActions = [
@@ -50,23 +43,23 @@ function SimulationFunctionsToolbar({
     { label: 'New Simulation', onClick: handleOpenNewSimulationModal },
     { label: 'Save', onClick: handleSaveSimulation },
     { label: 'Save As', onClick: handleOpenSaveAsModal },
-    { label: 'Load File', onClick: openLoadModal },
+    { label: 'Load File', onClick: handleOpenLoadModal },
   ];
 
   const downloadActions = [
-    { label: 'Download', onClick: downloadFileToMachine },
+    { label: 'Download', onClick: handleDownload },
     { label: 'Connect Device', onClick: toggleConnectToDeviceModal },
   ];
 
   const settingsActions = [
-    { label: 'Tap Settings', onClick: openTapSettingsModal },
-    { label: 'Move Settings', onClick: openMovementSettingsModal },
-    { label: 'Drag Settings', onClick: openDragSettingsModal },
-    { label: 'Timeout Settings', onClick: openTimeoutSettingsModal },
+    { label: 'Tap Settings', onClick: handleOpenTapSettingsModal },
+    { label: 'Move Settings', onClick: handleOpenMovementSettingsModal },
+    { label: 'Drag Settings', onClick: handleOpenDragSettingsModal },
+    { label: 'Timeout Settings', onClick: handleOpenTimeoutSettingsModal },
   ];
 
   const deviceActions = [
-    { label: 'Device Select', onClick: openDeviceSelectModal },
+    { label: 'Device Select', onClick: handleOpenDeviceSelectModal },
     { label: 'Dimensions', onClick: () => {} },
     { label: 'Custom', onClick: () => {} },
     { label: 'Offset', onClick: () => {} },
@@ -74,11 +67,11 @@ function SimulationFunctionsToolbar({
   ];
 
   const videoActions = [
-    { label: 'Upload Video', onClick: openUploadVideoModal },
+    { label: 'Upload Video', onClick: handleOpenUploadVideoModal },
   ];
 
   const publishActions = [
-    { label: 'Publish Simulation', onClick: openPublishModal },
+    { label: 'Publish Simulation', onClick: handleOpenPublishModal },
   ];
 
   const renderActions = (actions) => (
@@ -108,7 +101,7 @@ function SimulationFunctionsToolbar({
 
           <div className='grid items-center justify-center'>
             <FaArrowAltCircleLeft
-              onClick={hideContainer}
+              onClick={hideUserMenuContainer}
               title='Hide'
               className='hover:brightness-90 cursor-pointer text-main-colour'
               size={20}

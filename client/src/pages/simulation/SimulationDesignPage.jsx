@@ -100,17 +100,6 @@ function SimulationDesignPage() {
     setpositionOfMouseAndCanvasVisible(!positionOfMouseAndCanvasVisible);
   };
 
-  // Open load
-  const openLoadModal = () => {
-    closeAllModalsMaster();
-    setLoadModalOpen(true);
-  };
-
-  // Close load
-  const closeLoadSimulationModal = () => {
-    setLoadModalOpen(false);
-  };
-
 
   // Open timeout settings modal
   const openTimeoutSettingsModal = () => {
@@ -139,23 +128,6 @@ function SimulationDesignPage() {
     setMovementSettingsModalOpen(false);
   };
 
-  // Open tap settings modal
-  const openTapSettingsModal = () => {
-    closeAllModalsMaster();
-    setTapSettingsModalOpen(true);
-  };
-  const closeTapSettingsModal = () => {
-    setTapSettingsModalOpen(false);
-  };
-
-
-  const handleDownload = () => {
-    downloadFileToMachine(simulationData);
-  };
-
-  const handleLoadSimulation = () => {
-    loadSimulationFile();
-  };
 
   // Close all modals master
   const closeAllModalsMaster = () => {
@@ -248,70 +220,6 @@ function SimulationDesignPage() {
           </section>
         </section>
       </main>
-
-      {/* Popup modals */}
-      {consentMessageVisible && (
-        <ConsentModal
-          consentMessage={consentMessage}
-          cancalFunction={cancelFunction}
-        />
-      )}
-
-      {/* Timeout */}
-      {timeoutModalOpen && (
-        <TimeoutSettingsModal
-          timeoutLength={timeoutLength}
-          setTimeoutLength={setTimeoutLength}
-          timeoutUnitSelected={timeoutUnitSelected}
-          setTimeoutUnitSelected={setTimeoutUnitSelected}
-          closeTimeoutSettingsModal={closeTimeoutSettingsModal}
-        />
-      )}
-
-      {/* Drag */}
-      {dragSettingsModalOpen && (
-        <DragSettingsModal
-          speedOfDraggingArmMoving={speedOfDraggingArmMoving}
-          setSpeedOfDraggingArmMoving={setSpeedOfDraggingArmMoving}
-          closeDragSettingsModal={closeDragSettingsModal}
-        />
-      )}
-
-      {/* Movement */}
-      {movementSettingsModalOpen && (
-        <MovementSettingsModal
-          speedOfArmMoving={speedOfArmMoving}
-          setSpeedOfArmMoving={setSpeedOfArmMoving}
-          closeMovementSettingsModal={closeMovementSettingsModal}
-        />
-      )}
-
-      {/* Tap settings */}
-      {tapSettingsModalOpen && (
-        <TapSettingsModal
-          numberOfFingerTapping={numberOfFingerTapping}
-          setNumberOfFingerTapping={setNumberOfFingerTapping}
-          speedOfFingerMoving={speedOfFingerMoving}
-          setSpeedOfFingerMoving={setSpeedOfFingerMoving}
-          closeTapSettingsModal={closeTapSettingsModal}
-        />
-      )}
-
-
-
-
-      {/* Load */}
-      {loadModalOpen && (
-        <LoadSimulationModal
-          loadSimulationFile={handleLoadSimulation}
-          closeLoadSimulationModal={closeLoadSimulationModal}
-        />
-      )}
-      
-      {/* Loop selection */}
-      {addCreateLoopModalOpen && <AddLoopToSimulationModal />}
-
-      {connectToDeviceModalOpen && <ConnectToDeviceModal />}
     </div>
   );
 }

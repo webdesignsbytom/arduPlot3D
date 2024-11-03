@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
+import { useModalContext } from '../../context/ModalContext';
 
 function UploadVideoModal({ closeUploadVideoModal }) {
   const { selectedVideo, setSelectedVideo } = useContext(SimulationContext);
+  const { handleCloseUploadVideoModal } = useModalContext();
 
   // Function to handle file selection
   const handleFileChange = (event) => {
@@ -53,7 +55,7 @@ function UploadVideoModal({ closeUploadVideoModal }) {
         <section className='grid mt-4'>
           <div className='grid justify-center'>
             <button
-              onClick={closeUploadVideoModal}
+              onClick={handleCloseUploadVideoModal}
               className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90'
             >
               Close

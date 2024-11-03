@@ -32,6 +32,7 @@ import {
 import { useModalContext } from './ModalContext';
 import client from '../api/client';
 import { SAVE_SIMULATION_API } from '../utils/Constants';
+import { downloadFileToMachine } from '../utils/simulation/SimulationUtils';
 
 export const SimulationContext = React.createContext();
 
@@ -53,6 +54,7 @@ const SimulationContextProvider = ({ children }) => {
   // Page Menus
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
   const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
+
   const [isSavingFile, setIsSavingFile] = useState(false);
 
   const [dataCollection, setDataCollection] = useState([]);
@@ -355,6 +357,29 @@ const SimulationContextProvider = ({ children }) => {
     );
   };
 
+  const setNumberOfFingers = (id) => {
+    if (id === 'finger1') {
+      setNumberOfFingerTapping(1);
+    } else if (id === 'finger2') {
+      setNumberOfFingerTapping(2);
+    } else if (id === 'finger3') {
+      setNumberOfFingerTapping(3);
+    }
+  };
+
+  const handleTapSpeedChange = (event) => {
+    const newSpeed = event.target.value; // Get the new speed value from the input
+    setSpeedOfFingerMoving(newSpeed); // Update the state with the new speed
+  };
+
+  const changeDraggingSpeed = (newSpeed) => {
+    setSpeedOfDraggingArmMoving(newSpeed);
+  };
+
+  const changeMovementSpeed = (newSpeed) => {
+    setSpeedOfArmMoving(newSpeed);
+  };
+
   const clearAllDataPoints = () => {
     handleCreateConsentModal(ConfirmClearAllDataPoints);
   };
@@ -393,6 +418,11 @@ const SimulationContextProvider = ({ children }) => {
     setSimulationToolSelected(MOVE_FUNCTION);
   };
 
+  // Handle download
+  const handleDownload = () => {
+    downloadFileToMachine(simulationData);
+  };
+
   // Save simulation
   const handleSaveSimulation = (user) => {
     client
@@ -404,6 +434,16 @@ const SimulationContextProvider = ({ children }) => {
       .catch((err) => {
         console.error('Unable to create simulation', err);
       });
+  };
+
+  // Close menu toolbar
+  const hideUserMenuContainer = () => {
+    setUserMenuIsOpen(false);
+  };
+
+  // Close data toolbar
+  const hideDatapointContainer = () => {
+    setSimulationDataIsOpen(false);
   };
 
   return (
@@ -433,20 +473,8 @@ const SimulationContextProvider = ({ children }) => {
         setSelectedDevice,
         displaySimOrLoop,
         setDisplaySimOrLoop,
-        simulationToolSelected,
-        setSimulationToolSelected,
-        numberOfFingerTapping,
-        setNumberOfFingerTapping,
-        speedOfFingerMoving,
-        setSpeedOfFingerMoving,
         speedOfArmMoving,
         setSpeedOfArmMoving,
-        timeoutLength,
-        setTimeoutLength,
-        timeoutUnitSelected,
-        setTimeoutUnitSelected,
-        speedOfDraggingArmMoving,
-        setSpeedOfDraggingArmMoving,
         displayLoopDataPoints,
         setDisplayLoopDataPoints,
         displayLoopDataPointsIndex,
@@ -486,6 +514,7 @@ const SimulationContextProvider = ({ children }) => {
         clearAllDataPoints,
         displayCanvasRulers,
         hideCanvasRulers,
+        // Select tool
         handleSelectTapTool,
         handleSelectTapAndMoveTool,
         handleSelectDragTool,
@@ -497,6 +526,36 @@ const SimulationContextProvider = ({ children }) => {
         handleResetSimulationToStartingPoint,
         // Save
         handleSaveSimulation,
+        // Tools
+        // Selected
+        simulationToolSelected,
+        setSimulationToolSelected,
+        // Timeout
+        timeoutLength,
+        setTimeoutLength,
+        timeoutUnitSelected,
+        setTimeoutUnitSelected,
+        // Drag
+        setSpeedOfDraggingArmMoving,
+        changeDraggingSpeed,
+        speedOfDraggingArmMoving,
+        // Download
+        handleDownload,
+        // User menu
+        hideUserMenuContainer,
+        setUserMenuIsOpen,
+        // Sim data menu
+        hideDatapointContainer,
+        setSimulationDataIsOpen,
+        // Tap
+        numberOfFingerTapping,
+        setNumberOfFingerTapping,
+        setNumberOfFingers,
+        handleTapSpeedChange,
+        speedOfFingerMoving,
+        setSpeedOfFingerMoving,
+        // Movement
+        changeMovementSpeed
       }}
     >
       {children}

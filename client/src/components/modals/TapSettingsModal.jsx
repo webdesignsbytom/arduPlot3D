@@ -1,27 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { SimulationContext } from '../../context/SimulationContext';
+import { useModalContext } from '../../context/ModalContext';
 
-function TapSettingsModal({
-  numberOfFingerTapping,
-  setNumberOfFingerTapping,
-  speedOfFingerMoving,
-  setSpeedOfFingerMoving,
-  closeTapSettingsModal,
-}) {
-  const setNumberOfFingers = (event) => {
+function TapSettingsModal() {
+  const {
+    numberOfFingerTapping,
+    setNumberOfFingers,
+    speedOfFingerMoving,
+    handleTapSpeedChange,
+  } = useContext(SimulationContext);
+  const { handleCloseTapSettingsModal } = useModalContext();
+
+  const handleChangeNumberOfTappingFingers = (event) => {
     const { id } = event.target;
 
-    if (id === 'finger1') {
-      setNumberOfFingerTapping(1);
-    } else if (id === 'finger2') {
-      setNumberOfFingerTapping(2);
-    } else if (id === 'finger3') {
-      setNumberOfFingerTapping(3);
-    }
-  };
-
-  const handleSpeedChange = (event) => {
-    const newSpeed = event.target.value; // Get the new speed value from the input
-    setSpeedOfFingerMoving(newSpeed); // Update the state with the new speed
+    setNumberOfFingers(id);
   };
 
   return (
@@ -40,27 +33,33 @@ function TapSettingsModal({
           <div className='grid grid-cols-3 gap-0 mt-1'>
             <button
               id='finger1'
-              onClick={setNumberOfFingers}
+              onClick={handleChangeNumberOfTappingFingers}
               className={`grid bg-secondary-colour ${
-                numberOfFingerTapping === 1 ? 'bg-main-colour' : 'bg-secondary-colour'
+                numberOfFingerTapping === 1
+                  ? 'bg-main-colour'
+                  : 'bg-secondary-colour'
               } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tl-xl rounded-bl-xl active:scale-95 shadow-lg`}
             >
               1
             </button>
             <button
               id='finger2'
-              onClick={setNumberOfFingers}
+              onClick={handleChangeNumberOfTappingFingers}
               className={`grid bg-secondary-colour ${
-                numberOfFingerTapping === 2 ? 'bg-main-colour' : 'bg-secondary-colour'
+                numberOfFingerTapping === 2
+                  ? 'bg-main-colour'
+                  : 'bg-secondary-colour'
               } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit active:scale-95 shadow-lg`}
             >
               2
             </button>
             <button
               id='finger3'
-              onClick={setNumberOfFingers}
+              onClick={handleChangeNumberOfTappingFingers}
               className={`grid bg-secondary-colour ${
-                numberOfFingerTapping === 3 ? 'bg-main-colour' : 'bg-secondary-colour'
+                numberOfFingerTapping === 3
+                  ? 'bg-main-colour'
+                  : 'bg-secondary-colour'
               } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tr-xl rounded-br-xl active:scale-95 shadow-lg`}
             >
               3
@@ -82,7 +81,7 @@ function TapSettingsModal({
               name='tapSpeed'
               id='tapSpeed'
               value={speedOfFingerMoving} // Controlled component
-              onChange={handleSpeedChange} // Handle the change event
+              onChange={handleTapSpeedChange} // Handle the change event
               aria-label='Change speed of tapping finger'
             />
             <div>
@@ -96,7 +95,7 @@ function TapSettingsModal({
         <section className='grid mt-4'>
           <div className='grid justify-center'>
             <button
-              onClick={closeTapSettingsModal}
+              onClick={handleCloseTapSettingsModal}
               className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90 shadow-lg'
               aria-label='Close button modal'
             >

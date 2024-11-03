@@ -29,13 +29,6 @@ import {
 function SimulationPageTopToolBar({
   setSimulationLandScape,
   setSimulationPortrait,
-  timeoutLength,
-  timeoutUnitSelected,
-  numberOfFingerTapping,
-  simulationToolSelected,
-  speedOfArmMoving,
-  speedOfDraggingArmMoving,
-  speedOfFingerMoving,
   toggleMousePositionDisplay,
   positionOfMouseAndCanvasVisible,
 }) {
@@ -54,6 +47,13 @@ function SimulationPageTopToolBar({
     handleSelectDragTool,
     handleSelectTimeoutTool,
     handleSelectMoveTool,
+    simulationToolSelected,
+    numberOfFingerTapping,
+    speedOfFingerMoving,
+    timeoutLength,
+    timeoutUnitSelected,
+    speedOfArmMoving,
+    speedOfDraggingArmMoving,
   } = useContext(SimulationContext);
 
   const toolButtons = [

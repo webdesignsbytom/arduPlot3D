@@ -9,14 +9,13 @@ import SimulationDataPointDisplay from '../simulation/SimulationDataPointDisplay
 // Icons
 import { FaArrowAltCircleRight } from 'react-icons/fa';
 
-function SimulationDataToobar({ setSimulationDataIsOpen }) {
-  const { displaySimOrLoop, isCreatingEditingLoop, setAddCreateLoopModalOpen } =
-    useContext(SimulationContext);
-
-  // Close this container
-  const hideContainer = () => {
-    setSimulationDataIsOpen(false);
-  };
+function SimulationDataToobar() {
+  const {
+    displaySimOrLoop,
+    isCreatingEditingLoop,
+    setAddCreateLoopModalOpen,
+    hideDatapointContainer,
+  } = useContext(SimulationContext);
 
   const addLoopToSimulation = (event) => {
     event.preventDefault();
@@ -30,7 +29,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
         <section className='grid grid-cols-reg mb-2'>
           <div className='grid ml-2 items-center justify-center'>
             <FaArrowAltCircleRight
-              onClick={hideContainer}
+              onClick={hideDatapointContainer}
               title='Hide'
               className='hover:brightness-90 cursor-pointer text-main-colour'
               size={20}

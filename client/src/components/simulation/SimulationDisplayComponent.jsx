@@ -9,12 +9,8 @@ import { FaClipboardList } from 'react-icons/fa';
 
 function SimulationDisplayComponent({
   isResettingAnimation,
-  userMenuIsOpen,
-  setUserMenuIsOpen,
-  simulationDataIsOpen,
-  setSimulationDataIsOpen,
 }) {
-  const { simulationIsRunning, positionOfMouseAndCanvasVisible } =
+  const { simulationIsRunning, positionOfMouseAndCanvasVisible, setUserMenuIsOpen, userMenuIsOpen, simulationDataIsOpen, setSimulationDataIsOpen } =
     useContext(SimulationContext);
 
   return (
@@ -34,7 +30,6 @@ function SimulationDisplayComponent({
 
       {!simulationDataIsOpen && (
         <button className='absolute right-3 z-50 hover:brightness-90 cursor-pointer top-3 grid p-2 bg-main-colour h-fit items-center justify-center rounded-full shadow-cardShadow'>
-          {' '}
           <FaClipboardList
             size={30}
             onClick={() => setSimulationDataIsOpen(true)}

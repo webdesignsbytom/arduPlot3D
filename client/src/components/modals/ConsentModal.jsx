@@ -6,7 +6,7 @@ import { useModalContext } from '../../context/ModalContext';
 function ConsentModal() {
   const { runConsentFunction } = useContext(SimulationContext);
   const { handleCancelConsentModel, consentMessage } = useModalContext();
-
+  
   return (
     <section className='grid z-20 stripped_border_dense h-1/2 absolute p-4 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-cardShadow'>
       <div className='grid grid-rows-[50px_1fr_auto] overflow-hidden bg-colour1'>

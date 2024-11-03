@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
+// Components
 import SimulationDataToobar from '../toolbars/SimulationDataToobar';
 import SimulationFunctionsToolbar from '../toolbars/SimulationFunctionsToolbar';
 import SimulationPageTopToolBar from '../toolbars/SimulationPageTopToolBar';
 import SimulationDisplayComponent from './SimulationDisplayComponent';
-import { SimulationContext } from '../../context/SimulationContext';
 import SimulationPageModelContainer from './SimulationPageModelContainer';
+// Context
+import { SimulationContext } from '../../context/SimulationContext';
 
 function SimulationPageMainContainer() {
   const { userMenuIsOpen, simulationDataIsOpen } =
@@ -25,9 +27,17 @@ function SimulationPageMainContainer() {
         } overflow-hidden`}
       >
         {/* Functions bar */}
-        <SimulationFunctionsToolbar />
+        <section
+          className={`${userMenuIsOpen ? 'grid overflow-hidden' : 'hidden'}`}
+        >
+          <div
+            className={`grid overflow-hidden h-full max-w-[300px] 2xl:max-w-[400px]`}
+          >
+            <SimulationFunctionsToolbar />
+          </div>
+        </section>
 
-        {/* canvas */}
+        {/* Center main component and  canvas */}
         <section className='grid grid-rows-reg gap-2 p-2 overflow-hidden'>
           {/* Top tool bar menu */}
           <SimulationPageTopToolBar />
@@ -36,17 +46,17 @@ function SimulationPageMainContainer() {
           <SimulationDisplayComponent />
         </section>
 
-        {/* data bar */}
+        {/* Data bar - simuklation data points - right hand */}
         <section
           className={`${
             simulationDataIsOpen ? 'grid overflow-hidden' : 'hidden'
           }`}
         >
-          <section
+          <div
             className={`grid overflow-hidden h-full max-w-[300px] 2xl:max-w-[400px]`}
           >
             <SimulationDataToobar />
-          </section>
+          </div>
         </section>
       </main>
 

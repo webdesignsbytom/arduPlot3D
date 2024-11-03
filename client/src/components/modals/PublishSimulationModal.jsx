@@ -3,14 +3,16 @@ import React, { useContext, useState } from 'react';
 import client from '../../api/client';
 // Context
 import { UserContext } from '../../context/UserContext';
+import { useModalContext } from '../../context/ModalContext';
 // Constants
 import { PUBLISH_SIMULATION_API } from '../../utils/Constants';
 
-function PublishSimulationModal({ closePublishModal }) {
+function PublishSimulationModal() {
   const { user } = useContext(UserContext);
+  const { handleClosePublishModal } = useModalContext();
   const [userSimulations, setUserSimulations] = useState([]);
 
-  const publishNewSimulation = () => {
+  const handlePublishNewSimulation = () => {
     client
       .patch(`${PUBLISH_SIMULATION_API}/${user.id}/:simulationId`)
       .then((res) => {
@@ -20,6 +22,8 @@ function PublishSimulationModal({ closePublishModal }) {
       .catch((err) => {
         console.error('Unable to retrieve simulation data', err);
       });
+
+    handleClosePublishModal();
   };
 
   const handleDescriptionChange = (event) => {
@@ -79,7 +83,7 @@ function PublishSimulationModal({ closePublishModal }) {
         <section className='grid grid-cols-2 gap-6 mt-4'>
           <div className='grid justify-center'>
             <button
-              onClick={closePublishModal}
+              onClick={handleClosePublishModal}
               className='grid bg-warning w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
               aria-label='Close modal button'
             >
@@ -88,7 +92,7 @@ function PublishSimulationModal({ closePublishModal }) {
           </div>
           <div className='grid justify-center'>
             <button
-              onClick={publishNewSimulation}
+              onClick={handlePublishNewSimulation}
               className='grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
               aria-label='Publish simulation to public library'
             >

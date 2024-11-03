@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+// Utils
 import { ConfirmCreateNewProject } from '../utils/design/ConfrimMessages';
 
 // Create the context
@@ -9,7 +10,7 @@ const ModalContextProvider = ({ children }) => {
   const [toggleNavigation, setToggleNavigation] = useState(false);
   const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
   const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
-  const [loadModalOpen, setLoadModalOpen] = useState(false);
+  const [loadModalIsOpen, setLoadModalIsOpen] = useState(false);
   const [connectToDeviceModalOpen, setConnectToDeviceModalOpen] =
     useState(false);
   const [timeoutModalOpen, setTimeoutModalOpen] = useState(false);
@@ -34,64 +35,65 @@ const ModalContextProvider = ({ children }) => {
     setConnectToDeviceModalOpen(!connectToDeviceModalOpen);
   };
 
-  const openPublishModal = () => {
+  const handleOpenPublishModal = () => {
     handleCloseAllModalsMaster();
     setIsPublishModalOpen(true);
   };
-  const closePublishModal = () => {
+
+  const handleClosePublishModal = () => {
     setIsPublishModalOpen(false);
   };
 
   // Open timeout settings modal
-  const openTimeoutSettingsModal = () => {
+  const handleOpenTimeoutSettingsModal = () => {
     handleCloseAllModalsMaster();
     setTimeoutModalOpen(true);
   };
-  const closeTimeoutSettingsModal = () => {
+  const handleCloseTimeoutSettingsModal = () => {
     setTimeoutModalOpen(false);
   };
 
   // Open drag settings modal
-  const openDragSettingsModal = () => {
+  const handleOpenDragSettingsModal = () => {
     handleCloseAllModalsMaster();
     setDragSettingsModalOpen(true);
   };
-  const closeDragSettingsModal = () => {
+  const handleCloseDragSettingsModal = () => {
     setDragSettingsModalOpen(false);
   };
 
   // Open movement settings modal
-  const openMovementSettingsModal = () => {
+  const handleOpenMovementSettingsModal = () => {
     handleCloseAllModalsMaster();
     setMovementSettingsModalOpen(true);
   };
-  const closeMovementSettingsModal = () => {
+  const handleCloseMovementSettingsModal = () => {
     setMovementSettingsModalOpen(false);
   };
 
   // Open tap settings modal
-  const openTapSettingsModal = () => {
+  const handleOpenTapSettingsModal = () => {
     handleCloseAllModalsMaster();
     setTapSettingsModalOpen(true);
   };
-  const closeTapSettingsModal = () => {
+  const handleCloseTapSettingsModal = () => {
     setTapSettingsModalOpen(false);
   };
 
   // Open tap settings modal
-  const openDeviceSelectModal = () => {
+  const handleOpenDeviceSelectModal = () => {
     handleCloseAllModalsMaster();
     setDeviceSelectionModalOpen(true);
   };
-  const closeDeviceSelectModal = () => {
+  const handleCloseDeviceSelectModal = () => {
     setDeviceSelectionModalOpen(false);
   };
 
-  const openUploadVideoModal = () => {
+  const handleOpenUploadVideoModal = () => {
     handleCloseAllModalsMaster();
     setuploadVideoModalOpen(true);
   };
-  const closeUploadVideoModal = () => {
+  const handleCloseUploadVideoModal = () => {
     setuploadVideoModalOpen(false);
   };
 
@@ -112,6 +114,18 @@ const ModalContextProvider = ({ children }) => {
   // Close save as
   const handleCloseSaveAsModal = () => {
     setSaveAsModalOpen(false);
+  };
+
+  // Load
+  // Open load
+  const handleOpenLoadModal = () => {
+    handleCloseAllModalsMaster();
+    setLoadModalIsOpen(true);
+  };
+
+  // Close load
+  const handleCloseLoadModal = () => {
+    setLoadModalIsOpen(false);
   };
 
   // Open consent modal
@@ -138,10 +152,10 @@ const ModalContextProvider = ({ children }) => {
     setMovementSettingsModalOpen(false);
     setDragSettingsModalOpen(false);
     setTimeoutModalOpen(false);
-    closeUploadVideoModal(false);
+    setuploadVideoModalOpen(false);
     setIsPublishModalOpen(false);
     setSaveAsModalOpen(false);
-    setLoadModalOpen(false);
+    setLoadModalIsOpen(false);
     setConsentMessageVisible(false);
 
     setConsentMessageVisible(false);
@@ -171,6 +185,41 @@ const ModalContextProvider = ({ children }) => {
         handleOpenSaveAsModal,
         handleCloseSaveAsModal,
         saveAsModalOpen,
+        // Load
+        handleOpenLoadModal,
+        handleCloseLoadModal,
+        loadModalIsOpen,
+        // Loop
+        addCreateLoopModalOpen,
+        // Settings
+        // Move
+        handleOpenMovementSettingsModal,
+        handleCloseMovementSettingsModal,
+        movementSettingsModalOpen,
+        // Drag
+        handleOpenDragSettingsModal,
+        handleCloseDragSettingsModal,
+        dragSettingsModalOpen,
+        // Timeout
+        handleOpenTimeoutSettingsModal,
+        handleCloseTimeoutSettingsModal,
+        timeoutModalOpen,
+        // Tap
+        handleOpenTapSettingsModal,
+        handleCloseTapSettingsModal,
+        tapSettingsModalOpen,
+        // Device select
+        handleOpenDeviceSelectModal,
+        handleCloseDeviceSelectModal,
+        deviceSelectionModalOpen,
+        // Video upload
+        handleOpenUploadVideoModal,
+        handleCloseUploadVideoModal,
+        uploadVideoModalOpen,
+        // Publish
+        handleOpenPublishModal,
+        handleClosePublishModal,
+        isPublishModalOpen,
       }}
     >
       {children}
