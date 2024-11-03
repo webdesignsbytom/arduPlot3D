@@ -63,7 +63,7 @@ function ConfigDeviceSizeComponent() {
   };
 
   return (
-    <section className='grid stripped_border p-2'>
+    <section className='grid stripped_border p-2 container mx-auto'>
       <div className='grid lg:grid-cols-2 gap-4 bg-colour1 py-6 px-8'>
         <article className='mb-2'>
           <div className='mb-2'>

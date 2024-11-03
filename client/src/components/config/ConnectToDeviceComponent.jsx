@@ -22,7 +22,7 @@ function ConnectToDeviceComponent() {
     }, 5000);
   };
   return (
-    <section>
+    <section className='grid container mx-auto'>
       {/* Render Connection Section or Device Info based on connection status */}
       {isConnected ? (
         <section className='grid stripped_border p-4'>

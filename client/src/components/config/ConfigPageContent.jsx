@@ -61,27 +61,9 @@ function ConfigPageContent() {
       <section className='grid p-4 overflow-hidden'>
         {selectedComponent === 'home' && <ConfigHomeComponent />}
 
-        {selectedComponent === 'device-size' && (
-          <section className='grid grid-rows-reg gap-8'>
-            <div>
-              <h1 className='text-xl font-semibold text-colour5'>
-                Device Size Configuration
-              </h1>
-            </div>
-            <ConfigDeviceSizeComponent />
-          </section>
-        )}
+        {selectedComponent === 'device-size' && <ConfigDeviceSizeComponent />}
 
-        {selectedComponent === 'connect-device' && (
-          <section className='grid grid-rows-reg gap-8'>
-            <div>
-              <h1 className='text-xl font-semibold text-colour5'>
-                Connect Device
-              </h1>
-            </div>
-            <ConnectToDeviceComponent />
-          </section>
-        )}
+        {selectedComponent === 'connect-device' && <ConnectToDeviceComponent />}
       </section>
     </section>
   );
