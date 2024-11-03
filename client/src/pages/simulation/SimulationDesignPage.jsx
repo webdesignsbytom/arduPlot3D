@@ -70,44 +70,20 @@ function SimulationDesignPage() {
   const { connectToDeviceModalOpen } = useModalContext();
 
   // Video modal
-  const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
+
   // Device selection
-  const [deviceSelectionModalOpen, setDeviceSelectionModalOpen] =
-    useState(false);
+
   // Save
   const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
   // Load
   const [loadModalOpen, setLoadModalOpen] = useState(false);
-  // Reset
-  const [isResettingAnimation, setIsResettingAnimation] = useState(false);
+
   // Left menu
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
   const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
 
-  const resetSimulationToStartingPoint = () => {
-    setIsResettingAnimation(!isResettingAnimation);
-  };
 
-  // // Create new simulation loop of commands
-  // const createNewSimulationLoop = () => {
-  //   setIsCreatingNewLoop(true);
-  //   setDisplaySimOrLoop('loop');
-  // };
 
-  // // Save new simulation loop of commands
-  // const saveNewSimulationLoop = () => {
-  //   setIsCreatingNewLoop(false);
-  // };
-
-  // Run simulation
-  const runSimulation = () => {
-    closeAllModalsMaster();
-    setSimulationIsRunning(true);
-  };
-  //
-  const stopSimulation = () => {
-    setSimulationIsRunning(false);
-  };
 
   // Display Landscape
   const setSimulationLandScape = () => {
@@ -124,41 +100,6 @@ function SimulationDesignPage() {
     setpositionOfMouseAndCanvasVisible(!positionOfMouseAndCanvasVisible);
   };
 
-  // Create new simulation
-  const createNewSimulationFile = () => {
-    closeAllModalsMaster();
-    setConsentMessage(ConfirmCreateNewProject);
-    setConsentMessageVisible(true);
-  };
-
-  const cancelFunction = () => {
-    setConsentMessage({});
-    setConsentMessageVisible(false);
-  };
-
-  // Save simulation
-  const saveCurrentSimulationFile = () => {
-    client
-      .post(`${SAVE_SIMULATION_API}/${user.id}`, simulationData)
-      .then((res) => {
-        console.log('RES', res.data.data.newSimulation);
-      })
-
-      .catch((err) => {
-        console.error('Unable to create simulation', err);
-      });
-  };
-
-  // Open save as
-  const openSaveAsModal = () => {
-    closeAllModalsMaster();
-    setSaveAsModalOpen(true);
-  };
-  // Close save as
-  const closeSaveAsModal = () => {
-    setSaveAsModalOpen(false);
-  };
-
   // Open load
   const openLoadModal = () => {
     closeAllModalsMaster();
@@ -170,12 +111,6 @@ function SimulationDesignPage() {
     setLoadModalOpen(false);
   };
 
-  const [isSavingFile, setIsSavingFile] = useState(false);
-
-  // Save as
-  const handleSaveAsNewFile = () => {
-    saveAsNewFile(user.id, simulationData, setIsSavingFile, setSaveAsModalOpen);
-  };
 
   // Open timeout settings modal
   const openTimeoutSettingsModal = () => {
@@ -213,32 +148,6 @@ function SimulationDesignPage() {
     setTapSettingsModalOpen(false);
   };
 
-  // Open tap settings modal
-  const openDeviceSelectModal = () => {
-    closeAllModalsMaster();
-    setDeviceSelectionModalOpen(true);
-  };
-  const closeDeviceSelectModal = () => {
-    setDeviceSelectionModalOpen(false);
-  };
-
-  const openUploadVideoModal = () => {
-    closeAllModalsMaster();
-    setuploadVideoModalOpen(true);
-  };
-  const closeUploadVideoModal = () => {
-    setuploadVideoModalOpen(false);
-  };
-
-  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
-
-  const openPublishModal = () => {
-    closeAllModalsMaster();
-    setIsPublishModalOpen(true);
-  };
-  const closePublishModal = () => {
-    setIsPublishModalOpen(false);
-  };
 
   const handleDownload = () => {
     downloadFileToMachine(simulationData);
@@ -250,13 +159,10 @@ function SimulationDesignPage() {
 
   // Close all modals master
   const closeAllModalsMaster = () => {
-    setDeviceSelectionModalOpen(false);
     setTapSettingsModalOpen(false);
     setMovementSettingsModalOpen(false);
     setDragSettingsModalOpen(false);
     setTimeoutModalOpen(false);
-    closeUploadVideoModal(false);
-    setIsPublishModalOpen(false);
     setSaveAsModalOpen(false);
     setLoadModalOpen(false);
     setConsentMessageVisible(false);
@@ -293,12 +199,9 @@ function SimulationDesignPage() {
           openTapSettingsModal={openTapSettingsModal}
           openMovementSettingsModal={openMovementSettingsModal}
           openDragSettingsModal={openDragSettingsModal}
-          openDeviceSelectModal={openDeviceSelectModal}
-          openUploadVideoModal={openUploadVideoModal}
           downloadFileToMachine={handleDownload}
           saveAsNewFile={handleSaveAsNewFile}
           openLoadModal={openLoadModal}
-          openPublishModal={openPublishModal}
           userMenuIsOpen={userMenuIsOpen}
           setUserMenuIsOpen={setUserMenuIsOpen}
         />
@@ -394,18 +297,8 @@ function SimulationDesignPage() {
         />
       )}
 
-      {/* Device selection */}
-      {deviceSelectionModalOpen && (
-        <DeviceSelectModal closeDeviceSelectModal={closeDeviceSelectModal} />
-      )}
 
-      {/* Save  */}
-      {saveAsModalOpen && (
-        <SaveAsModal
-          saveAsNewFile={saveAsNewFile}
-          closeSaveAsModal={closeSaveAsModal}
-        />
-      )}
+
 
       {/* Load */}
       {loadModalOpen && (
@@ -414,17 +307,7 @@ function SimulationDesignPage() {
           closeLoadSimulationModal={closeLoadSimulationModal}
         />
       )}
-
-      {/* Upload video */}
-      {uploadVideoModalOpen && (
-        <UploadVideoModal closeUploadVideoModal={closeUploadVideoModal} />
-      )}
-
-      {/* Publish siulation */}
-      {isPublishModalOpen && (
-        <PublishSimulationModal closePublishModal={closePublishModal} />
-      )}
-
+      
       {/* Loop selection */}
       {addCreateLoopModalOpen && <AddLoopToSimulationModal />}
 

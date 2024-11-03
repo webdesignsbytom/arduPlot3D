@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import SimulationDataToobar from '../toolbars/SimulationDataToobar';
 import SimulationFunctionsToolbar from '../toolbars/SimulationFunctionsToolbar';
 import SimulationPageTopToolBar from '../toolbars/SimulationPageTopToolBar';
 import SimulationDisplayComponent from './SimulationDisplayComponent';
+import { SimulationContext } from '../../context/SimulationContext';
+import SimulationPageModelContainer from './SimulationPageModelContainer';
 
 function SimulationPageMainContainer() {
+  const { userMenuIsOpen, simulationDataIsOpen } =
+    useContext(SimulationContext);
+
   return (
     <>
       {/* Main */}
@@ -20,52 +25,15 @@ function SimulationPageMainContainer() {
         } overflow-hidden`}
       >
         {/* Functions bar */}
-        <SimulationFunctionsToolbar
-          runSimulation={runSimulation}
-          stopSimulation={stopSimulation}
-          resetSimulationToStartingPoint={resetSimulationToStartingPoint}
-          createNewSimulationFile={createNewSimulationFile}
-          saveCurrentSimulationFile={saveCurrentSimulationFile}
-          openSaveAsModal={openSaveAsModal}
-          openTimeoutSettingsModal={openTimeoutSettingsModal}
-          openTapSettingsModal={openTapSettingsModal}
-          openMovementSettingsModal={openMovementSettingsModal}
-          openDragSettingsModal={openDragSettingsModal}
-          openDeviceSelectModal={openDeviceSelectModal}
-          openUploadVideoModal={openUploadVideoModal}
-          downloadFileToMachine={handleDownload}
-          saveAsNewFile={handleSaveAsNewFile}
-          openLoadModal={openLoadModal}
-          openPublishModal={openPublishModal}
-          userMenuIsOpen={userMenuIsOpen}
-          setUserMenuIsOpen={setUserMenuIsOpen}
-        />
+        <SimulationFunctionsToolbar />
 
         {/* canvas */}
         <section className='grid grid-rows-reg gap-2 p-2 overflow-hidden'>
           {/* Top tool bar menu */}
-          <SimulationPageTopToolBar
-            setSimulationLandScape={setSimulationLandScape}
-            setSimulationPortrait={setSimulationPortrait}
-            timeoutLength={timeoutLength}
-            timeoutUnitSelected={timeoutUnitSelected}
-            numberOfFingerTapping={numberOfFingerTapping}
-            simulationToolSelected={simulationToolSelected}
-            speedOfArmMoving={speedOfArmMoving}
-            speedOfDraggingArmMoving={speedOfDraggingArmMoving}
-            speedOfFingerMoving={speedOfFingerMoving}
-            toggleMousePositionDisplay={toggleMousePositionDisplay}
-            positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
-          />
+          <SimulationPageTopToolBar />
 
-          {/* CANVAS container */}
-          <SimulationDisplayComponent
-            isResettingAnimation={isResettingAnimation}
-            userMenuIsOpen={userMenuIsOpen}
-            setUserMenuIsOpen={setUserMenuIsOpen}
-            simulationDataIsOpen={simulationDataIsOpen}
-            setSimulationDataIsOpen={setSimulationDataIsOpen}
-          />
+          {/* CANVAS container  Simulations or design*/}
+          <SimulationDisplayComponent />
         </section>
 
         {/* data bar */}
@@ -77,12 +45,12 @@ function SimulationPageMainContainer() {
           <section
             className={`grid overflow-hidden h-full max-w-[300px] 2xl:max-w-[400px]`}
           >
-            <SimulationDataToobar
-              setSimulationDataIsOpen={setSimulationDataIsOpen}
-            />
+            <SimulationDataToobar />
           </section>
         </section>
       </main>
+
+      <SimulationPageModelContainer />
     </>
   );
 }

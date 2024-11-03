@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // Icons
 import { FaArrowAltCircleLeft } from 'react-icons/fa';
 // Context
 import { useModalContext } from '../../context/ModalContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
 function SimulationFunctionsToolbar({
-  runSimulation,
-  stopSimulation,
-  resetSimulationToStartingPoint,
-  createNewSimulationFile,
-  saveCurrentSimulationFile,
-  openSaveAsModal,
   openTimeoutSettingsModal,
   openTapSettingsModal,
   openMovementSettingsModal,
@@ -23,7 +18,19 @@ function SimulationFunctionsToolbar({
   userMenuIsOpen,
   setUserMenuIsOpen,
 }) {
-  const { toggleConnectToDeviceModal } = useModalContext();
+  const {
+    toggleConnectToDeviceModal,
+    handleOpenNewSimulationModal,
+    handleOpenSaveAsModal,
+  } = useModalContext();
+
+  const {
+    runSimulation,
+    stopSimulation,
+    handleResetSimulationToStartingPoint,
+    handleSaveSimulation,
+  } = useContext(SimulationContext);
+
   // Close this container
   const hideContainer = () => {
     setUserMenuIsOpen(false);
@@ -33,13 +40,16 @@ function SimulationFunctionsToolbar({
   const simulationActions = [
     { label: 'Run Simulation', onClick: runSimulation },
     { label: 'Stop Simulation', onClick: stopSimulation },
-    { label: 'Reset Simulation', onClick: resetSimulationToStartingPoint },
+    {
+      label: 'Reset Simulation',
+      onClick: handleResetSimulationToStartingPoint,
+    },
   ];
 
   const fileActions = [
-    { label: 'New Simulation', onClick: createNewSimulationFile },
-    { label: 'Save', onClick: saveCurrentSimulationFile },
-    { label: 'Save As', onClick: openSaveAsModal },
+    { label: 'New Simulation', onClick: handleOpenNewSimulationModal },
+    { label: 'Save', onClick: handleSaveSimulation },
+    { label: 'Save As', onClick: handleOpenSaveAsModal },
     { label: 'Load File', onClick: openLoadModal },
   ];
 
@@ -86,11 +96,7 @@ function SimulationFunctionsToolbar({
   );
 
   return (
-    <section
-      className={`bg-secondary-colour h-full overflow-y-auto scrollbar_hidden border-r-2 border-solid border-black ${
-        userMenuIsOpen ? '' : 'hidden'
-      }`}
-    >
+    <section className='bg-secondary-colour h-full grid grid-rows-reg w-fit max-w-[350px] border-r-2 border-solid border-black px-1 py-2 overflow-hidden'>
       <div className='p-2'>
         {/* Header data */}
         <article className='grid grid-cols-rev gap-4 mb-2'>

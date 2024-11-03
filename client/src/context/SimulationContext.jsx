@@ -29,16 +29,31 @@ import {
   ConfirmClearAllDataPoints,
   ConfirmDeleteLoop,
 } from '../utils/design/ConfrimMessages';
+import { useModalContext } from './ModalContext';
+import client from '../api/client';
+import { SAVE_SIMULATION_API } from '../utils/Constants';
 
 export const SimulationContext = React.createContext();
 
 const SimulationContextProvider = ({ children }) => {
+  const {
+    setAddCreateLoopModalOpen,
+    handleCreateConsentModal,
+    handleSetBlankConsentMessage,
+    handleCloseAllModalsMaster,
+  } = useModalContext();
+
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const dataPointMarkerRef = useRef(1);
   const emptyRef = useRef([]);
 
   console.log('dataPointMarkerRef', dataPointMarkerRef);
+
+  // Page Menus
+  const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
+  const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
+  const [isSavingFile, setIsSavingFile] = useState(false);
 
   const [dataCollection, setDataCollection] = useState([]);
   const [loopDataPoints, setLoopDataPoints] = useState([]);
@@ -70,7 +85,8 @@ const SimulationContextProvider = ({ children }) => {
   const [selectedDevice, setSelectedDevice] = useState(
     availableDevicesForSimulations[0]
   );
-
+  // Reset
+  const [isResettingAnimation, setIsResettingAnimation] = useState(false);
   // Display
   const [displaySimOrLoop, setDisplaySimOrLoop] = useState('simulation'); // simulation || loop
   const [numberOfDataPointsToDisplay, setNumberOfDataPointsToDisplay] =
@@ -80,28 +96,24 @@ const SimulationContextProvider = ({ children }) => {
   const [numberOfFingerTapping, setNumberOfFingerTapping] = useState(1);
   const [speedOfFingerMoving, setSpeedOfFingerMoving] =
     useState(initzMovementSpeed);
-  const [tapSettingsModalOpen, setTapSettingsModalOpen] = useState(false);
 
   // Movement settings
-  const [movementSettingsModalOpen, setMovementSettingsModalOpen] =
-    useState(false);
+
   const [speedOfArmMoving, setSpeedOfArmMoving] = useState(initxyMovementSpeed);
 
   // Timeout
-  const [timeoutModalOpen, setTimeoutModalOpen] = useState(false);
+
   const [timeoutLength, setTimeoutLength] = useState(5000);
   const [timeoutUnitSelected, setTimeoutUnitSelected] = useState(
     timeoutUnitTypesAvailable[0]
   );
 
   // Drag settings
-  const [dragSettingsModalOpen, setDragSettingsModalOpen] = useState(false);
   const [speedOfDraggingArmMoving, setSpeedOfDraggingArmMoving] = useState(
     initDragMovementSpeed
   );
 
   // Add/Create loop modal
-  const [addCreateLoopModalOpen, setAddCreateLoopModalOpen] = useState(false);
 
   // Data points for loop
   const [displayLoopDataPoints, setDisplayLoopDataPoints] = useState(false);
@@ -116,9 +128,15 @@ const SimulationContextProvider = ({ children }) => {
   const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
     useState(true);
 
-  // Popup modals
-  const [consentMessageVisible, setConsentMessageVisible] = useState('');
-  const [consentMessage, setConsentMessage] = useState({});
+  // Run simulation
+  const runSimulation = () => {
+    handleCloseAllModalsMaster();
+    setSimulationIsRunning(true);
+  };
+  //
+  const stopSimulation = () => {
+    setSimulationIsRunning(false);
+  };
 
   // Save new or edited loop
   const saveLoopPerminently = () => {
@@ -286,8 +304,8 @@ const SimulationContextProvider = ({ children }) => {
     event.preventDefault();
 
     setLoopToDeleteIndex(index);
-    setConsentMessageVisible(true);
-    setConsentMessage(ConfirmDeleteLoop);
+
+    handleCreateConsentModal(ConfirmDeleteLoop);
   };
 
   const deleteSavedLoop = () => {
@@ -321,7 +339,11 @@ const SimulationContextProvider = ({ children }) => {
         console.log('No matching action found');
     }
 
-    setBlankConsentMessage();
+    handleSetBlankConsentMessage();
+  };
+
+  const handleResetSimulationToStartingPoint = () => {
+    setIsResettingAnimation(!isResettingAnimation);
   };
 
   const createNewFile = () => {
@@ -333,15 +355,8 @@ const SimulationContextProvider = ({ children }) => {
     );
   };
 
-  // Clear state
-  const setBlankConsentMessage = () => {
-    setConsentMessageVisible('');
-    setConsentMessage('');
-  };
-
   const clearAllDataPoints = () => {
-    setConsentMessage(ConfirmClearAllDataPoints);
-    setConsentMessageVisible(true);
+    handleCreateConsentModal(ConfirmClearAllDataPoints);
   };
 
   // Display rulers on canvas
@@ -378,9 +393,25 @@ const SimulationContextProvider = ({ children }) => {
     setSimulationToolSelected(MOVE_FUNCTION);
   };
 
+  // Save simulation
+  const handleSaveSimulation = (user) => {
+    client
+      .post(`${SAVE_SIMULATION_API}/${user.id}`, simulationData)
+      .then((res) => {
+        console.log('RES', res.data.data.newSimulation);
+      })
+
+      .catch((err) => {
+        console.error('Unable to create simulation', err);
+      });
+  };
+
   return (
     <SimulationContext.Provider
       value={{
+        // Menus
+        userMenuIsOpen,
+        simulationDataIsOpen,
         // Ref
         canvasRef,
         contextRef,
@@ -408,22 +439,12 @@ const SimulationContextProvider = ({ children }) => {
         setNumberOfFingerTapping,
         speedOfFingerMoving,
         setSpeedOfFingerMoving,
-        tapSettingsModalOpen,
-        setTapSettingsModalOpen,
-        movementSettingsModalOpen,
-        setMovementSettingsModalOpen,
         speedOfArmMoving,
         setSpeedOfArmMoving,
-        addCreateLoopModalOpen,
-        setAddCreateLoopModalOpen,
-        timeoutModalOpen,
-        setTimeoutModalOpen,
         timeoutLength,
         setTimeoutLength,
         timeoutUnitSelected,
         setTimeoutUnitSelected,
-        dragSettingsModalOpen,
-        setDragSettingsModalOpen,
         speedOfDraggingArmMoving,
         setSpeedOfDraggingArmMoving,
         displayLoopDataPoints,
@@ -458,10 +479,6 @@ const SimulationContextProvider = ({ children }) => {
         deleteDataPointFromSimulation,
         deleteDataPointFromLoop,
         deleteSavedLoopFromSimulation,
-        consentMessageVisible,
-        setConsentMessageVisible,
-        consentMessage,
-        setConsentMessage,
         runConsentFunction,
         saveLoopPerminently,
         simulationDataId,
@@ -474,6 +491,12 @@ const SimulationContextProvider = ({ children }) => {
         handleSelectDragTool,
         handleSelectTimeoutTool,
         handleSelectMoveTool,
+        // Run sim
+        runSimulation,
+        stopSimulation,
+        handleResetSimulationToStartingPoint,
+        // Save
+        handleSaveSimulation,
       }}
     >
       {children}
