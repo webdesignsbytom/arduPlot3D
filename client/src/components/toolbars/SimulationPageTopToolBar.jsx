@@ -16,6 +16,7 @@ import { GiArrowCursor } from 'react-icons/gi';
 import { FaArrowsTurnToDots } from 'react-icons/fa6';
 import { IoMdInfinite } from 'react-icons/io';
 import { ImClock } from "react-icons/im";
+import { HiMiniDevicePhoneMobile } from "react-icons/hi2";
 import {
   availablePointsToDisplayData,
   DRAG_FUNCTION,
@@ -110,7 +111,7 @@ function SimulationPageTopToolBar({
     {
       onClick: isLandscapeMode ? setSimulationPortrait : setSimulationLandScape,
       title: isLandscapeMode ? 'Orientate Portrait' : 'Orientate Landscape',
-      icon: isLandscapeMode ? <IoPhonePortrait /> : <IoPhoneLandscape />,
+      icon: isLandscapeMode ? <HiMiniDevicePhoneMobile /> : <HiMiniDevicePhoneMobile className='rotate-90' />,
     },
     {
       onClick: setPointsToDisplaySettings,

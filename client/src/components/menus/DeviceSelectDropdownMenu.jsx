@@ -8,7 +8,7 @@ function DeviceSelectDropdownMenu({ handleDeviceChange }) {
   );
 
   return (
-    <div>
+    <div className='grid gap-2'>
       <label htmlFor='mobile_device' className='text-sm'>
         Select mobile device
       </label>
@@ -17,12 +17,16 @@ function DeviceSelectDropdownMenu({ handleDeviceChange }) {
           onChange={handleDeviceChange}
           name='device_options'
           id='device_options'
-          className='outline outline-1 outline-main-colour px-1 rounded-lg p-1 shadow-lg'
+          className='outline outline-1 outline-main-colour px-1 rounded p-1 shadow-lg'
           aria-label='Select phone options'
         >
           {availableDevices.map((device, index) => {
             return (
-              <option key={index} value={device.id} aria-label={`${device.title} option`}>
+              <option
+                key={index}
+                value={device.id}
+                aria-label={`${device.title} option`}
+              >
                 {device.title}
               </option>
             );
