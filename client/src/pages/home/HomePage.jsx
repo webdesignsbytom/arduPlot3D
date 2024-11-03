@@ -4,9 +4,9 @@ import { usePageTracking } from '../../components/hooks/useAnalytics';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import { HelmetItem } from '../../components/utils/HelmetItem';
+import HomePageHeader from '../../components/home/HomePageHeader';
 // Constants
 import { CompanyName } from '../../utils/Constants';
-import HomePageHeader from '../../components/home/HomePageHeader';
 
 function HomePage() {
   usePageTracking();
@@ -20,7 +20,7 @@ function HomePage() {
       <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
         <Navbar />
         {/* Main */}
-        <main className='grid h-full w-full items-center justify-center px-4'>
+        <main className='grid relative h-full w-full items-center justify-center px-4'>
           <HomePageHeader />
         </main>
       </div>

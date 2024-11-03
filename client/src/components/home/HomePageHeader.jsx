@@ -5,7 +5,7 @@ import { SIMULATION_PAGE_URL } from '../../utils/Constants';
 
 function HomePageHeader() {
   return (
-    <header className='stripped_border grid p-5 w-full h-fit shadow-cardShadow'>
+    <header className='stripped_border grid p-5 w-full h-fit shadow-cardShadow z-10'>
       <div className='grid gap-8 text-center bg-colour1 shadow-input py-6 px-4 lg:px-8 lg:py-8 h-fit w-full'>
         {/* Text */}
         <article className='grid gap-4 h-fit'>
