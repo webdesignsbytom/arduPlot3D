@@ -6,6 +6,7 @@ import ConnectToDeviceComponent from './ConnectToDeviceComponent';
 import { MdCastConnected } from 'react-icons/md';
 import { IoMdMove } from 'react-icons/io';
 import { FaHome } from 'react-icons/fa';
+import ConfigHomeComponent from './ConfigHomeComponent';
 
 function ConfigPageContent() {
   const [selectedComponent, setSelectedComponent] = useState('home');
@@ -26,7 +27,7 @@ function ConfigPageContent() {
   ];
 
   return (
-    <section className='grid grid-cols-reg'>
+    <section className='grid grid-cols-reg overflow-hidden h-full w-full'>
       {/* Sidebar Navigation */}
       <section className='grid w-full bg-colour2 h-full'>
         <nav>
@@ -57,17 +58,8 @@ function ConfigPageContent() {
       </section>
 
       {/* Main Content Section */}
-      <section className='grid p-4'>
-        {selectedComponent === 'home' && (
-          <section className='grid grid-rows-reg gap-8'>
-            <div>
-              <h1 className='text-xl font-semibold text-colour5'>Home</h1>
-            </div>
-            <p className='text-colour5'>
-              Welcome to the device configuration page.
-            </p>
-          </section>
-        )}
+      <section className='grid p-4 overflow-hidden'>
+        {selectedComponent === 'home' && <ConfigHomeComponent />}
 
         {selectedComponent === 'device-size' && (
           <section className='grid grid-rows-reg gap-8'>
