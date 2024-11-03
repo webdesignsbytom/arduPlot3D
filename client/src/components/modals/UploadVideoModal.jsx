@@ -3,19 +3,18 @@ import React, { useContext } from 'react';
 import { SimulationContext } from '../../context/SimulationContext';
 import { useModalContext } from '../../context/ModalContext';
 
-function UploadVideoModal({ closeUploadVideoModal }) {
-  const { selectedVideo, setSelectedVideo } = useContext(SimulationContext);
+function UploadVideoModal() {
+  const { setSelectedVideo } = useContext(SimulationContext);
   const { handleCloseUploadVideoModal } = useModalContext();
 
   // Function to handle file selection
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log(file); // You can replace this with any action you want to perform with the file
     setSelectedVideo(file);
   };
 
   return (
-    <section className='grid outline outline-main-colour outline-2 rounded-lg z-20 bg-secondary-colour md:w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+    <section className='grid outline outline-main-colour outline-2 z-20 rounded-lg bg-secondary-colour h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='py-2 px-4'>
         <div className='text-center'>
           <h4 className='text-lg'>Upload Video</h4>

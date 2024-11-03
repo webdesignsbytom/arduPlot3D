@@ -85,6 +85,7 @@ const ModalContextProvider = ({ children }) => {
     handleCloseAllModalsMaster();
     setDeviceSelectionModalOpen(true);
   };
+
   const handleCloseDeviceSelectModal = () => {
     setDeviceSelectionModalOpen(false);
   };
@@ -102,6 +103,15 @@ const ModalContextProvider = ({ children }) => {
     handleCloseAllModalsMaster();
 
     handleCreateConsentModal(ConfirmCreateNewProject);
+  };
+
+  // Loops
+  const handleOpenLoopModal = () => {
+    handleCloseAllModalsMaster();
+    setAddCreateLoopModalOpen(true);
+  };
+  const handleCloseLoopModal = () => {
+    setAddCreateLoopModalOpen(false);
   };
 
   // Save
@@ -190,6 +200,8 @@ const ModalContextProvider = ({ children }) => {
         handleCloseLoadModal,
         loadModalIsOpen,
         // Loop
+        handleOpenLoopModal,
+        handleCloseLoopModal,
         addCreateLoopModalOpen,
         // Settings
         // Move

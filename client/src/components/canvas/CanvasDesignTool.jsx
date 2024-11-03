@@ -59,16 +59,15 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   const [isCreatingDragDataPoint, setIsCreatingDragDataPoint] = useState(false);
   const [tempDragObject, setTempDragObject] = useState({});
 
-  const rulerRefX = useRef(null); // Ref for the X-axis ruler
-  const rulerRefY = useRef(null); // Ref for the Y-axis ruler
+  const rulerRefX = useRef(null);
+  const rulerRefY = useRef(null);
 
   useEffect(() => {
-    // returns <context>
     const canvas = canvasRef.current;
     var rect = canvas.parentNode.getBoundingClientRect();
 
-    let deviceWidthPixels = selectedDevice.xPixels; // Default to Samsung S20 Ultra's width in pixels
-    let deviceHeightPixels = selectedDevice.yPixels; // Default to Samsung S20 Ultra's height in pixels
+    let deviceWidthPixels = selectedDevice.xPixels;
+    let deviceHeightPixels = selectedDevice.yPixels;
 
     if (isLandscapeMode) {
       // If in portrait mode, swap the width and height
@@ -99,14 +98,20 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       // Setup rulers if visible
       setupRulers();
     }
-  }, [isLandscapeMode, rulesAndDataVisible, selectedDevice]);
+  }, [
+    isLandscapeMode,
+    rulesAndDataVisible,
+    selectedDevice,
+    canvasRef,
+    contextRef,
+  ]);
 
   useEffect(() => {
     const storedSimulationData = localStorage.getItem('simulationData');
     if (storedSimulationData) {
       setSimulationData(JSON.parse(storedSimulationData));
     }
-  }, []); // This effect runs only once on mount
+  }, []);
 
   // Load current points on startup
   useEffect(() => {
@@ -195,6 +200,8 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     numberOfDataPointsToDisplay,
     simulationData,
     loopDataBeingEdited,
+    rulesAndDataVisible,
+    isLandscapeMode,
   ]);
 
   const sortDataElements = (element, markerIndex) => {

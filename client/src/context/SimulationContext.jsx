@@ -38,7 +38,7 @@ export const SimulationContext = React.createContext();
 
 const SimulationContextProvider = ({ children }) => {
   const {
-    setAddCreateLoopModalOpen,
+    handleCloseLoopModal,
     handleCreateConsentModal,
     handleSetBlankConsentMessage,
     handleCloseAllModalsMaster,
@@ -69,7 +69,7 @@ const SimulationContextProvider = ({ children }) => {
   const [simulationLoopData, setSimulationLoopData] = useState(blankLoopObject);
 
   // Design
-  const [rulesAndDataVisible, setRulersVisible] = useState(true);
+  const [rulesAndDataVisible, setRulesAndDataVisible] = useState(true);
   const [isPxOrMmDimensions, setIsPxOrMmDimensions] = useState(false); // False = px
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [isLandscapeMode, setIsLandscapeMode] = useState(true); // Starts landscape mode
@@ -129,6 +129,10 @@ const SimulationContextProvider = ({ children }) => {
   // Mouse Position
   const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
     useState(true);
+
+  const changeNumberOfTappingFinger = (numFingers) => {
+    setNumberOfFingerTapping(numFingers);
+  };
 
   // Run simulation
   const runSimulation = () => {
@@ -261,9 +265,7 @@ const SimulationContextProvider = ({ children }) => {
   };
 
   // Create new loop
-  const createNewLoop = (event) => {
-    event.preventDefault(); // This will prevent the default action
-
+  const createNewLoop = () => {
     // Determine the new loop's index based on the current array length
     const newLoopIndex = simulationData.simulationLoops.length;
 
@@ -278,7 +280,7 @@ const SimulationContextProvider = ({ children }) => {
 
     setLoopDataBeingEdited(newLoop);
     setDisplayLoopDataPointsIndex(newLoopIndex);
-    setAddCreateLoopModalOpen(false);
+    handleCloseLoopModal();
     setIsCreatingEditingLoop(true);
     setDisplaySimOrLoop('simulation');
 
@@ -325,6 +327,16 @@ const SimulationContextProvider = ({ children }) => {
     setIsCreatingEditingLoop(false);
   };
 
+  const addLoopToSimulation = (loopToAdd) => {
+    setSimulationData({
+      ...simulationData,
+      mainSimulationDataPoints: [
+        ...simulationData.mainSimulationDataPoints,
+        loopToAdd,
+      ],
+    });
+  };
+
   // Click agree in concent modal
   const runConsentFunction = (consentFunction) => {
     switch (consentFunction) {
@@ -357,16 +369,6 @@ const SimulationContextProvider = ({ children }) => {
     );
   };
 
-  const setNumberOfFingers = (id) => {
-    if (id === 'finger1') {
-      setNumberOfFingerTapping(1);
-    } else if (id === 'finger2') {
-      setNumberOfFingerTapping(2);
-    } else if (id === 'finger3') {
-      setNumberOfFingerTapping(3);
-    }
-  };
-
   const handleTapSpeedChange = (event) => {
     const newSpeed = event.target.value; // Get the new speed value from the input
     setSpeedOfFingerMoving(newSpeed); // Update the state with the new speed
@@ -386,11 +388,11 @@ const SimulationContextProvider = ({ children }) => {
 
   // Display rulers on canvas
   const displayCanvasRulers = () => {
-    setRulersVisible(true);
+    setRulesAndDataVisible(true);
   };
   // Hide rulers on canvas
   const hideCanvasRulers = () => {
-    setRulersVisible(false);
+    setRulesAndDataVisible(false);
   };
 
   // Select tap tool
@@ -478,7 +480,7 @@ const SimulationContextProvider = ({ children }) => {
         setSimulationLoopData,
         // Settings
         rulesAndDataVisible,
-        setRulersVisible,
+        setRulesAndDataVisible,
         simulationIsRunning,
         setSimulationIsRunning,
         selectedDevice,
@@ -560,8 +562,8 @@ const SimulationContextProvider = ({ children }) => {
         // Tap
         numberOfFingerTapping,
         setNumberOfFingerTapping,
-        setNumberOfFingers,
         handleTapSpeedChange,
+        changeNumberOfTappingFinger,
         speedOfFingerMoving,
         setSpeedOfFingerMoving,
         // Movement
@@ -575,6 +577,8 @@ const SimulationContextProvider = ({ children }) => {
         toggleMousePositionDisplay,
         positionOfMouseAndCanvasVisible,
         setpositionOfMouseAndCanvasVisible,
+        // Loops
+        addLoopToSimulation,
       }}
     >
       {children}

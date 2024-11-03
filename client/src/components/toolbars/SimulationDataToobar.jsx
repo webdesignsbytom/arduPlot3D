@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
+import { useModalContext } from '../../context/ModalContext';
 // Components
 import NewEditLoopData from '../simulation/NewEditLoopData';
 import SimLoopButtons from '../simulation/SimLoopButtons';
@@ -10,17 +11,9 @@ import SimulationDataPointDisplay from '../simulation/SimulationDataPointDisplay
 import { FaArrowAltCircleRight } from 'react-icons/fa';
 
 function SimulationDataToobar() {
-  const {
-    displaySimOrLoop,
-    isCreatingEditingLoop,
-    setAddCreateLoopModalOpen,
-    hideDatapointContainer,
-  } = useContext(SimulationContext);
-
-  const addLoopToSimulation = (event) => {
-    event.preventDefault();
-    setAddCreateLoopModalOpen(true);
-  };
+  const { displaySimOrLoop, isCreatingEditingLoop, hideDatapointContainer } =
+    useContext(SimulationContext);
+  const { handleOpenLoopModal } = useModalContext();
 
   return (
     <section className='bg-secondary-colour h-full grid grid-rows-reg w-fit max-w-[350px] border-l-2 border-solid border-black px-1 py-2 overflow-hidden'>
@@ -80,7 +73,7 @@ function SimulationDataToobar() {
         {!isCreatingEditingLoop && (
           <div className='grid h-fit mt-2 px-1'>
             <button
-              onClick={(event) => addLoopToSimulation(event)}
+              onClick={handleOpenLoopModal}
               className='bg-main-colour rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
             >
               Add Loop +
