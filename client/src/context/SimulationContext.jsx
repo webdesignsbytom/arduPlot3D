@@ -19,6 +19,11 @@ import {
   CLEAR_ALL_DATAPOINT_FUNC,
   CREATE_NEW_SIM_FUNC,
   DELETE_LOOP_FUNC,
+  DRAG_FUNCTION,
+  MOVE_FUNCTION,
+  MOVE_TAP_FUNCTION,
+  TAP_FUNCTION,
+  TIMEOUT_FUNCTION,
 } from '../utils/design/Constants';
 import {
   ConfirmClearAllDataPoints,
@@ -348,6 +353,31 @@ const SimulationContextProvider = ({ children }) => {
     setRulersVisible(false);
   };
 
+  // Select tap tool
+  const handleSelectTapTool = () => {
+    setSimulationToolSelected(TAP_FUNCTION);
+  };
+
+  // Select tap and move tool
+  const handleSelectTapAndMoveTool = () => {
+    setSimulationToolSelected(MOVE_TAP_FUNCTION);
+  };
+
+  // Select drag tool
+  const handleSelectDragTool = () => {
+    setSimulationToolSelected(DRAG_FUNCTION);
+  };
+
+  // Select timeout tool
+  const handleSelectTimeoutTool = () => {
+    setSimulationToolSelected(TIMEOUT_FUNCTION);
+  };
+
+  // Select timeout tool
+  const handleSelectMoveTool = () => {
+    setSimulationToolSelected(MOVE_FUNCTION);
+  };
+
   return (
     <SimulationContext.Provider
       value={{
@@ -439,6 +469,11 @@ const SimulationContextProvider = ({ children }) => {
         clearAllDataPoints,
         displayCanvasRulers,
         hideCanvasRulers,
+        handleSelectTapTool,
+        handleSelectTapAndMoveTool,
+        handleSelectDragTool,
+        handleSelectTimeoutTool,
+        handleSelectMoveTool,
       }}
     >
       {children}

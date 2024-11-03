@@ -22,21 +22,15 @@ import { UserContext } from '../../context/UserContext';
 import { ConfirmCreateNewProject } from '../../utils/design/ConfrimMessages';
 import LoadSimulationModal from '../../components/modals/LoadSimulationModal';
 import PublishSimulationModal from '../../components/modals/PublishSimulationModal';
-// Constants
-import {
-  DRAG_FUNCTION,
-  MOVE_FUNCTION,
-  MOVE_TAP_FUNCTION,
-  TAP_FUNCTION,
-  TIMEOUT_FUNCTION,
-} from '../../utils/design/Constants';
-import {
-  SAVE_SIMULATION_API,
-  CREATE_NEW_SIMULATION_API,
-} from '../../utils/Constants';
+import { SAVE_SIMULATION_API } from '../../utils/Constants';
 import SimulationDisplayComponent from '../../components/simulation/SimulationDisplayComponent';
 import { useModalContext } from '../../context/ModalContext';
 import ConnectToDeviceModal from '../../components/modals/ConnectToDeviceModal';
+import {
+  downloadFileToMachine,
+  loadSimulationFile,
+  saveAsNewFile,
+} from '../../utils/simulation/SimulationUtils';
 
 function SimulationDesignPage() {
   const { user } = useContext(UserContext);
@@ -44,7 +38,6 @@ function SimulationDesignPage() {
     setSimulationIsRunning,
     setIsLandscapeMode,
     simulationToolSelected,
-    setSimulationToolSelected,
     numberOfFingerTapping,
     setNumberOfFingerTapping,
     speedOfFingerMoving,
@@ -74,7 +67,7 @@ function SimulationDesignPage() {
     setConsentMessage,
     simulationData,
   } = useContext(SimulationContext);
-  const { connectToDeviceModalOpen } = useModalContext()
+  const { connectToDeviceModalOpen } = useModalContext();
 
   // Video modal
   const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
@@ -131,31 +124,6 @@ function SimulationDesignPage() {
     setpositionOfMouseAndCanvasVisible(!positionOfMouseAndCanvasVisible);
   };
 
-  // Select tap tool
-  const selectTapTool = () => {
-    setSimulationToolSelected(TAP_FUNCTION);
-  };
-
-  // Select tap and move tool
-  const selectTapAndMoveTool = () => {
-    setSimulationToolSelected(MOVE_TAP_FUNCTION);
-  };
-
-  // Select drag tool
-  const selectDragTool = () => {
-    setSimulationToolSelected(DRAG_FUNCTION);
-  };
-
-  // Select timeout tool
-  const selectTimeoutTool = () => {
-    setSimulationToolSelected('timeout');
-  };
-
-  // Select timeout tool
-  const selectMoveTool = () => {
-    setSimulationToolSelected('move');
-  };
-
   // Create new simulation
   const createNewSimulationFile = () => {
     closeAllModalsMaster();
@@ -205,21 +173,8 @@ function SimulationDesignPage() {
   const [isSavingFile, setIsSavingFile] = useState(false);
 
   // Save as
-  const saveAsNewFile = () => {
-    setIsSavingFile(true);
-
-    client
-      .post(`${CREATE_NEW_SIMULATION_API}/${user.id}`, simulationData)
-      .then((res) => {
-        console.log('res', res);
-        setIsSavingFile(false);
-      })
-
-      .catch((err) => {
-        console.error('Unable to save data', err);
-        setIsSavingFile(false);
-      });
-    setSaveAsModalOpen(false); //
+  const handleSaveAsNewFile = () => {
+    saveAsNewFile(user.id, simulationData, setIsSavingFile, setSaveAsModalOpen);
   };
 
   // Open timeout settings modal
@@ -285,83 +240,12 @@ function SimulationDesignPage() {
     setIsPublishModalOpen(false);
   };
 
-  // Function to translate simulation data to GPGL commands
-  function translateToPlotterLanguage() {
-    let commands = '';
-    let lastPosition = { x: null, y: null }; // Track the last position to avoid redundant PA
-
-    const formatPoint = (point) => {
-      // Check if the point and dataType are defined
-      if (!point || !point.dataType) {
-        return '// Invalid point data\n'; // Skip this point if dataType is missing
-      }
-
-      let command = '';
-
-      // Check if position has changed to avoid redundant PA commands
-      if (point.xPos !== lastPosition.x || point.yPos !== lastPosition.y) {
-        command += `PA ${point.xPos || 0},${point.yPos || 0}; `;
-        lastPosition = { x: point.xPos, y: point.yPos }; // Update last position
-      }
-
-      switch (point.dataType.toLowerCase()) {
-        case 'tap':
-          command += `PD; PU;\n`; // Tap down and lift up
-          break;
-        case 'move':
-          command += `PU;\n`; // Move without engaging
-          break;
-        case 'move_tap':
-          command += `PD; PU;\n`; // Move and tap
-          break;
-        case 'drag':
-          // Only issue PA if start position is different
-          if (
-            point.startxPos !== lastPosition.x ||
-            point.startyPos !== lastPosition.y
-          ) {
-            command += `PA ${point.startxPos || 0},${point.startyPos || 0}; `;
-            lastPosition = { x: point.startxPos, y: point.startyPos };
-          }
-          command += `PD; PA ${point.finishxPos || 0},${
-            point.finishyPos || 0
-          }; PU;\n`; // Drag
-          lastPosition = { x: point.finishxPos, y: point.finishyPos }; // Update last position
-          break;
-        case 'timeout':
-          command += `WAIT ${point.timeoutLength || 0};\n`; // Wait for timeout
-          break;
-        default:
-          command += `// Unknown dataType: ${point.dataType}\n`;
-      }
-
-      return command;
-    };
-
-    // Translate main simulation data points to GPGL commands
-    simulationData.mainSimulationDataPoints.forEach((point) => {
-      commands += formatPoint(point);
-    });
-
-    return commands;
-  }
-
-  // Download function to save the commands as a file
-  const downloadFileToMachine = () => {
-    const plotterCommands = translateToPlotterLanguage();
-    const blob = new Blob([plotterCommands], { type: 'text/plain' });
-    const href = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = href;
-    link.download = `${simulationData.simulationTitle}.txt`; // Name of the file to download
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(href);
+  const handleDownload = () => {
+    downloadFileToMachine(simulationData);
   };
 
-  const loadSimulationFile = () => {
-    console.log('AAA');
+  const handleLoadSimulation = () => {
+    loadSimulationFile();
   };
 
   // Close all modals master
@@ -411,8 +295,8 @@ function SimulationDesignPage() {
           openDragSettingsModal={openDragSettingsModal}
           openDeviceSelectModal={openDeviceSelectModal}
           openUploadVideoModal={openUploadVideoModal}
-          downloadFileToMachine={downloadFileToMachine}
-          saveAsNewFile={saveAsNewFile}
+          downloadFileToMachine={handleDownload}
+          saveAsNewFile={handleSaveAsNewFile}
           openLoadModal={openLoadModal}
           openPublishModal={openPublishModal}
           userMenuIsOpen={userMenuIsOpen}
@@ -428,11 +312,6 @@ function SimulationDesignPage() {
             timeoutLength={timeoutLength}
             timeoutUnitSelected={timeoutUnitSelected}
             numberOfFingerTapping={numberOfFingerTapping}
-            selectTapTool={selectTapTool}
-            selectTapAndMoveTool={selectTapAndMoveTool}
-            selectDragTool={selectDragTool}
-            selectTimeoutTool={selectTimeoutTool}
-            selectMoveTool={selectMoveTool}
             simulationToolSelected={simulationToolSelected}
             speedOfArmMoving={speedOfArmMoving}
             speedOfDraggingArmMoving={speedOfDraggingArmMoving}
@@ -531,7 +410,7 @@ function SimulationDesignPage() {
       {/* Load */}
       {loadModalOpen && (
         <LoadSimulationModal
-          loadSimulationFile={loadSimulationFile}
+          loadSimulationFile={handleLoadSimulation}
           closeLoadSimulationModal={closeLoadSimulationModal}
         />
       )}

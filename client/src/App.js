@@ -19,6 +19,7 @@ import {
   TEST_PAGE_URL,
   ERROR_404_PAGE_URL,
 } from './utils/Constants';
+import SimulationPage from './pages/simulation/SimulationPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path={LOGIN_PAGE_URL} element={<LoginPage />} />
         <Route path={SIGN_UP_PAGE_URL} element={<RegisterPage />} />
         <Route path={SIMULATION_PAGE_URL} element={<SimulationDesignPage />} />
+        <Route path={'/sim'} element={<SimulationPage />} />
         <Route path={LIBRARY_PAGE_URL} element={<LibraryPage />} />
         <Route path={CONFIGURATION_PAGE_URL} element={<ConfigurationPage />} />
         <Route path={TEST_PAGE_URL} element={<TestPage />} />
