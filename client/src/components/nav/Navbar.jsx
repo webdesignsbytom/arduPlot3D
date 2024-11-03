@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { IoMdMenu } from 'react-icons/io';
 import { UserContext } from '../../context/UserContext';
-import LogoImage from '../../assets/images/logos/wdbt-black.svg';
+import LogoImage from '../../assets/images/logos/logo (3).png';
 // Context
 import { useModalContext } from '../../context/ModalContext';
 
@@ -37,11 +37,20 @@ function Navbar() {
       {/* Logo Section */}
       <section className='grid items-center justify-center pl-4'>
         <Link className='no__highlights' to='/'>
-          <img
-            className='w-10 no__highlights h-10'
-            src={LogoImage}
-            alt='Logo'
-          />
+          <div className='flex'>
+            <div>
+              <img
+                className='w-10 no__highlights h-10'
+                src={LogoImage}
+                alt='Logo'
+              />
+            </div>
+            <div className='grid items-center -ml-8 text-colour1 font-bold z-0'>
+              <span className='text__stroke3 text-xl'>
+                <span className='text-3xl'>A</span>rduPlot3D
+              </span>
+            </div>
+          </div>
         </Link>
       </section>
 

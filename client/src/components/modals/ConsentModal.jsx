@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
+import { useModalContext } from '../../context/ModalContext';
 
-function ConsentModal({ consentMessage, cancalFunction }) {
+function ConsentModal() {
   const { runConsentFunction } = useContext(SimulationContext);
-
+  const { handleCancelConsentModel, consentMessage } = useModalContext();
+  
   return (
     <section className='grid z-20 stripped_border_dense h-1/2 absolute p-4 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-cardShadow'>
       <div className='grid grid-rows-[50px_1fr_auto] overflow-hidden bg-colour1'>
@@ -37,7 +39,7 @@ function ConsentModal({ consentMessage, cancalFunction }) {
           <div className='grid grid-cols-2 gap-4 px-4 w-full'>
             <div className='grid w-full'>
               <button
-                onClick={cancalFunction}
+                onClick={handleCancelConsentModel}
                 className='grid bg-red-400 w-full h-fit px-2 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-75 active:scale-95 shadow-lg'
                 aria-label='Cancel confirm'
               >

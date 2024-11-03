@@ -1,16 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 // Device data
 import { availableDevicesForSimulations } from '../../utils/design/AvailableDevices';
 import DeviceSelectDropdownMenu from '../menus/DeviceSelectDropdownMenu';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
+import { useModalContext } from '../../context/ModalContext';
 
-function DeviceSelectModal({ closeDeviceSelectModal }) {
-  const { selectedDevice, setSelectedDevice } = useContext(SimulationContext);
-
-  const [availableDevices, setAvailableDevices] = useState(
-    availableDevicesForSimulations
-  );
+function DeviceSelectModal() {
+  const { handleCloseDeviceSelectModal } = useModalContext();
+  const { setSelectedDevice } = useContext(SimulationContext);
 
   const handleDeviceChange = (event) => {
     const { value } = event.target;
@@ -30,8 +28,8 @@ function DeviceSelectModal({ closeDeviceSelectModal }) {
 
         <section className='grid mt-4'>
           <div className='grid justify-center'>
-          <button
-              onClick={closeDeviceSelectModal}
+            <button
+              onClick={handleCloseDeviceSelectModal}
               className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90 shadow-lg'
               aria-label='Close modal button'
             >

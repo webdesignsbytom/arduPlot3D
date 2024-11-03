@@ -3,9 +3,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import client from '../../api/client';
 // Context
 import { UserContext } from '../../context/UserContext';
+import { useModalContext } from '../../context/ModalContext';
+// Utils
+import { loadSimulationFile } from '../../utils/simulation/SimulationUtils';
 
-function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
+function LoadSimulationModal() {
   const { user } = useContext(UserContext);
+  const { handleCloseLoadModal } = useModalContext();
+
   const [userSimulations, setUserSimulations] = useState([]);
 
   useEffect(() => {
@@ -45,7 +50,11 @@ function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
                   <option value='no_files'>Nothing to load</option>
                 ) : (
                   userSimulations.map((file, index) => (
-                    <option key={index} value={file.name} aria-label={`${file.title} option`}>
+                    <option
+                      key={index}
+                      value={file.name}
+                      aria-label={`${file.title} option`}
+                    >
                       {file.title}
                     </option>
                   ))
@@ -58,7 +67,7 @@ function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
         <section className='grid grid-cols-2 gap-6 mt-4'>
           <div className='grid justify-center'>
             <button
-              onClick={closeLoadSimulationModal}
+              onClick={handleCloseLoadModal}
               className='grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
             >
               Close
@@ -66,7 +75,7 @@ function LoadSimulationModal({ loadSimulationFile, closeLoadSimulationModal }) {
           </div>
           <div className='grid justify-center'>
             <button
-              onClick={loadSimulationFile}
+              onClick={loadSimulationFile()}
               className='grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
             >
               Load

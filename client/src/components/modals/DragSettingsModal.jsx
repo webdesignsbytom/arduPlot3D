@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+// Context
+import { useModalContext } from '../../context/ModalContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
-function DragSettingsModal({ speedOfDraggingArmMoving, setSpeedOfDraggingArmMoving, closeDragSettingsModal }) {
+function DragSettingsModal() {
+  const { handleCloseDragSettingsModal } = useModalContext();
+  const { changeDraggingSpeed, speedOfDraggingArmMoving } =
+    useContext(SimulationContext);
 
-  const handleSpeedChange = (event) => {
+  const handleDragSpeedChange = (event) => {
     const newSpeed = event.target.value; // Get the new speed value from the input
-    setSpeedOfDraggingArmMoving(newSpeed); // Update the state with the new speed
+    changeDraggingSpeed(newSpeed);
   };
 
   return (
@@ -28,7 +34,7 @@ function DragSettingsModal({ speedOfDraggingArmMoving, setSpeedOfDraggingArmMovi
               name='dragMovementSpeed'
               id='dragMovementSpeed'
               value={speedOfDraggingArmMoving} // Controlled component
-              onChange={handleSpeedChange} // Handle the change event
+              onChange={handleDragSpeedChange} // Handle the change event
               aria-label='Drag movement speed control'
             />
             <div>
@@ -41,8 +47,8 @@ function DragSettingsModal({ speedOfDraggingArmMoving, setSpeedOfDraggingArmMovi
 
         <section className='grid mt-4'>
           <div className='grid justify-center'>
-          <button
-              onClick={closeDragSettingsModal}
+            <button
+              onClick={handleCloseDragSettingsModal}
               className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90 shadow-lg'
               aria-label='Close modal button'
             >

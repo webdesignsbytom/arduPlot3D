@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+// Data
 import { timeoutUnitTypesAvailable } from '../../utils/design/DesignUtils';
+// Context
+import { useModalContext } from '../../context/ModalContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
-function TimeoutSettingsModal({
-  timeoutLength,
-  setTimeoutLength,
-  timeoutUnitSelected,
-  setTimeoutUnitSelected,
-  closeTimeoutSettingsModal,
-}) {
+function TimeoutSettingsModal() {
+  const { handleCloseTimeoutSettingsModal } = useModalContext();
+  const {
+    timeoutLength,
+    setTimeoutLength,
+    timeoutUnitSelected,
+    setTimeoutUnitSelected,
+  } = useContext(SimulationContext);
+
   const setTimeUnits = (event) => {
     const { id } = event.target;
 
@@ -22,7 +28,7 @@ function TimeoutSettingsModal({
     const newLength = event.target.value; // Get the new speed value from the input
     setTimeoutLength(newLength); // Update the state with the new speed
   };
-console.log('timeoutUnitSelected', timeoutUnitSelected);
+
   return (
     <section className='grid outline z-20 outline-main-colour outline-2 rounded-lg bg-secondary-colour w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='py-2 px-4'>
@@ -95,7 +101,7 @@ console.log('timeoutUnitSelected', timeoutUnitSelected);
         <section className='grid mt-4'>
           <div className='grid justify-center'>
             <button
-              onClick={closeTimeoutSettingsModal}
+              onClick={handleCloseTimeoutSettingsModal}
               className='bg-main-colour active:scale-95 px-4 sm:px-10 py-2 w-full rounded-lg hover:brightness-90 shadow-lg'
               aria-label='Close button modal'
             >

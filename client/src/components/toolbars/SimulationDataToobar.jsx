@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 // Context
 import { SimulationContext } from '../../context/SimulationContext';
+import { useModalContext } from '../../context/ModalContext';
 // Components
 import NewEditLoopData from '../simulation/NewEditLoopData';
 import SimLoopButtons from '../simulation/SimLoopButtons';
@@ -9,19 +10,10 @@ import SimulationDataPointDisplay from '../simulation/SimulationDataPointDisplay
 // Icons
 import { FaArrowAltCircleRight } from 'react-icons/fa';
 
-function SimulationDataToobar({ setSimulationDataIsOpen }) {
-  const { displaySimOrLoop, isCreatingEditingLoop, setAddCreateLoopModalOpen } =
+function SimulationDataToobar() {
+  const { displaySimOrLoop, isCreatingEditingLoop, hideDatapointContainer } =
     useContext(SimulationContext);
-
-  // Close this container
-  const hideContainer = () => {
-    setSimulationDataIsOpen(false);
-  };
-
-  const addLoopToSimulation = (event) => {
-    event.preventDefault();
-    setAddCreateLoopModalOpen(true);
-  };
+  const { handleOpenLoopModal } = useModalContext();
 
   return (
     <section className='bg-secondary-colour h-full grid grid-rows-reg w-fit max-w-[350px] border-l-2 border-solid border-black px-1 py-2 overflow-hidden'>
@@ -30,7 +22,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
         <section className='grid grid-cols-reg mb-2'>
           <div className='grid ml-2 items-center justify-center'>
             <FaArrowAltCircleRight
-              onClick={hideContainer}
+              onClick={hideDatapointContainer}
               title='Hide'
               className='hover:brightness-90 cursor-pointer text-main-colour'
               size={20}
@@ -81,7 +73,7 @@ function SimulationDataToobar({ setSimulationDataIsOpen }) {
         {!isCreatingEditingLoop && (
           <div className='grid h-fit mt-2 px-1'>
             <button
-              onClick={(event) => addLoopToSimulation(event)}
+              onClick={handleOpenLoopModal}
               className='bg-main-colour rounded-lg px-2 w-full py-1 active:scale-95 hover:brightness-110'
             >
               Add Loop +

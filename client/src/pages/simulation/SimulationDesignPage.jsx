@@ -1,557 +1,210 @@
-import React, { useContext, useState } from 'react';
-// Api
-import client from '../../api/client';
-// Components
-import Navbar from '../../components/nav/Navbar';
-import ConsentModal from '../../components/modals/ConsentModal';
-import TapSettingsModal from '../../components/modals/TapSettingsModal';
-import MovementSettingsModal from '../../components/modals/MovementSettingsModal';
-import DragSettingsModal from '../../components/modals/DragSettingsModal';
-import UploadVideoModal from '../../components/modals/UploadVideoModal';
-import AddLoopToSimulationModal from '../../components/modals/AddLoopToSimulationModal';
-import DeviceSelectModal from '../../components/modals/DeviceSelectModal';
-import TimeoutSettingsModal from '../../components/modals/TimeoutSettingsModal';
-import SimulationDataToobar from '../../components/toolbars/SimulationDataToobar';
-import SimulationFunctionsToolbar from '../../components/toolbars/SimulationFunctionsToolbar';
-import SimulationPageTopToolBar from '../../components/toolbars/SimulationPageTopToolBar';
-import SaveAsModal from '../../components/modals/SaveAsModal';
-// Context
-import { SimulationContext } from '../../context/SimulationContext';
-import { UserContext } from '../../context/UserContext';
-// Configuration modal
-import { ConfirmCreateNewProject } from '../../utils/design/ConfrimMessages';
-import LoadSimulationModal from '../../components/modals/LoadSimulationModal';
-import PublishSimulationModal from '../../components/modals/PublishSimulationModal';
-// Constants
-import {
-  DRAG_FUNCTION,
-  MOVE_FUNCTION,
-  MOVE_TAP_FUNCTION,
-  TAP_FUNCTION,
-  TIMEOUT_FUNCTION,
-} from '../../utils/design/Constants';
-import {
-  SAVE_SIMULATION_API,
-  CREATE_NEW_SIMULATION_API,
-} from '../../utils/Constants';
-import SimulationDisplayComponent from '../../components/simulation/SimulationDisplayComponent';
-import { useModalContext } from '../../context/ModalContext';
-import ConnectToDeviceModal from '../../components/modals/ConnectToDeviceModal';
+// import React, { useContext, useState } from 'react';
+// // Api
+// import client from '../../api/client';
+// // Components
+// import Navbar from '../../components/nav/Navbar';
+// import ConsentModal from '../../components/modals/ConsentModal';
+// import TapSettingsModal from '../../components/modals/TapSettingsModal';
+// import MovementSettingsModal from '../../components/modals/MovementSettingsModal';
+// import DragSettingsModal from '../../components/modals/DragSettingsModal';
+// import UploadVideoModal from '../../components/modals/UploadVideoModal';
+// import AddLoopToSimulationModal from '../../components/modals/AddLoopToSimulationModal';
+// import DeviceSelectModal from '../../components/modals/DeviceSelectModal';
+// import TimeoutSettingsModal from '../../components/modals/TimeoutSettingsModal';
+// import SimulationDataToobar from '../../components/toolbars/SimulationDataToobar';
+// import SimulationFunctionsToolbar from '../../components/toolbars/SimulationFunctionsToolbar';
+// import SimulationPageTopToolBar from '../../components/toolbars/SimulationPageTopToolBar';
+// import SaveAsModal from '../../components/modals/SaveAsModal';
+// // Context
+// import { SimulationContext } from '../../context/SimulationContext';
+// import { UserContext } from '../../context/UserContext';
+// // Configuration modal
+// import { ConfirmCreateNewProject } from '../../utils/design/ConfrimMessages';
+// import LoadSimulationModal from '../../components/modals/LoadSimulationModal';
+// import PublishSimulationModal from '../../components/modals/PublishSimulationModal';
+// import { SAVE_SIMULATION_API } from '../../utils/Constants';
+// import SimulationDisplayComponent from '../../components/simulation/SimulationDisplayComponent';
+// import { useModalContext } from '../../context/ModalContext';
+// import ConnectToDeviceModal from '../../components/modals/ConnectToDeviceModal';
+// import {
+//   downloadFileToMachine,
+//   loadSimulationFile,
+//   saveAsNewFile,
+// } from '../../utils/simulation/SimulationUtils';
 
-function SimulationDesignPage() {
-  const { user } = useContext(UserContext);
-  const {
-    setSimulationIsRunning,
-    setIsLandscapeMode,
-    simulationToolSelected,
-    setSimulationToolSelected,
-    numberOfFingerTapping,
-    setNumberOfFingerTapping,
-    speedOfFingerMoving,
-    setSpeedOfFingerMoving,
-    tapSettingsModalOpen,
-    setTapSettingsModalOpen,
-    movementSettingsModalOpen,
-    setMovementSettingsModalOpen,
-    speedOfArmMoving,
-    setSpeedOfArmMoving,
-    addCreateLoopModalOpen,
-    timeoutModalOpen,
-    setTimeoutModalOpen,
-    timeoutLength,
-    setTimeoutLength,
-    timeoutUnitSelected,
-    setTimeoutUnitSelected,
-    dragSettingsModalOpen,
-    setDragSettingsModalOpen,
-    speedOfDraggingArmMoving,
-    setSpeedOfDraggingArmMoving,
-    positionOfMouseAndCanvasVisible,
-    setpositionOfMouseAndCanvasVisible,
-    consentMessageVisible,
-    setConsentMessageVisible,
-    consentMessage,
-    setConsentMessage,
-    simulationData,
-  } = useContext(SimulationContext);
-  const { connectToDeviceModalOpen } = useModalContext()
+// function SimulationDesignPage() {
+//   const { user } = useContext(UserContext);
+//   const {
+//     setSimulationIsRunning,
+//     setIsLandscapeMode,
+//     simulationToolSelected,
+//     numberOfFingerTapping,
+//     setNumberOfFingerTapping,
+//     speedOfFingerMoving,
+//     setSpeedOfFingerMoving,
+//     tapSettingsModalOpen,
+//     setTapSettingsModalOpen,
+//     movementSettingsModalOpen,
+//     setMovementSettingsModalOpen,
+//     speedOfArmMoving,
+//     setSpeedOfArmMoving,
+//     addCreateLoopModalOpen,
+//     timeoutModalOpen,
+//     setTimeoutModalOpen,
+//     timeoutLength,
+//     setTimeoutLength,
+//     timeoutUnitSelected,
+//     setTimeoutUnitSelected,
+//     dragSettingsModalOpen,
+//     setDragSettingsModalOpen,
+//     speedOfDraggingArmMoving,
+//     setSpeedOfDraggingArmMoving,
+//     positionOfMouseAndCanvasVisible,
+//     setpositionOfMouseAndCanvasVisible,
+//     consentMessageVisible,
+//     setConsentMessageVisible,
+//     consentMessage,
+//     setConsentMessage,
+//     simulationData,
+//   } = useContext(SimulationContext);
+//   const { connectToDeviceModalOpen } = useModalContext();
 
-  // Video modal
-  const [uploadVideoModalOpen, setuploadVideoModalOpen] = useState(false);
-  // Device selection
-  const [deviceSelectionModalOpen, setDeviceSelectionModalOpen] =
-    useState(false);
-  // Save
-  const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
-  // Load
-  const [loadModalOpen, setLoadModalOpen] = useState(false);
-  // Reset
-  const [isResettingAnimation, setIsResettingAnimation] = useState(false);
-  // Left menu
-  const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
-  const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
+//   // Video modal
 
-  const resetSimulationToStartingPoint = () => {
-    setIsResettingAnimation(!isResettingAnimation);
-  };
+//   // Device selection
 
-  // // Create new simulation loop of commands
-  // const createNewSimulationLoop = () => {
-  //   setIsCreatingNewLoop(true);
-  //   setDisplaySimOrLoop('loop');
-  // };
+//   // Save
+//   const [saveAsModalOpen, setSaveAsModalOpen] = useState(false);
+//   // Load
+//   const [loadModalOpen, setLoadModalOpen] = useState(false);
 
-  // // Save new simulation loop of commands
-  // const saveNewSimulationLoop = () => {
-  //   setIsCreatingNewLoop(false);
-  // };
+//   // Left menu
+//   const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
+//   const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
 
-  // Run simulation
-  const runSimulation = () => {
-    closeAllModalsMaster();
-    setSimulationIsRunning(true);
-  };
-  //
-  const stopSimulation = () => {
-    setSimulationIsRunning(false);
-  };
 
-  // Display Landscape
-  const setSimulationLandScape = () => {
-    closeAllModalsMaster();
-    setIsLandscapeMode(true);
-  };
-  // Display portrait
-  const setSimulationPortrait = () => {
-    setIsLandscapeMode(false);
-  };
 
-  // Display position on canvas
-  const toggleMousePositionDisplay = () => {
-    setpositionOfMouseAndCanvasVisible(!positionOfMouseAndCanvasVisible);
-  };
+//   // Open timeout settings modal
+//   const openTimeoutSettingsModal = () => {
+//     closeAllModalsMaster();
+//     setTimeoutModalOpen(true);
+//   };
+//   const closeTimeoutSettingsModal = () => {
+//     setTimeoutModalOpen(false);
+//   };
 
-  // Select tap tool
-  const selectTapTool = () => {
-    setSimulationToolSelected(TAP_FUNCTION);
-  };
+//   // Open drag settings modal
+//   const openDragSettingsModal = () => {
+//     closeAllModalsMaster();
+//     setDragSettingsModalOpen(true);
+//   };
+//   const closeDragSettingsModal = () => {
+//     setDragSettingsModalOpen(false);
+//   };
 
-  // Select tap and move tool
-  const selectTapAndMoveTool = () => {
-    setSimulationToolSelected(MOVE_TAP_FUNCTION);
-  };
+//   // Open movement settings modal
+//   const openMovementSettingsModal = () => {
+//     closeAllModalsMaster();
+//     setMovementSettingsModalOpen(true);
+//   };
+//   const closeMovementSettingsModal = () => {
+//     setMovementSettingsModalOpen(false);
+//   };
 
-  // Select drag tool
-  const selectDragTool = () => {
-    setSimulationToolSelected(DRAG_FUNCTION);
-  };
 
-  // Select timeout tool
-  const selectTimeoutTool = () => {
-    setSimulationToolSelected('timeout');
-  };
+//   // Close all modals master
+//   const closeAllModalsMaster = () => {
+//     setTapSettingsModalOpen(false);
+//     setMovementSettingsModalOpen(false);
+//     setDragSettingsModalOpen(false);
+//     setTimeoutModalOpen(false);
+//     setSaveAsModalOpen(false);
+//     setLoadModalOpen(false);
+//     setConsentMessageVisible(false);
 
-  // Select timeout tool
-  const selectMoveTool = () => {
-    setSimulationToolSelected('move');
-  };
+//     setConsentMessageVisible('');
+//     setConsentMessage('');
+//   };
 
-  // Create new simulation
-  const createNewSimulationFile = () => {
-    closeAllModalsMaster();
-    setConsentMessage(ConfirmCreateNewProject);
-    setConsentMessageVisible(true);
-  };
+//   return (
+//     <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
+//       <Navbar />
 
-  const cancelFunction = () => {
-    setConsentMessage({});
-    setConsentMessageVisible(false);
-  };
+//       {/* Main */}
+//       <main
+//         className={`relative grid h-full ${
+//           userMenuIsOpen && !simulationDataIsOpen
+//             ? 'grid-cols-reg'
+//             : simulationDataIsOpen && !userMenuIsOpen
+//             ? 'grid-cols-rev'
+//             : userMenuIsOpen && simulationDataIsOpen
+//             ? 'grid-cols-a1a'
+//             : ''
+//         } overflow-hidden`}
+//       >
+//         {/* Functions bar */}
+//         <SimulationFunctionsToolbar
+//           runSimulation={runSimulation}
+//           stopSimulation={stopSimulation}
+//           resetSimulationToStartingPoint={resetSimulationToStartingPoint}
+//           createNewSimulationFile={createNewSimulationFile}
+//           saveCurrentSimulationFile={saveCurrentSimulationFile}
+//           openSaveAsModal={openSaveAsModal}
+//           openTimeoutSettingsModal={openTimeoutSettingsModal}
+//           openTapSettingsModal={openTapSettingsModal}
+//           openMovementSettingsModal={openMovementSettingsModal}
+//           openDragSettingsModal={openDragSettingsModal}
+//           downloadFileToMachine={handleDownload}
+//           saveAsNewFile={handleSaveAsNewFile}
+//           openLoadModal={openLoadModal}
+//           userMenuIsOpen={userMenuIsOpen}
+//           setUserMenuIsOpen={setUserMenuIsOpen}
+//         />
 
-  // Save simulation
-  const saveCurrentSimulationFile = () => {
-    client
-      .post(`${SAVE_SIMULATION_API}/${user.id}`, simulationData)
-      .then((res) => {
-        console.log('RES', res.data.data.newSimulation);
-      })
+//         {/* canvas */}
+//         <section className='grid grid-rows-reg gap-2 p-2 overflow-hidden'>
+//           {/* Top tool bar menu */}
+//           <SimulationPageTopToolBar
+//             setSimulationLandScape={setSimulationLandScape}
+//             setSimulationPortrait={setSimulationPortrait}
+//             timeoutLength={timeoutLength}
+//             timeoutUnitSelected={timeoutUnitSelected}
+//             numberOfFingerTapping={numberOfFingerTapping}
+//             simulationToolSelected={simulationToolSelected}
+//             speedOfArmMoving={speedOfArmMoving}
+//             speedOfDraggingArmMoving={speedOfDraggingArmMoving}
+//             speedOfFingerMoving={speedOfFingerMoving}
+//             toggleMousePositionDisplay={toggleMousePositionDisplay}
+//             positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
+//           />
 
-      .catch((err) => {
-        console.error('Unable to create simulation', err);
-      });
-  };
+//           {/* CANVAS container */}
+//           <SimulationDisplayComponent
+//             isResettingAnimation={isResettingAnimation}
+//             userMenuIsOpen={userMenuIsOpen}
+//             setUserMenuIsOpen={setUserMenuIsOpen}
+//             simulationDataIsOpen={simulationDataIsOpen}
+//             setSimulationDataIsOpen={setSimulationDataIsOpen}
+//           />
+//         </section>
 
-  // Open save as
-  const openSaveAsModal = () => {
-    closeAllModalsMaster();
-    setSaveAsModalOpen(true);
-  };
-  // Close save as
-  const closeSaveAsModal = () => {
-    setSaveAsModalOpen(false);
-  };
+//         {/* data bar */}
+//         <section
+//           className={`${
+//             simulationDataIsOpen ? 'grid overflow-hidden' : 'hidden'
+//           }`}
+//         >
+//           <section
+//             className={`grid overflow-hidden h-full max-w-[300px] 2xl:max-w-[400px]`}
+//           >
+//             <SimulationDataToobar
+//               setSimulationDataIsOpen={setSimulationDataIsOpen}
+//             />
+//           </section>
+//         </section>
+//       </main>
+//     </div>
+//   );
+// }
 
-  // Open load
-  const openLoadModal = () => {
-    closeAllModalsMaster();
-    setLoadModalOpen(true);
-  };
-
-  // Close load
-  const closeLoadSimulationModal = () => {
-    setLoadModalOpen(false);
-  };
-
-  const [isSavingFile, setIsSavingFile] = useState(false);
-
-  // Save as
-  const saveAsNewFile = () => {
-    setIsSavingFile(true);
-
-    client
-      .post(`${CREATE_NEW_SIMULATION_API}/${user.id}`, simulationData)
-      .then((res) => {
-        console.log('res', res);
-        setIsSavingFile(false);
-      })
-
-      .catch((err) => {
-        console.error('Unable to save data', err);
-        setIsSavingFile(false);
-      });
-    setSaveAsModalOpen(false); //
-  };
-
-  // Open timeout settings modal
-  const openTimeoutSettingsModal = () => {
-    closeAllModalsMaster();
-    setTimeoutModalOpen(true);
-  };
-  const closeTimeoutSettingsModal = () => {
-    setTimeoutModalOpen(false);
-  };
-
-  // Open drag settings modal
-  const openDragSettingsModal = () => {
-    closeAllModalsMaster();
-    setDragSettingsModalOpen(true);
-  };
-  const closeDragSettingsModal = () => {
-    setDragSettingsModalOpen(false);
-  };
-
-  // Open movement settings modal
-  const openMovementSettingsModal = () => {
-    closeAllModalsMaster();
-    setMovementSettingsModalOpen(true);
-  };
-  const closeMovementSettingsModal = () => {
-    setMovementSettingsModalOpen(false);
-  };
-
-  // Open tap settings modal
-  const openTapSettingsModal = () => {
-    closeAllModalsMaster();
-    setTapSettingsModalOpen(true);
-  };
-  const closeTapSettingsModal = () => {
-    setTapSettingsModalOpen(false);
-  };
-
-  // Open tap settings modal
-  const openDeviceSelectModal = () => {
-    closeAllModalsMaster();
-    setDeviceSelectionModalOpen(true);
-  };
-  const closeDeviceSelectModal = () => {
-    setDeviceSelectionModalOpen(false);
-  };
-
-  const openUploadVideoModal = () => {
-    closeAllModalsMaster();
-    setuploadVideoModalOpen(true);
-  };
-  const closeUploadVideoModal = () => {
-    setuploadVideoModalOpen(false);
-  };
-
-  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
-
-  const openPublishModal = () => {
-    closeAllModalsMaster();
-    setIsPublishModalOpen(true);
-  };
-  const closePublishModal = () => {
-    setIsPublishModalOpen(false);
-  };
-
-  // Function to translate simulation data to GPGL commands
-  function translateToPlotterLanguage() {
-    let commands = '';
-    let lastPosition = { x: null, y: null }; // Track the last position to avoid redundant PA
-
-    const formatPoint = (point) => {
-      // Check if the point and dataType are defined
-      if (!point || !point.dataType) {
-        return '// Invalid point data\n'; // Skip this point if dataType is missing
-      }
-
-      let command = '';
-
-      // Check if position has changed to avoid redundant PA commands
-      if (point.xPos !== lastPosition.x || point.yPos !== lastPosition.y) {
-        command += `PA ${point.xPos || 0},${point.yPos || 0}; `;
-        lastPosition = { x: point.xPos, y: point.yPos }; // Update last position
-      }
-
-      switch (point.dataType.toLowerCase()) {
-        case 'tap':
-          command += `PD; PU;\n`; // Tap down and lift up
-          break;
-        case 'move':
-          command += `PU;\n`; // Move without engaging
-          break;
-        case 'move_tap':
-          command += `PD; PU;\n`; // Move and tap
-          break;
-        case 'drag':
-          // Only issue PA if start position is different
-          if (
-            point.startxPos !== lastPosition.x ||
-            point.startyPos !== lastPosition.y
-          ) {
-            command += `PA ${point.startxPos || 0},${point.startyPos || 0}; `;
-            lastPosition = { x: point.startxPos, y: point.startyPos };
-          }
-          command += `PD; PA ${point.finishxPos || 0},${
-            point.finishyPos || 0
-          }; PU;\n`; // Drag
-          lastPosition = { x: point.finishxPos, y: point.finishyPos }; // Update last position
-          break;
-        case 'timeout':
-          command += `WAIT ${point.timeoutLength || 0};\n`; // Wait for timeout
-          break;
-        default:
-          command += `// Unknown dataType: ${point.dataType}\n`;
-      }
-
-      return command;
-    };
-
-    // Translate main simulation data points to GPGL commands
-    simulationData.mainSimulationDataPoints.forEach((point) => {
-      commands += formatPoint(point);
-    });
-
-    return commands;
-  }
-
-  // Download function to save the commands as a file
-  const downloadFileToMachine = () => {
-    const plotterCommands = translateToPlotterLanguage();
-    const blob = new Blob([plotterCommands], { type: 'text/plain' });
-    const href = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = href;
-    link.download = `${simulationData.simulationTitle}.txt`; // Name of the file to download
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(href);
-  };
-
-  const loadSimulationFile = () => {
-    console.log('AAA');
-  };
-
-  // Close all modals master
-  const closeAllModalsMaster = () => {
-    setDeviceSelectionModalOpen(false);
-    setTapSettingsModalOpen(false);
-    setMovementSettingsModalOpen(false);
-    setDragSettingsModalOpen(false);
-    setTimeoutModalOpen(false);
-    closeUploadVideoModal(false);
-    setIsPublishModalOpen(false);
-    setSaveAsModalOpen(false);
-    setLoadModalOpen(false);
-    setConsentMessageVisible(false);
-
-    setConsentMessageVisible('');
-    setConsentMessage('');
-  };
-
-  return (
-    <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
-      <Navbar />
-
-      {/* Main */}
-      <main
-        className={`relative grid h-full ${
-          userMenuIsOpen && !simulationDataIsOpen
-            ? 'grid-cols-reg'
-            : simulationDataIsOpen && !userMenuIsOpen
-            ? 'grid-cols-rev'
-            : userMenuIsOpen && simulationDataIsOpen
-            ? 'grid-cols-a1a'
-            : ''
-        } overflow-hidden`}
-      >
-        {/* Functions bar */}
-        <SimulationFunctionsToolbar
-          runSimulation={runSimulation}
-          stopSimulation={stopSimulation}
-          resetSimulationToStartingPoint={resetSimulationToStartingPoint}
-          createNewSimulationFile={createNewSimulationFile}
-          saveCurrentSimulationFile={saveCurrentSimulationFile}
-          openSaveAsModal={openSaveAsModal}
-          openTimeoutSettingsModal={openTimeoutSettingsModal}
-          openTapSettingsModal={openTapSettingsModal}
-          openMovementSettingsModal={openMovementSettingsModal}
-          openDragSettingsModal={openDragSettingsModal}
-          openDeviceSelectModal={openDeviceSelectModal}
-          openUploadVideoModal={openUploadVideoModal}
-          downloadFileToMachine={downloadFileToMachine}
-          saveAsNewFile={saveAsNewFile}
-          openLoadModal={openLoadModal}
-          openPublishModal={openPublishModal}
-          userMenuIsOpen={userMenuIsOpen}
-          setUserMenuIsOpen={setUserMenuIsOpen}
-        />
-
-        {/* canvas */}
-        <section className='grid grid-rows-reg gap-2 p-2 overflow-hidden'>
-          {/* Top tool bar menu */}
-          <SimulationPageTopToolBar
-            setSimulationLandScape={setSimulationLandScape}
-            setSimulationPortrait={setSimulationPortrait}
-            timeoutLength={timeoutLength}
-            timeoutUnitSelected={timeoutUnitSelected}
-            numberOfFingerTapping={numberOfFingerTapping}
-            selectTapTool={selectTapTool}
-            selectTapAndMoveTool={selectTapAndMoveTool}
-            selectDragTool={selectDragTool}
-            selectTimeoutTool={selectTimeoutTool}
-            selectMoveTool={selectMoveTool}
-            simulationToolSelected={simulationToolSelected}
-            speedOfArmMoving={speedOfArmMoving}
-            speedOfDraggingArmMoving={speedOfDraggingArmMoving}
-            speedOfFingerMoving={speedOfFingerMoving}
-            toggleMousePositionDisplay={toggleMousePositionDisplay}
-            positionOfMouseAndCanvasVisible={positionOfMouseAndCanvasVisible}
-          />
-
-          {/* CANVAS container */}
-          <SimulationDisplayComponent
-            isResettingAnimation={isResettingAnimation}
-            userMenuIsOpen={userMenuIsOpen}
-            setUserMenuIsOpen={setUserMenuIsOpen}
-            simulationDataIsOpen={simulationDataIsOpen}
-            setSimulationDataIsOpen={setSimulationDataIsOpen}
-          />
-        </section>
-
-        {/* data bar */}
-        <section
-          className={`${
-            simulationDataIsOpen ? 'grid overflow-hidden' : 'hidden'
-          }`}
-        >
-          <section
-            className={`grid overflow-hidden h-full max-w-[300px] 2xl:max-w-[400px]`}
-          >
-            <SimulationDataToobar
-              setSimulationDataIsOpen={setSimulationDataIsOpen}
-            />
-          </section>
-        </section>
-      </main>
-
-      {/* Popup modals */}
-      {consentMessageVisible && (
-        <ConsentModal
-          consentMessage={consentMessage}
-          cancalFunction={cancelFunction}
-        />
-      )}
-
-      {/* Timeout */}
-      {timeoutModalOpen && (
-        <TimeoutSettingsModal
-          timeoutLength={timeoutLength}
-          setTimeoutLength={setTimeoutLength}
-          timeoutUnitSelected={timeoutUnitSelected}
-          setTimeoutUnitSelected={setTimeoutUnitSelected}
-          closeTimeoutSettingsModal={closeTimeoutSettingsModal}
-        />
-      )}
-
-      {/* Drag */}
-      {dragSettingsModalOpen && (
-        <DragSettingsModal
-          speedOfDraggingArmMoving={speedOfDraggingArmMoving}
-          setSpeedOfDraggingArmMoving={setSpeedOfDraggingArmMoving}
-          closeDragSettingsModal={closeDragSettingsModal}
-        />
-      )}
-
-      {/* Movement */}
-      {movementSettingsModalOpen && (
-        <MovementSettingsModal
-          speedOfArmMoving={speedOfArmMoving}
-          setSpeedOfArmMoving={setSpeedOfArmMoving}
-          closeMovementSettingsModal={closeMovementSettingsModal}
-        />
-      )}
-
-      {/* Tap settings */}
-      {tapSettingsModalOpen && (
-        <TapSettingsModal
-          numberOfFingerTapping={numberOfFingerTapping}
-          setNumberOfFingerTapping={setNumberOfFingerTapping}
-          speedOfFingerMoving={speedOfFingerMoving}
-          setSpeedOfFingerMoving={setSpeedOfFingerMoving}
-          closeTapSettingsModal={closeTapSettingsModal}
-        />
-      )}
-
-      {/* Device selection */}
-      {deviceSelectionModalOpen && (
-        <DeviceSelectModal closeDeviceSelectModal={closeDeviceSelectModal} />
-      )}
-
-      {/* Save  */}
-      {saveAsModalOpen && (
-        <SaveAsModal
-          saveAsNewFile={saveAsNewFile}
-          closeSaveAsModal={closeSaveAsModal}
-        />
-      )}
-
-      {/* Load */}
-      {loadModalOpen && (
-        <LoadSimulationModal
-          loadSimulationFile={loadSimulationFile}
-          closeLoadSimulationModal={closeLoadSimulationModal}
-        />
-      )}
-
-      {/* Upload video */}
-      {uploadVideoModalOpen && (
-        <UploadVideoModal closeUploadVideoModal={closeUploadVideoModal} />
-      )}
-
-      {/* Publish siulation */}
-      {isPublishModalOpen && (
-        <PublishSimulationModal closePublishModal={closePublishModal} />
-      )}
-
-      {/* Loop selection */}
-      {addCreateLoopModalOpen && <AddLoopToSimulationModal />}
-
-      {connectToDeviceModalOpen && <ConnectToDeviceModal />}
-    </div>
-  );
-}
-
-export default SimulationDesignPage;
+// export default SimulationDesignPage;

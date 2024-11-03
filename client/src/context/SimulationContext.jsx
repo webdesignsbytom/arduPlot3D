@@ -19,21 +19,43 @@ import {
   CLEAR_ALL_DATAPOINT_FUNC,
   CREATE_NEW_SIM_FUNC,
   DELETE_LOOP_FUNC,
+  DRAG_FUNCTION,
+  MOVE_FUNCTION,
+  MOVE_TAP_FUNCTION,
+  TAP_FUNCTION,
+  TIMEOUT_FUNCTION,
 } from '../utils/design/Constants';
 import {
   ConfirmClearAllDataPoints,
   ConfirmDeleteLoop,
 } from '../utils/design/ConfrimMessages';
+import { useModalContext } from './ModalContext';
+import client from '../api/client';
+import { SAVE_SIMULATION_API } from '../utils/Constants';
+import { downloadFileToMachine } from '../utils/simulation/SimulationUtils';
 
 export const SimulationContext = React.createContext();
 
 const SimulationContextProvider = ({ children }) => {
+  const {
+    handleCloseLoopModal,
+    handleCreateConsentModal,
+    handleSetBlankConsentMessage,
+    handleCloseAllModalsMaster,
+  } = useModalContext();
+
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const dataPointMarkerRef = useRef(1);
   const emptyRef = useRef([]);
 
   console.log('dataPointMarkerRef', dataPointMarkerRef);
+
+  // Page Menus
+  const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
+  const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
+
+  const [isSavingFile, setIsSavingFile] = useState(false);
 
   const [dataCollection, setDataCollection] = useState([]);
   const [loopDataPoints, setLoopDataPoints] = useState([]);
@@ -47,7 +69,7 @@ const SimulationContextProvider = ({ children }) => {
   const [simulationLoopData, setSimulationLoopData] = useState(blankLoopObject);
 
   // Design
-  const [rulesAndDataVisible, setRulersVisible] = useState(true);
+  const [rulesAndDataVisible, setRulesAndDataVisible] = useState(true);
   const [isPxOrMmDimensions, setIsPxOrMmDimensions] = useState(false); // False = px
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [isLandscapeMode, setIsLandscapeMode] = useState(true); // Starts landscape mode
@@ -65,7 +87,8 @@ const SimulationContextProvider = ({ children }) => {
   const [selectedDevice, setSelectedDevice] = useState(
     availableDevicesForSimulations[0]
   );
-
+  // Reset
+  const [isResettingAnimation, setIsResettingAnimation] = useState(false);
   // Display
   const [displaySimOrLoop, setDisplaySimOrLoop] = useState('simulation'); // simulation || loop
   const [numberOfDataPointsToDisplay, setNumberOfDataPointsToDisplay] =
@@ -75,28 +98,24 @@ const SimulationContextProvider = ({ children }) => {
   const [numberOfFingerTapping, setNumberOfFingerTapping] = useState(1);
   const [speedOfFingerMoving, setSpeedOfFingerMoving] =
     useState(initzMovementSpeed);
-  const [tapSettingsModalOpen, setTapSettingsModalOpen] = useState(false);
 
   // Movement settings
-  const [movementSettingsModalOpen, setMovementSettingsModalOpen] =
-    useState(false);
+
   const [speedOfArmMoving, setSpeedOfArmMoving] = useState(initxyMovementSpeed);
 
   // Timeout
-  const [timeoutModalOpen, setTimeoutModalOpen] = useState(false);
+
   const [timeoutLength, setTimeoutLength] = useState(5000);
   const [timeoutUnitSelected, setTimeoutUnitSelected] = useState(
     timeoutUnitTypesAvailable[0]
   );
 
   // Drag settings
-  const [dragSettingsModalOpen, setDragSettingsModalOpen] = useState(false);
   const [speedOfDraggingArmMoving, setSpeedOfDraggingArmMoving] = useState(
     initDragMovementSpeed
   );
 
   // Add/Create loop modal
-  const [addCreateLoopModalOpen, setAddCreateLoopModalOpen] = useState(false);
 
   // Data points for loop
   const [displayLoopDataPoints, setDisplayLoopDataPoints] = useState(false);
@@ -111,9 +130,19 @@ const SimulationContextProvider = ({ children }) => {
   const [positionOfMouseAndCanvasVisible, setpositionOfMouseAndCanvasVisible] =
     useState(true);
 
-  // Popup modals
-  const [consentMessageVisible, setConsentMessageVisible] = useState('');
-  const [consentMessage, setConsentMessage] = useState({});
+  const changeNumberOfTappingFinger = (numFingers) => {
+    setNumberOfFingerTapping(numFingers);
+  };
+
+  // Run simulation
+  const runSimulation = () => {
+    handleCloseAllModalsMaster();
+    setSimulationIsRunning(true);
+  };
+  //
+  const stopSimulation = () => {
+    setSimulationIsRunning(false);
+  };
 
   // Save new or edited loop
   const saveLoopPerminently = () => {
@@ -236,9 +265,7 @@ const SimulationContextProvider = ({ children }) => {
   };
 
   // Create new loop
-  const createNewLoop = (event) => {
-    event.preventDefault(); // This will prevent the default action
-
+  const createNewLoop = () => {
     // Determine the new loop's index based on the current array length
     const newLoopIndex = simulationData.simulationLoops.length;
 
@@ -253,7 +280,7 @@ const SimulationContextProvider = ({ children }) => {
 
     setLoopDataBeingEdited(newLoop);
     setDisplayLoopDataPointsIndex(newLoopIndex);
-    setAddCreateLoopModalOpen(false);
+    handleCloseLoopModal();
     setIsCreatingEditingLoop(true);
     setDisplaySimOrLoop('simulation');
 
@@ -281,8 +308,8 @@ const SimulationContextProvider = ({ children }) => {
     event.preventDefault();
 
     setLoopToDeleteIndex(index);
-    setConsentMessageVisible(true);
-    setConsentMessage(ConfirmDeleteLoop);
+
+    handleCreateConsentModal(ConfirmDeleteLoop);
   };
 
   const deleteSavedLoop = () => {
@@ -298,6 +325,16 @@ const SimulationContextProvider = ({ children }) => {
     });
 
     setIsCreatingEditingLoop(false);
+  };
+
+  const addLoopToSimulation = (loopToAdd) => {
+    setSimulationData({
+      ...simulationData,
+      mainSimulationDataPoints: [
+        ...simulationData.mainSimulationDataPoints,
+        loopToAdd,
+      ],
+    });
   };
 
   // Click agree in concent modal
@@ -316,7 +353,11 @@ const SimulationContextProvider = ({ children }) => {
         console.log('No matching action found');
     }
 
-    setBlankConsentMessage();
+    handleSetBlankConsentMessage();
+  };
+
+  const handleResetSimulationToStartingPoint = () => {
+    setIsResettingAnimation(!isResettingAnimation);
   };
 
   const createNewFile = () => {
@@ -328,29 +369,105 @@ const SimulationContextProvider = ({ children }) => {
     );
   };
 
-  // Clear state
-  const setBlankConsentMessage = () => {
-    setConsentMessageVisible('');
-    setConsentMessage('');
+  const handleTapSpeedChange = (event) => {
+    const newSpeed = event.target.value; // Get the new speed value from the input
+    setSpeedOfFingerMoving(newSpeed); // Update the state with the new speed
+  };
+
+  const changeDraggingSpeed = (newSpeed) => {
+    setSpeedOfDraggingArmMoving(newSpeed);
+  };
+
+  const changeMovementSpeed = (newSpeed) => {
+    setSpeedOfArmMoving(newSpeed);
   };
 
   const clearAllDataPoints = () => {
-    setConsentMessage(ConfirmClearAllDataPoints);
-    setConsentMessageVisible(true);
+    handleCreateConsentModal(ConfirmClearAllDataPoints);
   };
 
   // Display rulers on canvas
   const displayCanvasRulers = () => {
-    setRulersVisible(true);
+    setRulesAndDataVisible(true);
   };
   // Hide rulers on canvas
   const hideCanvasRulers = () => {
-    setRulersVisible(false);
+    setRulesAndDataVisible(false);
+  };
+
+  // Select tap tool
+  const handleSelectTapTool = () => {
+    setSimulationToolSelected(TAP_FUNCTION);
+  };
+
+  // Select tap and move tool
+  const handleSelectTapAndMoveTool = () => {
+    setSimulationToolSelected(MOVE_TAP_FUNCTION);
+  };
+
+  // Select drag tool
+  const handleSelectDragTool = () => {
+    setSimulationToolSelected(DRAG_FUNCTION);
+  };
+
+  // Select timeout tool
+  const handleSelectTimeoutTool = () => {
+    setSimulationToolSelected(TIMEOUT_FUNCTION);
+  };
+
+  // Select timeout tool
+  const handleSelectMoveTool = () => {
+    setSimulationToolSelected(MOVE_FUNCTION);
+  };
+
+  // Handle download
+  const handleDownload = () => {
+    downloadFileToMachine(simulationData);
+  };
+
+  // Save simulation
+  const handleSaveSimulation = (user) => {
+    client
+      .post(`${SAVE_SIMULATION_API}/${user.id}`, simulationData)
+      .then((res) => {
+        console.log('RES', res.data.data.newSimulation);
+      })
+
+      .catch((err) => {
+        console.error('Unable to create simulation', err);
+      });
+  };
+
+  // Display Landscape
+  const setSimulationLandScape = () => {
+    setIsLandscapeMode(true);
+  };
+  // Display portrait
+  const setSimulationPortrait = () => {
+    setIsLandscapeMode(false);
+  };
+
+  // Close menu toolbar
+  const hideUserMenuContainer = () => {
+    setUserMenuIsOpen(false);
+  };
+
+  // Close data toolbar
+  const hideDatapointContainer = () => {
+    setSimulationDataIsOpen(false);
+  };
+
+  // Display position on canvas
+  const toggleMousePositionDisplay = () => {
+    setpositionOfMouseAndCanvasVisible(!positionOfMouseAndCanvasVisible);
   };
 
   return (
     <SimulationContext.Provider
       value={{
+        // Menus
+        userMenuIsOpen,
+        simulationDataIsOpen,
         // Ref
         canvasRef,
         contextRef,
@@ -363,39 +480,15 @@ const SimulationContextProvider = ({ children }) => {
         setSimulationLoopData,
         // Settings
         rulesAndDataVisible,
-        setRulersVisible,
+        setRulesAndDataVisible,
         simulationIsRunning,
         setSimulationIsRunning,
-        isLandscapeMode,
-        setIsLandscapeMode,
         selectedDevice,
         setSelectedDevice,
         displaySimOrLoop,
         setDisplaySimOrLoop,
-        simulationToolSelected,
-        setSimulationToolSelected,
-        numberOfFingerTapping,
-        setNumberOfFingerTapping,
-        speedOfFingerMoving,
-        setSpeedOfFingerMoving,
-        tapSettingsModalOpen,
-        setTapSettingsModalOpen,
-        movementSettingsModalOpen,
-        setMovementSettingsModalOpen,
         speedOfArmMoving,
         setSpeedOfArmMoving,
-        addCreateLoopModalOpen,
-        setAddCreateLoopModalOpen,
-        timeoutModalOpen,
-        setTimeoutModalOpen,
-        timeoutLength,
-        setTimeoutLength,
-        timeoutUnitSelected,
-        setTimeoutUnitSelected,
-        dragSettingsModalOpen,
-        setDragSettingsModalOpen,
-        speedOfDraggingArmMoving,
-        setSpeedOfDraggingArmMoving,
         displayLoopDataPoints,
         setDisplayLoopDataPoints,
         displayLoopDataPointsIndex,
@@ -419,8 +512,6 @@ const SimulationContextProvider = ({ children }) => {
         setSimulationDataPoints,
         isPxOrMmDimensions,
         setIsPxOrMmDimensions,
-        positionOfMouseAndCanvasVisible,
-        setpositionOfMouseAndCanvasVisible,
         createNewLoop,
         numberOfDataPointsToDisplay,
         setNumberOfDataPointsToDisplay,
@@ -428,10 +519,6 @@ const SimulationContextProvider = ({ children }) => {
         deleteDataPointFromSimulation,
         deleteDataPointFromLoop,
         deleteSavedLoopFromSimulation,
-        consentMessageVisible,
-        setConsentMessageVisible,
-        consentMessage,
-        setConsentMessage,
         runConsentFunction,
         saveLoopPerminently,
         simulationDataId,
@@ -439,6 +526,61 @@ const SimulationContextProvider = ({ children }) => {
         clearAllDataPoints,
         displayCanvasRulers,
         hideCanvasRulers,
+        // Select tool
+        handleSelectTapTool,
+        handleSelectTapAndMoveTool,
+        handleSelectDragTool,
+        handleSelectTimeoutTool,
+        handleSelectMoveTool,
+        // Run sim
+        runSimulation,
+        stopSimulation,
+        handleResetSimulationToStartingPoint,
+        // Save
+        handleSaveSimulation,
+        isSavingFile,
+        setIsSavingFile,
+        // Tools
+        // Selected
+        simulationToolSelected,
+        setSimulationToolSelected,
+        // Timeout
+        timeoutLength,
+        setTimeoutLength,
+        timeoutUnitSelected,
+        setTimeoutUnitSelected,
+        // Drag
+        setSpeedOfDraggingArmMoving,
+        changeDraggingSpeed,
+        speedOfDraggingArmMoving,
+        // Download
+        handleDownload,
+        // User menu
+        hideUserMenuContainer,
+        setUserMenuIsOpen,
+        // Sim data menu
+        hideDatapointContainer,
+        setSimulationDataIsOpen,
+        // Tap
+        numberOfFingerTapping,
+        setNumberOfFingerTapping,
+        handleTapSpeedChange,
+        changeNumberOfTappingFinger,
+        speedOfFingerMoving,
+        setSpeedOfFingerMoving,
+        // Movement
+        changeMovementSpeed,
+        // Orientation
+        setSimulationLandScape,
+        setSimulationPortrait,
+        isLandscapeMode,
+        setIsLandscapeMode,
+        // Mouse position
+        toggleMousePositionDisplay,
+        positionOfMouseAndCanvasVisible,
+        setpositionOfMouseAndCanvasVisible,
+        // Loops
+        addLoopToSimulation,
       }}
     >
       {children}

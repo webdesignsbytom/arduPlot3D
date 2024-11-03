@@ -3,10 +3,8 @@ import React, { useContext } from 'react';
 import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { FaRulerCombined } from 'react-icons/fa';
-import { IoPhonePortrait } from 'react-icons/io5';
-import { IoPhoneLandscape } from 'react-icons/io5';
 import { TbHandFinger } from 'react-icons/tb';
-import { BiSolidHide } from "react-icons/bi";
+import { BiSolidHide } from 'react-icons/bi';
 import { TbHandTwoFingers } from 'react-icons/tb';
 import { TbHandThreeFingers } from 'react-icons/tb';
 import { RiDragDropLine } from 'react-icons/ri';
@@ -15,8 +13,8 @@ import { HiCursorArrowRipple } from 'react-icons/hi2';
 import { GiArrowCursor } from 'react-icons/gi';
 import { FaArrowsTurnToDots } from 'react-icons/fa6';
 import { IoMdInfinite } from 'react-icons/io';
-import { ImClock } from "react-icons/im";
-import { HiMiniDevicePhoneMobile } from "react-icons/hi2";
+import { ImClock } from 'react-icons/im';
+import { HiMiniDevicePhoneMobile } from 'react-icons/hi2';
 import {
   availablePointsToDisplayData,
   DRAG_FUNCTION,
@@ -26,24 +24,7 @@ import {
   TIMEOUT_FUNCTION,
 } from '../../utils/design/Constants';
 
-function SimulationPageTopToolBar({
-  setSimulationLandScape,
-  setSimulationPortrait,
-  timeoutLength,
-  timeoutUnitSelected,
-  numberOfFingerTapping,
-  selectTapTool,
-  selectTapAndMoveTool,
-  selectDragTool,
-  selectTimeoutTool,
-  selectMoveTool,
-  simulationToolSelected,
-  speedOfArmMoving,
-  speedOfDraggingArmMoving,
-  speedOfFingerMoving,
-  toggleMousePositionDisplay,
-  positionOfMouseAndCanvasVisible,
-}) {
+function SimulationPageTopToolBar() {
   // Context
   const {
     rulesAndDataVisible,
@@ -54,17 +35,33 @@ function SimulationPageTopToolBar({
     clearAllDataPoints,
     displayCanvasRulers,
     hideCanvasRulers,
+    handleSelectTapTool,
+    handleSelectTapAndMoveTool,
+    handleSelectDragTool,
+    handleSelectTimeoutTool,
+    handleSelectMoveTool,
+    simulationToolSelected,
+    numberOfFingerTapping,
+    speedOfFingerMoving,
+    timeoutLength,
+    timeoutUnitSelected,
+    speedOfArmMoving,
+    speedOfDraggingArmMoving,
+    setSimulationLandScape,
+    setSimulationPortrait,
+    toggleMousePositionDisplay,
+    positionOfMouseAndCanvasVisible,
   } = useContext(SimulationContext);
 
   const toolButtons = [
     {
-      onClick: selectMoveTool,
+      onClick: handleSelectMoveTool,
       title: 'Move tool',
       selected: simulationToolSelected === 'move',
       icon: <IoMdMove />,
     },
     {
-      onClick: selectTapTool,
+      onClick: handleSelectTapTool,
       title: 'Tap tool',
       selected: simulationToolSelected === 'tap',
       icon:
@@ -77,19 +74,19 @@ function SimulationPageTopToolBar({
         ) : null,
     },
     {
-      onClick: selectTapAndMoveTool,
+      onClick: handleSelectTapAndMoveTool,
       title: 'Move and Tap tool',
       selected: simulationToolSelected === 'move_tap',
       icon: <FaArrowsTurnToDots />,
     },
     {
-      onClick: selectDragTool,
+      onClick: handleSelectDragTool,
       title: 'Drag tool',
       selected: simulationToolSelected === 'drag',
       icon: <RiDragDropLine />,
     },
     {
-      onClick: selectTimeoutTool,
+      onClick: handleSelectTimeoutTool,
       title: 'Timeout tool',
       selected: simulationToolSelected === 'timeout',
       icon: <ImClock />,
@@ -111,7 +108,11 @@ function SimulationPageTopToolBar({
     {
       onClick: isLandscapeMode ? setSimulationPortrait : setSimulationLandScape,
       title: isLandscapeMode ? 'Orientate Portrait' : 'Orientate Landscape',
-      icon: isLandscapeMode ? <HiMiniDevicePhoneMobile /> : <HiMiniDevicePhoneMobile className='rotate-90' />,
+      icon: isLandscapeMode ? (
+        <HiMiniDevicePhoneMobile />
+      ) : (
+        <HiMiniDevicePhoneMobile className='rotate-90' />
+      ),
     },
     {
       onClick: setPointsToDisplaySettings,
@@ -130,7 +131,7 @@ function SimulationPageTopToolBar({
     {
       onClick: rulesAndDataVisible ? hideCanvasRulers : displayCanvasRulers,
       title: rulesAndDataVisible ? 'Hide Rulers' : 'Display Rulers',
-      icon: rulesAndDataVisible ? <BiSolidHide  /> : <FaRulerCombined />,
+      icon: rulesAndDataVisible ? <BiSolidHide /> : <FaRulerCombined />,
     },
   ];
 

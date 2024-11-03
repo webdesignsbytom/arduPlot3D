@@ -1,31 +1,29 @@
 import React from 'react';
-// Analytics
-import { usePageTracking } from '../../components/hooks/useAnalytics';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import { HelmetItem } from '../../components/utils/HelmetItem';
-import HomePageHeader from '../../components/home/HomePageHeader';
 // Constants
 import { CompanyName } from '../../utils/Constants';
+import SimulationPageMainContainer from '../../components/simulation/SimulationPageMainContainer';
 
-function HomePage() {
-  usePageTracking();
-
+function SimulationPage() {
   return (
     <>
       {/* Tab Data */}
-      <HelmetItem PageName={'Home'} desc={`Home page of ${CompanyName}.`} />
+      <HelmetItem
+        PageName={'Simulation'}
+        desc={`Simulation page of ${CompanyName}.`}
+      />
 
       {/* Page start */}
       <div className='grid main__bg font-poppins h-screen grid-rows-reg overflow-hidden max-h-screen'>
         <Navbar />
+
         {/* Main */}
-        <main className='grid relative h-full w-full items-center justify-center px-4'>
-          <HomePageHeader />
-        </main>
+        <SimulationPageMainContainer />
       </div>
     </>
   );
 }
 
-export default HomePage;
+export default SimulationPage;

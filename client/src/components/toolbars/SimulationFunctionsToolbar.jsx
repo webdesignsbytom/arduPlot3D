@@ -1,62 +1,65 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // Icons
 import { FaArrowAltCircleLeft } from 'react-icons/fa';
 // Context
 import { useModalContext } from '../../context/ModalContext';
+import { SimulationContext } from '../../context/SimulationContext';
 
-function SimulationFunctionsToolbar({
-  runSimulation,
-  stopSimulation,
-  resetSimulationToStartingPoint,
-  createNewSimulationFile,
-  saveCurrentSimulationFile,
-  openSaveAsModal,
-  openTimeoutSettingsModal,
-  openTapSettingsModal,
-  openMovementSettingsModal,
-  openDragSettingsModal,
-  openDeviceSelectModal,
-  openUploadVideoModal,
-  downloadFileToMachine,
-  openLoadModal,
-  openPublishModal,
-  userMenuIsOpen,
-  setUserMenuIsOpen,
-}) {
-  const { toggleConnectToDeviceModal } = useModalContext();
-  // Close this container
-  const hideContainer = () => {
-    setUserMenuIsOpen(false);
-  };
+function SimulationFunctionsToolbar() {
+  const {
+    toggleConnectToDeviceModal,
+    handleOpenNewSimulationModal,
+    handleOpenSaveAsModal,
+    handleOpenLoadModal,
+    handleOpenDragSettingsModal,
+    handleOpenTimeoutSettingsModal,
+    handleOpenTapSettingsModal,
+    handleOpenMovementSettingsModal,
+    handleOpenDeviceSelectModal,
+    handleOpenUploadVideoModal,
+    handleOpenPublishModal,
+  } = useModalContext();
+
+  const {
+    runSimulation,
+    stopSimulation,
+    handleResetSimulationToStartingPoint,
+    handleSaveSimulation,
+    handleDownload,
+    hideUserMenuContainer,
+  } = useContext(SimulationContext);
 
   // Lists of user functions
   const simulationActions = [
     { label: 'Run Simulation', onClick: runSimulation },
     { label: 'Stop Simulation', onClick: stopSimulation },
-    { label: 'Reset Simulation', onClick: resetSimulationToStartingPoint },
+    {
+      label: 'Reset Simulation',
+      onClick: handleResetSimulationToStartingPoint,
+    },
   ];
 
   const fileActions = [
-    { label: 'New Simulation', onClick: createNewSimulationFile },
-    { label: 'Save', onClick: saveCurrentSimulationFile },
-    { label: 'Save As', onClick: openSaveAsModal },
-    { label: 'Load File', onClick: openLoadModal },
+    { label: 'New Simulation', onClick: handleOpenNewSimulationModal },
+    { label: 'Save', onClick: handleSaveSimulation },
+    { label: 'Save As', onClick: handleOpenSaveAsModal },
+    { label: 'Load File', onClick: handleOpenLoadModal },
   ];
 
   const downloadActions = [
-    { label: 'Download', onClick: downloadFileToMachine },
+    { label: 'Download', onClick: handleDownload },
     { label: 'Connect Device', onClick: toggleConnectToDeviceModal },
   ];
 
   const settingsActions = [
-    { label: 'Tap Settings', onClick: openTapSettingsModal },
-    { label: 'Move Settings', onClick: openMovementSettingsModal },
-    { label: 'Drag Settings', onClick: openDragSettingsModal },
-    { label: 'Timeout Settings', onClick: openTimeoutSettingsModal },
+    { label: 'Tap Settings', onClick: handleOpenTapSettingsModal },
+    { label: 'Move Settings', onClick: handleOpenMovementSettingsModal },
+    { label: 'Drag Settings', onClick: handleOpenDragSettingsModal },
+    { label: 'Timeout Settings', onClick: handleOpenTimeoutSettingsModal },
   ];
 
   const deviceActions = [
-    { label: 'Device Select', onClick: openDeviceSelectModal },
+    { label: 'Device Select', onClick: handleOpenDeviceSelectModal },
     { label: 'Dimensions', onClick: () => {} },
     { label: 'Custom', onClick: () => {} },
     { label: 'Offset', onClick: () => {} },
@@ -64,11 +67,11 @@ function SimulationFunctionsToolbar({
   ];
 
   const videoActions = [
-    { label: 'Upload Video', onClick: openUploadVideoModal },
+    { label: 'Upload Video', onClick: handleOpenUploadVideoModal },
   ];
 
   const publishActions = [
-    { label: 'Publish Simulation', onClick: openPublishModal },
+    { label: 'Publish Simulation', onClick: handleOpenPublishModal },
   ];
 
   const renderActions = (actions) => (
@@ -86,11 +89,7 @@ function SimulationFunctionsToolbar({
   );
 
   return (
-    <section
-      className={`bg-secondary-colour h-full overflow-y-auto scrollbar_hidden border-r-2 border-solid border-black ${
-        userMenuIsOpen ? '' : 'hidden'
-      }`}
-    >
+    <section className='bg-secondary-colour h-full grid grid-rows-reg w-fit max-w-[350px] border-r-2 border-solid border-black px-1 py-2 overflow-hidden'>
       <div className='p-2'>
         {/* Header data */}
         <article className='grid grid-cols-rev gap-4 mb-2'>
@@ -102,7 +101,7 @@ function SimulationFunctionsToolbar({
 
           <div className='grid items-center justify-center'>
             <FaArrowAltCircleLeft
-              onClick={hideContainer}
+              onClick={hideUserMenuContainer}
               title='Hide'
               className='hover:brightness-90 cursor-pointer text-main-colour'
               size={20}
