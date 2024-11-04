@@ -4,15 +4,10 @@ export const CompanyPhoneNumber = '07846286385';
 export const ContactEmailAddress = 'hello@bytetoast-studio.com';
 export const DirectorName = 'Tom Brockington';
 
-// Routes
-export const CREATE_NEW_SIMULATION_API =
-  '/simulations/user/create-new-simulation';
-export const SAVE_SIMULATION_API = '/simulations/user/save-simulation';
-export const PUBLISH_SIMULATION_API =
-  '/simulations/user/publish-simulation-to-library';
-export const LIBRARY_SIMULATION_API = '/library/get-all-library-simulations';
-export const LIBRARY_VOTE_API = '/library/vote-on-simulation/';
-export const LOGIN_API = '/login';
+// Cookie data
+export const NumberOfCookies = 0;
+export const COOKIE_TIMER = 5000;
+export const CookiePolicyName = 'CookiePolicy';
 
 // Pages
 export const HOME_PAGE_URL = '/';
@@ -27,3 +22,19 @@ export const MAINTENANCE_PAGE_URL = '/down-for-maintenance';
 export const RESET_PASS_PAGE_URL = '/request-new-password';
 export const TEST_PAGE_URL = '/test';
 export const ERROR_404_PAGE_URL = '*';
+
+// Routes
+// User
+export const LOGIN_API = '/login';
+export const GET_LOGGED_IN_USER_API = '/users/user/get-user-by-id'; // userId
+export const REGISTER_API = '/users/register';
+export const RESET_PASSWORD_API = '/users/user/reset-password'; // userId
+export const DELETE_ACCOUNT_API = '/users/user/delete-account'; // userId
+// Simulations
+export const CREATE_NEW_SIMULATION_API =
+  '/simulations/user/create-new-simulation';
+export const SAVE_SIMULATION_API = '/simulations/user/save-simulation';
+export const PUBLISH_SIMULATION_API =
+  '/simulations/user/publish-simulation-to-library';
+export const LIBRARY_SIMULATION_API = '/library/get-all-library-simulations';
+export const LIBRARY_VOTE_API = '/library/vote-on-simulation/';

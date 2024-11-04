@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 // Analytics
 import ReactGA from 'react-ga4';
 // Context
-import UserContextProvider from './context/UserContext';
+import UserProvider from './context/UserContext';
 import ModalContextProvider from './context/ModalContext';
 import SimulationContextProvider from './context/SimulationContext';
 // Styles
@@ -19,12 +19,12 @@ ReactGA.initialize(process.env.REACT_APP_ANALYTICS_ID);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <UserContextProvider>
+    <UserProvider>
       <ModalContextProvider>
         <SimulationContextProvider>
           <App />
         </SimulationContextProvider>
       </ModalContextProvider>
-    </UserContextProvider>
+    </UserProvider>
   </BrowserRouter>
 );

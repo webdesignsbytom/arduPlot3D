@@ -52,7 +52,6 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     simulationDataId,
     setSimulationDataId,
   } = useContext(SimulationContext);
-  console.log('numberOfDataPointsToDisplay', numberOfDataPointsToDisplay);
 
   // State to manage tooltip visibility and position
   const [tooltip, setTooltip] = useState({ x: 0, y: 0 });
@@ -154,16 +153,11 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       flattenedData = [...loopDataBeingEdited.mainSimulationLoopDataPoints];
     }
 
-    console.log('2numberOfDataPointsToDisplay', numberOfDataPointsToDisplay);
-    console.log('flattenedData.length', flattenedData.length);
-
     // Determine the number of points to display
     let displayCount =
       displayCountMap[numberOfDataPointsToDisplay] || flattenedData.length;
-    console.log('displayCount', displayCount);
 
     const pointsToDisplay = flattenedData.slice(-displayCount);
-    console.log('pointsToDisplay', pointsToDisplay);
 
     let mainIndexTally = 1;
     let isDecimal = false;

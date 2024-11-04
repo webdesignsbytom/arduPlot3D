@@ -57,7 +57,7 @@ app.use('/', authRouter);
 app.use('/events', eventRouter);
 app.use('/users', userRouter);
 app.use('/library', libraryRouter);
-app.use('/smiulations', simulationRouter);
+app.use('/simulations', simulationRouter);
 app.use('/tests', testRouter);
 
 // Server interface page

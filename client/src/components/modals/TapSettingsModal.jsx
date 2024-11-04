@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { SimulationContext } from '../../context/SimulationContext';
 import { useModalContext } from '../../context/ModalContext';
 
@@ -10,18 +10,10 @@ function TapSettingsModal() {
     handleTapSpeedChange,
   } = useContext(SimulationContext);
   const { handleCloseTapSettingsModal } = useModalContext();
-  console.log('numberOfFingerTapping', numberOfFingerTapping);
 
   const handleChangeNumberOfTappingFingers = (numFingers) => {
-    console.log('numFingers', numFingers);
     changeNumberOfTappingFinger(numFingers);
   };
-
-  useEffect(() => {
-    if (numberOfFingerTapping === 1) {
-      console.log('AAAAAAAAAAAAAAA', typeof(numberOfFingerTapping));
-    }
-  })
 
   return (
     <section className='grid outline z-20 outline-main-colour outline-2 rounded-lg bg-secondary-colour w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-cardShadow'>
@@ -40,21 +32,27 @@ function TapSettingsModal() {
             <button
               id='finger1'
               onClick={() => handleChangeNumberOfTappingFingers(1)}
-              className={`grid ${numberOfFingerTapping === 1 ? 'bg-colour2' : 'bg-colour1'} outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tl-xl rounded-bl-xl active:scale-95 shadow-lg`}
+              className={`grid ${
+                numberOfFingerTapping === 1 ? 'bg-colour2' : 'bg-colour1'
+              } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tl-xl rounded-bl-xl active:scale-95 shadow-lg`}
             >
               1
             </button>
             <button
               id='finger2'
               onClick={() => handleChangeNumberOfTappingFingers(2)}
-              className={`grid ${numberOfFingerTapping === 2 ? 'bg-colour2' : 'bg-colour1'} outline outline-1 outline-main-colour px-1 py-1 w-full h-fit active:scale-95 shadow-lg`}
+              className={`grid ${
+                numberOfFingerTapping === 2 ? 'bg-colour2' : 'bg-colour1'
+              } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit active:scale-95 shadow-lg`}
             >
               2
             </button>
             <button
               id='finger3'
               onClick={() => handleChangeNumberOfTappingFingers(3)}
-              className={`grid ${numberOfFingerTapping === 3 ? 'bg-colour2' : 'bg-colour1'} outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tr-xl rounded-br-xl active:scale-95 shadow-lg`}
+              className={`grid ${
+                numberOfFingerTapping === 3 ? 'bg-colour2' : 'bg-colour1'
+              } outline outline-1 outline-main-colour px-1 py-1 w-full h-fit rounded-tr-xl rounded-br-xl active:scale-95 shadow-lg`}
             >
               3
             </button>

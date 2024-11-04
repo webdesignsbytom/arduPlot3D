@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 // File data
 import { saveFileTypes } from '../../utils/design/DesignUtils';
 // Context
@@ -10,7 +10,6 @@ function SaveAsModal() {
   const { handleSaveSimulation } = useContext(SimulationContext);
 
   const [availableFileTypes] = useState(saveFileTypes);
-  console.log('AAAAAAAAA');
 
   return (
     <section className='grid outline outline-main-colour outline-2 z-20 rounded-lg bg-secondary-colour w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>

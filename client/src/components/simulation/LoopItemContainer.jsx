@@ -38,9 +38,6 @@ function LoopItemContainer({ index, loopData }) {
 
   const handleDataPointInputChange = (index, dataIndex, event) => {
     const { value } = event.target;
-    console.log('Value', value);
-    console.log('Index', index);
-    console.log('DataIndex', dataIndex);
   };
 
   return (

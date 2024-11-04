@@ -49,8 +49,6 @@ const SimulationContextProvider = ({ children }) => {
   const dataPointMarkerRef = useRef(1);
   const emptyRef = useRef([]);
 
-  console.log('dataPointMarkerRef', dataPointMarkerRef);
-
   // Page Menus
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(true);
   const [simulationDataIsOpen, setSimulationDataIsOpen] = useState(true);
@@ -63,7 +61,8 @@ const SimulationContextProvider = ({ children }) => {
   // Simulation data and list of loops for simulation
   const [simulationData, setSimulationData] = useState(tempDesignData);
   const [simulationDataId, setSimulationDataId] = useState(1);
-  console.log('simulationData', simulationData);
+
+  console.log('>> SimulationData', simulationData);
 
   // Simulation loops data
   const [simulationLoopData, setSimulationLoopData] = useState(blankLoopObject);
@@ -293,7 +292,6 @@ const SimulationContextProvider = ({ children }) => {
 
   const setPointsToDisplaySettings = (event) => {
     event.preventDefault();
-    console.log('AAAAAAAAAA');
     // Find the current index of numberOfDataPointsToDisplay
     const currentIndex = availablePointsToDisplayData.indexOf(
       numberOfDataPointsToDisplay

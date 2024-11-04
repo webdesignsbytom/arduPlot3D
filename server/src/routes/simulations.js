@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import {
-  getAllSimulations,
-  getSimulationById,
-  createNewSimulation,
-  saveSimulation,
-  getAllUsersSimulations,
-  deleteSimulation,
-  publishSimulation,
+  handleGetAllSimulations,
+  handleGetAllUsersSimulations,
+  handleGetSimulationById,
+  handleCreateNewSimulation,
+  handleSaveSimulation,
+  handlePublishSimulation,
+  handleDeleteSimulation,
 } from '../controllers/simulations.js';
 import {
   validateAuthentication,
@@ -15,12 +15,30 @@ import {
 
 const router = Router();
 
-router.get('/all-simulations', getAllSimulations);
-router.get('/user/:userId/get-all-simulations', getAllUsersSimulations);
-router.get('/user/get-simulation/:simulationId', getSimulationById);
-router.post('/user/save-simulation/:userId', saveSimulation); // Save as function front end
-router.post('/user/create-new-simulation/:userId', createNewSimulation); // Save as function front end
-router.patch('/user/publish-simulation-to-library/:userId/:simulationId', publishSimulation); // Save as function front end
-router.delete('/user/delete-simulation/:simulationId', deleteSimulation);
+router.get(
+  '/all-simulations',
+  validateAuthentication,
+  validateDeveloperRole,
+  handleGetAllSimulations
+);
+router.get(
+  '/user/get-all-user-simulations',
+  validateAuthentication,
+  handleGetAllUsersSimulations
+);
+router.get(
+  '/user/get-simulation-by-id/:simulationId',
+  validateAuthentication,
+  handleGetSimulationById
+);
+
+router.post('/user/create-new-simulation', handleCreateNewSimulation);
+router.post('/user/save-simulation/:userId', handleSaveSimulation);
+
+router.patch(
+  '/user/publish-simulation-to-library/:userId/:simulationId',
+  handlePublishSimulation
+);
+router.delete('/user/delete-simulation/:simulationId', handleDeleteSimulation);
 
 export default router;

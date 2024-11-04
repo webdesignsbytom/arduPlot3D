@@ -25,8 +25,20 @@ import {
 } from '../event/utils/errorUtils.js';
 import { findUserById } from '../domain/users.js';
 
-export const getAllSimulations = async (req, res) => {
+export const handleGetAllSimulations = async (req, res) => {
+  const userRole = req.user?.role;
+
   try {
+    if (userRole !== 'ADMIN' && userRole !== 'DEVELOPER') {
+      const badRequest = new BadRequestEvent(
+        req.user,
+        'Unauthorized access',
+        'You are not authorized to use this route.'
+      );
+      myEmitterErrors.emit('error', badRequest);
+      return sendMessageResponse(res, badRequest.code, badRequest.message);
+    }
+
     const foundSimulations = await findAllSimulations();
 
     if (!foundSimulations) {
@@ -38,18 +50,28 @@ export const getAllSimulations = async (req, res) => {
       myEmitterErrors.emit('error', notFound);
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
+
     return sendDataResponse(res, 200, { simulations: foundSimulations });
   } catch (err) {
     //
-    const serverError = new ServerErrorEvent(req.user, `Get all simulations`);
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Get all simulations failed`
+    );
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
   }
 };
 
-export const getAllUsersSimulations = async (req, res) => {
-  const { userId } = req.params;
+export const handleGetAllUsersSimulations = async (req, res) => {
+  const userId = req.user.id;
+
+  if (!userId) {
+    return sendDataResponse(res, 400, {
+      message: 'Missing user ID.',
+    });
+  }
 
   try {
     const foundUser = await findUserById(userId);
@@ -78,7 +100,10 @@ export const getAllUsersSimulations = async (req, res) => {
     return sendDataResponse(res, 200, { simulations: foundSimulations });
   } catch (err) {
     //
-    const serverError = new ServerErrorEvent(req.user, `Get all simulations`);
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Get all user simulations failed`
+    );
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
@@ -86,7 +111,7 @@ export const getAllUsersSimulations = async (req, res) => {
 };
 
 // Get simulation by id
-export const getSimulationById = async (req, res) => {
+export const handleGetSimulationById = async (req, res) => {
   const { simulationId } = req.params;
 
   try {
@@ -105,14 +130,91 @@ export const getSimulationById = async (req, res) => {
     return sendDataResponse(res, 200, { simulation: foundSimulation });
   } catch (err) {
     // Error
-    const serverError = new ServerErrorEvent(req.user, `Get all simulations`);
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Get simulation by id failed`
+    );
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;
   }
 };
 
-export const saveSimulation = async (req, res) => {
+export const handleCreateNewSimulation = async (req, res) => {
+  const {
+    simulationTitle,
+    mainSimulationDataPoints,
+    simulationLoops,
+    simulationTimeToComplete,
+  } = req.body;
+
+  const userId = req.user.id;
+
+  try {
+    if (
+      !userId ||
+      !simulationTitle ||
+      !mainSimulationDataPoints ||
+      !simulationLoops ||
+      !simulationTimeToComplete
+    ) {
+      const missingField = new MissingFieldEvent(
+        req.user,
+        EVENT_MESSAGES.missingFields,
+        EVENT_MESSAGES.simulationFieldMissing
+      );
+
+      return sendMessageResponse(res, missingField.code, missingField.message);
+    }
+
+    const foundUser = await findUserById(userId);
+
+    if (!foundUser) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.userNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    simulationLoops.forEach((element) => {
+      console.log('element', element);
+    });
+
+    const createdSimulation = await createSimulation(
+      userId,
+      simulationTitle,
+      mainSimulationDataPoints,
+      simulationLoops,
+      simulationTimeToComplete
+    );
+
+    if (!createdSimulation) {
+      const badRequest = new BadRequestEvent(
+        req.user,
+        EVENT_MESSAGES.badRequest,
+        EVENT_MESSAGES.createSimulationFail
+      );
+      myEmitterErrors.emit('error', badRequest);
+      return sendMessageResponse(res, badRequest.code, badRequest.message);
+    }
+
+    return sendDataResponse(res, 201, { createdSimulation: createdSimulation });
+  } catch (err) {
+    // Error
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Create new simulation failed`
+    );
+    myEmitterErrors.emit('error', serverError);
+    sendMessageResponse(res, serverError.code, serverError.message);
+    throw err;
+  }
+};
+
+export const handleSaveSimulation = async (req, res) => {
   const {
     id,
     simulationTitle,
@@ -203,77 +305,6 @@ export const saveSimulation = async (req, res) => {
     }
   } catch (err) {
     // Error
-    const serverError = new ServerErrorEvent(req.user, `Create new simulation`);
-    myEmitterErrors.emit('error', serverError);
-    sendMessageResponse(res, serverError.code, serverError.message);
-    throw err;
-  }
-};
-
-export const createNewSimulation = async (req, res) => {
-  const {
-    simulationTitle,
-    mainSimulationDataPoints,
-    simulationLoops,
-    simulationTimeToComplete,
-  } = req.body;
-
-  const { userId } = req.params;
-
-  try {
-    if (
-      !userId ||
-      !simulationTitle ||
-      !mainSimulationDataPoints ||
-      !simulationLoops ||
-      !simulationTimeToComplete
-    ) {
-      const missingField = new MissingFieldEvent(
-        req.user,
-        EVENT_MESSAGES.missingFields,
-        EVENT_MESSAGES.simulationFieldMissing
-      );
-
-      return sendMessageResponse(res, missingField.code, missingField.message);
-    }
-
-    const foundUser = await findUserById(userId);
-
-    if (!foundUser) {
-      const notFound = new NotFoundEvent(
-        req.user,
-        EVENT_MESSAGES.notFound,
-        EVENT_MESSAGES.userNotFound
-      );
-      myEmitterErrors.emit('error', notFound);
-      return sendMessageResponse(res, notFound.code, notFound.message);
-    }
-
-    simulationLoops.forEach((element) => {
-      console.log('element', element);
-    });
-
-    const createdSimulation = await createSimulation(
-      userId,
-      simulationTitle,
-      mainSimulationDataPoints,
-      simulationLoops,
-      simulationTimeToComplete
-    );
-
-    if (!createdSimulation) {
-      const badRequest = new BadRequestEvent(
-        req.user,
-        EVENT_MESSAGES.badRequest,
-        EVENT_MESSAGES.createSimulationFail
-      );
-      myEmitterErrors.emit('error', badRequest);
-      return sendMessageResponse(res, badRequest.code, badRequest.message);
-    }
-
-    return sendDataResponse(res, 201, { createdSimulation: createdSimulation });
-  } catch (err) {
-    // Error
     const serverError = new ServerErrorEvent(
       req.user,
       `Create new simulation failed`
@@ -285,7 +316,7 @@ export const createNewSimulation = async (req, res) => {
 };
 
 // Publish Simulation
-export const publishSimulation = async (req, res) => {
+export const handlePublishSimulation = async (req, res) => {
   const { simulationId, userId } = req.params;
   const { visibility } = req.body;
   console.log('userId', userId);
@@ -318,7 +349,7 @@ export const publishSimulation = async (req, res) => {
       simulationId,
       visibility
     );
-    
+
     return sendDataResponse(res, 201, { updatedSimulation: updatedSimulation });
   } catch (err) {
     // Error
@@ -331,8 +362,9 @@ export const publishSimulation = async (req, res) => {
     throw err;
   }
 };
+
 // delete simulation
-export const deleteSimulation = async (req, res) => {
+export const handleDeleteSimulation = async (req, res) => {
   const { simulationId } = req.params;
 
   try {

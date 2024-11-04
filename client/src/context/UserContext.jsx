@@ -1,43 +1,57 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-// Fetch
+import React, { createContext, useContext, useEffect, useState } from 'react';
+// Api
 import client from '../api/client';
+// Constants
+import {
+  CookiePolicyName,
+  GET_LOGGED_IN_USER_API,
+  HOME_PAGE_URL,
+} from '../utils/Constants';
+// Hooks
+import useNavigateToPage from '../hooks/useNavigateToPage';
+// Utils
 import LoggedInUser from '../utils/LoggedInUser';
-// Context
-export const UserContext = React.createContext();
 
-const UserContextProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    id: 'testUser'
-  });
+// Create the context
+export const UserContext = createContext();
 
+const UserProvider = ({ children }) => {
+  const { navigateToPage } = useNavigateToPage();
+
+  const [user, setUser] = useState({});
+  const [hasAgreedToCookies, setHasAgreedToCookies] = useState(true);
   const [token, setToken] = useState(
     localStorage.getItem(process.env.REACT_APP_USER_TOKEN) || ''
   );
 
-  const [toggleCookiePolicy, setToggleCookiePolicy] = useState(false);
-
   useEffect(() => {
     const decodedUserData = LoggedInUser();
 
-    // if (decodedUserData !== null) {
-    //   const userId = decodedUserData.id;
-    //   client
-    //     .get(`/users/user/userId/${userId}`)
-    //     .then((res) => {
-    //       setUser(res.data.data.user);
-    //     })
-    //     .catch((err) => {
-    //       console.error('Unable to retrieve user data', err);
-    //     });
-    // }
+    if (decodedUserData !== null) {
+      client
+        .get(`${GET_LOGGED_IN_USER_API}`, true)
+        .then((res) => {
+          setUser(res.data.user);
+        })
+        .catch((err) => {
+          console.error('Unable to retrieve user data', err);
+        });
+    }
 
-    const cookie = localStorage.getItem('CookiePolicy');
+    const cookie = localStorage.getItem(CookiePolicyName);
 
     if (cookie) {
-      setToggleCookiePolicy(true);
+      setHasAgreedToCookies(true);
+    } else {
+      setHasAgreedToCookies(false);
     }
   }, []);
+
+  const signUserOut = () => {
+    navigateToPage(HOME_PAGE_URL);
+    setUser({});
+    localStorage.removeItem(process.env.REACT_APP_USER_TOKEN);
+  };
 
   return (
     <UserContext.Provider
@@ -46,8 +60,9 @@ const UserContextProvider = ({ children }) => {
         setUser,
         token,
         setToken,
-        toggleCookiePolicy,
-        setToggleCookiePolicy,
+        hasAgreedToCookies,
+        setHasAgreedToCookies,
+        signUserOut,
       }}
     >
       {children}
@@ -55,4 +70,12 @@ const UserContextProvider = ({ children }) => {
   );
 };
 
-export default UserContextProvider;
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
+  return context;
+};
+
+export default UserProvider;
