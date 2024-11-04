@@ -26,6 +26,7 @@ export const EVENT_MESSAGES = {
   // Simulations
   simulationTag: `Simulation database`,
   simulationNotFound: `Failed to find simulation`,
+  missingSimulationData: `Missing data for simulation`,
   createSimulationFail: `Failed to create simulation`,
   updateSimulationFail: `Failed to update simulation`,
   simulationNotDeleted: `Failed to delete simulation`,

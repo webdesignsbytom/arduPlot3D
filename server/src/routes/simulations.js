@@ -32,7 +32,7 @@ router.get(
   getSimulationByIdHandler
 );
 
-router.post('/user/create-new-simulation', createNewSimulationHandler);
+router.post('/user/create-new-simulation', validateAuthentication, createNewSimulationHandler);
 router.post('/user/save-simulation/:userId', saveSimulationHandler);
 
 router.patch(

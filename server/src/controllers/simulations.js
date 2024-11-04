@@ -141,34 +141,26 @@ export const getSimulationByIdHandler = async (req, res) => {
 };
 
 export const createNewSimulationHandler = async (req, res) => {
-  const {
-    simulationTitle,
-    mainSimulationDataPoints,
-    simulationLoops,
-    simulationTimeToComplete,
-  } = req.body;
-
+  const packagedData = req.body;
   const userId = req.user.id;
 
-  try {
-    if (
-      !userId ||
-      !simulationTitle ||
-      !mainSimulationDataPoints ||
-      !simulationLoops ||
-      !simulationTimeToComplete
-    ) {
-      const missingField = new MissingFieldEvent(
-        req.user,
-        EVENT_MESSAGES.missingFields,
-        EVENT_MESSAGES.simulationFieldMissing
-      );
+  if (!userId) {
+    return sendDataResponse(res, 400, {
+      message: 'Missing user ID.',
+    });
+  }
 
-      return sendMessageResponse(res, missingField.code, missingField.message);
+  try {
+    if (!packagedData) {
+      const badRequest = new BadRequestEvent(
+        null,
+        EVENT_MESSAGES.missingSimulationData
+      );
+      myEmitterErrors.emit('error', badRequest);
+      return sendMessageResponse(res, badRequest.code, badRequest.message);
     }
 
     const foundUser = await findUserById(userId);
-
     if (!foundUser) {
       const notFound = new NotFoundEvent(
         req.user,
@@ -179,17 +171,22 @@ export const createNewSimulationHandler = async (req, res) => {
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    simulationLoops.forEach((element) => {
-      console.log('element', element);
-    });
+    const mainSimulationDataPoints = JSON.parse(
+      packagedData.mainSimulationDataPoints
+    );
 
+    const simulationLoops = JSON.parse(packagedData.simulationLoops);
+
+    // Create the simulation in the database with nested loops
     const createdSimulation = await createSimulation(
       userId,
-      simulationTitle,
+      packagedData.simulationTitle,
       mainSimulationDataPoints,
       simulationLoops,
-      simulationTimeToComplete
+      packagedData.simulationTimeToComplete
     );
+
+    console.log('createdSimulation', createdSimulation);
 
     if (!createdSimulation) {
       const badRequest = new BadRequestEvent(

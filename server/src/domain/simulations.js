@@ -19,7 +19,7 @@ export const findAllLibrarySimulations = () =>
       loops: true, // if you want to include details about loops associated with the simulation
     },
   });
-  
+
 export const findAllUsersSimulations = (userId) =>
   dbClient.simulation.findMany({
     where: {
@@ -43,8 +43,8 @@ export const updateSimulationVisibility = (simulationId, visibility) =>
       id: simulationId,
     },
     data: {
-      isVisibleInLibrary: visibility
-    }
+      isVisibleInLibrary: visibility,
+    },
   });
 
 export const findSimulationByTitle = (simulationTitle) =>
@@ -65,19 +65,20 @@ export const createSimulation = (
     data: {
       userId: userId,
       title: simulationTitle,
-      fullSimulation: JSON.stringify(mainSimulationDataPoints),
+      fullSimulation: JSON.stringify(mainSimulationDataPoints), // Still store this as a JSON string if intended
       timeToComplete: simulationTimeToComplete,
       loops: {
-        createMany: {
-          data: simulationLoops.map((loop) => ({
-            title: loop.loopTitle,
-            dataGroup: loop.dataGroup,
-            fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints),
-            timeToComplete: loop.loopTimeToComplete,
-          })),
-        },
+        create: simulationLoops.map((loop) => ({
+          title: loop.loopTitle,
+          fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints), // Stringify nested data points if necessary
+          timeToComplete: loop.loopTimeToComplete,
+          dataGroup: 'loop',
+        })),
       },
     },
+    include: {
+      loops: true
+    }
   });
 
 export const updateSimulation = (

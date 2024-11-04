@@ -38,6 +38,7 @@ model EmailVerification {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
 }
+
 model Simulation {
   id                 String    @id @default(uuid())
   title              String    @default("")
@@ -48,24 +49,24 @@ model Simulation {
   description        String    @default("")
   userId             String
   user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  loops              Loop[]    @relation("SimulationLoops") // New relation for many-to-many with Loop
+  loops              Loop[]    @relation("SimulationLoops") // Match relation name in Loop
   createdAt          DateTime  @default(now())
   updatedAt          DateTime? @updatedAt
 }
 
 model Loop {
-  id             String         @id @default(uuid())
-  title          String         @default("")
+  id             String      @id @default(uuid())
+  title          String      @default("")
   fullLoop       String
   timeToComplete Int
   dataGroup      String
-  userId         String
-  user           User           @relation("UserLoops", fields: [userId], references: [id], onDelete: Cascade)
-  simulations    Simulation[]   @relation("SimulationLoops") // New relation for many-to-many with Simulation
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime?      @updatedAt
+  userId         String?
+  user           User?       @relation("UserLoops", fields: [userId], references: [id], onDelete: Cascade)
+  simulationId   String?
+  simulation     Simulation? @relation("SimulationLoops", fields: [simulationId], references: [id], onDelete: Cascade)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime?   @updatedAt
 }
-
 
 // EVENTS
 enum EventType {

@@ -465,15 +465,15 @@ const SimulationContextProvider = ({ children }) => {
 
     console.log('packagedData', packagedData);
 
-    // client
-    //   .post(`${CREATE_NEW_SIMULATION_API}/${user.id}`, packagedData)
-    //   .then((res) => {
-    //     console.log('RES', res.data.newSimulation);
-    //   })
+    client
+      .post(`${CREATE_NEW_SIMULATION_API}`, packagedData, true)
+      .then((res) => {
+        console.log('RES', res.data.createdSimulation);
+      })
 
-    //   .catch((err) => {
-    //     console.error('Unable to create simulation', err);
-    //   });
+      .catch((err) => {
+        console.error('Unable to create simulation', err);
+      });
   };
 
   // Display Landscape
