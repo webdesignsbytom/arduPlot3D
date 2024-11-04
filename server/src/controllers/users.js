@@ -21,6 +21,7 @@ import {
   findUsersByRole,
   findEmailVerificationById,
   updateEmailVerificationById,
+  findLoggedInUser,
 } from '../domain/users.js';
 // Response messages
 import {
@@ -79,7 +80,7 @@ export const getUserByIdHandler = async (req, res) => {
   }
 
   try {
-    const foundUser = await findUserById(userId);
+    const foundUser = await findLoggedInUser(userId);
     if (!foundUser) {
       const notFound = new NotFoundEvent(
         req.user,

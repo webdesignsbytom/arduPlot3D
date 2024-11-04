@@ -163,7 +163,7 @@ async function seed() {
             },
           ]),
           timeToComplete: 1230,
-          simulationId: simulation.id,
+          userId: 'dev',
           dataGroup: 'simulation', // Added the missing dataGroup field
         },
       }),
@@ -217,7 +217,7 @@ async function seed() {
             },
           ]),
           timeToComplete: 1230,
-          simulationId: simulation.id,
+          userId: 'dev',
           dataGroup: 'simulation', // Added the missing dataGroup field
         },
       }),

@@ -1,5 +1,14 @@
-import React, { useRef } from 'react';
-import { useState } from 'react';
+import React, { useRef, useState } from 'react';
+// Api
+import client from '../api/client';
+// Constants
+import {
+  CREATE_NEW_SIMULATION_API,
+  SAVE_SIMULATION_API,
+} from '../utils/Constants';
+// Context
+import { useModalContext } from './ModalContext';
+import { useUser } from '../context/UserContext';
 // Device data
 import { availableDevicesForSimulations } from '../utils/design/AvailableDevices';
 import {
@@ -14,6 +23,7 @@ import {
   blankSimulationObject,
   tempDesignData,
 } from '../utils/design/TempData';
+// Simulation constants
 import {
   availablePointsToDisplayData,
   CLEAR_ALL_DATAPOINT_FUNC,
@@ -25,14 +35,13 @@ import {
   TAP_FUNCTION,
   TIMEOUT_FUNCTION,
 } from '../utils/design/Constants';
+// Utils
+import { downloadFileToMachine } from '../utils/simulation/SimulationUtils';
+// Consent messages
 import {
   ConfirmClearAllDataPoints,
   ConfirmDeleteLoop,
 } from '../utils/design/ConfrimMessages';
-import { useModalContext } from './ModalContext';
-import client from '../api/client';
-import { SAVE_SIMULATION_API } from '../utils/Constants';
-import { downloadFileToMachine } from '../utils/simulation/SimulationUtils';
 
 export const SimulationContext = React.createContext();
 
@@ -43,6 +52,8 @@ const SimulationContextProvider = ({ children }) => {
     handleSetBlankConsentMessage,
     handleCloseAllModalsMaster,
   } = useModalContext();
+
+  const { user } = useUser();
 
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
@@ -425,15 +436,44 @@ const SimulationContextProvider = ({ children }) => {
 
   // Save simulation
   const handleSaveSimulation = (user) => {
+    
     client
       .post(`${SAVE_SIMULATION_API}/${user.id}`, simulationData)
       .then((res) => {
-        console.log('RES', res.data.data.newSimulation);
+        console.log('RES', res.data.newSimulation);
       })
 
       .catch((err) => {
         console.error('Unable to create simulation', err);
       });
+  };
+
+  const parseSaveData = (dataToParse) => {
+    return JSON.stringify(dataToParse);
+  };
+  
+  const handleSaveNewSimulation = (fileName) => {
+    console.log('fileName', fileName);
+  
+    // Create a new object with the parsed data for sending
+    const packagedData = {
+      simulationTitle: fileName,
+      mainSimulationDataPoints: parseSaveData(simulationData.mainSimulationDataPoints),
+      simulationLoops: parseSaveData(simulationData.simulationLoops),
+      simulationTimeToComplete: simulationData.simulationTimeToComplete,
+    };
+
+    console.log('packagedData', packagedData);
+
+    // client
+    //   .post(`${CREATE_NEW_SIMULATION_API}/${user.id}`, packagedData)
+    //   .then((res) => {
+    //     console.log('RES', res.data.newSimulation);
+    //   })
+
+    //   .catch((err) => {
+    //     console.error('Unable to create simulation', err);
+    //   });
   };
 
   // Display Landscape
@@ -485,6 +525,7 @@ const SimulationContextProvider = ({ children }) => {
         setSelectedDevice,
         displaySimOrLoop,
         setDisplaySimOrLoop,
+        // Speeds
         speedOfArmMoving,
         setSpeedOfArmMoving,
         displayLoopDataPoints,
@@ -579,6 +620,8 @@ const SimulationContextProvider = ({ children }) => {
         setpositionOfMouseAndCanvasVisible,
         // Loops
         addLoopToSimulation,
+        // Create api
+        handleSaveNewSimulation,
       }}
     >
       {children}

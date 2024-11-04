@@ -23,13 +23,13 @@ const UserProvider = ({ children }) => {
   const [token, setToken] = useState(
     localStorage.getItem(process.env.REACT_APP_USER_TOKEN) || ''
   );
-
+console.log('user', user);
   useEffect(() => {
     const decodedUserData = LoggedInUser();
 
     if (decodedUserData !== null) {
       client
-        .get(`${GET_LOGGED_IN_USER_API}`, true)
+        .get(`${GET_LOGGED_IN_USER_API}/${decodedUserData.id}`, true)
         .then((res) => {
           setUser(res.data.user);
         })

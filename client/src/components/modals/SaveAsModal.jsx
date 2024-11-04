@@ -1,64 +1,76 @@
 import React, { useContext, useState } from 'react';
-// File data
-import { saveFileTypes } from '../../utils/design/DesignUtils';
 // Context
 import { useModalContext } from '../../context/ModalContext';
 import { SimulationContext } from '../../context/SimulationContext';
 
 function SaveAsModal() {
   const { handleCloseSaveAsModal } = useModalContext();
-  const { handleSaveSimulation } = useContext(SimulationContext);
+  const { handleSaveNewSimulation } = useContext(SimulationContext);
 
-  const [availableFileTypes] = useState(saveFileTypes);
+  const [fileName, setFileName] = useState(''); // State for file name
+
+  // Handler for input change
+  const handleFileNameChange = (e) => {
+    setFileName(e.target.value);
+  };
 
   return (
-    <section className='grid outline outline-main-colour outline-2 z-20 rounded-lg bg-secondary-colour w-1/3 h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-      <div className='py-2 px-4'>
-        <div className='text-center'>
-          <h4 className='text-lg'>Save As</h4>
+    <section
+      role="dialog"
+      aria-labelledby="save-as-modal-header"
+      aria-describedby="save-as-modal-description"
+      className="grid outline outline-colour1 outline-2 z-20 rounded-lg bg-secondary-colour h-fit absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+    >
+      {/* Header */}
+      <section
+        id="save-as-modal-header"
+        className="bg-main-colour w-full py-2"
+      >
+        <div className="grid items-center text-center h-full">
+          <h2 className="text-secondary-colour text-xl">Save new file</h2>
         </div>
+      </section>
 
-        <section className='py-4'>
-          <div className='grid grid-cols-2x w-full gap-2'>
-            <div className='w-full'>
+      <div className="grid p-4">
+        <section
+          id="save-as-modal-description"
+          className="py-4"
+        >
+          <div className="grid w-full">
+            <div className="w-full">
+              <label htmlFor="file_name" className="sr-only">
+                File Name
+              </label>
               <input
-                type='text'
-                name='file_name'
-                id='file_name'
-                className='w-full outline outline-1 outline-main-colour p-1 rounded-md shadow-lg'
+                type="text"
+                name="file_name"
+                id="file_name"
+                placeholder="File name..."
+                aria-placeholder="Enter file name"
+                aria-required="true"
+                className="w-full outline outline-1 outline-main-colour p-1 rounded-md shadow-lg"
+                value={fileName} // Bind state to input value
+                onChange={handleFileNameChange} // Handle input changes
               />
-            </div>
-            <div className='w-full'>
-              <select
-                name='file_type'
-                id='file_type'
-                className='w-full outline outline-1 outline-main-colour p-1 rounded-md shadow-lg'
-              >
-                {availableFileTypes.map((file, index) => {
-                  return (
-                    <option key={index} value={file.name}>
-                      {file.name}
-                    </option>
-                  );
-                })}
-              </select>
             </div>
           </div>
         </section>
 
-        <section className='grid grid-cols-2 gap-6 mt-4'>
-          <div className='grid justify-center'>
+        <section className="grid grid-cols-2 gap-6 mt-4">
+          <div className="grid justify-center">
             <button
               onClick={handleCloseSaveAsModal}
-              className='grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
+              aria-label="Close Save As modal"
+              className="grid bg-red-400 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg"
             >
               Close
             </button>
           </div>
-          <div className='grid justify-center'>
+          <div className="grid justify-center">
             <button
-              onClick={handleSaveSimulation}
-              className='grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg'
+              onClick={() => handleSaveNewSimulation(fileName)}
+              aria-label="Save new file"
+              className="grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg"
             >
               Save
             </button>

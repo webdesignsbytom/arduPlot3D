@@ -20,6 +20,7 @@ model User {
   email             String             @unique
   password          String
   role              Role               @default(USER)
+  loops             Loop[]             @relation("UserLoops") // Updated relation name
   simulations       Simulation[]
   emailVerification EmailVerification?
   createdEvents     Event[]            @relation("createdEvents")
@@ -37,33 +38,34 @@ model EmailVerification {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
 }
-
 model Simulation {
   id                 String    @id @default(uuid())
   title              String    @default("")
   fullSimulation     String
-  loops              Loop[]
   timeToComplete     Int // milliseconds
   isVisibleInLibrary Boolean   @default(false)
   voteScore          Int       @default(0)
   description        String    @default("")
   userId             String
   user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  loops              Loop[]    @relation("SimulationLoops") // New relation for many-to-many with Loop
   createdAt          DateTime  @default(now())
   updatedAt          DateTime? @updatedAt
 }
 
 model Loop {
-  id             String     @id @default(uuid())
-  title          String     @default("")
+  id             String         @id @default(uuid())
+  title          String         @default("")
   fullLoop       String
   timeToComplete Int
   dataGroup      String
-  simulationId   String
-  simulation     Simulation @relation(fields: [simulationId], references: [id], onDelete: Cascade)
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime?  @updatedAt
+  userId         String
+  user           User           @relation("UserLoops", fields: [userId], references: [id], onDelete: Cascade)
+  simulations    Simulation[]   @relation("SimulationLoops") // New relation for many-to-many with Simulation
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime?      @updatedAt
 }
+
 
 // EVENTS
 enum EventType {

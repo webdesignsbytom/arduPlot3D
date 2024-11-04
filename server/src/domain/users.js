@@ -45,6 +45,17 @@ export const findResetRequest = (userId) =>
     where: { userId },
   });
 
+export const findLoggedInUser = (userId) =>
+  dbClient.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      simulations: true,
+      loops: true,
+    }
+  });
+
 export const findUserById = (userId) =>
   dbClient.user.findUnique({
     where: {

@@ -26,7 +26,8 @@ export const ERROR_404_PAGE_URL = '*';
 // Routes
 // User
 export const LOGIN_API = '/login';
-export const GET_LOGGED_IN_USER_API = '/users/user/get-user-by-id'; // userId
+export const GET_USER_API = '/users/user/get-user-by-id'; // userId
+export const GET_LOGGED_IN_USER_API = '/users/user/get-logged-in-user'; // userId
 export const REGISTER_API = '/users/register';
 export const RESET_PASSWORD_API = '/users/user/reset-password'; // userId
 export const DELETE_ACCOUNT_API = '/users/user/delete-account'; // userId

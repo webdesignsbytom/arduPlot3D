@@ -25,7 +25,7 @@ import {
 } from '../event/utils/errorUtils.js';
 import { findUserById } from '../domain/users.js';
 
-export const handleGetAllSimulations = async (req, res) => {
+export const getAllSimulationsHandler = async (req, res) => {
   const userRole = req.user?.role;
 
   try {
@@ -64,7 +64,7 @@ export const handleGetAllSimulations = async (req, res) => {
   }
 };
 
-export const handleGetAllUsersSimulations = async (req, res) => {
+export const getAllUsersSimulationsHandler = async (req, res) => {
   const userId = req.user.id;
 
   if (!userId) {
@@ -111,7 +111,7 @@ export const handleGetAllUsersSimulations = async (req, res) => {
 };
 
 // Get simulation by id
-export const handleGetSimulationById = async (req, res) => {
+export const getSimulationByIdHandler = async (req, res) => {
   const { simulationId } = req.params;
 
   try {
@@ -140,7 +140,7 @@ export const handleGetSimulationById = async (req, res) => {
   }
 };
 
-export const handleCreateNewSimulation = async (req, res) => {
+export const createNewSimulationHandler = async (req, res) => {
   const {
     simulationTitle,
     mainSimulationDataPoints,
@@ -214,7 +214,7 @@ export const handleCreateNewSimulation = async (req, res) => {
   }
 };
 
-export const handleSaveSimulation = async (req, res) => {
+export const saveSimulationHandler = async (req, res) => {
   const {
     id,
     simulationTitle,
@@ -316,7 +316,7 @@ export const handleSaveSimulation = async (req, res) => {
 };
 
 // Publish Simulation
-export const handlePublishSimulation = async (req, res) => {
+export const publishSimulationHandler = async (req, res) => {
   const { simulationId, userId } = req.params;
   const { visibility } = req.body;
   console.log('userId', userId);
@@ -364,7 +364,7 @@ export const handlePublishSimulation = async (req, res) => {
 };
 
 // delete simulation
-export const handleDeleteSimulation = async (req, res) => {
+export const deleteSimulationHandler = async (req, res) => {
   const { simulationId } = req.params;
 
   try {

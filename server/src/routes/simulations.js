@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import {
-  handleGetAllSimulations,
-  handleGetAllUsersSimulations,
-  handleGetSimulationById,
-  handleCreateNewSimulation,
-  handleSaveSimulation,
-  handlePublishSimulation,
-  handleDeleteSimulation,
+  getAllSimulationsHandler,
+  getAllUsersSimulationsHandler,
+  getSimulationByIdHandler,
+  createNewSimulationHandler,
+  saveSimulationHandler,
+  publishSimulationHandler,
+  deleteSimulationHandler,
 } from '../controllers/simulations.js';
 import {
   validateAuthentication,
@@ -19,26 +19,26 @@ router.get(
   '/all-simulations',
   validateAuthentication,
   validateDeveloperRole,
-  handleGetAllSimulations
+  getAllSimulationsHandler
 );
 router.get(
   '/user/get-all-user-simulations',
   validateAuthentication,
-  handleGetAllUsersSimulations
+  getAllUsersSimulationsHandler
 );
 router.get(
   '/user/get-simulation-by-id/:simulationId',
   validateAuthentication,
-  handleGetSimulationById
+  getSimulationByIdHandler
 );
 
-router.post('/user/create-new-simulation', handleCreateNewSimulation);
-router.post('/user/save-simulation/:userId', handleSaveSimulation);
+router.post('/user/create-new-simulation', createNewSimulationHandler);
+router.post('/user/save-simulation/:userId', saveSimulationHandler);
 
 router.patch(
   '/user/publish-simulation-to-library/:userId/:simulationId',
-  handlePublishSimulation
+  publishSimulationHandler
 );
-router.delete('/user/delete-simulation/:simulationId', handleDeleteSimulation);
+router.delete('/user/delete-simulation/:simulationId', deleteSimulationHandler);
 
 export default router;

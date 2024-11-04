@@ -117,10 +117,10 @@ const ModalContextProvider = ({ children }) => {
   // Save
   // Open save as
   const handleOpenSaveAsModal = () => {
-    console.log('aaaa');
     handleCloseAllModalsMaster();
     setSaveAsModalOpen(true);
   };
+
   // Close save as
   const handleCloseSaveAsModal = () => {
     setSaveAsModalOpen(false);
