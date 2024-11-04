@@ -30,10 +30,33 @@ export const findAllUsersSimulations = (userId) =>
     },
   });
 
+export const findListOfSimulations = (userId) =>
+  dbClient.simulation.findMany({
+    where: {
+      userId: userId,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    select: {
+      title: true,
+    },
+  });
+
 export const findSimulationById = (simulationId) =>
   dbClient.simulation.findFirst({
     where: {
       id: simulationId,
+    },
+  });
+
+export const findSimulationTitle = (title) =>
+  dbClient.simulation.findFirst({
+    where: {
+      title: title,
+    },
+    include: {
+      loops: true,
     },
   });
 
@@ -77,8 +100,8 @@ export const createSimulation = (
       },
     },
     include: {
-      loops: true
-    }
+      loops: true,
+    },
   });
 
 export const updateSimulation = (

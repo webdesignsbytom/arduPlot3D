@@ -35,6 +35,9 @@ export const DELETE_ACCOUNT_API = '/users/user/delete-account'; // userId
 export const CREATE_NEW_SIMULATION_API =
   '/simulations/user/create-new-simulation';
 export const SAVE_SIMULATION_API = '/simulations/user/save-simulation';
+export const LOAD_SIMULATION_API = '/simulations/user/load-simulation';
+export const GET_ALL_USER_SIMULATIONS_API = '/simulations/user/get-all-user-simulations';
+export const GET_USER_SIMULATIONS_LIST_API = '/simulations/user/get-list-of-simulations';
 export const PUBLISH_SIMULATION_API =
   '/simulations/user/publish-simulation-to-library';
 export const LIBRARY_SIMULATION_API = '/library/get-all-library-simulations';

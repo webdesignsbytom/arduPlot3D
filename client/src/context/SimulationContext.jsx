@@ -4,6 +4,7 @@ import client from '../api/client';
 // Constants
 import {
   CREATE_NEW_SIMULATION_API,
+  LOAD_SIMULATION_API,
   SAVE_SIMULATION_API,
 } from '../utils/Constants';
 // Context
@@ -436,7 +437,6 @@ const SimulationContextProvider = ({ children }) => {
 
   // Save simulation
   const handleSaveSimulation = (user) => {
-    
     client
       .post(`${SAVE_SIMULATION_API}/${user.id}`, simulationData)
       .then((res) => {
@@ -451,14 +451,16 @@ const SimulationContextProvider = ({ children }) => {
   const parseSaveData = (dataToParse) => {
     return JSON.stringify(dataToParse);
   };
-  
+
   const handleSaveNewSimulation = (fileName) => {
     console.log('fileName', fileName);
-  
+
     // Create a new object with the parsed data for sending
     const packagedData = {
       simulationTitle: fileName,
-      mainSimulationDataPoints: parseSaveData(simulationData.mainSimulationDataPoints),
+      mainSimulationDataPoints: parseSaveData(
+        simulationData.mainSimulationDataPoints
+      ),
       simulationLoops: parseSaveData(simulationData.simulationLoops),
       simulationTimeToComplete: simulationData.simulationTimeToComplete,
     };
@@ -469,6 +471,21 @@ const SimulationContextProvider = ({ children }) => {
       .post(`${CREATE_NEW_SIMULATION_API}`, packagedData, true)
       .then((res) => {
         console.log('RES', res.data.createdSimulation);
+      })
+
+      .catch((err) => {
+        console.error('Unable to create simulation', err);
+      });
+  };
+
+  const loadSelectedSimulation = (file) => {
+    console.log('file', file);
+    const loader = { title: file }
+
+    client
+      .get(`${LOAD_SIMULATION_API}/${loader.title}`, true)
+      .then((res) => {
+        console.log('RES', res.data.simulation);
       })
 
       .catch((err) => {
@@ -622,6 +639,8 @@ const SimulationContextProvider = ({ children }) => {
         addLoopToSimulation,
         // Create api
         handleSaveNewSimulation,
+        // Load
+        loadSelectedSimulation,
       }}
     >
       {children}

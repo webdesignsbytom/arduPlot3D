@@ -7,6 +7,8 @@ import {
   saveSimulationHandler,
   publishSimulationHandler,
   deleteSimulationHandler,
+  getUserSimulationsListHandler,
+  getSimulationByTitleHandler,
 } from '../controllers/simulations.js';
 import {
   validateAuthentication,
@@ -27,9 +29,21 @@ router.get(
   getAllUsersSimulationsHandler
 );
 router.get(
-  '/user/get-simulation-by-id/:simulationId',
+  '/user/get-list-of-simulations',
+  validateAuthentication,
+  getUserSimulationsListHandler
+);
+
+router.get(
+  '/user/get-simulation-by-id/',
   validateAuthentication,
   getSimulationByIdHandler
+);
+
+router.get(
+  '/user/load-simulation/:title',
+  validateAuthentication,
+  getSimulationByTitleHandler
 );
 
 router.post('/user/create-new-simulation', validateAuthentication, createNewSimulationHandler);

@@ -88,8 +88,3 @@ export const saveAsNewFile = async (
 
   setSaveAsModalOpen(false);
 };
-
-
-export const loadSimulationFile = async () => {
-  console.log('AAA');
-};

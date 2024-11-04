@@ -6,7 +6,9 @@ import {
   deleteSimulationById,
   findAllSimulations,
   findAllUsersSimulations,
+  findListOfSimulations,
   findSimulationById,
+  findSimulationTitle,
   updateSimulation,
   updateSimulationVisibility,
 } from '../domain/simulations.js';
@@ -110,12 +112,91 @@ export const getAllUsersSimulationsHandler = async (req, res) => {
   }
 };
 
+export const getUserSimulationsListHandler = async (req, res) => {
+  const userId = req.user.id;
+
+  if (!userId) {
+    return sendDataResponse(res, 400, {
+      message: 'Missing user ID.',
+    });
+  }
+
+  try {
+    const foundUser = await findUserById(userId);
+
+    if (!foundUser) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.userNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    const foundSimulations = await findListOfSimulations(userId);
+
+    if (!foundSimulations) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.simulationNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    return sendDataResponse(res, 200, { simulations: foundSimulations });
+  } catch (err) {
+    //
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Get user simulations list failed`
+    );
+    myEmitterErrors.emit('error', serverError);
+    sendMessageResponse(res, serverError.code, serverError.message);
+    throw err;
+  }
+};
+
 // Get simulation by id
 export const getSimulationByIdHandler = async (req, res) => {
   const { simulationId } = req.params;
 
   try {
     const foundSimulation = await findSimulationById(simulationId);
+
+    if (!foundSimulation) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.simulationNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    return sendDataResponse(res, 200, { simulation: foundSimulation });
+  } catch (err) {
+    // Error
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Get simulation by id failed`
+    );
+    myEmitterErrors.emit('error', serverError);
+    sendMessageResponse(res, serverError.code, serverError.message);
+    throw err;
+  }
+};
+
+// Get simulation by id
+export const getSimulationByTitleHandler = async (req, res) => {
+  console.log('getSimulationByTitleHandler', getSimulationByTitleHandler);
+  const { title } = req.params;
+  console.log('title;', title);
+
+  try {
+    const foundSimulation = await findSimulationTitle(title);
 
     if (!foundSimulation) {
       const notFound = new NotFoundEvent(
