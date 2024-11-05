@@ -28,7 +28,6 @@ import {
 const hashRate = 8;
 
 export const getAllUsers = async (req, res) => {
-  console.log('getAllUsers');
   try {
     const foundUsers = await findAllUsers();
 
@@ -53,7 +52,6 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const getUserById = async (req, res) => {
-  console.log('getUserById');
   const { userId } = req.params;
   
   try {
@@ -83,9 +81,7 @@ export const getUserById = async (req, res) => {
 };
 
 export const getUserByEmail = async (req, res) => {
-  console.log('getUserByEmail');
   const { email } = req.params;
-  console.log('xxx', email);
 
   const lowerCaseEmail = email.toLowerCase();
   try {
@@ -101,7 +97,6 @@ export const getUserByEmail = async (req, res) => {
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    console.log('found', foundUser);
     delete foundUser.password;
     delete foundUser.agreedToTerms;
 
@@ -117,8 +112,6 @@ export const getUserByEmail = async (req, res) => {
 };
 
 export const registerNewUser = async (req, res) => {
-  console.log('create new user');
-
   const { email, password, agreedToTerms } = req.body;
   const lowerCaseEmail = email.toLowerCase();
 

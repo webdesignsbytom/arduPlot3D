@@ -12,11 +12,8 @@ import {
 } from '../event/utils/errorUtils.js';
 
 export const getAllEvents = async (req, res) => {
-  console.log('get all events');
-
   try {
     const foundEvents = await findAllEvents();
-    console.log('found events:', foundEvents);
 
     if (!foundEvents) {
       const notFound = new NotFoundEvent(
@@ -47,13 +44,10 @@ export const getAllEvents = async (req, res) => {
 
 // Get event by id
 export const getEventById = async (req, res) => {
-  console.log('getEventById');
   const { eventId } = req.params
-  console.log('eventId', eventId);
 
   try {
     const foundEvent = await findEventById(eventId);
-    console.log('found event', foundEvent);
 
     if (!foundEvent) {
       const notFound = new NotFoundEvent(
@@ -77,14 +71,10 @@ export const getEventById = async (req, res) => {
 
 // delete event
 export const deleteEvent = async (req, res) => {
-  console.log('deleteOpenEvent');
-  console.log('req', req.params);
   const eventId = req.params.eventId;
-  console.log('eventId', eventId);
 
   try {
     const foundEvent = await findEventById(eventId);
-    console.log('foundEvent card', foundEvent);
 
     if (!foundEvent) {
       const notFound = new NotFoundEvent(

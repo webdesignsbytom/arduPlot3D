@@ -63,7 +63,7 @@ const client = {
   post: async (path, data, withToken = true) => {
     const url = `${host}${path}`;
     const headers = withToken ? getAuthHeaders() : {};
-console.log('headers', headers);
+
     try {
       const response = await axios.post(url, data, { headers });
       return response.data;

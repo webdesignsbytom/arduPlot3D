@@ -288,9 +288,7 @@ export const createNewSimulation = async (req, res) => {
 export const publishSimulation = async (req, res) => {
   const { simulationId, userId } = req.params;
   const { visibility } = req.body;
-  console.log('userId', userId);
-  console.log('simulationId', simulationId);
-  console.log('visibility', visibility);
+
   try {
     const foundSimulation = await findSimulationById(simulationId);
 

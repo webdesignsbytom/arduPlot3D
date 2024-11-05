@@ -21,11 +21,8 @@ import {
 } from '../event/utils/errorUtils.js';
 
 export const getAllEvents = async (req, res) => {
-  console.log('get all events');
-
   try {
     const foundEvents = await findAllEvents();
-    console.log('found events:', foundEvents);
 
     if (!foundEvents) {
       const notFound = new NotFoundEvent(

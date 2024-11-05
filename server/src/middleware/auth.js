@@ -63,7 +63,6 @@ export async function validateDeveloperRole(req, res, next) {
 
 export const validateAuthentication = async (req, res, next) => {
   const header = req.header('authorization');
-  console.log('header', header);
 
   if (!header) {
     const error = new NoValidationEvent('Missing Authorization header');
@@ -74,10 +73,8 @@ export const validateAuthentication = async (req, res, next) => {
   }
 
   const [type, token] = header.split(' ');
-  console.log('1111111111');
 
   const isTypeValid = validateTokenType(type);
-  console.log('isTypeValid', isTypeValid);
   if (!isTypeValid) {
     const error = new NoValidationEvent(
       `Invalid token type, expected Bearer but got ${type}`
@@ -88,9 +85,7 @@ export const validateAuthentication = async (req, res, next) => {
     });
   }
 
-  console.log('2222222222');
   const isTokenValid = validateToken(token);
-  console.log('isTokenValid', isTokenValid);
 
   if (!isTokenValid) {
     const error = new NoValidationEvent('Missing access token');
@@ -99,7 +94,6 @@ export const validateAuthentication = async (req, res, next) => {
       authorization: error.message,
     });
   }
-  console.log('33333333333');
   if (isTokenValid.name === 'TokenExpiredError') {
     const error = new NoValidationEvent('Token has expired');
     myEmitterErrors.emit('error', error);

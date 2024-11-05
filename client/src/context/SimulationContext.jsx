@@ -453,9 +453,6 @@ const SimulationContextProvider = ({ children }) => {
   };
 
   const handleSaveNewSimulation = (fileName) => {
-    console.log('fileName', fileName);
-
-    // Create a new object with the parsed data for sending
     const packagedData = {
       simulationTitle: fileName,
       mainSimulationDataPoints: parseSaveData(
@@ -464,8 +461,6 @@ const SimulationContextProvider = ({ children }) => {
       simulationLoops: parseSaveData(simulationData.simulationLoops),
       simulationTimeToComplete: simulationData.simulationTimeToComplete,
     };
-
-    console.log('packagedData', packagedData);
 
     client
       .post(`${CREATE_NEW_SIMULATION_API}`, packagedData, true)
@@ -479,11 +474,10 @@ const SimulationContextProvider = ({ children }) => {
   };
 
   const loadSelectedSimulation = (file) => {
-    console.log('file', file);
-    const loader = { title: file }
+    const newFile = { title: file }
 
     client
-      .get(`${LOAD_SIMULATION_API}/${loader.title}`, true)
+      .get(`${LOAD_SIMULATION_API}/${newFile.title}`, true)
       .then((res) => {
         console.log('RES', res.data.simulation);
       })

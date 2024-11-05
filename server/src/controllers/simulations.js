@@ -191,9 +191,7 @@ export const getSimulationByIdHandler = async (req, res) => {
 
 // Get simulation by id
 export const getSimulationByTitleHandler = async (req, res) => {
-  console.log('getSimulationByTitleHandler', getSimulationByTitleHandler);
   const { title } = req.params;
-  console.log('title;', title);
 
   try {
     const foundSimulation = await findSimulationTitle(title);
@@ -397,9 +395,6 @@ export const saveSimulationHandler = async (req, res) => {
 export const publishSimulationHandler = async (req, res) => {
   const { simulationId, userId } = req.params;
   const { visibility } = req.body;
-  console.log('userId', userId);
-  console.log('simulationId', simulationId);
-  console.log('visibility', visibility);
   try {
     const foundSimulation = await findSimulationById(simulationId);
 

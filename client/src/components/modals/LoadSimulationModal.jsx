@@ -21,7 +21,6 @@ function LoadSimulationModal() {
       .get(`${GET_USER_SIMULATIONS_LIST_API}`, true)
       .then((res) => {
         setUserSimulations(res.data.simulations);
-        console.log('res.data.simulations', res.data.simulations);
       })
       .catch((err) => {
         console.error('Unable to retrieve simulation data', err);

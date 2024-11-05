@@ -19,10 +19,7 @@ export const uploadToMinio = multer({
 
 export const uploadFileToMinIO = async (fileBuffer, folder) => {
   try {
-    console.log('');
-    console.log('333333333333333333333', fileBuffer);
     const fileName = `${folder}${Date.now()}-${fileBuffer.originalname}`;
-    console.log('>>>>> FILE NAME :', fileName);
     const fileStream = Readable.from(fileBuffer.buffer);
 
     await minioClient.putObject(
