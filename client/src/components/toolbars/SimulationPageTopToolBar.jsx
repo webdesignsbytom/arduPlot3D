@@ -188,8 +188,8 @@ function SimulationPageTopToolBar() {
   return (
     <section className='grid grid-flow-col justify-between'>
       {/* Device selected title */}
-      <div className='bg-secondary-colour grid items-center px-2 border-2 border-black border-solid rounded-tr-xl rounded-br-xl shadow-cardShadow'>
-        <h4 className='hidden xl:inline text-xl font-semibold'>
+      <div className='hidden xl:grid bg-secondary-colour  items-center px-2 border-2 border-black border-solid rounded-tr-xl rounded-br-xl shadow-cardShadow'>
+        <h4 className=' text-lg font-semibold'>
           {selectedDevice.title}
         </h4>
       </div>
