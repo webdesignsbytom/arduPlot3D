@@ -57,11 +57,14 @@ export const downloadFileToMachine = (simulationData) => {
   const blob = new Blob([plotterCommands], { type: 'text/plain' });
   const href = URL.createObjectURL(blob);
   const link = document.createElement('a');
+
   link.href = href;
-  link.download = `${simulationData.simulationTitle}.txt`;
+  link.download = `${simulationData.title}.txt`;
+
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  
   URL.revokeObjectURL(href);
 };
 

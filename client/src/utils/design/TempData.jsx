@@ -8,15 +8,16 @@ export const blankLoopObject = {
 };
 
 export const blankSimulationObject = {
-  simulationTitle: '',
+  title: '',
   mainSimulationDataPoints: [],
   simulationLoops: [],
   simulationTimeToComplete: 0,
 };
 
 let simAminationId = 1;
+
 export const simulationAnimationObject = {
-  simulationTitle: '',
+  title: '',
   mainSimulationDataPoints: [
     {
       id: simAminationId++,
@@ -134,7 +135,7 @@ export const simulationAnimationObject = {
 
 let blankSimId = 1;
 export const blankSimulationAnimationObject = {
-  simulationTitle: '',
+  title: '',
   mainSimulationDataPoints: [
     {
       id: blankSimId++,
@@ -256,10 +257,9 @@ let tempLoopId = 1;
 let loop1Id = 1;
 let loop2Id = 1;
 let loop3Id = 1;
-let loop4Id = 1;
 
 export const tempDesignData = {
-  simulationTitle: 'Temp Sim 1',
+  title: 'Temp Sim 1',
   mainSimulationDataPoints: [
     {
       id: tempDesignId++,

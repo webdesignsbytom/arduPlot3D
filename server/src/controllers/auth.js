@@ -35,7 +35,7 @@ export const loginHelper = async (req, res) => {
         email: 'Invalid email and/or password provided',
       });
     }
-
+    console.log('existingUser', existingUser);
     delete existingUser.password;
 
     const token = createAccessToken(existingUser.id, existingUser.email);
@@ -68,31 +68,36 @@ export async function validateCredentials(password, user) {
 
 export const googleLoginHelper = async (req, res) => {
   console.log('googleLoginHelper');
-  
+
   try {
-    res.header('Access-Control-Allow-Origin', `${process.env.OAUTH_CLIENT_URL}`);
-    res.header('Referrer-Policy', 'no-referrer-when-downgrade') // for http only
+    res.header(
+      'Access-Control-Allow-Origin',
+      `${process.env.OAUTH_CLIENT_URL}`
+    );
+    res.header('Referrer-Policy', 'no-referrer-when-downgrade'); // for http only
 
     // Redirect url to send the client
-    const redirectUrl = 'http://127.0.0.1:4000/oauth'
+    const redirectUrl = 'http://127.0.0.1:4000/oauth';
 
     const oAuth2Client = new OAuth2Client(
       process.env.CLIENT_ID,
       process.env.CLIENT_SECRET,
-      redirectUrl,
-    )
+      redirectUrl
+    );
 
     const authorizeUrl = oAuth2Client.generateAuthUrl({
-      access_type: 'offline', // offline for testing - 
+      access_type: 'offline', // offline for testing -
       scope: 'https://www.googleapis.com/auth/userinfo.profile openid',
-      prompt: 'concent' // keep the concent screen open
-    })
+      prompt: 'concent', // keep the concent screen open
+    });
 
-    res.json({ url: authorizeUrl })
-
+    res.json({ url: authorizeUrl });
   } catch (err) {
     //
-    const serverError = new LoginServerErrorEvent(email, `Login OAuth Server error`);
+    const serverError = new LoginServerErrorEvent(
+      email,
+      `Login OAuth Server error`
+    );
     myEmitterErrors.emit('error-login', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
     throw err;

@@ -34,9 +34,6 @@ CREATE TABLE "Simulation" (
     "title" TEXT NOT NULL DEFAULT '',
     "fullSimulation" TEXT NOT NULL,
     "timeToComplete" INTEGER NOT NULL,
-    "isVisibleInLibrary" BOOLEAN NOT NULL DEFAULT false,
-    "voteScore" INTEGER NOT NULL DEFAULT 0,
-    "description" TEXT NOT NULL DEFAULT '',
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
@@ -57,6 +54,20 @@ CREATE TABLE "Loop" (
     "updatedAt" TIMESTAMP(3),
 
     CONSTRAINT "Loop_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Publication" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "voteScore" INTEGER NOT NULL DEFAULT 0,
+    "authorId" TEXT NOT NULL,
+    "simulationId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
+
+    CONSTRAINT "Publication_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -84,6 +95,9 @@ CREATE UNIQUE INDEX "EmailVerification_uniqueString_key" ON "EmailVerification"(
 -- CreateIndex
 CREATE UNIQUE INDEX "EmailVerification_userId_key" ON "EmailVerification"("userId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Publication_simulationId_key" ON "Publication"("simulationId");
+
 -- AddForeignKey
 ALTER TABLE "EmailVerification" ADD CONSTRAINT "EmailVerification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -95,6 +109,12 @@ ALTER TABLE "Loop" ADD CONSTRAINT "Loop_userId_fkey" FOREIGN KEY ("userId") REFE
 
 -- AddForeignKey
 ALTER TABLE "Loop" ADD CONSTRAINT "Loop_simulationId_fkey" FOREIGN KEY ("simulationId") REFERENCES "Simulation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Publication" ADD CONSTRAINT "Publication_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Publication" ADD CONSTRAINT "Publication_simulationId_fkey" FOREIGN KEY ("simulationId") REFERENCES "Simulation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Event" ADD CONSTRAINT "Event_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

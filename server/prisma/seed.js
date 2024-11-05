@@ -113,7 +113,6 @@ async function seed() {
           },
         ]),
         timeToComplete: 500000,
-        isVisibleInLibrary: false,
         userId: 'dev',
       },
     });

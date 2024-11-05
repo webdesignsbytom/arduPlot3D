@@ -70,16 +70,16 @@ export const updateSimulationVisibility = (simulationId, visibility) =>
     },
   });
 
-export const findSimulationByTitle = (simulationTitle) =>
+export const findSimulationByTitle = (title) =>
   dbClient.simulation.findFirst({
     where: {
-      title: simulationTitle,
+      title: title,
     },
   });
 
 export const createSimulation = (
   userId,
-  simulationTitle,
+  title,
   mainSimulationDataPoints,
   simulationLoops,
   simulationTimeToComplete
@@ -87,7 +87,7 @@ export const createSimulation = (
   dbClient.simulation.create({
     data: {
       userId: userId,
-      title: simulationTitle,
+      title: title,
       fullSimulation: JSON.stringify(mainSimulationDataPoints), // Still store this as a JSON string if intended
       timeToComplete: simulationTimeToComplete,
       loops: {
@@ -106,7 +106,7 @@ export const createSimulation = (
 
 export const updateSimulation = (
   id,
-  simulationTitle,
+  title,
   mainSimulationDataPoints,
   simulationLoops,
   simulationTimeToComplete
@@ -114,7 +114,7 @@ export const updateSimulation = (
   dbClient.simulation.update({
     where: { id: id },
     data: {
-      title: simulationTitle,
+      title: title,
       fullSimulation: JSON.stringify(mainSimulationDataPoints),
       timeToComplete: simulationTimeToComplete,
       loops: {

@@ -22,6 +22,7 @@ model User {
   role              Role               @default(USER)
   loops             Loop[]             @relation("UserLoops") // Updated relation name
   simulations       Simulation[]
+  publications      Publication[]
   emailVerification EmailVerification?
   createdEvents     Event[]            @relation("createdEvents")
   receivedEvents    Event[]            @relation("receivedEvents")
@@ -40,18 +41,16 @@ model EmailVerification {
 }
 
 model Simulation {
-  id                 String    @id @default(uuid())
-  title              String    @default("")
-  fullSimulation     String
-  timeToComplete     Int // milliseconds
-  isVisibleInLibrary Boolean   @default(false)
-  voteScore          Int       @default(0)
-  description        String    @default("")
-  userId             String
-  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  loops              Loop[]    @relation("SimulationLoops") // Match relation name in Loop
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime? @updatedAt
+  id             String       @id @default(uuid())
+  title          String       @default("")
+  fullSimulation String
+  timeToComplete Int // milliseconds
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  publication    Publication? @relation // Only one publication can reference this simulation
+  loops          Loop[]       @relation("SimulationLoops")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime?    @updatedAt
 }
 
 model Loop {
@@ -66,6 +65,19 @@ model Loop {
   simulation     Simulation? @relation("SimulationLoops", fields: [simulationId], references: [id], onDelete: Cascade)
   createdAt      DateTime    @default(now())
   updatedAt      DateTime?   @updatedAt
+}
+
+model Publication {
+  id           String     @id @default(uuid())
+  title        String
+  description  String
+  voteScore    Int        @default(0)
+  authorId     String
+  author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  simulationId String     @unique // Ensure each simulation can only be in one publication
+  simulation   Simulation @relation(fields: [simulationId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime?  @updatedAt
 }
 
 // EVENTS

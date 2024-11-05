@@ -259,7 +259,7 @@ export const createNewSimulationHandler = async (req, res) => {
     // Create the simulation in the database with nested loops
     const createdSimulation = await createSimulation(
       userId,
-      packagedData.simulationTitle,
+      packagedData.title,
       mainSimulationDataPoints,
       simulationLoops,
       packagedData.simulationTimeToComplete
@@ -293,7 +293,7 @@ export const createNewSimulationHandler = async (req, res) => {
 export const saveSimulationHandler = async (req, res) => {
   const {
     id,
-    simulationTitle,
+    title,
     mainSimulationDataPoints,
     simulationLoops,
     simulationTimeToComplete,
@@ -304,7 +304,7 @@ export const saveSimulationHandler = async (req, res) => {
   try {
     if (
       !userId ||
-      !simulationTitle ||
+      !title ||
       !mainSimulationDataPoints ||
       !simulationLoops ||
       !simulationTimeToComplete
@@ -339,7 +339,7 @@ export const saveSimulationHandler = async (req, res) => {
     if (foundSimulation) {
       const updatedSimulation = await updateSimulation(
         id,
-        simulationTitle,
+        title,
         mainSimulationDataPoints,
         simulationLoops,
         simulationTimeToComplete
@@ -359,7 +359,7 @@ export const saveSimulationHandler = async (req, res) => {
     } else if (!foundSimulation) {
       const createdSimulation = await createSimulation(
         userId,
-        simulationTitle,
+        title,
         mainSimulationDataPoints,
         simulationLoops,
         simulationTimeToComplete

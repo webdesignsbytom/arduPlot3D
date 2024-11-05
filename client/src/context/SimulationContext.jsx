@@ -52,6 +52,7 @@ const SimulationContextProvider = ({ children }) => {
     handleCreateConsentModal,
     handleSetBlankConsentMessage,
     handleCloseAllModalsMaster,
+    handleCloseLoadModal,
   } = useModalContext();
 
   const { user } = useUser();
@@ -71,7 +72,7 @@ const SimulationContextProvider = ({ children }) => {
   const [loopDataPoints, setLoopDataPoints] = useState([]);
   const [simulationDataPoints, setSimulationDataPoints] = useState([]);
   // Simulation data and list of loops for simulation
-  const [simulationData, setSimulationData] = useState(tempDesignData);
+  const [simulationData, setSimulationData] = useState(blankSimulationObject);
   const [simulationDataId, setSimulationDataId] = useState(1);
 
   console.log('>> SimulationData', simulationData);
@@ -227,7 +228,7 @@ const SimulationContextProvider = ({ children }) => {
   };
 
   const clearAllDataPointsFromSimulation = () => {
-    const currentFileName = simulationData.simulationTitle;
+    const currentFileName = simulationData.title;
     const currentLoopData = simulationData.simulationLoops;
 
     contextRef.current.clearRect(
@@ -241,7 +242,7 @@ const SimulationContextProvider = ({ children }) => {
 
     setSimulationData({
       ...blankSimulationObject,
-      simulationTitle: currentFileName,
+      title: currentFileName,
       simulationLoops: currentLoopData,
     });
 
@@ -454,7 +455,7 @@ const SimulationContextProvider = ({ children }) => {
 
   const handleSaveNewSimulation = (fileName) => {
     const packagedData = {
-      simulationTitle: fileName,
+      title: fileName,
       mainSimulationDataPoints: parseSaveData(
         simulationData.mainSimulationDataPoints
       ),
@@ -474,17 +475,73 @@ const SimulationContextProvider = ({ children }) => {
   };
 
   const loadSelectedSimulation = (file) => {
-    const newFile = { title: file }
+    const newFile = { title: file };
 
     client
       .get(`${LOAD_SIMULATION_API}/${newFile.title}`, true)
       .then((res) => {
         console.log('RES', res.data.simulation);
+        parseLoadedSimulation(res.data.simulation);
       })
 
       .catch((err) => {
         console.error('Unable to create simulation', err);
       });
+  };
+
+  const parseLoadedSimulation = (simulation) => {
+    try {
+      // Parse the main fullSimulation stringified JSON
+      let loadedSimulation = simulation;
+
+      const parsedFullSimulation = JSON.parse(simulation.fullSimulation);
+      console.log('parsedFullSimulation', parsedFullSimulation);
+
+      // Parse each fullLoop in the loops array
+      const parsedLoops =
+        simulation.loops && Array.isArray(simulation.loops)
+          ? simulation.loops.map((loop) => ({
+              ...loop,
+              fullLoop: loop.fullLoop ? JSON.parse(loop.fullLoop) : null,
+            }))
+          : [];
+
+      console.log('parsedLoops', parsedLoops);
+
+      setSimulationData(blankSimulationObject);
+
+      loadedSimulation.mainSimulationDataPoints = parsedFullSimulation;
+      loadedSimulation.simulationLoops = parsedLoops;
+
+      console.log('loadedSimulation', loadedSimulation);
+
+      setSimulationData(loadedSimulation);
+      handleCloseLoadModal();
+      // title: '',
+      // mainSimulationDataPoints: [],
+      // simulationLoops: [],
+      // simulationTimeToComplete: 0,
+
+      // Create a new object with all parsed data
+      // const parsedSimulation = {
+      //   id: simulation.id,
+      //   title: simulation.title,
+      //   description: simulation.description,
+      //   createdAt: simulation.createdAt,
+      //   updatedAt: simulation.updatedAt,
+      //   timeToComplete: simulation.timeToComplete,
+      //   isVisibleInLibrary: simulation.isVisibleInLibrary,
+      //   userId: simulation.userId,
+      //   voteScore: simulation.voteScore,
+      //   fullSimulation: parsedFullSimulation,
+      //   loops: parsedLoops,
+      // };
+
+      // console.log('Parsed SIMULATION', parsedSimulation);
+    } catch (error) {
+      console.error('Error parsing simulation data:', error);
+      return null;
+    }
   };
 
   // Display Landscape

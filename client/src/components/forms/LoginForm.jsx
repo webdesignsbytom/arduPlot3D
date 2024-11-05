@@ -35,7 +35,8 @@ function LoginForm() {
     client
       .post(LOGIN_API, loginFormData, false)
       .then((res) => {
-        setUser(res.data.user);
+        setUser(res.data.existingUser);
+        console.log('USER', res.data.existingUser);
         localStorage.setItem(process.env.REACT_APP_USER_TOKEN, res.data.token);
         setLoginInProgress(false);
       })
