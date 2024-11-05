@@ -86,6 +86,7 @@ function LoopItemContainer({ index, loopData }) {
                   <input
                     title={loopDataPoint.dataType}
                     className={`w-full h-full px-2`}
+                    readOnly
                     style={{
                       background:
                         loopDataPoint.dataType === TAP_FUNCTION
