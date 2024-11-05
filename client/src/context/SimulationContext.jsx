@@ -161,7 +161,7 @@ const SimulationContextProvider = ({ children }) => {
     const updatedLoop = loopDataBeingEdited;
     const indexToReplace = displayLoopDataPointsIndex;
 
-    const newSimulationLoops = simulationData.simulationLoops.map(
+    const newloops = simulationData.loops.map(
       (loop, index) => {
         if (index === indexToReplace) {
           return updatedLoop; // Replace the loop at this index with the updated loop
@@ -174,7 +174,7 @@ const SimulationContextProvider = ({ children }) => {
     // Then, we set the updated simulation data with the new array of simulation loops
     setSimulationData({
       ...simulationData, // Spread the existing properties of simulationData
-      simulationLoops: newSimulationLoops, // Replace simulationLoops with the new array
+      loops: newloops, // Replace simulationLoops with the new array
     });
 
     setIsCreatingEditingLoop(false);
@@ -229,7 +229,7 @@ const SimulationContextProvider = ({ children }) => {
 
   const clearAllDataPointsFromSimulation = () => {
     const currentFileName = simulationData.title;
-    const currentLoopData = simulationData.simulationLoops;
+    const currentLoopData = simulationData.loops;
 
     contextRef.current.clearRect(
       0,
@@ -243,7 +243,7 @@ const SimulationContextProvider = ({ children }) => {
     setSimulationData({
       ...blankSimulationObject,
       title: currentFileName,
-      simulationLoops: currentLoopData,
+      loops: currentLoopData,
     });
 
     setSimulationDataId(1);
@@ -279,7 +279,7 @@ const SimulationContextProvider = ({ children }) => {
   // Create new loop
   const createNewLoop = () => {
     // Determine the new loop's index based on the current array length
-    const newLoopIndex = simulationData.simulationLoops.length;
+    const newLoopIndex = simulationData.loops.length;
 
     // Construct the new loop name by adding 1 to the new loop's index
     const newLoopName = `Loop ${newLoopIndex + 1}`;
@@ -299,7 +299,7 @@ const SimulationContextProvider = ({ children }) => {
     // Use the spread operator to copy existing loops and add the new loop
     setSimulationData({
       ...simulationData,
-      simulationLoops: [...simulationData.simulationLoops, newLoop],
+      loops: [...simulationData.loops, newLoop],
     });
   };
 
@@ -325,14 +325,14 @@ const SimulationContextProvider = ({ children }) => {
 
   const deleteSavedLoop = () => {
     // Create a new array excluding the loop at the specified index
-    const updatedLoops = simulationData.simulationLoops.filter(
+    const updatedLoops = simulationData.loops.filter(
       (_, loopIndex) => loopIndex !== loopToDeleteIndex
     );
 
     // Update the state with the new array
     setSimulationData({
       ...simulationData,
-      simulationLoops: updatedLoops,
+      loops: updatedLoops,
     });
 
     setIsCreatingEditingLoop(false);
@@ -459,14 +459,15 @@ const SimulationContextProvider = ({ children }) => {
       mainSimulationDataPoints: parseSaveData(
         simulationData.mainSimulationDataPoints
       ),
-      simulationLoops: parseSaveData(simulationData.simulationLoops),
-      simulationTimeToComplete: simulationData.simulationTimeToComplete,
+      loops: parseSaveData(simulationData.loops),
+      timeToComplete: simulationData.timeToComplete,
     };
 
     client
       .post(`${CREATE_NEW_SIMULATION_API}`, packagedData, true)
       .then((res) => {
         console.log('RES', res.data.createdSimulation);
+        
       })
 
       .catch((err) => {
@@ -511,7 +512,7 @@ const SimulationContextProvider = ({ children }) => {
       setSimulationData(blankSimulationObject);
 
       loadedSimulation.mainSimulationDataPoints = parsedFullSimulation;
-      loadedSimulation.simulationLoops = parsedLoops;
+      loadedSimulation.loops = parsedLoops;
 
       console.log('loadedSimulation', loadedSimulation);
 
@@ -519,8 +520,8 @@ const SimulationContextProvider = ({ children }) => {
       handleCloseLoadModal();
       // title: '',
       // mainSimulationDataPoints: [],
-      // simulationLoops: [],
-      // simulationTimeToComplete: 0,
+      // loops: [],
+      // timeToComplete: 0,
 
       // Create a new object with all parsed data
       // const parsedSimulation = {

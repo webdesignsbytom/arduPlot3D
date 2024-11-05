@@ -1,6 +1,6 @@
 # Tickets
 
-1. Convert loaded file into simulation
+1. Fix save as 
 2. Save loops to user
 3. Publish simulation - front end upload image
 4. phone nav bar

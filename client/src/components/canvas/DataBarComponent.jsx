@@ -41,7 +41,7 @@ function DataBarComponent({
           className={`grid grid-flow-col gap-4 justify-center items-center ${commonStyles}`}
         >
           <MdTimer />
-          <span>{simulationData.simulationTimeToComplete} seconds</span>
+          <span>{simulationData.timeToComplete} seconds</span>
         </div>
       </section>
 

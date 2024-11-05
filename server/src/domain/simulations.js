@@ -81,20 +81,20 @@ export const createSimulation = (
   userId,
   title,
   mainSimulationDataPoints,
-  simulationLoops,
-  simulationTimeToComplete
+  loops,
+  timeToComplete
 ) =>
   dbClient.simulation.create({
     data: {
       userId: userId,
       title: title,
       fullSimulation: JSON.stringify(mainSimulationDataPoints), // Still store this as a JSON string if intended
-      timeToComplete: simulationTimeToComplete,
+      timeToComplete: timeToComplete,
       loops: {
-        create: simulationLoops.map((loop) => ({
+        create: loops.map((loop) => ({
           title: loop.loopTitle,
           fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints), // Stringify nested data points if necessary
-          timeToComplete: loop.loopTimeToComplete,
+          timeToComplete: loop.timeToComplete,
           dataGroup: 'loop',
         })),
       },
@@ -108,22 +108,22 @@ export const updateSimulation = (
   id,
   title,
   mainSimulationDataPoints,
-  simulationLoops,
-  simulationTimeToComplete
+  loops,
+  timeToComplete
 ) =>
   dbClient.simulation.update({
     where: { id: id },
     data: {
       title: title,
       fullSimulation: JSON.stringify(mainSimulationDataPoints),
-      timeToComplete: simulationTimeToComplete,
+      timeToComplete: timeToComplete,
       loops: {
         createMany: {
-          data: simulationLoops.map((loop) => ({
+          data: loops.map((loop) => ({
             title: loop.loopTitle,
             dataGroup: loop.dataGroup,
             fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints),
-            timeToComplete: loop.loopTimeToComplete,
+            timeToComplete: loop.timeToComplete,
           })),
         },
       },

@@ -10,20 +10,17 @@ function LoopsMenuDisplay() {
 
   const endOfListRef = useRef(null); // Create a ref for the bottom of the list
 
-  const [loopDataArray, setLoopDataArray] = useState(
-    simulationData.simulationLoops
-  );
+  const [loopDataArray, setLoopDataArray] = useState(simulationData.loops);
 
   useEffect(() => {
-    setLoopDataArray(simulationData.simulationLoops);
-  }, [simulationData.simulationLoops]);
+    setLoopDataArray(simulationData.loops);
+  }, [simulationData.loops]);
 
   useEffect(() => {
-    // Scroll to the end of the list whenever simulationData.simulationLoops changes
+    // Scroll to the end of the list whenever simulationData.loops changes
     endOfListRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [simulationData.simulationLoops]);
+  }, [simulationData.loops]);
 
- 
   return (
     <div className='overflow-y-auto gap-1 p-1'>
       {loopDataArray.map((loop, index) => (

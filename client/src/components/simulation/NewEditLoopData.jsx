@@ -30,7 +30,7 @@ function NewEditLoopData() {
     setLoopDataBeingEdited({
       loopTitle: '',
       mainSimulationLoopDataPoints: [],
-      loopTimeToComplete: 0,
+      timeToComplete: 0,
     });
   };
 

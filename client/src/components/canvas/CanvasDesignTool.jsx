@@ -63,23 +63,18 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-
     let deviceWidthPixels = selectedDevice.xPixels;
     let deviceHeightPixels = selectedDevice.yPixels;
 
     if (isLandscapeMode) {
-      // If in portrait mode, swap the width and height
       [deviceWidthPixels, deviceHeightPixels] = [
         deviceHeightPixels,
         deviceWidthPixels,
       ];
     }
 
-    // Set canvas dimensions to match the device's dimensions in the current orientation
     canvas.width = deviceWidthPixels;
     canvas.height = deviceHeightPixels;
-
-    // set canvas to visible colour
     canvas.style.backgroundColor = CanvasMainColour;
 
     const context = canvas.getContext('2d');
@@ -89,20 +84,12 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     context.lineCap = 'round';
     context.strokeStyle = 'black';
     context.lineWidth = 5;
-
     contextRef.current = context;
 
     if (rulesAndDataVisible) {
-      // Setup rulers if visible
       setupRulers();
     }
-  }, [
-    isLandscapeMode,
-    rulesAndDataVisible,
-    selectedDevice,
-    canvasRef,
-    contextRef,
-  ]);
+  }, [isLandscapeMode, rulesAndDataVisible, selectedDevice]);
 
   useEffect(() => {
     const storedSimulationData = localStorage.getItem('simulationData');
@@ -196,6 +183,23 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
     rulesAndDataVisible,
     isLandscapeMode,
   ]);
+
+  useEffect(() => {
+    if (rulesAndDataVisible) {
+      drawRedLines(tooltip.x, tooltip.y);
+    }
+  }, [tooltip, rulesAndDataVisible]);
+
+  const drawRedLines = (x, y) => {
+    if (rulerRefX.current && rulerRefY.current) {
+      rulerRefX.current.style.backgroundImage = `linear-gradient(to right, transparent ${x}px, red ${x}px, red ${
+        x + 1
+      }px, transparent ${x + 1}px)`;
+      rulerRefY.current.style.backgroundImage = `linear-gradient(to bottom, transparent ${y}px, red ${y}px, red ${
+        y + 1
+      }px, transparent ${y + 1}px)`;
+    }
+  };
 
   const sortDataElements = (element, markerIndex) => {
     // Use markerIndex for drawing the point
@@ -518,12 +522,11 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
   };
 
   const generateRulerMarks = (pixels, orientation) => {
-    const unitSize = 100; // Size of each major unit on the ruler in pixels
+    const unitSize = 100;
     const units = Math.floor(pixels / unitSize);
     let marks = '';
 
     for (let i = 0; i <= units; i++) {
-      // Major marker with label every 100px
       marks += `
         <div style="
           position: absolute;
@@ -546,10 +549,9 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         </div>
       `;
 
-      // Minor tick marks every 10px within each 100px block
       for (let j = 1; j < 10; j++) {
         const position = i * unitSize + j * 10;
-        const tickLength = j === 5 ? 8 : 5; // Longer tick at every 50px
+        const tickLength = j === 5 ? 8 : 5;
 
         marks += `
           <div style="
@@ -570,13 +572,9 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
       }
     }
 
-    return `
-      <div style="position: relative; ${
-        orientation === 'horizontal' ? 'height: 20px;' : 'width: 35px;'
-      }">
-        ${marks}
-      </div>
-    `;
+    return `<div style="position: relative; ${
+      orientation === 'horizontal' ? 'height: 20px;' : 'width: 35px;'
+    }">${marks}</div>`;
   };
 
   const updatePositionMarker = ({ nativeEvent }) => {

@@ -9,8 +9,8 @@ function AddLoopToSimulationModal() {
 
   const { handleCloseLoopModal } = useModalContext();
 
-  const [availableLoops] = useState(simulationData.simulationLoops);
-  const [loopToAdd, setLoopToAdd] = useState(simulationData.simulationLoops[0]);
+  const [availableLoops] = useState(simulationData.loops);
+  const [loopToAdd, setLoopToAdd] = useState(simulationData.loops[0]);
 
   const handleAddSimulationLoop = () => {
     addLoopToSimulation(loopToAdd);

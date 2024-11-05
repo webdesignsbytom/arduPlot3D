@@ -4,14 +4,14 @@ export const blankLoopObject = {
   loopTitle: '',
   dataGroup: 'loop',
   mainSimulationLoopDataPoints: [],
-  loopTimeToComplete: 0,
+  timeToComplete: 0,
 };
 
 export const blankSimulationObject = {
   title: '',
   mainSimulationDataPoints: [],
-  simulationLoops: [],
-  simulationTimeToComplete: 0,
+  loops: [],
+  timeToComplete: 0,
 };
 
 let simAminationId = 1;
@@ -130,7 +130,7 @@ export const simulationAnimationObject = {
       timeLength: 0,
     },
   ],
-  simulationLoops: [],
+  loops: [],
 };
 
 let blankSimId = 1;
@@ -248,7 +248,7 @@ export const blankSimulationAnimationObject = {
       timeLength: 0,
     },
   ],
-  simulationLoops: [],
+  loops: [],
 };
 
 let tempDesignId = 1;
@@ -364,10 +364,10 @@ export const tempDesignData = {
           timeoutLength: 0, // milliseconds only
         },
       ],
-      loopTimeToComplete: 1230,
+      timeToComplete: 1230,
     },
   ],
-  simulationLoops: [
+  loops: [
     {
       loopTitle: 'Loop 1',
       dataGroup: 'loop',
@@ -422,7 +422,7 @@ export const tempDesignData = {
           timeoutLength: 0, // milliseconds only
         },
       ],
-      loopTimeToComplete: 1230,
+      timeToComplete: 1230,
     },
     {
       loopTitle: 'Loop 2',
@@ -491,7 +491,7 @@ export const tempDesignData = {
           timeoutLength: 0, // milliseconds only
         },
       ],
-      loopTimeToComplete: 1230,
+      timeToComplete: 1230,
     },
     {
       loopTitle: 'Loop 3',
@@ -547,8 +547,8 @@ export const tempDesignData = {
           timeoutLength: 0, // milliseconds only
         },
       ],
-      loopTimeToComplete: 1230,
+      timeToComplete: 1230,
     },
   ],
-  simulationTimeToComplete: 0,
+  timeToComplete: 0,
 };

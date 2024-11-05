@@ -254,15 +254,15 @@ export const createNewSimulationHandler = async (req, res) => {
       packagedData.mainSimulationDataPoints
     );
 
-    const simulationLoops = JSON.parse(packagedData.simulationLoops);
+    const loops = JSON.parse(packagedData.loops);
 
     // Create the simulation in the database with nested loops
     const createdSimulation = await createSimulation(
       userId,
       packagedData.title,
       mainSimulationDataPoints,
-      simulationLoops,
-      packagedData.simulationTimeToComplete
+      loops,
+      packagedData.timeToComplete
     );
 
     console.log('createdSimulation', createdSimulation);
@@ -295,8 +295,8 @@ export const saveSimulationHandler = async (req, res) => {
     id,
     title,
     mainSimulationDataPoints,
-    simulationLoops,
-    simulationTimeToComplete,
+    loops,
+    timeToComplete,
   } = req.body;
 
   const { userId } = req.params;
@@ -306,8 +306,8 @@ export const saveSimulationHandler = async (req, res) => {
       !userId ||
       !title ||
       !mainSimulationDataPoints ||
-      !simulationLoops ||
-      !simulationTimeToComplete
+      !loops ||
+      !timeToComplete
     ) {
       const missingField = new MissingFieldEvent(
         req.user,
@@ -332,7 +332,7 @@ export const saveSimulationHandler = async (req, res) => {
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    simulationLoops.forEach((element) => {
+    loops.forEach((element) => {
       console.log('element', element);
     });
 
@@ -341,8 +341,8 @@ export const saveSimulationHandler = async (req, res) => {
         id,
         title,
         mainSimulationDataPoints,
-        simulationLoops,
-        simulationTimeToComplete
+        loops,
+        timeToComplete
       );
 
       if (!updatedSimulation) {
@@ -361,8 +361,8 @@ export const saveSimulationHandler = async (req, res) => {
         userId,
         title,
         mainSimulationDataPoints,
-        simulationLoops,
-        simulationTimeToComplete
+        loops,
+        timeToComplete
       );
 
       if (!createdSimulation) {
