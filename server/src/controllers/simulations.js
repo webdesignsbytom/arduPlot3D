@@ -3,6 +3,7 @@ import { myEmitterErrors } from '../event/errorEvents.js';
 // Domain
 import {
   createSimulation,
+  deleteAllLoopsFromSimulation,
   deleteSimulationById,
   findAllSimulations,
   findAllUsersSimulations,
@@ -291,34 +292,36 @@ export const createNewSimulationHandler = async (req, res) => {
 };
 
 export const saveSimulationHandler = async (req, res) => {
-  const {
-    id,
-    title,
-    mainSimulationDataPoints,
-    loops,
-    timeToComplete,
-  } = req.body;
+  console.log('saveSimulationHandler', saveSimulationHandler);
+  const packagedData = req.body;
+  const userId = req.user.id;
 
-  const { userId } = req.params;
-
+  if (!userId) {
+    return sendDataResponse(res, 400, {
+      message: 'Missing user ID.',
+    });
+  }
+  console.log('packagedData', packagedData);
   try {
-    if (
-      !userId ||
-      !title ||
-      !mainSimulationDataPoints ||
-      !loops ||
-      !timeToComplete
-    ) {
-      const missingField = new MissingFieldEvent(
-        req.user,
-        EVENT_MESSAGES.missingFields,
-        EVENT_MESSAGES.simulationFieldMissing
+    if (!packagedData) {
+      const badRequest = new BadRequestEvent(
+        null,
+        EVENT_MESSAGES.missingSimulationData
       );
-
-      return sendMessageResponse(res, missingField.code, missingField.message);
+      myEmitterErrors.emit('error', badRequest);
+      return sendMessageResponse(res, badRequest.code, badRequest.message);
     }
 
-    const foundSimulation = await findSimulationById(id);
+    const foundSimulation = await findSimulationById(packagedData.id);
+    if (!foundSimulation) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.simulationNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
 
     const foundUser = await findUserById(userId);
 
@@ -332,53 +335,33 @@ export const saveSimulationHandler = async (req, res) => {
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    loops.forEach((element) => {
-      console.log('element', element);
-    });
+    const mainSimulationDataPoints = JSON.parse(
+      packagedData.mainSimulationDataPoints
+    );
 
-    if (foundSimulation) {
-      const updatedSimulation = await updateSimulation(
-        id,
-        title,
-        mainSimulationDataPoints,
-        loops,
-        timeToComplete
+    const loops = JSON.parse(packagedData.loops);
+
+    await deleteAllLoopsFromSimulation(packagedData.id);
+
+    const updatedSimulation = await updateSimulation(
+      packagedData.id,
+      packagedData.title,
+      mainSimulationDataPoints,
+      loops,
+      packagedData.timeToComplete
+    );
+
+    if (!updatedSimulation) {
+      const badRequest = new BadRequestEvent(
+        req.user,
+        EVENT_MESSAGES.badRequest,
+        EVENT_MESSAGES.updateSimulationFail
       );
-
-      if (!updatedSimulation) {
-        const badRequest = new BadRequestEvent(
-          req.user,
-          EVENT_MESSAGES.badRequest,
-          EVENT_MESSAGES.updateSimulationFail
-        );
-        myEmitterErrors.emit('error', badRequest);
-        return sendMessageResponse(res, badRequest.code, badRequest.message);
-      }
-
-      return sendDataResponse(res, 201, { savedSimulation: updatedSimulation });
-    } else if (!foundSimulation) {
-      const createdSimulation = await createSimulation(
-        userId,
-        title,
-        mainSimulationDataPoints,
-        loops,
-        timeToComplete
-      );
-
-      if (!createdSimulation) {
-        const badRequest = new BadRequestEvent(
-          req.user,
-          EVENT_MESSAGES.badRequest,
-          EVENT_MESSAGES.createSimulationFail
-        );
-        myEmitterErrors.emit('error', badRequest);
-        return sendMessageResponse(res, badRequest.code, badRequest.message);
-      }
-
-      return sendDataResponse(res, 201, {
-        createdSimulation: createdSimulation,
-      });
+      myEmitterErrors.emit('error', badRequest);
+      return sendMessageResponse(res, badRequest.code, badRequest.message);
     }
+
+    return sendDataResponse(res, 201, { updatedSimulation: updatedSimulation });
   } catch (err) {
     // Error
     const serverError = new ServerErrorEvent(

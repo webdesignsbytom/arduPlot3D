@@ -47,7 +47,7 @@ router.get(
 );
 
 router.post('/user/create-new-simulation', validateAuthentication, createNewSimulationHandler);
-router.post('/user/save-simulation/:userId', saveSimulationHandler);
+router.patch('/user/save-simulation', validateAuthentication, saveSimulationHandler);
 
 router.patch(
   '/user/publish-simulation-to-library/:userId/:simulationId',

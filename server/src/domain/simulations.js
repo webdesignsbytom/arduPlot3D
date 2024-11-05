@@ -76,36 +76,40 @@ export const findSimulationByTitle = (title) =>
       title: title,
     },
   });
-
-export const createSimulation = (
-  userId,
-  title,
-  mainSimulationDataPoints,
-  loops,
-  timeToComplete
-) =>
-  dbClient.simulation.create({
-    data: {
-      userId: userId,
-      title: title,
-      fullSimulation: JSON.stringify(mainSimulationDataPoints), // Still store this as a JSON string if intended
-      timeToComplete: timeToComplete,
-      loops: {
-        create: loops.map((loop) => ({
-          title: loop.loopTitle,
-          fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints), // Stringify nested data points if necessary
-          timeToComplete: loop.timeToComplete,
-          dataGroup: 'loop',
-        })),
+  
+  export const createSimulation = (
+    userId,
+    title,
+    mainSimulationDataPoints,
+    loops,
+    timeToComplete
+  ) =>
+    dbClient.simulation.create({
+      data: {
+        userId: userId,
+        title: title,
+        fullSimulation: JSON.stringify(mainSimulationDataPoints), // Still store this as a JSON string if intended
+        timeToComplete: timeToComplete,
+        loops: {
+          create: loops.map((loop) => ({
+            title: loop.loopTitle,
+            fullLoop: JSON.stringify(loop.mainSimulationLoopDataPoints), // Stringify nested data points if necessary
+            timeToComplete: loop.timeToComplete,
+            dataGroup: 'loop',
+          })),
+        },
       },
-    },
-    include: {
-      loops: true,
-    },
-  });
-
-export const updateSimulation = (
-  id,
+      include: {
+        loops: true,
+      },
+    });
+    
+    export const deleteAllLoopsFromSimulation = (id) =>
+        dbClient.loop.deleteMany({
+          where: { simulationId: id },
+      });
+    export const updateSimulation = (
+      id,
   title,
   mainSimulationDataPoints,
   loops,

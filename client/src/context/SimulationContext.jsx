@@ -53,6 +53,7 @@ const SimulationContextProvider = ({ children }) => {
     handleSetBlankConsentMessage,
     handleCloseAllModalsMaster,
     handleCloseLoadModal,
+    handleCloseSaveAsModal,
   } = useModalContext();
 
   const { user } = useUser();
@@ -161,15 +162,13 @@ const SimulationContextProvider = ({ children }) => {
     const updatedLoop = loopDataBeingEdited;
     const indexToReplace = displayLoopDataPointsIndex;
 
-    const newloops = simulationData.loops.map(
-      (loop, index) => {
-        if (index === indexToReplace) {
-          return updatedLoop; // Replace the loop at this index with the updated loop
-        } else {
-          return loop; // Otherwise, keep the loop as is
-        }
+    const newloops = simulationData.loops.map((loop, index) => {
+      if (index === indexToReplace) {
+        return updatedLoop; // Replace the loop at this index with the updated loop
+      } else {
+        return loop; // Otherwise, keep the loop as is
       }
-    );
+    });
 
     // Then, we set the updated simulation data with the new array of simulation loops
     setSimulationData({
@@ -436,21 +435,37 @@ const SimulationContextProvider = ({ children }) => {
     downloadFileToMachine(simulationData);
   };
 
-  // Save simulation
-  const handleSaveSimulation = (user) => {
+  const parseSaveData = (dataToParse) => {
+    return JSON.stringify(dataToParse);
+  };
+
+  // Save simulation - must already exist
+  const handleSaveSimulation = () => {
+
+    if (!simulationData.id) {
+      console.error("Simulation ID Missing - try and save as.")
+      return
+    }
+
+    const packagedData = {
+      id: simulationData.id,
+      title: simulationData.title,
+      mainSimulationDataPoints: parseSaveData(
+        simulationData.mainSimulationDataPoints
+      ),
+      loops: parseSaveData(simulationData.loops),
+      timeToComplete: simulationData.timeToComplete,
+    };
+
     client
-      .post(`${SAVE_SIMULATION_API}/${user.id}`, simulationData)
+      .patch(`${SAVE_SIMULATION_API}`, packagedData, true)
       .then((res) => {
-        console.log('RES', res.data.newSimulation);
+        console.log('RES', res.data.updatedSimulation);
       })
 
       .catch((err) => {
         console.error('Unable to create simulation', err);
       });
-  };
-
-  const parseSaveData = (dataToParse) => {
-    return JSON.stringify(dataToParse);
   };
 
   const handleSaveNewSimulation = (fileName) => {
@@ -467,7 +482,7 @@ const SimulationContextProvider = ({ children }) => {
       .post(`${CREATE_NEW_SIMULATION_API}`, packagedData, true)
       .then((res) => {
         console.log('RES', res.data.createdSimulation);
-        
+        handleCloseSaveAsModal();
       })
 
       .catch((err) => {
@@ -513,6 +528,8 @@ const SimulationContextProvider = ({ children }) => {
 
       loadedSimulation.mainSimulationDataPoints = parsedFullSimulation;
       loadedSimulation.loops = parsedLoops;
+
+      delete simulation.fullSimulation;
 
       console.log('loadedSimulation', loadedSimulation);
 
