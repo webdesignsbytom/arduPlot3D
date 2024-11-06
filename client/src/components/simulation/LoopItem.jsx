@@ -12,7 +12,7 @@ function LoopItem({ index, loopData }) {
     setLoopDataBeingEdited,
     displaySimOrLoop,
     deleteDataPointFromSimulation,
-    deleteSavedLoopFromSimulation,
+    removeLoopFromSimulation,
   } = useContext(SimulationContext);
 
   const editLoop = (event, loop) => {
@@ -27,7 +27,7 @@ function LoopItem({ index, loopData }) {
       <div className='grid items-center justify-center w-[30px] bg-purple-400 h-full outline outline-2 outline-black px-2'>
         <label
           htmlFor='loop'
-          className='h-full grid items-center justify-center'
+          className='h-full text-xs grid items-center justify-center'
         >
           {index + 1}L
         </label>
@@ -59,7 +59,7 @@ function LoopItem({ index, loopData }) {
             displaySimOrLoop === 'simulation'
               ? (event) => deleteDataPointFromSimulation(event, index)
               : displaySimOrLoop === 'loop'
-              ? (event) => deleteSavedLoopFromSimulation(event, index)
+              ? (event) => removeLoopFromSimulation(event, index)
               : null
           }
           className='active:scale-95 no__highlights rounded-xl'

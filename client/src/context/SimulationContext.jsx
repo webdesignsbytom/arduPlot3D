@@ -316,10 +316,17 @@ const SimulationContextProvider = ({ children }) => {
 
   const deleteSavedLoopFromSimulation = (event, index) => {
     event.preventDefault();
+    console.log('AAAAAAAAAAAAAAAA');
 
     setLoopToDeleteIndex(index);
 
     handleCreateConsentModal(ConfirmDeleteLoop);
+  };
+
+  // TODO:
+  const removeLoopFromSimulation = (event, index) => {
+    event.preventDefault();
+    console.log('BBBBBBBBBBBB', index);
   };
 
   const deleteSavedLoop = () => {
@@ -441,10 +448,9 @@ const SimulationContextProvider = ({ children }) => {
 
   // Save simulation - must already exist
   const handleSaveSimulation = () => {
-
     if (!simulationData.id) {
-      console.error("Simulation ID Missing - try and save as.")
-      return
+      console.error('Simulation ID Missing - try and save as.');
+      return;
     }
 
     const packagedData = {
@@ -644,6 +650,7 @@ const SimulationContextProvider = ({ children }) => {
         deleteDataPointFromSimulation,
         deleteDataPointFromLoop,
         deleteSavedLoopFromSimulation,
+        removeLoopFromSimulation,
         runConsentFunction,
         saveLoopPerminently,
         simulationDataId,

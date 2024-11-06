@@ -26,6 +26,7 @@ function LoopsMenuDisplay() {
       {loopDataArray.map((loop, index) => (
         <LoopItemContainer key={index} index={index} loopData={loop} />
       ))}
+      
       {/* Invisible div at the bottom of the list to attach the ref */}
       <div ref={endOfListRef}></div>
       <div className='mt-2'>

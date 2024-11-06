@@ -59,7 +59,7 @@ function Navbar() {
         onClick={toggleNavbarOpenClosed}
         className='grid items-center justify-end lg:hidden no__highlights pr-4 cursor-pointer'
       >
-        <IoMdMenu className='w-10 h-10 text-black hover:text-hover-grey' />
+        <IoMdMenu className='w-10 h-10 text-colour1 hover:text-hover-grey' />
       </section>
 
       {/* Main Navigation */}
