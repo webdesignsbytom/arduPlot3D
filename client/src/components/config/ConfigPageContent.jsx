@@ -1,23 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 // Components
 import ConfigDeviceSizeComponent from './ConfigDeviceSizeComponent';
 import ConnectToDeviceComponent from './ConnectToDeviceComponent';
+import ConfigHomeComponent from './ConfigHomeComponent';
 // Icons
 import { MdCastConnected } from 'react-icons/md';
 import { IoMdMove } from 'react-icons/io';
 import { FaHome } from 'react-icons/fa';
-import ConfigHomeComponent from './ConfigHomeComponent';
+import { TfiLayoutGrid3 } from 'react-icons/tfi';
+import UserSimulationsComponent from './UserSimulationsComponent';
 
 function ConfigPageContent() {
+  const location = useLocation();
+
   const [selectedComponent, setSelectedComponent] = useState('home');
 
   const selectDisplayComponent = (component) => {
     setSelectedComponent(component);
   };
 
+  useEffect(() => {
+    console.log('location: ', location.state);
+    if (location.state) {
+      setSelectedComponent(location.state);
+    }
+  }, []);
+
   // Button configuration array
   const buttons = [
     { id: 'home', label: 'Home', icon: <FaHome /> },
+    { id: 'simulations', label: 'Simulations', icon: <TfiLayoutGrid3 /> },
     { id: 'device-size', label: 'Device Size', icon: <IoMdMove /> },
     {
       id: 'connect-device',
@@ -29,9 +42,9 @@ function ConfigPageContent() {
   return (
     <section className='grid grid-cols-reg overflow-hidden h-full w-full'>
       {/* Sidebar Navigation */}
-      <section className='grid w-full bg-colour2 h-full'>
-        <nav>
-          <ul className='grid px-1 py-2'>
+      <section className='grid w-full bg-colour2 h-full border-solid border-r-2 border-black'>
+        <nav className='p-2'>
+          <ul className='grid border-2 border-solid border-colour1 sp'>
             {buttons.map((button) => (
               <li key={button.id}>
                 <div>
@@ -58,12 +71,14 @@ function ConfigPageContent() {
       </section>
 
       {/* Main Content Section */}
-      <section className='grid p-4 overflow-hidden'>
+      <section className='grid py-8 px-8 overflow-hidden'>
         {selectedComponent === 'home' && <ConfigHomeComponent />}
 
         {selectedComponent === 'device-size' && <ConfigDeviceSizeComponent />}
 
         {selectedComponent === 'connect-device' && <ConnectToDeviceComponent />}
+
+        {selectedComponent === 'simulations' && <UserSimulationsComponent />}
       </section>
     </section>
   );

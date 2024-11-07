@@ -15,3 +15,15 @@ export const ConfirmDeleteLoop = {
     message: 'Are you sure you want to delete this loop?',
     function: 'deleteSavedLoop'
 }
+
+export const ConfirmDeleteSavedSimulation = {
+    title : 'Delete Simulation',
+    message: 'Are you sure you want to delete this simulation?',
+    function: 'deleteSimulationFromUser'
+}
+
+export const ConfirmDeleteSavedLoop = {
+    title : 'Delete Loop',
+    message: 'Are you sure you want to delete this loop?',
+    function: 'deleteSavedLoopFromUser'
+}

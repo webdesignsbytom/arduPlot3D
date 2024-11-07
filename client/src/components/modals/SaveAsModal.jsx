@@ -70,7 +70,7 @@ function SaveAsModal() {
             <button
               onClick={() => handleSaveNewSimulation(fileName)}
               aria-label="Save new file"
-              className="grid bg-main-colour w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-secondary-colour cursor-pointer hover:brightness-110 active:scale-95 shadow-lg"
+              className="grid bg-colour2 w-full h-fit px-4 sm:px-10 py-2 rounded-lg text-colour1 cursor-pointer hover:brightness-110 active:scale-95 shadow-lg"
             >
               Save
             </button>

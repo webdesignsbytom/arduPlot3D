@@ -7,6 +7,7 @@ import {
   deleteSimulationById,
   findAllSimulations,
   findAllUsersSimulations,
+  findListOfLoops,
   findListOfSimulations,
   findSimulationById,
   findSimulationTitle,
@@ -148,6 +149,65 @@ export const getUserSimulationsListHandler = async (req, res) => {
     }
 
     return sendDataResponse(res, 200, { simulations: foundSimulations });
+  } catch (err) {
+    //
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Get user simulations list failed`
+    );
+    myEmitterErrors.emit('error', serverError);
+    sendMessageResponse(res, serverError.code, serverError.message);
+    throw err;
+  }
+};
+
+export const getUserSimulationsAndLoopsHandler = async (req, res) => {
+  const userId = req.user.id;
+
+  if (!userId) {
+    return sendDataResponse(res, 400, {
+      message: 'Missing user ID.',
+    });
+  }
+
+  try {
+    const foundUser = await findUserById(userId);
+
+    if (!foundUser) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.userNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    const foundSimulations = await findListOfSimulations(userId);
+
+    if (!foundSimulations) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.simulationNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    const foundLoops = await findListOfLoops(userId);
+
+    if (!foundLoops) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.loopNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    return sendDataResponse(res, 200, { simulations: foundSimulations, loops: foundLoops });
   } catch (err) {
     //
     const serverError = new ServerErrorEvent(

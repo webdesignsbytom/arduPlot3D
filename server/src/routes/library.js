@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
-  getAllLibrarySimulations,
+  getAllLibraryPublicationsHandler,
+  publishSimulationHandler,
 } from '../controllers/library.js';
 import {
   validateAuthentication,
@@ -9,6 +10,7 @@ import {
 
 const router = Router();
 
-router.get('/get-all-library-simulations', getAllLibrarySimulations);
+router.get('/get-all-library-publications', getAllLibraryPublicationsHandler);
+router.post('/publish-new-simulation', publishSimulationHandler);
 
 export default router;

@@ -25,7 +25,11 @@ function Navbar() {
     { path: '/library', label: 'Library' },
     { path: '/device-configuration', label: 'Config' },
     ...(user?.email
-      ? [{ path: '/admin', label: 'Admin' }]
+      ? [
+          ...(user.role === 'ADMIN' || user.role === 'DEVELOPER'
+            ? [{ path: '/admin', label: 'Admin' }]
+            : []),
+        ]
       : [
           { path: '/login', label: 'Login' },
           { path: '/sign-up', label: 'Sign Up' },

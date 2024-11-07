@@ -9,6 +9,7 @@ import {
   deleteSimulationHandler,
   getUserSimulationsListHandler,
   getSimulationByTitleHandler,
+  getUserSimulationsAndLoopsHandler,
 } from '../controllers/simulations.js';
 import {
   validateAuthentication,
@@ -32,6 +33,11 @@ router.get(
   '/user/get-list-of-simulations',
   validateAuthentication,
   getUserSimulationsListHandler
+);
+router.get(
+  '/user/get-all-user-simulation-and-loops',
+  validateAuthentication,
+  getUserSimulationsAndLoopsHandler
 );
 
 router.get(

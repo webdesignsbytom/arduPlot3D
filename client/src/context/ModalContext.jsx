@@ -140,6 +140,7 @@ const ModalContextProvider = ({ children }) => {
 
   // Open consent modal
   const handleCreateConsentModal = (consentData) => {
+    console.log('consentModal');
     setConsentMessageVisible(true);
     setConsentMessage(consentData);
   };

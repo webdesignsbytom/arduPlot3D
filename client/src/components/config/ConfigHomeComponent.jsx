@@ -1,6 +1,7 @@
 import React from 'react';
 // Images
 import RobotImage from '../../assets/images/robot/arduplot-3d-printed-machine.png';
+
 function ConfigHomeComponent() {
   return (
     <section className='grid grid-rows-reg gap-6 container mx-auto overflow-hidden'>

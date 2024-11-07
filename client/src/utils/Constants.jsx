@@ -37,8 +37,10 @@ export const CREATE_NEW_SIMULATION_API =
 export const SAVE_SIMULATION_API = '/simulations/user/save-simulation';
 export const LOAD_SIMULATION_API = '/simulations/user/load-simulation';
 export const GET_ALL_USER_SIMULATIONS_API = '/simulations/user/get-all-user-simulations';
+export const GET_ALL_USER_SIMULATIONS_AND_LOOPS_API = '/simulations/user/get-all-user-simulation-and-loops';
 export const GET_USER_SIMULATIONS_LIST_API = '/simulations/user/get-list-of-simulations';
 export const PUBLISH_SIMULATION_API =
   '/simulations/user/publish-simulation-to-library';
-export const LIBRARY_SIMULATION_API = '/library/get-all-library-simulations';
+export const GET_LIBRARY_SIMULATIONS_API = '/library/get-all-library-publications';
+export const PUBLISH_LIBRARY_SIMULATIONS_API = '/library/publish-new-simulation';
 export const LIBRARY_VOTE_API = '/library/vote-on-simulation/';
