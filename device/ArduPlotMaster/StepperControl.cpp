@@ -5,12 +5,12 @@ AccelStepper stepperX(AccelStepper::DRIVER, stepPinMotorX, dirPinMotorX);
 AccelStepper stepperY(AccelStepper::DRIVER, stepPinMotorY, dirPinMotorY);
 
 void initializeSteppers() {
-    stepperX.setMaxSpeed(500);
-    stepperX.setAcceleration(1000);
+    stepperX.setMaxSpeed(maxXSpeed);
+    stepperX.setAcceleration(maxXAcceleration);
     stepperX.moveTo(xForwardLimit);
 
-    stepperY.setMaxSpeed(300);
-    stepperY.setAcceleration(1000);
+    stepperY.setMaxSpeed(maxYSpeed);
+    stepperY.setAcceleration(maxYAcceleration);
     stepperY.moveTo(yForwardLimit);
 }
 
