@@ -1,5 +1,10 @@
 // Domain
-import { findAllLibraryPublications } from '../domain/library.js';
+import {
+  findAllLibraryPublications,
+  findPublicationBySimulationId,
+  publishNewSimulation,
+} from '../domain/library.js';
+import { findSimulationById } from '../domain/simulations.js';
 // Errors
 import { myEmitterErrors } from '../event/errorEvents.js';
 import { NotFoundEvent, ServerErrorEvent } from '../event/utils/errorUtils.js';
@@ -36,12 +41,33 @@ export const getAllLibraryPublicationsHandler = async (req, res) => {
     throw err;
   }
 };
-
 export const publishSimulationHandler = async (req, res) => {
-  try {
-    const foundPublications = await findAllLibraryPublications();
+  const { simulationId } = req.params;
+  const { title, description, imageUrl } = req.body;
+  const userId = req.user.id;
 
-    if (!foundPublications) {
+  if (!userId) {
+    return sendDataResponse(res, 400, {
+      message: 'Missing user ID.',
+    });
+  }
+
+  if (!simulationId) {
+    return sendDataResponse(res, 400, {
+      message: 'Missing simulation ID.',
+    });
+  }
+
+  if (!title || !description || !imageUrl) {
+    return sendDataResponse(res, 400, {
+      message: 'Missing required fields: title, description, or imageUrl.',
+    });
+  }
+
+  try {
+    const foundSimulation = await findSimulationById(simulationId);
+
+    if (!foundSimulation) {
       const notFound = new NotFoundEvent(
         req.user,
         EVENT_MESSAGES.notFound,
@@ -51,12 +77,40 @@ export const publishSimulationHandler = async (req, res) => {
       return sendMessageResponse(res, notFound.code, notFound.message);
     }
 
-    return sendDataResponse(res, 200, { libraryFiles: foundPublications });
+    // Check if the simulation is already published
+    const existingPublication = await findPublicationBySimulationId(
+      simulationId
+    );
+
+    if (existingPublication) {
+      return sendDataResponse(res, 400, {
+        message: 'Simulation is already published.',
+      });
+    }
+
+    const publishedSimulation = await publishNewSimulation(
+      simulationId,
+      title,
+      description,
+      imageUrl,
+      userId
+    );
+
+    if (!publishedSimulation) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.createPublicationFail
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    return sendDataResponse(res, 201, { publication: publishedSimulation });
   } catch (err) {
-    //
     const serverError = new ServerErrorEvent(
       req.user,
-      `Get all library simulations failed`
+      `Publishing simulation failed`
     );
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);

@@ -11,6 +11,6 @@ import {
 const router = Router();
 
 router.get('/get-all-library-publications', getAllLibraryPublicationsHandler);
-router.post('/publish-new-simulation', publishSimulationHandler);
+router.post('/publish-new-simulation/:simulationId', publishSimulationHandler);
 
 export default router;

@@ -7,6 +7,7 @@ export const findAllSimulations = () =>
     },
   });
 
+
 export const findAllUsersSimulations = (userId) =>
   dbClient.simulation.findMany({
     where: {
