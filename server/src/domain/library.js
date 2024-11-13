@@ -14,7 +14,13 @@ export const findPublicationBySimulationId = (simulationId) =>
     },
   });
 
-export const publishNewSimulation = (simulationId, title, description, thumbnail, userId) =>
+export const publishNewSimulation = (
+  simulationId,
+  title,
+  description,
+  thumbnail,
+  userId
+) =>
   dbClient.publication.create({
     data: {
       simulationId,
@@ -22,5 +28,15 @@ export const publishNewSimulation = (simulationId, title, description, thumbnail
       description,
       thumbnail,
       authorId: userId,
-    }
+    },
+  });
+
+export const findPublicationById = (publicationId) =>
+  dbClient.publication.findFirst({
+    where: { id: publicationId },
+  });
+
+export const deletePublicationById = (publicationId) =>
+  dbClient.publication.delete({
+    where: { id: publicationId },
   });

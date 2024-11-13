@@ -1,13 +1,19 @@
 // Domain
 import {
+  deletePublicationById,
   findAllLibraryPublications,
+  findPublicationById,
   findPublicationBySimulationId,
   publishNewSimulation,
 } from '../domain/library.js';
 import { findSimulationById } from '../domain/simulations.js';
 // Errors
 import { myEmitterErrors } from '../event/errorEvents.js';
-import { NotFoundEvent, ServerErrorEvent } from '../event/utils/errorUtils.js';
+import {
+  BadRequestEvent,
+  NotFoundEvent,
+  ServerErrorEvent,
+} from '../event/utils/errorUtils.js';
 import { uploadFileToMinIO } from '../middleware/minio.js';
 // Responses
 import {
@@ -131,6 +137,59 @@ export const publishSimulationHandler = async (req, res) => {
     const serverError = new ServerErrorEvent(
       req.user,
       `Publishing simulation failed`
+    );
+    myEmitterErrors.emit('error', serverError);
+    sendMessageResponse(res, serverError.code, serverError.message);
+    throw err;
+  }
+};
+
+export const deletePublicationHandler = async (req, res) => {
+  const userId = req.user?.id;
+  const { publicationId } = req.params;
+
+  if (!userId) {
+    return sendDataResponse(res, 204, {
+      message: 'Missing userId',
+    });
+  }
+  if (!publicationId) {
+    return sendDataResponse(res, 204, {
+      message: 'Missing publication ID',
+    });
+  }
+
+  try {
+    const foundPublication = await findPublicationById(publicationId);
+    if (!foundPublication) {
+      const notFound = new NotFoundEvent(
+        req.user,
+        EVENT_MESSAGES.notFound,
+        EVENT_MESSAGES.publicationNotFound
+      );
+      myEmitterErrors.emit('error', notFound);
+      return sendMessageResponse(res, notFound.code, notFound.message);
+    }
+
+    const deletedPublication = await deletePublicationById(publicationId);
+    if (!deletedPublication) {
+      const badRequest = new BadRequestEvent(
+        req.user,
+        EVENT_MESSAGES.badRequest,
+        EVENT_MESSAGES.publicationNotDeleted
+      );
+      myEmitterErrors.emit('error', badRequest);
+      return sendMessageResponse(res, badRequest.code, badRequest.message);
+    }
+
+    return sendDataResponse(res, 200, {
+      message: `Publication ${publicationId} deleted`,
+    });
+  } catch (err) {
+    //
+    const serverError = new ServerErrorEvent(
+      req.user,
+      `Delete publication failed`
     );
     myEmitterErrors.emit('error', serverError);
     sendMessageResponse(res, serverError.code, serverError.message);
