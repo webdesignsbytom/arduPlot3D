@@ -15,7 +15,7 @@ const minioStorage = multer.memoryStorage();
 // Middelware component
 export const uploadToMinio = multer({
   storage: minioStorage,
-}).any(); // This will capture any file under any field name
+}).single('thumbnail');
 
 export const uploadFileToMinIO = async (fileBuffer, folder) => {
   try {

@@ -69,7 +69,7 @@ export const getAllSimulationsHandler = async (req, res) => {
 };
 
 export const getAllUsersSimulationsHandler = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
 
   if (!userId) {
     return sendDataResponse(res, 400, {
@@ -115,7 +115,7 @@ export const getAllUsersSimulationsHandler = async (req, res) => {
 };
 
 export const getUserSimulationsListHandler = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
 
   if (!userId) {
     return sendDataResponse(res, 400, {
@@ -162,7 +162,7 @@ export const getUserSimulationsListHandler = async (req, res) => {
 };
 
 export const getUserSimulationsAndLoopsHandler = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
 
   if (!userId) {
     return sendDataResponse(res, 400, {
@@ -282,7 +282,7 @@ export const getSimulationByTitleHandler = async (req, res) => {
 
 export const createNewSimulationHandler = async (req, res) => {
   const packagedData = req.body;
-  const userId = req.user.id;
+  const userId = req.user?.id;
 
   if (!userId) {
     return sendDataResponse(res, 400, {
@@ -354,7 +354,7 @@ export const createNewSimulationHandler = async (req, res) => {
 export const saveSimulationHandler = async (req, res) => {
   console.log('saveSimulationHandler', saveSimulationHandler);
   const packagedData = req.body;
-  const userId = req.user.id;
+  const userId = req.user?.id;
 
   if (!userId) {
     return sendDataResponse(res, 400, {

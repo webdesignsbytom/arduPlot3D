@@ -8,12 +8,16 @@ import { findSimulationById } from '../domain/simulations.js';
 // Errors
 import { myEmitterErrors } from '../event/errorEvents.js';
 import { NotFoundEvent, ServerErrorEvent } from '../event/utils/errorUtils.js';
+import { uploadFileToMinIO } from '../middleware/minio.js';
 // Responses
 import {
   EVENT_MESSAGES,
   sendDataResponse,
   sendMessageResponse,
 } from '../utils/responses.js';
+// Utils
+import { compressImageHelper } from '../utils/compressorHelper.js';
+import { articleStorageFolder } from '../utils/constants.js';
 
 export const getAllLibraryPublicationsHandler = async (req, res) => {
   try {
@@ -41,11 +45,17 @@ export const getAllLibraryPublicationsHandler = async (req, res) => {
     throw err;
   }
 };
+
 export const publishSimulationHandler = async (req, res) => {
   const { simulationId } = req.params;
-  const { title, description, imageUrl } = req.body;
-  const userId = req.user.id;
+  const { title, description } = req.body;
+  const userId = req.user?.id;
 
+  const thumbnail = req.file;
+
+  if (!thumbnail) {
+    return res.status(400).json({ error: 'Thumbnail file is required.' });
+  }
   if (!userId) {
     return sendDataResponse(res, 400, {
       message: 'Missing user ID.',
@@ -58,9 +68,9 @@ export const publishSimulationHandler = async (req, res) => {
     });
   }
 
-  if (!title || !description || !imageUrl) {
+  if (!title || !description || !thumbnail) {
     return sendDataResponse(res, 400, {
-      message: 'Missing required fields: title, description, or imageUrl.',
+      message: 'Missing required fields: title, description, or thumbnail.',
     });
   }
 
@@ -88,11 +98,21 @@ export const publishSimulationHandler = async (req, res) => {
       });
     }
 
+    const compressedThumbnailBuffer = await compressImageHelper(
+      thumbnail.buffer
+    );
+    thumbnail.buffer = compressedThumbnailBuffer;
+
+    const thumbnailUploadResult = await uploadFileToMinIO(
+      thumbnail,
+      `/${articleStorageFolder}/thumbnails/`
+    );
+
     const publishedSimulation = await publishNewSimulation(
       simulationId,
       title,
       description,
-      imageUrl,
+      thumbnailUploadResult,
       userId
     );
 

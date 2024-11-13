@@ -14,13 +14,13 @@ export const findPublicationBySimulationId = (simulationId) =>
     },
   });
 
-export const publishNewSimulation = (simulationId, title, description, imageUrl, userId) =>
+export const publishNewSimulation = (simulationId, title, description, thumbnail, userId) =>
   dbClient.publication.create({
     data: {
       simulationId,
       title,
       description,
-      imageUrl,
+      thumbnail,
       authorId: userId,
     }
   });

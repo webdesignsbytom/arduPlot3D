@@ -70,6 +70,7 @@ model Loop {
 model Publication {
   id           String     @id @default(uuid())
   title        String
+  thumbnail    String
   description  String
   voteScore    Int        @default(0)
   authorId     String

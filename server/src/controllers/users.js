@@ -492,7 +492,7 @@ export const changeUserRoleHandler = async (req, res) => {
 };
 
 export const updateUserDataHandler = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
   const { email } = req.body;
 
   if (!userId || !email) {
@@ -596,7 +596,7 @@ export const deleteUserAccountHandler = async (req, res) => {
 };
 
 export const adminDeleteUserHandler = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
 
   if (!userId) {
     return sendDataResponse(res, 204, {
