@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 // Icons
 import { IoMdMenu } from 'react-icons/io';
 // Images
 import LogoImage from '../../assets/images/logos/logo (3).png';
 // Context
-import { useModalContext } from '../../context/ModalContext';
 import { useUser } from '../../context/UserContext';
+// Constants
 import { HOME_PAGE_URL } from '../../utils/Constants';
+// Hooks
 import useNavigateToPage from '../hooks/useNavigateToPage';
 
 function Navbar() {
@@ -19,6 +20,7 @@ function Navbar() {
   const togglePhoneNav = () => {
     setIsPhoneNavOpen((prev) => !prev);
   };
+  
   const handleLogout = (event) => {
     event.preventDefault();
     setUser({});
