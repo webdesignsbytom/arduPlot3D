@@ -69,10 +69,12 @@ model Loop {
 
 model Publication {
   id           String     @id @default(uuid())
-  title        String
+  name        String
+  label        String
   thumbnail    String
   description  String
-  voteScore    Int        @default(0)
+  authorName   String
+  rating       Int        @default(0)
   authorId     String
   author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   simulationId String     @unique // Ensure each simulation can only be in one publication

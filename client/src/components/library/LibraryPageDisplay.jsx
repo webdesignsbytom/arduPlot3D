@@ -16,8 +16,7 @@ import useNavigateToPage from '../hooks/useNavigateToPage';
 function LibraryPageDisplay() {
   const navigateToPage = useNavigateToPage();
 
-  const [libraryOfSimulations, setLibraryOfSimulations] =
-    useState(tempLibraryItems);
+  const [libraryOfSimulations, setLibraryOfSimulations] = useState([]);
 
   useEffect(() => {
     client
@@ -25,6 +24,9 @@ function LibraryPageDisplay() {
       .then((res) => {
         console.log(res.data.libraryFiles);
         setLibraryOfSimulations(res.data.libraryFiles);
+        if (res.data.libraryFiles.length <= 0) {
+          setLibraryOfSimulations(tempLibraryItems);
+        }
       })
       .catch((err) => {
         console.error('Unable to retrieve simulation data', err);

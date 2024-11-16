@@ -8,6 +8,56 @@ const users = [
   { email: 'dev@dev.com', role: 'DEVELOPER', id: 'dev' },
 ];
 
+let libId = 0;
+let domainUrl = 'http://localhost:9000/arduplot3d/images';
+
+const tempLibraryItems = [
+  {
+    id: libId++,
+    name: 'clash-of-clans',
+    label: 'Clash of Clans',
+    thumbnail: `${domainUrl}/clash.jpg`,
+    description:
+      'A clash of clans simple gold coin collection routine for the arduplot, works best on a tablet. Can also be used to purchase units when your ranks are empty.',
+    authorName: 'Dave Collins',
+    authorId: 'dev',
+    rating: 4,
+  },
+  {
+    id: libId++,
+    name: 'auto-farm-sim',
+    label: 'Auto Farm Simulator',
+    thumbnail: `${domainUrl}/farm.jpg`,
+    description:
+      'Automated routine for farming resources in popular simulation games. Designed for maximum efficiency with minimal user intervention, perfect for overnight farming.',
+    authorName: 'Sarah Lee',
+    authorId: 'dev',
+    rating: 4,
+  },
+  {
+    id: libId++,
+    name: 'pokemon-go-catcher',
+    label: 'Pokemon Go Auto Catcher',
+    thumbnail: `${domainUrl}/pokemon.jpg`,
+    description:
+      'A bot routine to auto-catch Pokemon in Pokemon Go. Includes options for berry usage and auto-spinning Pokestops to keep your inventory stocked.',
+    authorName: 'Jake Turner',
+    authorId: 'dev',
+    rating: 4,
+  },
+  {
+    id: libId++,
+    name: 'fruit-slicer-master',
+    label: 'Fruit Slicer Master',
+    thumbnail: `${domainUrl}/fruit.jpg`,
+    description:
+      'Automated slice sequences for classic fruit-slicing games. Perfectly timed swipes ensure high scores without missing any fruit, ideal for touchscreens.',
+    authorName: 'Lisa Wong',
+    authorId: 'dev',
+    rating: 4,
+  },
+];
+
 const events = [
   {
     type: 'ERROR',
@@ -221,6 +271,55 @@ async function seed() {
         },
       }),
     ]);
+
+    for (const item of tempLibraryItems) {
+      const simulation = await dbClient.simulation.create({
+        data: {
+          title: `Simulation for ${item.name}`,
+          fullSimulation: JSON.stringify([
+            {
+              dataGroup: 'simulation',
+              dataType: 'tap',
+              xPos: 10,
+              yPos: 20,
+              zSpeed: 'initzMovementSpeed',
+              numFingers: 1,
+              timeLength: 0,
+            },
+            {
+              dataGroup: 'simulation',
+              dataType: 'move_tap',
+              xPos: 22,
+              yPos: 20,
+              xySpeed: 'initxyMovementSpeed',
+              zSpeed: 'initzMovementSpeed',
+              numFingers: 1,
+              timeLength: 0,
+            },
+          ]),
+          timeToComplete: 500000,
+          userId: item.authorId,
+        },
+      });
+
+      // Create publication and link to unique simulation
+      await dbClient.publication.create({
+        data: {
+          name: item.name,
+          label: item.label,
+          thumbnail: item.thumbnail,
+          description: item.description,
+          rating: item.rating,
+          authorName: item.authorName,
+          author: {
+            connect: { id: item.authorId },
+          },
+          simulation: {
+            connect: { id: simulation.id },
+          },
+        },
+      });
+    }
 
     // Create events
     for (const event of events) {
