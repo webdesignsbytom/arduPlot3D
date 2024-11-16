@@ -193,47 +193,47 @@ function SimulationPageTopToolBar() {
       </div>
 
       <div className='grid grid-flow-col items-center gap-2'>
-        {/* Timeout */}
-        <div className='grid items-center px-1 h-[32px] 2xl:h-[48px] w-full outline-black outline outline-2 no__highlights bg-secondary-colour rounded shadow-cardShadow'>
+        {/* Selected */}
+        <div className='grid items-center px-1 h-[32px] 2xl:h-[56px] w-full outline-black outline outline-2 no__highlights bg-secondary-colour rounded shadow-cardShadow'>
           {/* Times length */}
           <div className='text-xs'>{renderSimulationToolContent()}</div>
         </div>
 
         {/* Divider */}
-        <div className='bg-main-colour h-[32px] w-[2px] 2xl:h-[48px] outline outline-black outline-1 rounded-3xl'></div>
+        <div className='bg-main-colour h-[32px] w-[2px] 2xl:h-[56px] outline outline-black outline-1 rounded-3xl'></div>
 
         {toolButtons.map((button, index) => (
           <button
             key={index}
             onClick={button.onClick}
             title={button.title}
-            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] 2xl:min-h-[48px] 2xl:w-[48px] 2xl:h-[48px] 2xl:min-w-[48px] outline-black outline outline-2 active:scale-95 no__highlights ${
+            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] 2xl:min-h-[56px] 2xl:w-[56px] 2xl:h-[56px] 2xl:min-w-[56px] outline-black outline outline-2 active:scale-95 no__highlights ${
               button.selected
                 ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
                 : 'bg-colour4 hover:bg-yellow-100 shadow-cardShadow'
             } rounded-md`}
           >
-            <div className='grid items-center justify-center'>
+            <div className='grid items-center justify-center text-xl'>
               {button.icon}
             </div>
           </button>
         ))}
 
         {/* Divider */}
-        <div className='bg-main-colour h-[32px] 2xl:h-[48px] w-[2px] outline outline-black outline-1 rounded-3xl'></div>
+        <div className='bg-main-colour h-[32px] 2xl:h-[56px] w-[2px] outline outline-black outline-1 rounded-3xl'></div>
 
         {displayButtons.map((button, index) => (
           <button
             key={index}
             onClick={button.onClick}
             title={button.title}
-            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] 2xl:min-h-[48px] 2xl:w-[48px] 2xl:h-[48px] 2xl:min-w-[48px] outline-black outline outline-2 active:scale-95 no__highlights ${
+            className={`w-[32px] h-[32px] min-w-[32px] min-h-[32px] 2xl:min-h-[56px] 2xl:w-[56px] 2xl:h-[56px] 2xl:min-w-[56px] outline-black outline outline-2 active:scale-95 no__highlights ${
               button.selected
                 ? 'bg-secondary-colour shadow-[0_10px_20px_rgba(250,204,_21,_0.8)]'
                 : 'bg-colour4 hover:bg-yellow-100 shadow-cardShadow'
             } rounded-md`}
           >
-            <div className='grid items-center justify-center'>
+            <div className='grid items-center justify-center text-xl'>
               {button.icon}
             </div>
           </button>
@@ -242,7 +242,7 @@ function SimulationPageTopToolBar() {
           <button
             title='Clear all data points in simulation - does not include saved loops'
             onClick={clearAllDataPoints}
-            className='px-2 h-[32px] 2xl:h-[48px] outline-black outline outline-2 active:scale-95 no__highlights bg-warning hover:brightness-90 rounded-md shadow-cardShadow'
+            className='px-2 h-[32px] 2xl:h-[56px] outline-black outline outline-2 active:scale-95 no__highlights bg-warning hover:brightness-90 rounded-md shadow-cardShadow'
           >
             <div className='grid items-center justify-center'>
               <span className='text-colour1'>CLEAR</span>
