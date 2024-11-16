@@ -20,7 +20,7 @@ function Navbar() {
   const togglePhoneNav = () => {
     setIsPhoneNavOpen((prev) => !prev);
   };
-  
+
   const handleLogout = (event) => {
     event.preventDefault();
     setUser({});
@@ -86,7 +86,7 @@ function Navbar() {
             {user?.email && (
               <li>
                 <button
-                  className='hover:text-colour5 active:scale-95'
+                  className='text-xl md:text-lg font-semibold font-poppins hover:brightness-90 duration-200 active:scale-75'
                   onClick={handleLogout}
                 >
                   Logout

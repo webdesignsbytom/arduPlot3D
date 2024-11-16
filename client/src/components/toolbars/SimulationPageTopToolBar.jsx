@@ -139,14 +139,14 @@ function SimulationPageTopToolBar() {
     switch (simulationToolSelected) {
       case MOVE_FUNCTION:
         return (
-          <div className='flex xl:grid gap-1'>
+          <div className='flex 2xl:grid gap-1'>
             <label htmlFor='movement_speed'>Movement Sp</label>
             <div>{speedOfArmMoving} mm/s</div>
           </div>
         );
       case TAP_FUNCTION:
         return (
-          <div className='flex xl:grid gap-1'>
+          <div className='flex 2xl:grid gap-1'>
             <label htmlFor='tap_speed'>Tap speed</label>
             <div>{speedOfFingerMoving} mm/s</div>
           </div>
@@ -154,11 +154,11 @@ function SimulationPageTopToolBar() {
       case MOVE_TAP_FUNCTION:
         return (
           <div className='grid grid-cols-2'>
-            <div className='flex xl:grid gap-1'>
+            <div className='flex 2xl:grid gap-1'>
               <label htmlFor='tap_speed'>Tap speed</label>
               <div>{speedOfFingerMoving} mm/s</div>
             </div>
-            <div className='flex xl:grid gap-1'>
+            <div className='flex 2xl:grid gap-1'>
               <label htmlFor='movement_speed'>Movement Sp</label>
               <div>{speedOfArmMoving} mm/s</div>
             </div>
@@ -166,14 +166,14 @@ function SimulationPageTopToolBar() {
         );
       case DRAG_FUNCTION:
         return (
-          <div className='flex xl:grid gap-1'>
+          <div className='flex 2xl:grid gap-1'>
             <label htmlFor='drag_speed'>Drag speed</label>
             <div>{speedOfDraggingArmMoving} mm/s</div>
           </div>
         );
       case TIMEOUT_FUNCTION:
         return (
-          <div className='flex xl:grid gap-1'>
+          <div className='flex 2xl:grid gap-1'>
             <label htmlFor='timeout_length'>Timeout</label>
             <div>
               {timeoutLength} {timeoutUnitSelected.symbol}
@@ -189,9 +189,7 @@ function SimulationPageTopToolBar() {
     <section className='grid grid-flow-col justify-between'>
       {/* Device selected title */}
       <div className='hidden xl:grid bg-secondary-colour  items-center px-2 border-2 border-black border-solid rounded-tr-xl rounded-br-xl shadow-cardShadow'>
-        <h4 className=' text-lg font-semibold'>
-          {selectedDevice.title}
-        </h4>
+        <h4 className=' text-lg font-semibold'>{selectedDevice.title}</h4>
       </div>
 
       <div className='grid grid-flow-col items-center gap-2'>
