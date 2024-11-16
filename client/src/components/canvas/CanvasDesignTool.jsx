@@ -116,7 +116,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
 
     if (!isCreatingEditingLoop) {
       // Handling for simulation data points
-      simulationData.mainSimulationDataPoints.forEach((point) => {
+      simulationData?.mainSimulationDataPoints?.forEach((point) => {
         // Create simulation data points
         if (point.dataGroup === 'simulation') {
           flattenedData.push(point);
@@ -169,7 +169,7 @@ function CanvasDesignTool({ positionOfMouseAndCanvasVisible }) {
         sortDataElements(element, markerIndex);
       });
 
-      let newIndex = simulationData.mainSimulationDataPoints.length;
+      let newIndex = simulationData?.mainSimulationDataPoints.length;
       dataPointMarkerRef.current = newIndex;
     }
 

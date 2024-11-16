@@ -26,9 +26,6 @@ export const findListOfSimulations = (userId) =>
     orderBy: {
       createdAt: 'desc',
     },
-    select: {
-      title: true,
-    },
   });
   
 export const findListOfLoops = (userId) =>

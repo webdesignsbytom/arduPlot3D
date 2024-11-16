@@ -22,7 +22,6 @@ import { timeoutUnitTypesAvailable } from '../utils/design/DesignUtils';
 import {
   blankLoopObject,
   blankSimulationObject,
-  tempDesignData,
 } from '../utils/design/TempData';
 // Simulation constants
 import {
@@ -55,9 +54,6 @@ const SimulationContextProvider = ({ children }) => {
     handleCloseLoadModal,
     handleCloseSaveAsModal,
   } = useModalContext();
-
-  const { user } = useUser();
-
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const dataPointMarkerRef = useRef(1);
@@ -541,27 +537,6 @@ const SimulationContextProvider = ({ children }) => {
 
       setSimulationData(loadedSimulation);
       handleCloseLoadModal();
-      // title: '',
-      // mainSimulationDataPoints: [],
-      // loops: [],
-      // timeToComplete: 0,
-
-      // Create a new object with all parsed data
-      // const parsedSimulation = {
-      //   id: simulation.id,
-      //   title: simulation.title,
-      //   description: simulation.description,
-      //   createdAt: simulation.createdAt,
-      //   updatedAt: simulation.updatedAt,
-      //   timeToComplete: simulation.timeToComplete,
-      //   isVisibleInLibrary: simulation.isVisibleInLibrary,
-      //   userId: simulation.userId,
-      //   voteScore: simulation.voteScore,
-      //   fullSimulation: parsedFullSimulation,
-      //   loops: parsedLoops,
-      // };
-
-      // console.log('Parsed SIMULATION', parsedSimulation);
     } catch (error) {
       console.error('Error parsing simulation data:', error);
       return null;
@@ -717,6 +692,7 @@ const SimulationContextProvider = ({ children }) => {
         handleSaveNewSimulation,
         // Load
         loadSelectedSimulation,
+        parseLoadedSimulation
       }}
     >
       {children}

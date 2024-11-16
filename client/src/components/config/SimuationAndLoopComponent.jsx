@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 // Api
 import client from '../../api/client';
 // Context
 import { useUser } from '../../context/UserContext';
 import { useModalContext } from '../../context/ModalContext';
+import { SimulationContext } from '../../context/SimulationContext';
 // Icons
 import { IoReloadCircle, IoPencilOutline } from 'react-icons/io5';
 import { MdOutlinePublish } from 'react-icons/md';
 import { TiDelete } from 'react-icons/ti';
 // Constants
-import { GET_ALL_USER_SIMULATIONS_AND_LOOPS_API } from '../../utils/Constants';
+import { GET_ALL_USER_SIMULATIONS_AND_LOOPS_API, SIMULATION_PAGE_URL } from '../../utils/Constants';
 // Consent utils
-import { ConfirmDeleteSavedLoop, ConfirmDeleteSavedSimulation } from '../../utils/design/ConfrimMessages';
+import {
+  ConfirmDeleteSavedLoop,
+  ConfirmDeleteSavedSimulation,
+} from '../../utils/design/ConfrimMessages';
+import useNavigateToPage from '../hooks/useNavigateToPage';
 
 function SimuationAndLoopComponent({ setDisplaySelected }) {
   const { user } = useUser();
   const { handleCreateConsentModal } = useModalContext();
+  const { simulationData, setSimulationData, parseLoadedSimulation } = useContext(SimulationContext)
+
+  const navigateToPage = useNavigateToPage();
 
   const [userSimulations, setUserSimulations] = useState(user.simulations);
   const [userLoops, setUserLoops] = useState(user.loops);
@@ -34,7 +42,11 @@ function SimuationAndLoopComponent({ setDisplaySelected }) {
 
   const handleEditSimulation = (simulationId) => {
     console.log(`Edit Simulation: ${simulationId}`);
-    // Add logic to edit simulation
+    const foundSimulation = userSimulations.filter(simulation => simulation.id === simulationId)
+    console.log('found', foundSimulation );
+    
+    // parseLoadedSimulation(foundSimulation[0])
+    navigateToPage(SIMULATION_PAGE_URL, { replace: false });
   };
 
   const handlePublishSimulation = (simulationId) => {
@@ -87,9 +99,9 @@ function SimuationAndLoopComponent({ setDisplaySelected }) {
             Simulations
           </h4>
           <ul className='space-y-2' aria-live='polite'>
-            {userSimulations.map((simulation) => (
+            {userSimulations?.map((simulation, index) => (
               <li
-                key={simulation.id}
+                key={`${simulation.id} config`}
                 className='flex justify-between items-center p-2 bg-gray-100 rounded hover:bg-gray-200'
               >
                 <span>{simulation.title}</span>
@@ -130,7 +142,7 @@ function SimuationAndLoopComponent({ setDisplaySelected }) {
             Loops
           </h4>
           <ul className='space-y-2' aria-live='polite'>
-            {userLoops.map((loop) => (
+            {userLoops?.map((loop) => (
               <li
                 key={loop.id}
                 className='flex justify-between items-center p-2 bg-gray-100 rounded hover:bg-gray-200'

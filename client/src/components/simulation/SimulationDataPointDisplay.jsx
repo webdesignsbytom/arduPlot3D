@@ -27,12 +27,12 @@ function SimulationDataPointDisplay() {
   return (
     <div className='overflow-y-auto gap-1 p-1' style={{ maxHeight: '80vh' }}>
       {/* Simulation datapoints */}
-      {simulationDataObject.mainSimulationDataPoints.length > 0 ? (
-        simulationDataObject.mainSimulationDataPoints.map(
+      {simulationDataObject?.mainSimulationDataPoints.length > 0 ? (
+        simulationDataObject?.mainSimulationDataPoints.map(
           (dataPoint, index) => {
             let isLastItem =
               index ===
-              simulationDataObject.mainSimulationDataPoints.length - 1; // Check if it's the last item
+              simulationDataObject?.mainSimulationDataPoints.length - 1; // Check if it's the last item
             if (dataPoint.dataGroup === 'simulation') {
               return (
                 <div ref={isLastItem ? endOfListRef : null} key={index}>
