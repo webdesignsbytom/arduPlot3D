@@ -98,12 +98,10 @@ app.use((error, req, res, next) => {
     (error.message.includes('MINIO_SECRET_KEY') ||
       error.message.includes('MINIO_ACCESS_KEY'))
   ) {
-    return res
-      .status(400)
-      .json({
-        message:
-          'MinIO configuration error: Invalid or missing access/secret key',
-      });
+    return res.status(400).json({
+      message:
+        'MinIO configuration error: Invalid or missing access/secret key',
+    });
   }
 
   return sendDataResponse(res, 500, 'Server error event');
