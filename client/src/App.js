@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/home/HomePage';
 import LoginPage from './users/login/LoginPage';
 import RegisterPage from './users/register/RegisterPage';
-import TestPage from './pages/test/TestPage';
 import Error404 from './pages/error/Error404';
 import LibraryPage from './pages/library/LibraryPage';
 import SimulationPage from './pages/simulation/SimulationPage';
@@ -18,13 +17,10 @@ import {
   SIMULATION_PAGE_URL,
   LIBRARY_PAGE_URL,
   CONFIGURATION_PAGE_URL,
-  TEST_PAGE_URL,
   ERROR_404_PAGE_URL,
   RESET_PASS_PAGE_URL,
   MAINTENANCE_PAGE_URL,
 } from './utils/Constants';
-// Utils
-import { AuthenticateAdmin } from './utils/AuthenticateUser';
 
 function App() {
   return (
@@ -41,16 +37,6 @@ function App() {
 
       {/* Other */}
       <Route path={MAINTENANCE_PAGE_URL} element={<MaintenancePage />} />
-
-      {/* Secured routes */}
-      <Route
-        path={TEST_PAGE_URL}
-        element={
-          <AuthenticateAdmin>
-            <TestPage />
-          </AuthenticateAdmin>
-        }
-      />
 
       {/* Error routes */}
       <Route path={ERROR_404_PAGE_URL} element={<Error404 />} />

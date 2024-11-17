@@ -1,44 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // Components
 import Navbar from '../../components/nav/Navbar';
 import { HelmetItem } from '../../components/utils/HelmetItem';
 import SimulationPageMainContainer from '../../components/simulation/SimulationPageMainContainer';
 // Constants
 import { CompanyName } from '../../utils/Constants';
+// Context
+import { SimulationContext } from '../../context/SimulationContext';
+// Data
+import { simulationPageAdditionalMeta, simulationPageStructuredData } from '../../utils/data/PageData';
 
 const SimulationPage = React.memo(() => {
+  const { simulationData } = useContext(SimulationContext) 
+
   return (
     <>
       {/* Tab Data */}
       <HelmetItem
-        PageName='Simulation'
-        desc={`Discover the best simulations provided by ${CompanyName}. Enhance your gaming experience with our top-rated simulation tools.`}
-        keywords='simulation, game tools, gaming enhancements, simulation routines'
-        additionalMeta={[
-          { property: 'og:title', content: `Simulation - ${CompanyName}` },
-          {
-            property: 'og:description',
-            content: `Explore top simulations and tools to optimize your gaming experience.`,
-          },
-          {
-            property: 'og:image',
-            content: 'https://localhost:9000/simulations/preview.jpg',
-          }, // A relevant simulation preview image
-          {
-            property: 'og:url',
-            content: 'https://yourwebsite.com/simulations',
-          },
-          { name: 'twitter:card', content: 'summary_large_image' },
-          { name: 'twitter:title', content: `Simulation - ${CompanyName}` },
-          {
-            name: 'twitter:description',
-            content: `Discover advanced simulation tools for enhanced gaming.`,
-          },
-          {
-            name: 'twitter:image',
-            content: 'https://localhost:9000/simulations/preview.jpg',
-          },
-        ]}
+        PageName={simulationData?.name || 'Simulation'}
+        desc={`${simulationData?.description}. Discover the best robot path simulations provided by ${CompanyName}.`}
+        keywords={`simulation, ${simulationData?.name}, robot path, movement sequence, ${CompanyName}`}
+        additionalMeta={simulationPageAdditionalMeta(simulationData)}
+        structuredData={simulationPageStructuredData(simulationData)}
       />
 
       {/* Page start */}
